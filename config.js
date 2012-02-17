@@ -1,21 +1,21 @@
 //This is where the party starts.
-//Requires src, which in turn requires any other external files
 
-//Variables to consider:
-//userid        =   userid of bot
-//roomid        =   roomid of room to be hosted in
-//owners        =   array of userids for owners
-//vips          =   array/object
-//maxsongs      =   default song limit
-//overmax       =   how many songs you can go over max before boot
-//waitsongs     =   how many songs you must wait after hitting limit to dj again
-//theme         =   default theme/genre for the room
-//limiton       =   if song limits are enabled by default
-//queueon       =   if queue is enabled by default
-//afk           =   default afk time (in minutes)
-//modbop        =   whether the /bop commands are for everyone or just mods
-//dodrink       =   whether bartender (if we add that function) is enabled by default
-//blabber       =   whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
-//greeting      =   the default greeting message "Hey, {username}, welcome to {room}!"
-//helpmsg       =   the default help message. "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}."       
-//canadd        =   whether or not mods can add songs to bot's queue
+//Variables
+global.mAuthId        = "";                 //authid of bot
+global.mUserId        = "";                 //userid of bot
+global.mRoomId        = "";                 //roomid of room to be hosted in
+global.mOwner         = [];                 //array of userids for owners
+global.mVIPs          = [];                 //array/object
+global.mMaxSongs      = 3;                  //default song limit
+global.mOverMax       = 1;                  //how many songs you can go over max before boot
+global.mWaitSongs     = 10;                 //how many songs you must wait after hitting limit to dj again
+global.mTheme         = "Dubstep";          //default theme/genre for the room
+global.mLimitOn       = false;              //if song limits are enabled by default
+global.mQueueOn       = false;              //if queue is enabled by default
+global.mAFK           = 10;                 //default afk time (in minutes)
+global.mModBop        = true;               //whether the /bop commands are for everyone or just mods
+global.mDoDrink       = false;              //whether bartender (if we add that function) is enabled by default
+global.mSpeakingLevel = Speaking.Default;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
+global.mGreeting      = "Ohai, {username}, welcome to {room}!";                         //the default greeting message "Hey, {username}, welcome to {room}!"
+global.mHelpMsg       = "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}.";  //the default help message. "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}."       
+global.mCanAdds       = false;              //whether or not mods can add songs to bot's queue
