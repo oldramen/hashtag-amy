@@ -76,7 +76,7 @@ function RefreshMetaData(pMetaData){
 }
 
 function Boot(){
-    Log("Joined the room.  Booting up.");
+    Log("Joined the room.  Booting up");
     SetMyName(mName);
     mBot.roomInfo(OnGotRoomInfo);
 }
@@ -124,14 +124,10 @@ global.InitMongoDB = function(){
     mMongoDB = mMongo.db(sConnectionString);
 }
 
-global.GetGreetings = function(){
-    return Refresh("greetings");
-}
-
 global.Refresh = function(pFrom){
     Log("Refreshing: "+ pFrom)
-    var sCollection = mDB.collections(pFrom);
-    Log("Found: "+ sCollection.length);
+    var sCollection = mMongoDB.collections(pFrom);
+    Log("Found: "+ sCollection.count());
 	if(sCollection != null)
 		return sCollection.toArray();
 	else return [];
