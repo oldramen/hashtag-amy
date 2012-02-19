@@ -1,3 +1,9 @@
+/*
+    Copyright 2012 yayramen && Inumedia.
+    This is the config file, where the variables for the bot are stored.
+    You can have multiple config files, and run multiple bots with the 
+    same source files.
+*/
 require("./enums.js");
 
 //This is where setup the streamers and shit for the party.
@@ -6,6 +12,10 @@ require("./enums.js");
 global.mAuthId          = "{auth_id}";      //authid of bot
 global.mUserId          = "{user_id}";      //userid of bot
 global.mRoomId          = "{room_id}";      //roomid of room to be hosted in
+global.mMongoDB         = "{mongo_host}";   //host of mongodb
+global.mMongoCollection = "{mongo_collection}"; //mongocollection for bot.
+global.mMongoUser       = "{mongo_user}";   //user of mongocollection
+global.mMongoPass       = "{mongo_pass}";   //password to mongocollection
 global.mName            = "#Amy"            //name of bot
 global.mOwner           = [];               //array of userids for owners
 global.mVIPs            = [];               //array/object
