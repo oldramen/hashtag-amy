@@ -3,9 +3,9 @@ require("./enums.js");
 //This is where setup the streamers and shit for the party.
 
 //Variables
-global.mAuthId          = "123";            //authid of bot
-global.mUserId          = "123";            //userid of bot
-global.mRoomId          = "4ded3b7e99968e1d29000047";            //roomid of room to be hosted in
+global.mAuthId          = "{auth_id}";      //authid of bot
+global.mUserId          = "{user_id}";      //userid of bot
+global.mRoomId          = "{room_id}";      //roomid of room to be hosted in
 global.mName            = "#Amy"            //name of bot
 global.mOwner           = [];               //array of userids for owners
 global.mVIPs            = [];               //array/object

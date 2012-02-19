@@ -1,0 +1,9 @@
+Ideally, I'd like to run config.js rather than main.js - Dalton
+
+Things I've done:
+renamed amy.js to config.js (why the change to begin with? trying for ambiguity :P)
+Changed log from "#Amy >>>" to mName+" >>> that way it changes if we change the name.
+
+Inumedia:
+Worked on setting up Registered / Deregistered + The sub commands.
+Working on setting this up to be able to run straight from my iPod with a single script on my iPod's side.  Will get back to you on it :D <3
