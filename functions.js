@@ -37,7 +37,7 @@ function RefreshMetaData(pMetaData){
 
 function Boot(pData){
     SetMyName(mName);
-    mBot.roomInfo(OnGetRoomInfo);
+    mBot.roomInfo(OnGotRoomInfo);
 }
 
 function IsMe(pUser){
