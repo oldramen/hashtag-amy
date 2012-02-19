@@ -12,12 +12,12 @@ global.OnRegistered = function(pData){
 }
 
 global.OnDeregistered = function(pData){
-    for(var i = 0, len = pData.user; i < len; ++i) Remove_User(pData.user[i]);
+    for(var i = 0, len = pData.user.length; i < len; ++i) Remove_User(pData.user[i]);
 }
 
 global.OnGotRoomInfo = function(pData){
     global.mRoomName = pData.room.name;
-    for(var i = 0, len = pData.users; i < len; ++i) Update_User(pData.users[i]);
+    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i]);
     if(pData.room.metadata.current_song) RefreshMetaData(pData.room.metadata);
 }
 
@@ -29,10 +29,10 @@ function RefreshMetaData(pMetaData){
     mSongName = pMetaData.current_song.metadata.song;
     mUpVotes = pMetaData.upvotes;
     mDownVotes = pMetaData.downvotes;
-    for(var i = 0, len = pMetaData.djs; i < len; ++i) mDJs[i] = pMetaData.djs[i];
+    for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
     mCurrentDJ = pMetaData.current_dj;
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
-    for(var i = 0, len = pMetaData.moderator_id; i < len; ++i) mModerators[i] = pMetaData.moderator_id[i];
+    for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[i] = pMetaData.moderator_id[i];
 }
 
 function Boot(pData){
@@ -57,7 +57,7 @@ function Remove_User(pUser){
 function Update_User(pUser){
     mUsers[pUser.userid] = pUser.name;
     Update_AFKTime(pUser);
-    Log(pUser.name + " joined the room.");
+    Log(pUser.name + " joined the room");
     /// Handle booting for bans here.
 }
 
