@@ -5,7 +5,7 @@ global.Log = function(pOutput){
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     if(IsMe(pData.user[0])) Boot(pData);
-    for(var i = 0, len = pData,user.length; i < len; ++i) Update_User(pData.user[i]);
+    for(var i = 0, len = pData.user.length; i < len; ++i) Update_User(pData.user[i]);
     if(!IsMe(pData.user[0])){
         Greet(pData.user[0]);
     }
