@@ -127,10 +127,10 @@ global.InitMongoDB = function(){
 global.Refresh = function(pFrom){
     Log("Refreshing: "+ pFrom)
     var sCollection = mMongoDB.collections(pFrom);
-    Log("Found: "+ sCollection.count());
-	if(sCollection != null)
-		return sCollection.toArray();
-	else return [];
+	if(sCollection != null){
+		sRet = sCollection.toArray(); Log("Found: " + sRet.length)
+        return sRet;
+	}else return [];
 }
 
 global.Insert = function(pTo, pData){
