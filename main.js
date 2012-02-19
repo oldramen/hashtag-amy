@@ -9,7 +9,7 @@ global.mUtil        =   require("util");
 
 Log("Initializing");
 global.mUsers       =   [];
-global.mAFKTime     =   [];
+global.mAFKTimes    =   [];
 global.mSongName    =   "";
 global.mUpVotes     =   0;
 global.mDownVotes   =   0;
