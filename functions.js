@@ -57,7 +57,7 @@ function Remove_User(pUser){
 function Update_User(pUser){
     mUsers[pUser.userid] = pUser.name;
     Update_AFKTime(pUser);
-    log(pUser.name + " joined the room.");
+    Log(pUser.name + " joined the room.");
     /// Handle booting for bans here.
 }
 
