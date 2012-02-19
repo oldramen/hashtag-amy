@@ -5,6 +5,7 @@
 */
 console.log(mName+" >>> Loading.");
 
+//Let's require all the files to make the bot work.
 global.mFunctions   =   require("./functions.js");
 global.mTTAPI       =   require("ttapi");
 global._            =   require("underscore");
@@ -13,6 +14,7 @@ global.mReadLine    =   require("readline");
 global.mUtil        =   require("util");
 
 Log("Initializing");
+//Let's set some constant variables.
 global.mUsers       =   [];
 global.mAFKTimes    =   [];
 global.mSongName    =   "";
@@ -26,10 +28,11 @@ global.mRoomName    =   "";
 global.mMongoDB     =   null;
 global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
 InitMongoDB();
-global.mGreetings   =   Refresh("greetings");
+Refresh("greetings", function(e,pItems){ Log("Found: " + pItems.length + " greetings."); global.mGreetings = pItems; });
 Log("Done");
 
 Log("Hooking events");
+//Now we're going to start hooking some events.
 mBot.on("registered", OnRegistered);
 mBot.on("deregistered", OnDeregistered);
 Log("Done");

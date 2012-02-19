@@ -103,7 +103,35 @@ function Update_User(pUser){
     mUsers[pUser.userid] = pUser.name;
     Update_AFKTime(pUser);
     /// Handle booting for bans here.
+    
+    /*This code needs to be a lot more simple this function will be called a lot of places, 
+    so there's no need for banstuffs here, or joining the room.  We can handle that in another
+    function, or even just in the on registered call. Also, I'd like to see a tab system here. 
+    Everytime the user is updated, i.e., on speak, add dj, whatnot, the user.worth gets updated.
+    We'll have things for the user to 'buy' later to decrease this worth. So, all this function 
+    needs is update name, update idle, add worth.*/
 }
+
+/* 
+AND HERE WE HAVE MY SUGGESTIONS FOR UPDATE USER TYPE STUFF.
+
+function updateUser(pUser, pHow) {
+    mUsers[pUser.userid] = pUser.name;
+    Update_AFKTime(pUser);
+    payUser(pUser, pHow);
+}
+function payUser(pUser, pHow) {
+    var x;
+    if (pHow == 'speak') x = Math.floor(Math.random()*2+1);
+    if (pHow == 'add_dj') x = Math.floor(Math.random()*3+1);
+    if (pHow == 'upvote') x = Math.floor(Math.random()*5+1);
+    if (!worth[pUser.userid]) worth[pUser.userid] = 0;
+    var cash = worth[pUser.userid];
+    worth[pUser.userid] = cash+x;
+}
+
+NOT SAYING IT WOULD WORK, JUST SAYING SOMETHING ALONG THOSE LINES ;D
+*/
 
 function Update_AFKTime(pUser){
     var sDate = new Date();
@@ -124,20 +152,18 @@ global.InitMongoDB = function(){
     mMongoDB = mMongo.db(sConnectionString);
 };
 
-global.Refresh = function(pFrom){
+global.Refresh = function(pFrom, pCallback){
     Log("Refreshing: "+ pFrom);
-    var sCollection = mMongoDB.collections(pFrom);
-	if(sCollection){
-		var sRet = sCollection.find().toArray();
-        Log("Found: " + sRet.length);
-        return sRet;
-	}else return [];
+    var sCollection = mMongoDB.collection(pFrom);
+	if(!sCollection) return false;
+    sCollection.find().toArray(pCallback);
+    return true;
 };
 
 global.Insert = function(pTo, pData){
-    mMongoDB.collections(pTo).insert(pData);
+    mMongoDB.collection(pTo).insert(pData);
 };
 
 global.Remove = function(pFrom, pData){
-    mMongoDB.collections(pFrom).remove(pData);
+    mMongoDB.collection(pFrom).remove(pData);
 };
