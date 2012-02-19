@@ -5,7 +5,7 @@ require("./enums.js");
 //Variables
 global.mAuthId          = "123";            //authid of bot
 global.mUserId          = "123";            //userid of bot
-global.mRoomId          = "123";            //roomid of room to be hosted in
+global.mRoomId          = "4ded3b7e99968e1d29000047";            //roomid of room to be hosted in
 global.mName            = "#Amy"            //name of bot
 global.mOwner           = [];               //array of userids for owners
 global.mVIPs            = [];               //array/object
