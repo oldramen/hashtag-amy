@@ -21,6 +21,6 @@ global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomI
 Log("Done");
 
 Log("Hooking events");
-mDroid.on("registered", OnRegistered);
-mDroid.on("deregistered", OnDeregistered);
+mBot.on("registered", OnRegistered);
+mBot.on("deregistered", OnDeregistered);
 Log("Done");
