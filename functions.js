@@ -45,8 +45,8 @@ function IsMe(pUser){
 }
 
 function SetMyName(pName){
-    mAmy.modifyProfile({ name: pName });
-    mAmy.modifyName(pName);
+    mBot.modifyProfile({ name: pName });
+    mBot.modifyName(pName);
 }
 
 function Remove_User(pUser){
