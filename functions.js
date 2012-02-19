@@ -6,7 +6,7 @@
 */
 global.Log = function(pOutput){
     console.log(mName,">>>", pOutput + ".");
-}
+};
 
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
@@ -15,43 +15,43 @@ global.OnRegistered = function(pData){
         Update_User(pData.user[0]);
         Greet(pData.user[0]);
     }
-}
+};
 
 global.OnDeregistered = function(pData){
     for(var i = 0, len = pData.user.length; i < len; ++i) Remove_User(pData.user[i]);
-}
+};
 
 global.OnGotRoomInfo = function(pData){
     mRoomName = pData.room.name;
     for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i]);
     if(pData.room.metadata.current_song) RefreshMetaData(pData.room.metadata);
-}
+};
 
 global.OnNewModerator = function(pData){
     if(!pData.success) return;
     if(IsMe(pData.userid)) mIsModerator = true;
     else mModerators[pData.userid] = true;
     Log(data.name + " is now a moderator");
-}
+};
 
 global.OnRemModerator = function(pData){
     if(!pData.success) return;
     if(IsMe(pData.userid)) mIsModerator = false;
     else delete mModerators[pData.userid];
     Log(data.name + " is no longer a moderator");
-}
+};
 
 global.OnAddDJ = function(pData){
     mBot.roomInfo(OnGotRoomInfo);       /// Refresh current DJs
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
     if(mQueueEnabled) GuaranteeQueue(); /// Guarantee that the net user in the queue is getting up.
-}
+};
 
 global.OnRemDJ = function(pData){
     mBot.roomInfo(OnGotRoomInfo);       /// Refresh current DJs
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
     if(mQueueEnabled) QueueAdvance();   /// Advance the queue to the next person in line.
-}
+};
 
 function QueueAdvance(){
     
@@ -122,21 +122,22 @@ global.InitMongoDB = function(){
     var sConnectionString = mMongoUser+':'+mMongoPass+"@"+mMongoHost+":"+mMongoPort+"/"+mMongoDatabase+"?auto_reconnect";
     Log("Connecting to: " + sConnectionString);
     mMongoDB = mMongo.db(sConnectionString);
-}
+};
 
 global.Refresh = function(pFrom){
-    Log("Refreshing: "+ pFrom)
+    Log("Refreshing: "+ pFrom);
     var sCollection = mMongoDB.collections(pFrom);
-	if(sCollection != null){
-		sRet = sCollection.toArray(); Log("Found: " + sRet.length)
+	if(sCollection){
+		var sRet = sCollection.find().toArray();
+        Log("Found: " + sRet.length);
         return sRet;
 	}else return [];
-}
+};
 
 global.Insert = function(pTo, pData){
     mMongoDB.collections(pTo).insert(pData);
-}
+};
 
 global.Remove = function(pFrom, pData){
-    mMongoDB.collections(pTo).remove(pData);
-}
+    mMongoDB.collections(pFrom).remove(pData);
+};
