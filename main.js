@@ -23,7 +23,9 @@ global.mCurrentDJ   =   "";
 global.mModerators  =   [];
 global.mIsModerator =   false;
 global.mRoomName    =   "";
+global.mMongoDB       =   null;
 global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
+InitMongoDB();
 Log("Done");
 
 Log("Hooking events");

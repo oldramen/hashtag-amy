@@ -117,3 +117,30 @@ function Is_Moderator(pUser){
 function Is_SuperUser(pUser){
     return pUser.acl > 0;
 }
+
+global.InitMongoDB = function(){
+    var sConnectionString = mMongoUser+':'+mMongoPass+"@"+mMongoHost+":"+mMongoPort+"/"+mMongoDatabase+"?auto_reconnect";
+    Log("Connecting to: " + sConnectionString);
+    mMongoDB = mMongo.db(sConnectionString);
+}
+
+global.GetGreetings = function(){
+    return Refresh("greetings");
+}
+
+global.Refresh = function(pFrom){
+    Log("Refreshing: "+ pFrom)
+    var sCollection = mDB.collections(pFrom);
+    Log("Found: "+ sCollection.length);
+	if(sCollection != null)
+		return sCollection.toArray();
+	else return [];
+}
+
+global.Insert = function(pTo, pData){
+    mMongoDB.collections(pTo).insert(pData);
+}
+
+global.Remove = function(pFrom, pData){
+    mMongoDB.collections(pTo).remove(pData);
+}

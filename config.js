@@ -12,10 +12,11 @@ require("./enums.js");
 global.mAuthId          = "{auth_id}";      //authid of bot
 global.mUserId          = "{user_id}";      //userid of bot
 global.mRoomId          = "{room_id}";      //roomid of room to be hosted in
-global.mMongoDB         = "{mongo_host}";   //host of mongodb
-global.mMongoCollection = "{mongo_collection}"; //mongocollection for bot.
+global.mMongoHost       = "{mongo_host}";   //host of mongodb
+global.mMongoDatabase   = "{mongo_database}"; //mongocollection for bot.
 global.mMongoUser       = "{mongo_user}";   //user of mongocollection
 global.mMongoPass       = "{mongo_pass}";   //password to mongocollection
+global.mMongoPort       = 27017;
 global.mName            = "#Amy"            //name of bot
 global.mOwner           = [];               //array of userids for owners
 global.mVIPs            = [];               //array/object
