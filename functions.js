@@ -64,6 +64,7 @@ global.OnRemDJ = function(pData){
 
 global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
+    if(sUser == null) return;
     console.log(sUser.name+":"+pData.text);    
 };
 
@@ -211,5 +212,4 @@ global.Insert = function(pTo, pData){
 };
 
 global.Remove = function(pFrom, pData){
-    mMongoDB.collection(pFrom).remove(pData);
-};
+    mMongoDB.colle
