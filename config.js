@@ -31,6 +31,8 @@ global.mModBop          = true;             //whether the /bop commands are for 
 global.mDoDrink         = false;            //whether bartender (if we add that function) is enabled by default
 global.mSpeakingLevel   = Speaking.Default; //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 global.mGreeting        = "Ohai, {username}, welcome to {room}!";                        //the default greeting message "Hey, {username}, welcome to {room}!"
+global.mVIPGreeting     = "Welcome {username}, we have a VIP in the room!";
+global.mSuperGreeting   = "Hold the music! There's a SU in the house! Welcome, {username}!";
 global.mHelpMsg         = "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}.";  //the default help message. "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}."       
 global.mCanAdds         = false;            //whether or not mods can add songs to bot's queue
 

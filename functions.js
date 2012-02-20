@@ -10,7 +10,7 @@ global.Log = function(pOutput){
 
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
-    if(IsMe(pData.user[0])) Boot();
+    if(IsMe(pData.user[0])) BootUp();
     if(!IsMe(pData.user[0])){
         Update_User(pData.user[0]);
         Greet(pData.user[0]);
@@ -73,6 +73,12 @@ function GuaranteeQueue(){
 
 function Greet(pUser){
     Log("We'll just pretend we're greeting "+pUser.name+" for now.");
+    var sGreeting = mGreeting;
+    ///if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
+    if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
+    var sOwnGreeting = mGreetddings.filter(function(e){ return e.userid == pUser.userid; });
+    if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
+    
 }
 
 function RefreshMetaData(pMetaData){
@@ -85,7 +91,7 @@ function RefreshMetaData(pMetaData){
     for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
 }
 
-function Boot(){
+function BootUp(){
     Log("Joined the room.  Booting up");
     SetMyName(mName);
     mBot.roomInfo(OnGotRoomInfo);
@@ -106,10 +112,10 @@ function Remove_User(pUser){
 }
 
 function Update_User(pUser){
-    if(mUsers.indexOf(pUser.userid) == -1) 
-        Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
-    else
+    if(pUser.userid in mUsers)
         Log(pUser.name + " updated");
+    else
+        Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
     mUsers[pUser.userid] = pUser.name;
     Update_AFKTime(pUser);
     /// Handle booting for bans here.
