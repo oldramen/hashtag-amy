@@ -212,4 +212,5 @@ global.Insert = function(pTo, pData){
 };
 
 global.Remove = function(pFrom, pData){
-    mMongoDB.colle
+    mMongoDB.collection(pFrom).remove(pData);
+};
