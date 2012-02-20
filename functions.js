@@ -63,9 +63,7 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnSpeak = function(pData){
-    console.log(pData.userid);
     var sUser = mUsers[pData.userid];
-    console.log(JSON.stringify(sUser));
     console.log(sUser.name+":"+pData.text);    
 };
 
@@ -101,9 +99,10 @@ function Greet(pUser){
 }
 
 function Parse(pUser, pString){
-    if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name);
-    pString = pString.replace(/\{room\}/gi, mRoomName);
-    pString = pString.replace(/\{theme\}/gi, mTheme);
+    if(pUser) pString = pString
+    .replace(/\{username\}/gi, pUser.name)
+    .replace(/\{room\}/gi, mRoomName)
+    .replace(/\{theme\}/gi, mTheme);
     return pString;
 }
 
@@ -147,7 +146,7 @@ function Update_User(pUser){
         Log(pUser.name + " updated");
     else
         Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
-    mUsers[pUser.userid] = pUser.name;
+    mUsers[pUser.userid] = pUser;
     Update_AFKTime(pUser);
     /// Handle booting for bans here.
     
