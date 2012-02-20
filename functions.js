@@ -80,17 +80,16 @@ function Greet(pUser){
 }
 
 function RefreshMetaData(pMetaData){
-    if(pMetaData.current_song){
+    if(pMetaData.current_song)
         mSongName = pMetaData.current_song.metadata.song;
-        mUpVotes = pMetaData.upvotes;
-        mDownVotes = pMetaData.downvotes;
-        mDJs = [];
-        for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
-        Log("Currently: "+len+" djs");
-        if(len == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
-        if((len > 2 || len == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
-        mCurrentDJ = pMetaData.current_dj;
-    }
+    mUpVotes = pMetaData.upvotes;
+    mDownVotes = pMetaData.downvotes;
+    mDJs = [];
+    for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
+    Log("Currently: "+len+" djs");
+    if(len == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
+    if((len > 2 || len == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
+    mCurrentDJ = pMetaData.current_dj;
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
     for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
 }
