@@ -22,9 +22,10 @@ global.OnDeregistered = function(pData){
 };
 
 global.OnGotRoomInfo = function(pData){
+    Log("Got Room Data");
     mRoomName = pData.room.name;
     for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i]);
-    if(pData.room.metadata.current_song) RefreshMetaData(pData.room.metadata);
+    RefreshMetaData(pData.room.metadata);
 };
 
 global.OnNewModerator = function(pData){
@@ -54,7 +55,8 @@ global.OnAddDJ = function(pData){
 global.OnRemDJ = function(pData){
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);           /// Refresh current DJs
-        if(mDJs.length == 1 && (!mUserId in mDJs))
+        console.log(JSON.stringify(pData));
+        if(mDJs.length == 1 && !(mUserId in mDJs))
             mBot.addDj();
         else if(mUserId in mDJs)
             mBot.remDj();
@@ -84,11 +86,14 @@ function Greet(pUser){
 }
 
 function RefreshMetaData(pMetaData){
-    mSongName = pMetaData.current_song.metadata.song;
-    mUpVotes = pMetaData.upvotes;
-    mDownVotes = pMetaData.downvotes;
-    for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
-    mCurrentDJ = pMetaData.current_dj;
+    if(pMetaData.current_song){
+        mSongName = pMetaData.current_song.metadata.song;
+        mUpVotes = pMetaData.upvotes;
+        mDownVotes = pMetaData.downvotes;
+        for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
+        Log("Currently: "+len+" djs");
+        mCurrentDJ = pMetaData.current_dj;
+    }
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
     for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
 }
