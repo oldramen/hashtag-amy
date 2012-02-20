@@ -56,14 +56,14 @@ global.OnRemDJ = function(pData){
 };
 function LonelyDJ(spin) {
     if (spin == 'add') {
-        if (mDJs.length == 1) bot.addDj();
-        if (mDJs.lenght >= 2 && mUserId in mDJs) bot.remDj(mUserId);
+        if (mDJs.length == 1) mbot.addDj();
+        if (mDJs.lenght >= 2 && mUserId in mDJs) mbot.remDj(mUserId);
     }
     if (spin == 'rem') {
         if (mDJs.length == 1 && !(mUserId in mDJs)) {
-              bot.addDj(); 
+              mbot.addDj(); 
         } else if (mUserId in mDJs) {
-            bot.remDj(mUserId);
+            mbot.remDj(mUserId);
         }   
     }
 }
