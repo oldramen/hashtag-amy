@@ -55,7 +55,8 @@ global.OnAddDJ = function(pData){
 global.OnRemDJ = function(pData){
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);           /// Refresh current DJs
-        console.log(JSON.stringify(pData));
+        console.log(mDJs.length == 1);
+        console.log((mUserId in mDJs));
         if(mDJs.length == 1 && !(mUserId in mDJs))
             mBot.addDj();
         else if(mUserId in mDJs)
