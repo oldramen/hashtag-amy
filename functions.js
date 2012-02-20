@@ -45,8 +45,6 @@ global.OnRemModerator = function(pData){
 global.OnAddDJ = function(pData){
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);           /// Refresh room data.
-        if(mDJs.length == 1) mBot.addDj();
-        else if(mUserId in mDJs) mBot.remDj();
     });  
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
     if(mQueueOn) GuaranteeQueue();      /// Guarantee that the net user in the queue is getting up.
@@ -55,12 +53,6 @@ global.OnAddDJ = function(pData){
 global.OnRemDJ = function(pData){
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);           /// Refresh current DJs
-        console.log(mDJs.length);
-        console.log(mUserId);
-        if(mDJs.length == 1 && !(mUserId in mDJs))
-            mBot.addDj();
-        else if(mUserId in mDJs)
-            mBot.remDj();
     });
     console.log(JSON.stringify(pData));
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
@@ -95,6 +87,8 @@ function RefreshMetaData(pMetaData){
         mDJs = [];
         for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
         Log("Currently: "+len+" djs");
+        if(len == 1 && !(mUserId in mDJs)) mBot.addDj();
+        if((len > 2 || len == 1 ) && mUserId in mDJs) mBot.remDj();
         mCurrentDJ = pMetaData.current_dj;
     }
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
