@@ -87,10 +87,8 @@ function RefreshMetaData(pMetaData){
         mDJs = [];
         for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
         Log("Currently: "+len+" djs");
-        console.log(len);
-        console.log(mUserId in mDJs);
-        if(len == 1 && !(mUserId in mDJs)) mBot.addDj();
-        if((len > 2 || len == 1 ) && mUserId in mDJs) mBot.remDj();
+        if(len == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
+        if((len > 2 || len == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
         mCurrentDJ = pMetaData.current_dj;
     }
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
