@@ -61,7 +61,8 @@ global.OnRemDJ = function(pData){
             mBot.addDj();
         else if(mUserId in mDJs)
             mBot.remDj();
-    });       
+    });
+    console.log(JSON.stringify(pData));
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
     if(mQueueOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
@@ -91,6 +92,7 @@ function RefreshMetaData(pMetaData){
         mSongName = pMetaData.current_song.metadata.song;
         mUpVotes = pMetaData.upvotes;
         mDownVotes = pMetaData.downvotes;
+        mDJs = [];
         for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
         Log("Currently: "+len+" djs");
         mCurrentDJ = pMetaData.current_dj;
