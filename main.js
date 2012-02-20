@@ -48,6 +48,7 @@ mBot.on("new_moderator", OnNewModerator);
 mBot.on("rem_moderator", OnRemModerator);
 mBot.on("add_dj", OnAddDJ);
 mBot.on("rem_dj", OnRemDJ);
+mBot.on("speak", OnSpeak)
 Log("Done");
 
 Log("Ready!");

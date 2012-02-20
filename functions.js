@@ -78,7 +78,7 @@ function GuaranteeQueue(){
 }
 
 function Speak(pUser, pSpeak, pSpeakingLevel){
-    if(!pSpeak) return;
+    if(pSpeak) return;
     pSpeak = Parse(pUser, pSpeak);
     if(SpeakingAllowed(pSpeakingLevel)) mBot.speak(pSpeak);
     return pSpeak;
@@ -102,6 +102,7 @@ function Parse(pUser, pString){
     if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name);
     pString = pString.replace(/\{room\}/gi, mRoomName);
     pString = pString.replace(/\{theme\}/gi, mTheme);
+    return pString;
 }
 
 function RefreshMetaData(pMetaData){
