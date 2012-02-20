@@ -28,13 +28,24 @@ global.mRoomName    =   "";
 global.mMongoDB     =   null;
 global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
 InitMongoDB();
-Refresh("greetings", function(e,pItems){ if(!pItems) return;  Log("Found: " + pItems.length + " greetings"); global.mGreetings = pItems; });
+Refresh("greetings", function(e,pItems){ 
+    if(!pItems) return;  
+    global.mGreetings = pItems;
+});
+Refresh("owners", function(e,pItems){ 
+    if(!pItems) return;  
+});
+Refresh("vips", function(e,pItems){ 
+    if(!pItems) return;  
+});
 Log("Done");
 
 Log("Hooking events");
 //Now we're going to start hooking some events.
 mBot.on("registered", OnRegistered);
 mBot.on("deregistered", OnDeregistered);
+mBot.on("new_moderator", OnNewModerator);
+mBot.on("rem_moderator", OnRemModerator);
 mBot.on("add_dj", OnAddDJ);
 mBot.on("rem_dj", OnRemDJ);
 Log("Done");

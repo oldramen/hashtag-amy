@@ -6,27 +6,50 @@
 */
 global.Speaking = {
     Default: { 
-        debug: false,
-        errors: false,
-        greeting: true,
-        misc: true
+        flags: [SpeakingLevel.Greeting, SpeakingLevel.Misc]
     },
     Shy: { 
-        debug: false,
-        errors: false,
-        greeting: false,
-        misc: true
+        flags: [SpeakingLevel.Misc]
     },
     Silent: { 
-        debug: false,
-        errors: false,
-        greeting: false,
-        misc: false
+        flags: []
     },
     Debug: {
-        debug: true,
-        errors: true,
-        greeting: true,
-        misc: true
+        flags: [SpeakingLevel.Verbose]
     }
 };
+
+global.SpeakingLevel = {
+    Misc: {
+        Val: 1,
+        status: "Misc"
+    },
+    Greeting:{
+        Val: 2,
+        status: "Greeting"
+    },
+    SongChange:{
+        val: 3,
+        status: "SongChange"
+    },
+    DJChange:{
+        val: 4,
+        status: "DJChange"
+    },
+    MODChange:{
+        val: 5,
+        status: "MODChange"
+    },
+    Errors: {
+        val: 6,
+        status: "Errors"
+    },
+    Debug: { 
+        val: 7,
+        status: "Debug"
+    },
+    Verbose: {
+        val: 8,
+        status: "Verbose"
+    }
+}
