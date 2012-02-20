@@ -77,7 +77,7 @@ function GuaranteeQueue(){
 }
 
 function Speak(pUser, pSpeak, pSpeakingLevel){
-    if(pSpeak) return;
+    if(!pSpeak) return;
     pSpeak = Parse(pUser, pSpeak);
     if(SpeakingAllowed(pSpeakingLevel)) 
         mBot.speak(pSpeak);
@@ -93,13 +93,9 @@ function SpeakingAllowed(pSpeakingLevel){
 function Greet(pUser){
     var sGreeting = mGreeting;
     ///if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
-    console.log(sGreeting);
     if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
     var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
-    console.log(sGreeting);
     if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
-    console.log("greeting.");
-    console.log(sGreeting);
     Speak(pUser, sGreeting, SpeakingLevel.Greeting);
 }
 
