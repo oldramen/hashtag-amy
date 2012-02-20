@@ -63,10 +63,10 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnSpeak = function(pData){
-    Log(pData.userid);
+    console.log(pData.userid);
     var sUser = mUsers[pData.userid];
-    Log(JSON.stringify(sUser));
-    Log(sUser.name+":"+pData.text);    
+    console.log(JSON.stringify(sUser));
+    console.log(sUser.name+":"+pData.text);    
 };
 
 function QueueAdvance(){
@@ -80,7 +80,9 @@ function GuaranteeQueue(){
 function Speak(pUser, pSpeak, pSpeakingLevel){
     if(pSpeak) return;
     pSpeak = Parse(pUser, pSpeak);
-    if(SpeakingAllowed(pSpeakingLevel)) mBot.speak(pSpeak);
+    if(SpeakingAllowed(pSpeakingLevel)) 
+        mBot.speak(pSpeak);
+    Log(pSpeak);
     return pSpeak;
 }
 
