@@ -72,12 +72,15 @@ function GuaranteeQueue(){
 }
 
 function Greet(pUser){
-    Log("We'll just pretend we're greeting "+pUser.name+" for now.");
     var sGreeting = mGreeting;
     ///if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
     if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
     var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
     if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
+    sGreeting = sGreeting.replace(/\{user\}/gi, pUser.name);
+    sGreeting = sGreeting.replace(/\{room\}/gi, mRoomName);
+    mBot.speak(sGreeting);
+    Log(sGreeting);
 }
 
 function RefreshMetaData(pMetaData){
