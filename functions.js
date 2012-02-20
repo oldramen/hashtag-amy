@@ -85,7 +85,7 @@ function Speak(pUser, pSpeak, pSpeakingLevel){
 }
 
 function SpeakingAllowed(pSpeakingLevel){
-    if(mSpeakingLevel.indexOf(SpeakingLevel.Verbose) != -1) return true;
+    if(mSpeakingLevel.flags.indexOf(SpeakingLevel.Verbose) != -1) return true;
     else return mSpeakingLevel.indexOf(pSpeakingLevel) != -1;
 }
 
