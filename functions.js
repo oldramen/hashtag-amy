@@ -63,6 +63,9 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnSpeak = function(pData){
+    var sUser = mUsers[pData.userid];
+    Log(sUser.name+":"+pData.text);
+    
     
 };
 
