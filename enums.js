@@ -4,20 +4,6 @@
     Change the value in the config files, controls how much the bot 
     spits out. 
 */
-global.Speaking = {
-    Default: { 
-        flags: [SpeakingLevel.Greeting, SpeakingLevel.Misc]
-    },
-    Shy: { 
-        flags: [SpeakingLevel.Misc]
-    },
-    Silent: { 
-        flags: []
-    },
-    Debug: {
-        flags: [SpeakingLevel.Verbose]
-    }
-};
 
 global.SpeakingLevel = {
     Misc: {
@@ -53,3 +39,18 @@ global.SpeakingLevel = {
         status: "Verbose"
     }
 }
+
+global.Speaking = {
+    Default: { 
+        flags: [SpeakingLevel.Greeting, SpeakingLevel.Misc]
+    },
+    Shy: { 
+        flags: [SpeakingLevel.Misc]
+    },
+    Silent: { 
+        flags: []
+    },
+    Debug: {
+        flags: [SpeakingLevel.Verbose]
+    }
+};
