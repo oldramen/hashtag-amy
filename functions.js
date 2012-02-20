@@ -77,7 +77,7 @@ function Greet(pUser){
     if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
     var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
     if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
-    sGreeting = sGreeting.replace(/\{user\}/gi, pUser.name);
+    sGreeting = sGreeting.replace(/\{username\}/gi, pUser.name);
     sGreeting = sGreeting.replace(/\{room\}/gi, mRoomName);
     mBot.speak(sGreeting);
     Log(sGreeting);
