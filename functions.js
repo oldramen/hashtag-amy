@@ -76,9 +76,8 @@ function Greet(pUser){
     var sGreeting = mGreeting;
     ///if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
     if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
-    var sOwnGreeting = mGreetddings.filter(function(e){ return e.userid == pUser.userid; });
+    var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
     if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
-    
 }
 
 function RefreshMetaData(pMetaData){
