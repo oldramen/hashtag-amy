@@ -63,10 +63,10 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnSpeak = function(pData){
+    Log(pData.userid);
     var sUser = mUsers[pData.userid];
-    Log(sUser.name+":"+pData.text);
-    
-    
+    Log(JSON.stringify(sUser));
+    Log(sUser.name+":"+pData.text);    
 };
 
 function QueueAdvance(){
