@@ -35,6 +35,8 @@ Log("Hooking events");
 //Now we're going to start hooking some events.
 mBot.on("registered", OnRegistered);
 mBot.on("deregistered", OnDeregistered);
+mBot.on("add_dj", OnAddDJ);
+mBot.on("rem_dj", OnRemDJ);
 Log("Done");
 
 Log("Ready!");
