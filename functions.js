@@ -45,14 +45,14 @@ global.OnAddDJ = function(pData){
     mBot.roomInfo(OnGotRoomInfo);       /// Refresh current DJs
     LonelyDJ('add');                      /// Checks if should DJ or not
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
-    if(mQueueEnabled) GuaranteeQueue(); /// Guarantee that the net user in the queue is getting up.
+    if(mQueueOn) GuaranteeQueue(); /// Guarantee that the net user in the queue is getting up.
 };
 
 global.OnRemDJ = function(pData){
     mBot.roomInfo(OnGotRoomInfo);       /// Refresh current DJs
     LonelyDJ('rem');                      /// Checks if should DJ or not
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
-    if(mQueueEnabled) QueueAdvance();   /// Advance the queue to the next person in line.
+    if(mQueueOn) QueueAdvance();   /// Advance the queue to the next person in line.
 };
 function LonelyDJ(spin) {
     if (spin == 'add') {
