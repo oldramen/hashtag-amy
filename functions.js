@@ -42,31 +42,26 @@ global.OnRemModerator = function(pData){
 };
 
 global.OnAddDJ = function(pData){
-    mBot.roomInfo(OnGotRoomInfo);       /// Refresh current DJs
-    LonelyDJ('add');                      /// Checks if should DJ or not
+    mBot.roomInfo(function(pData){
+        OnGotRoomInfo(pData);           /// Refresh room data.
+        if(mDJs.length == 1) mBot.addDj();
+        else if(mUserId in mDJs) mBot.remDj();
+    });  
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
-    if(mQueueOn) GuaranteeQueue(); /// Guarantee that the net user in the queue is getting up.
+    if(mQueueOn) GuaranteeQueue();      /// Guarantee that the net user in the queue is getting up.
 };
 
 global.OnRemDJ = function(pData){
-    mBot.roomInfo(OnGotRoomInfo);       /// Refresh current DJs
-    LonelyDJ('rem');                      /// Checks if should DJ or not
+    mBot.roomInfo(function(pData){
+        OnGotRoomInfo(pData);           /// Refresh current DJs
+        if(mDJs.length == 1 && (!mUserId in mDJs))
+            mBot.addDj();
+        else if(mUserId in mDJs)
+            mBot.remDj();
+    });       
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
-    if(mQueueOn) QueueAdvance();   /// Advance the queue to the next person in line.
+    if(mQueueOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
-function LonelyDJ(spin) {
-    if (spin == 'add') {
-        if (mDJs.length == 1) mBot.addDj();
-        if (mDJs.length >= 2 && mUserId in mDJs) mBot.remDj(mUserId);
-    }
-    if (spin == 'rem') {
-        if (mDJs.length == 1 && !(mUserId in mDJs)) {
-              mBot.addDj(); 
-        } else if (mUserId in mDJs) {
-            mBot.remDj(mUserId);
-        }   
-    }
-}
 
 function QueueAdvance(){
     

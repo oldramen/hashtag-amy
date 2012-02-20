@@ -28,7 +28,7 @@ global.mRoomName    =   "";
 global.mMongoDB     =   null;
 global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
 InitMongoDB();
-Refresh("greetings", function(e,pItems){ Log("Found: " + pItems.length + " greetings."); global.mGreetings = pItems; });
+Refresh("greetings", function(e,pItems){ if(!pItems) return;  Log("Found: " + pItems.length + " greetings."); global.mGreetings = pItems; });
 Log("Done");
 
 Log("Hooking events");

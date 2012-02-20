@@ -120,13 +120,4 @@ on SPEAK
     check for commands
     if command, run command
         
-
-
-
-
-
-
-
-
-
 */
