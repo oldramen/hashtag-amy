@@ -65,7 +65,7 @@ global.OnRemDJ = function(pData){
 global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     if(sUser == null) return;
-    console.log(sUser.name+":"+pData.text);    
+    console.log(sUser.name+": "+pData.text);    
 };
 
 function QueueAdvance(){
@@ -78,7 +78,7 @@ function GuaranteeQueue(){
 
 function Speak(pUser, pSpeak, pSpeakingLevel){
     if(!pSpeak) return;
-    if(IsMe(pSpeak)) return;
+    if(IsMe(pUser)) return;
     pSpeak = Parse(pUser, pSpeak);
     if(SpeakingAllowed(pSpeakingLevel)) 
         mBot.speak(pSpeak);
