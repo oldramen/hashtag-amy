@@ -78,10 +78,10 @@ function GuaranteeQueue(){
 
 function Speak(pUser, pSpeak, pSpeakingLevel){
     if(!pSpeak) return;
+    if(IsMe(pSpeak)) return;
     pSpeak = Parse(pUser, pSpeak);
     if(SpeakingAllowed(pSpeakingLevel)) 
         mBot.speak(pSpeak);
-    Log(pSpeak);
     return pSpeak;
 }
 
