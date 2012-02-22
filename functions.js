@@ -69,9 +69,9 @@ global.OnSpeak = function(pData){
     console.log(sUser.name+": "+pData.text);    
 };
 
-function Loop(){
+global.Loop = function(){
     CheckAFKs();
-}
+};
 
 function CheckAFKs(){
     for (i in mDJs) {
