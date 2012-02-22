@@ -40,7 +40,7 @@ global.OnRemModerator = function(pData){
     if(!pData.success) return;
     if(IsMe(pData.userid)) mIsModerator = false;
     else delete mModerators[pData.userid];
-    if(mUsers[pData.userid]) Speak(mUsers[pData.userid], mRemMod, SpeakingLevel.MODChange);
+    if(mUsers[pData.userid]) (mUsers[pData.userid], mRemMod, SpeakingLevel.MODChange);
     Log(data.name + " is no longer a moderator");
 };
 
@@ -65,7 +65,33 @@ global.OnRemDJ = function(pData){
 global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     if(sUser == null) return;
+    Update_User(sUser);
     console.log(sUser.name+": "+pData.text);    
+};
+
+function BotMaintain(){
+    //Do Afk Check
+    for (i in mDJs) {
+      var sWarn = mAFK - 2;
+      if (afkCheck(mDJs[i], mAFK)) mBot.remDj(mDJs[i]);
+      if (afkCheck(mDJs[i], sWarn)) {
+        if (mUser[mDJs[i]].Warned) return
+        mUser[mDJs[i]].Warned = true;
+        Speak(pUser, mWarnMsg, SpeakingLevel.?);
+      }
+    }
+}
+
+setInterval(BotMaintain(), 5000);
+
+ function afkCheck (userId, num) {
+      var last = mAFKTimes[userId];
+      var age_ms = Date.now() - last;
+      var age_m = Math.floor(age_ms / 1000 / 60);
+      if (age_m >= num) {
+        return true;
+      };
+      return false;
 };
 
 function QueueAdvance(){
@@ -150,35 +176,7 @@ function Update_User(pUser){
     mUsers[pUser.userid] = pUser;
     Update_AFKTime(pUser);
     /// Handle booting for bans here.
-    
-    /*This code needs to be a lot more simple this function will be called a lot of places, 
-    so there's no need for banstuffs here, or joining the room.  We can handle that in another
-    function, or even just in the on registered call. Also, I'd like to see a tab system here. 
-    Everytime the user is updated, i.e., on speak, add dj, whatnot, the user.worth gets updated.
-    We'll have things for the user to 'buy' later to decrease this worth. So, all this function 
-    needs is update name, update idle, add worth.*/
 }
-
-/* 
-AND HERE WE HAVE MY SUGGESTIONS FOR UPDATE USER TYPE STUFF.
-
-function updateUser(pUser, pHow) {
-    mUsers[pUser.userid] = pUser.name;
-    Update_AFKTime(pUser);
-    payUser(pUser, pHow);
-}
-function payUser(pUser, pHow) {
-    var x;
-    if (pHow == 'speak') x = Math.floor(Math.random()*2+1);
-    if (pHow == 'add_dj') x = Math.floor(Math.random()*3+1);
-    if (pHow == 'upvote') x = Math.floor(Math.random()*5+1);
-    if (!worth[pUser.userid]) worth[pUser.userid] = 0;
-    var cash = worth[pUser.userid];
-    worth[pUser.userid] = cash+x;
-}
-
-NOT SAYING IT WOULD WORK, JUST SAYING SOMETHING ALONG THOSE LINES ;D
-*/
 
 function Update_AFKTime(pUser){
     var sDate = new Date();
