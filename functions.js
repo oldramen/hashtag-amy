@@ -47,6 +47,7 @@ global.OnRemModerator = function(pData){
 global.OnAddDJ = function(pData){
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);           /// Refresh room data.
+        IsLonely();
     });  
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
     Speak(pData.user[0], mAddDJ, SpeakingLevel.DJChange);
@@ -56,6 +57,7 @@ global.OnAddDJ = function(pData){
 global.OnRemDJ = function(pData){
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);           /// Refresh current DJs
+        IsLonely();
     });
     Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
     Speak(pData.user[0], mRemDJ, SpeakingLevel.DJChange);
@@ -97,6 +99,11 @@ function CheckAFKs(){
     }
     return false;
 };
+
+function IsLonlely(){
+    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
+    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
+}
 
 function QueueAdvance(){
     
@@ -154,9 +161,6 @@ function RefreshMetaData(pMetaData){
     mDownVotes = pMetaData.downvotes;
     mDJs = [];
     for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
-    Log("Currently: "+len+" djs");
-    if(len == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
-    if((len > 2 || len == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
     mCurrentDJ = pMetaData.current_dj;
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
     for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
