@@ -17,6 +17,7 @@ Log("Initializing");
 //Let's set some constant variables.
 global.mUsers       =   [];
 global.mAFKTimes    =   [];
+global.mParsing     =   {};
 global.mSongName    =   "";
 global.mUpVotes     =   0;
 global.mDownVotes   =   0;
@@ -40,7 +41,6 @@ Refresh("vips", function(e,pItems){
     if(!pItems) return;
     for(var i = 0; i < pItems.length; ++i) mVIPs.push(pItems[i].userid);
 });
-setInterval(Loop, 5000);
 Log("Done");
 
 Log("Hooking events");

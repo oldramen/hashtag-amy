@@ -40,7 +40,7 @@ global.OnRemModerator = function(pData){
     if(!pData.success) return;
     if(IsMe(pData.userid)) mIsModerator = false;
     else delete mModerators[pData.userid];
-    if(mUsers[pData.userid]) (mUsers[pData.userid], mRemMod, SpeakingLevel.MODChange);
+    if(mUsers[pData.userid]) Speak(mUsers[pData.userid], mRemMod, SpeakingLevel.MODChange);
     Log(data.name + " is no longer a moderator");
 };
 
@@ -66,21 +66,14 @@ global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     if(sUser == null) return;
     Update_User(sUser);
-    console.log(sUser.name+": "+pData.text);    
+    console.log(sUser.name+": "+pData.text);
 };
 
 global.OnPmmed = function(pData){
-  Log('pmmed');
-  var text = pData.text.split(/\s+/);
-  var arg = text[0].toLowerCase();
-  var message = pData.text.replace(arg, '');
-  if (arg == 'say') {
-    Speak(pData.senderid, message, SpeakingLevel.Misc);
-  }
+    console.log(JSON.stringify(pData));
 };
 
 global.Loop = function(){
-    Log("Loop..");
     CheckAFKs();
 };
 
@@ -95,10 +88,8 @@ function CheckAFKs(){
     var sWarn = mAFK * (0.693148);
     var sLast = mAFKTimes[pUser.userid];
     var sAge = Date.now() - sLast;
-    var sAge_Minutes = Math.floor(sAge / 60000);
+    var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     if (sAge_Minutes >= mAFK) return true;
-    //Log(pUser.name + " - " + sLast + " - " + sAge);
-    Log(!pUser.mAFKWarned ? "Not Warned" : "Warned");
     if(!pUser.mAFKWarned && sAge_Minutes >= sWarn){
         Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
         pUser.mAFKWarned = true;
@@ -130,7 +121,7 @@ function SpeakingAllowed(pSpeakingLevel){
 
 function Greet(pUser){
     var sGreeting = mGreeting;
-    ///if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
+    if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
     if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
     var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
     if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
@@ -138,10 +129,19 @@ function Greet(pUser){
 }
 
 function Parse(pUser, pString){
-    if(pUser) pString = pString
-    .replace(/\{username\}/gi, pUser.name)
-    .replace(/\{room\}/gi, mRoomName)
-    .replace(/\{theme\}/gi, mTheme);
+    if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
+    var sVariables = pString.match(/\{[^\}]\}/gi);
+    for(var sVar in sVariables){
+        if(mParsing[sVar])
+            pString = pString.replace(sVar, mParsing[sVar]);
+    }
+    var sUsernameVariables = pString.match(/\{username\.[^}]*\}/gi);
+    for(var sVar in sUsernameVariables){
+        var sUserVar = sVar.split('.')[1];
+        sUserVar = sUserVar.substring(0, sUserVar.length-1);
+        if(pUser[sUserVar])
+            pString = pString.replace(sVar, pUser[sUserVar]);
+    }
     return pString;
 }
 
@@ -163,7 +163,25 @@ function RefreshMetaData(pMetaData){
 function BootUp(){
     Log("Joined the room.  Booting up");
     SetMyName(mName);
-    mBot.roomInfo(OnGotRoomInfo);
+    mBot.roomInfo(function(pData){
+        OnGotRoomInfo(pData);
+        LoadParsing();
+        setInterval(Loop,5000);
+    });
+}
+
+function LoadParsing(){
+    mParsing['{room}']          = mRoomName;
+    mParsing['{theme}']         = mTheme;
+    mParsing['{songlimit}']     = mMaxSongs;
+    mParsing['{queue}']         = mQueueOn ? "on" : "off";
+    mParsing['{afklimit}']      = mAFK;
+    mParsing['{songwait}']      = mWaitSongs;
+    mParsing['{songovermax}']   = mOverMax;
+    mParsing['{owners}']        = mOwners.join(', ');
+    mParsing['{vips}']          = mVIPs.join(', ');
+    mParsing['{dodrink}']       = mDoDrink ? "on" : "off";
+    mParsing['{modbop}']        = mModBop ? "on" : "off";
 }
 
 function IsMe(pUser){
@@ -193,7 +211,7 @@ function Update_User(pUser){
 function Update_AFKTime(pUser){
     var sDate = new Date();
     mAFKTimes[pUser.userid] = sDate.getTime();
-    pUser.mAFKWarned = false;
+    pUser.mAFKWarned = false; /// We want to unward the user when they get updated, correct?
 }
 
 function Is_Moderator(pUser){
@@ -202,6 +220,10 @@ function Is_Moderator(pUser){
 
 function Is_SuperUser(pUser){
     return pUser.acl > 0;
+}
+
+function Is_VIP(pUser){
+    return mVIPs.indexOf(pUser.userid) != -1;
 }
 
 global.InitMongoDB = function(){
