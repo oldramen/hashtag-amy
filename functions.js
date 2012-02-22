@@ -70,28 +70,25 @@ global.OnSpeak = function(pData){
 };
 
 function BotMaintain(){
-    //Do Afk Check
+    CheckAFKs();
+}
+
+function CheckAFKs(){
     for (i in mDJs) {
-      var sWarn = mAFK - 2;
-      if (afkCheck(mDJs[i], mAFK)) mBot.remDj(mDJs[i]);
-      if (afkCheck(mDJs[i], sWarn)) {
-        if (mUser[mDJs[i]].Warned) return
-        mUser[mDJs[i]].Warned = true;
-        Speak(pUser, mWarnMsg, SpeakingLevel.?);
-      }
+      var sUser = mUsers[mDJs[i]];
+      if (CheckAFKTime(sUser)) mBot.remDj(sUser);
     }
 }
 
-setInterval(BotMaintain(), 5000);
-
- function afkCheck (userId, num) {
-      var last = mAFKTimes[userId];
-      var age_ms = Date.now() - last;
-      var age_m = Math.floor(age_ms / 1000 / 60);
-      if (age_m >= num) {
-        return true;
-      };
-      return false;
+ function CheckAFKTime(pUser) {
+    var sWarn = mAFK * (0.693148);
+    var sLast = mAFKTimes[pUser.userid];
+    var sAge = Date.now() - sLast;
+    var sAge_Minutes = Math.floor(sAge / 60000);
+    if (sAge_Minutes >= mAFK) return true;
+    if(!mUser[mDJs[i]].mAFKWarned && sAge_Minutes >= sWarn)
+        Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
+    return false;
 };
 
 function QueueAdvance(){
@@ -181,6 +178,7 @@ function Update_User(pUser){
 function Update_AFKTime(pUser){
     var sDate = new Date();
     mAFKTimes[pUser.userid] = sDate.getTime();
+    pUser.mAFKWarned = false;
 }
 
 function Is_Moderator(pUser){

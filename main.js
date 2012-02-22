@@ -32,12 +32,15 @@ Refresh("greetings", function(e,pItems){
     if(!pItems) return;  
     global.mGreetings = pItems;
 });
-Refresh("owners", function(e,pItems){ 
-    if(!pItems) return;  
+Refresh("owners", function(e,pItems){
+    if(!pItems) return;
+    for(var i = 0; i < pItems.length; ++i) mOwners.push(pItems[i].userid);
 });
-Refresh("vips", function(e,pItems){ 
-    if(!pItems) return;  
+Refresh("vips", function(e,pItems){
+    if(!pItems) return;
+    for(var i = 0; i < pItems.length; ++i) mVIPs.push(pItems[i].userid);
 });
+setInterval(BotMaintain(), 5000);
 Log("Done");
 
 Log("Hooking events");
