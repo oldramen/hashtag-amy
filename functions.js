@@ -69,6 +69,16 @@ global.OnSpeak = function(pData){
     console.log(sUser.name+": "+pData.text);    
 };
 
+global.OnPmmed = function(pData){
+  Log('pmmed');
+  var text = pData.text.split(/\s+/);
+  var arg = text[0].toLowerCase();
+  var message = pData.text.replace(arg, '');
+  if (arg == 'say') {
+    Speak(pData.senderid, message, SpeakingLevel.Misc);
+  }
+};
+
 global.Loop = function(){
     Log("Loop..");
     CheckAFKs();
