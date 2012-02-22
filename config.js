@@ -38,6 +38,7 @@ global.mRemDJ           = null;
 global.mAddMod          = null;
 global.mRemMod          = null;
 global.mHelpMsg         = "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}.";  //the default help message. "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}."       
+global.mWarnMsg        = "Hey, {username}, {theme}, {songlimit}, {queue}, and {afk}.";  //the default warning message   
 global.mCanAdds         = false;            //whether or not mods can add songs to bot's queue
 
 //Now, we begin the party.
