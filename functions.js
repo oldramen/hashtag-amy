@@ -70,6 +70,7 @@ global.OnSpeak = function(pData){
 };
 
 global.Loop = function(){
+    Log("Loop..");
     CheckAFKs();
 };
 
@@ -86,6 +87,7 @@ function CheckAFKs(){
     var sAge = Date.now() - sLast;
     var sAge_Minutes = Math.floor(sAge / 60000);
     if (sAge_Minutes >= mAFK) return true;
+    Log(pUser.name + " - " + sLast + " - " + sAge);
     if(!pUser.mAFKWarned && sAge_Minutes >= sWarn)
         Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
     return false;
