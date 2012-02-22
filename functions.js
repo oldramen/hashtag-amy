@@ -195,6 +195,27 @@ function IsMe(pUser){
     return pUser.userid == mUserId;
 }
 
+function IsMod(pUser){
+    if ( pUser is mod )
+        return true;
+    else
+        return false
+}
+
+function IsOwner(pUser){
+    if ( pUser is owner )
+        return true;
+    else
+        return false
+}
+
+function IsVIP(pUser){
+    if ( pUser is vip )
+        return true;
+    else
+        return false
+}
+
 function SetMyName(pName){
     mBot.modifyProfile({ name: pName });
     mBot.modifyName(pName);
