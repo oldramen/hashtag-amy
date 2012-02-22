@@ -28,6 +28,7 @@ global.mIsModerator =   false;
 global.mRoomName    =   "";
 global.mMongoDB     =   null;
 global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
+global.mBooted      =   false;
 InitMongoDB();
 Refresh("greetings", function(e,pItems){ 
     if(!pItems) return;  

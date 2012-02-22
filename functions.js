@@ -78,6 +78,7 @@ global.Loop = function(){
 };
 
 function CheckAFKs(){
+    if(!mAFK) return;
     for (i in mDJs) {
       var sUser = mUsers[mDJs[i]];
       if (CheckAFKTime(sUser)) mBot.remDj(sUser);
@@ -130,6 +131,7 @@ function Greet(pUser){
 
 function Parse(pUser, pString){
     if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
+    if(!mBooted) return pString;
     var sVariables = pString.match(/\{[^\}]\}/gi);
     for(var sVar in sVariables){
         if(mParsing[sVar])
@@ -167,6 +169,7 @@ function BootUp(){
         OnGotRoomInfo(pData);
         LoadParsing();
         setInterval(Loop,5000);
+        mBooted = true;
     });
 }
 
