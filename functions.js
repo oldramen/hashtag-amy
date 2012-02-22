@@ -87,9 +87,12 @@ function CheckAFKs(){
     var sAge = Date.now() - sLast;
     var sAge_Minutes = Math.floor(sAge / 60000);
     if (sAge_Minutes >= mAFK) return true;
-    Log(pUser.name + " - " + sLast + " - " + sAge);
-    if(!pUser.mAFKWarned && sAge_Minutes >= sWarn)
+    //Log(pUser.name + " - " + sLast + " - " + sAge);
+    Log(!pUser.mAFKWarned ? "Not Warned" : "Warned");
+    if(!pUser.mAFKWarned && sAge_Minutes >= sWarn){
         Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
+        pUser.mAFKWarned = true;
+    }
     return false;
 };
 
