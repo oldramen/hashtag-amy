@@ -13,18 +13,20 @@ global.OnRegistered = function(pData){
     if(IsMe(pData.user[0])) BootUp();
     if(!IsMe(pData.user[0])){
         Update_User(pData.user[0]);
+        // only greet if pData.user[0].RecentlyLeft - Date.now > joined delay. 
         Greet(pData.user[0]);
     }
 };
 
 global.OnDeregistered = function(pData){
-    for(var i = 0, len = pData.user.length; i < len; ++i) Remove_User(pData.user[i]);
+    for(var i = 0, len = pData.user.length; i < len; ++i) Remove_User(pData.user[i]);   //not quite done yet. 
+    // pData.user[i].RecentlyLeft = Date.now();
 };
 
 global.OnGotRoomInfo = function(pData){
     Log("Got Room Data");
     mRoomName = pData.room.name;
-    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i]);
+    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i]);  //This is bad. don't update users on roominfo calls; idle wouldn't help it.
     RefreshMetaData(pData.room.metadata);
 };
 
