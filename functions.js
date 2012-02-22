@@ -69,7 +69,7 @@ global.OnSpeak = function(pData){
     console.log(sUser.name+": "+pData.text);    
 };
 
-function BotMaintain(){
+function Loop(){
     CheckAFKs();
 }
 

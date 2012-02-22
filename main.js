@@ -40,7 +40,7 @@ Refresh("vips", function(e,pItems){
     if(!pItems) return;
     for(var i = 0; i < pItems.length; ++i) mVIPs.push(pItems[i].userid);
 });
-setInterval(BotMaintain(), 5000);
+setInterval(Loop, 5000);
 Log("Done");
 
 Log("Hooking events");
