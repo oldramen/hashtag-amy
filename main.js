@@ -39,8 +39,8 @@ global.mNextUp          =   null;
 
 global.mJustRemovedDJ   =   [];
 
-global.mQueueCurrentlyEnabled       = false;
-global.mSongLimitCurrentlyEnabled   = false;
+global.mQueueCurrentlyOn       = false;
+global.mSongLimitCurrentlyOn   = false;
 global.mCurrentSongLimit            = mMaxSongs;
 
 InitMongoDB();
