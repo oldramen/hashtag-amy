@@ -270,10 +270,10 @@ global.LonelyDJ = function(){
          mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
 }
 global.Update_User = function(pUser, pSingle){
-    //if(pUser.userid in mUsers)
-    //    Log(pUser.name + " updated");
-    //else
-    //    Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
+    if(pUser.userid in mUsers)
+        Log(pUser.name + " updated");
+    else
+        Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
     mUsers[pUser.userid] = pUser;
     if (pSingle) Update_AFKTime(pUser);
     /// Handle booting for bans here.

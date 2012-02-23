@@ -16,14 +16,14 @@ global.mCommandsMod =   require("./commands.js");
 
 Log("Initializing");
 //Let's set some constant variables.
-global.mUsers           =   [];
+global.mUsers           =   {};
 global.mAFKTimes        =   [];
 global.mParsing         =   {};
 global.mSongName        =   "";
 global.mUpVotes         =   0;
 global.mDownVotes       =   0;
 global.mSongCount       =   [];
-global.mDJs             =   [];
+global.mDJs             =   {};
 global.mCurrentDJ       =   "";
 global.mModerators      =   [];
 global.mIsModerator     =   false;
