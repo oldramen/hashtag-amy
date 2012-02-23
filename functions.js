@@ -55,8 +55,8 @@ global.OnAddDJ = function(pData){
     if(mQueueCurrentlyEnabled) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     mSongCount[sUser.userid] = 0;
-    Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
     LonelyDJ();
+    Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
 
 global.OnRemDJ = function(pData){
@@ -64,12 +64,12 @@ global.OnRemDJ = function(pData){
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
+    LonelyDJ();
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
         Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
     if(mQueueCurrentlyEnabled) QueueAdvance();        /// Advance the queue to the next person in line.
-    LonelyDJ();
 };
 
 global.OnNewSong = function(pData){
