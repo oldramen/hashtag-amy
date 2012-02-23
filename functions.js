@@ -79,7 +79,7 @@ global.OnRemDJ = function(pData){
 global.OnNewSong = function(pData){
     
     if(mSongLimitCurrentlyOn && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
-    mCurrentDJ = mUsers[pData.room.current_dj];
+    mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
     
     /*mBot.roomInfo(function(pData){
@@ -474,7 +474,7 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnNewSong = function(pData){
-    
+    Log(mCurrentDJ.name);
     if(mSongLimitCurrentlyOn && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
     mCurrentDJ = mUsers[pData.room.current_dj];
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
