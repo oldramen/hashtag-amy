@@ -317,8 +317,10 @@ function HandleCommand(pUser, pText){
     if(!sMatch) return;
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().toLowerCase();
+    Log(sCommand);
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(e){ return e[0] == sCommand; });
+    Log(sCommands.length);
     sCommands.forEach(function(e){ return e[1](pUser, pText); });
 }
 
