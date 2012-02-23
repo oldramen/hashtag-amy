@@ -329,6 +329,7 @@ global.IsSongQueueEnabled = function(){
         mQueueCurrentlyOn = mQueueOn && mMinDJsForQueue <= mDJs.length;
     else mQueueCurrentlyOn = mQueueOn;
     Log(mQueueCurrentlyOn);
+    mParsing['{queuecurrentlyenabled}'] = mQueueCurrentlyEnabled ? "on" : "off";
 }
 
 global.IsSongLimitEnabled = function(){
@@ -341,6 +342,7 @@ global.IsSongLimitEnabled = function(){
     else if(mMinDJsForSongLimit)
         mSongLimitCurrentlyOn = mLimitOn && mMinDJsForSongLimit <= mDJs.length;
     else mSongLimitCurrentlyOn = mLimitOn;
+    mParsing['{songlimitcurrentlyenabled}'] = mSongLimitCurrentlyEnabled ? "on" : "off";
 }
 
 global.CalculateSongLimit = function(){
@@ -348,6 +350,7 @@ global.CalculateSongLimit = function(){
         mCurrentSongLimit = Math.floor(mSongLimitUserProportion / mUsers.length);
     else
         mCurrentSongLimit = mMaxSongs;
+    mParsing['{songlimit}'] = mCurrentSongLimit;
 }
 
 global.HandleCommand = function(pUser, pText){
