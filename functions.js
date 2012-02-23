@@ -55,12 +55,12 @@ global.OnAddDJ = function(pData){
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     mSongCount[sUser.userid] = 0;
     Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
-    LonelyDj();
+    LonelyDJ();
 };
 
 global.OnRemDJ = function(pData){
     mBot.roomInfo(OnGotRoomInfo);
-    LonelyDj();
+    LonelyDJ();
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
@@ -189,7 +189,7 @@ function BootUp(){
         OnGotRoomInfo(pData);
         setInterval(Loop,5000);
         mBooted = true;
-        LonelyDj();
+        LonelyDJ();
     });
 }
 
@@ -253,7 +253,7 @@ function RemoveDJ(pUser){
     mBot.remDj(pUser.userid);
 }
 
-function LonlelyDj(){
+function LonelyDJ(){
     if(!mLonelyDJ) return;
     if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
     if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
