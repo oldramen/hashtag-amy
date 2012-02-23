@@ -39,7 +39,7 @@ global.mCommands = [
         hint: "Makes the bot say something."
     },
     {
-        command: '/q+',
+        command: '/q+', ///TODO: What if they're already a DJ?
         callback: function(pUser, pText){
             if(mDJs.length == mMaxDJs) QueuePush(pUser.userid);
             else Speak(pUser, mOpenSpotNoQueueing, SpeakingLevel.Misc);
