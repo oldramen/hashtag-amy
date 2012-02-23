@@ -274,7 +274,7 @@ function Update_AFKTime(pUser){
     pUser.mAFKWarned = false; /// We want to unward the user when they get updated, correct?
 }
 
-function IsSongQueueOn(){
+function IsSongQueueEnabled(){
     if(mMinQueueOperator == "&" && mMinUsersForQueue && mMinDJsForQueue)
         mQueueCurrentlyOn = mQueueOn && mMinUsersForQueue <= mUsers.length && mMinDJsForQueue <= mDJs.length;
     else if(mMinQueueOperator && mMinUsersForQueue && mMinDJsForQueue)
@@ -286,7 +286,7 @@ function IsSongQueueOn(){
     else mQueueCurrentlyOn = mQueueOn;
 }
 
-function IsSongLimitOn(){
+function IsSongLimitEnabled(){
     if(mMinSongLimitOperator == "&" && mMinUsersForSongLimit && mMinDJsForSongLimit)
         mSongLimitCurrentlyOn = mSongLimitOn && mMinUsersForSongLimit <= mUsers.length && mMinDJsForSongLimit <= mDJs.length;
     else if(mMinSongLimitOperator && mMinUsersForSongLimit && mMinDJsForSongLimit)
