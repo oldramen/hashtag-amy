@@ -19,7 +19,7 @@ global.mMongoPass               = "{mongo_pass}";   //password to mongocollectio
 global.mMongoPort               = 27017;
 global.mName                    = "#Amy";           //name of bot
 global.mLaptop                  = "chrome";
-global.mTheme                   = "Dubstep";        //default theme/genre for the room
+global.mTheme                   = "EDM";            //default theme/genre for the room
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 global.mOwners                  = [];               //hard coded array of userids for owners
@@ -31,7 +31,7 @@ global.mLimitOn                 = false;            //if song limits are enabled
 global.mQueueOn                 = false;            //if queue is enabled by default
 global.mAFK                     = 60;               //default afk time (in minutes)
 global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
-global.mMinUsersForSongLimit    = 30;               // 
+global.mMinUsersForSongLimit    = 30;               // TODO: This.
 global.mMinDJsForSongLimit      = 3;                //
 global.mMinQueueOperator        = "||";             //
 global.mMinUsersForQueue        = 50;               //
@@ -40,7 +40,7 @@ global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in 
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
-global.mLonelyDJ                = true;             //todo: This.
+global.mLonelyDJ                = true;             // TODO: This.
 
 global.mGreeting                = "Ohai, @{username}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{username}, we have a VIP in the room!";

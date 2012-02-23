@@ -11,16 +11,19 @@ global.Log = function(pOutput){
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     if(IsMe(pData.user[0])) BootUp();
-    if(!IsMe(pData.user[0])){
-        Update_User(pData.user[0], true);
-        // only greet if pData.user[0].RecentlyLeft - Date.now > joined delay. 
-        Greet(pData.user[0]);
-    }
+    for(var i = 0, len = pData.user.length; i < len; ++i)
+        if(!IsMe(pData.user[i])){
+            Update_User(pData.user[i], true);
+            // only greet if pData.user[0].RecentlyLeft - Date.now > joined delay. 
+            Greet(pData.user[i]);
+        }
+    CalculateProperties();
 };
 
 global.OnDeregistered = function(pData){
     for(var i = 0, len = pData.user.length; i < len; ++i) Remove_User(pData.user[i]);   //not quite done yet. 
     // pData.user[i].RecentlyLeft = Date.now();
+    CalculateProperties();
 };
 
 global.OnGotRoomInfo = function(pData){
@@ -193,9 +196,7 @@ global.RefreshMetaData = function(pMetaData){
     for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
     mMaxDJs = pMetaData.max_djs;
     
-    IsSongQueueEnabled();
-    IsSongLimitEnabled();
-    CalculateSongLimit();
+    CalculateProperties();
     
     LoadParsing();
 }
@@ -302,6 +303,12 @@ global.Update_AFKTime = function(pUser){
     var sDate = new Date();
     mAFKTimes[pUser.userid] = sDate.getTime();
     pUser.mAFKWarned = false; /// We want to unward the user when they get updated, correct?
+}
+
+global.CalculateProperties = function(){
+    IsSongQueueEnabled();
+    IsSongLimitEnabled();
+    CalculateSongLimit();
 }
 
 global.IsSongQueueEnabled = function(){
