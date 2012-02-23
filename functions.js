@@ -121,6 +121,7 @@ global.GuaranteeQueue = function(pUser){
 
 global.QueuePush = function(pUser){
     mCurrentQueue.push(pUser);
+    Log(mCurrentQueue.length);
     mParsing['{queueamount}'] = mCurrentQueue.length;
 }
 
