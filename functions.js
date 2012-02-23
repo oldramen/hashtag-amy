@@ -194,6 +194,7 @@ global.BootUp = function(){
         OnGotRoomInfo(pData);
         setInterval(Loop,5000);
         mBooted = true;
+        Log("Booted up.  We're set to go");
         LonelyDJ();
     });
 }

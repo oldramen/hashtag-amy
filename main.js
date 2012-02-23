@@ -69,4 +69,4 @@ mBot.on("pmmed", OnPmmed);
 mBot.on("newsong", OnNewSong);
 Log("Done");
 
-Log("Ready!");
+Log("Ready");
