@@ -254,9 +254,16 @@ function RemoveDJ(pUser){
 }
 
 function LonelyDJ(){
-    if(!mLonelyDJ) return;
-    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
-    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
+    Log("Lonely DJ");
+    if(!mLonelyDJ){ Log("LonelyDJ disabled."); return; }
+    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
+        mBot.addDj();
+        Log("Getting on deck.");
+    } 
+    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
+         Log("Getting off deck.");
+         mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
+     }
 }
 function Update_User(pUser, pSingle){
     if(pUser.userid in mUsers)
