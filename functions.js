@@ -155,13 +155,13 @@ global.Parse = function(pUser, pString){
     if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
     if(!mBooted) return pString;
     var sVariables = pString.match(/\{[^\}]*\}/gi);
-    for(var sVar in sVariables){
-        if(mParsing[sVar])
+    for(int i = 0; i < sVariables.length; ++i){
+        if(mParsing[sVariables[i]])
             pString = pString.replace(sVar, mParsing[sVar]);
     }
     var sUsernameVariables = pString.match(/\{username\.[^}]*\}/gi);
-    for(var sVar in sUsernameVariables){
-        var sUserVar = sVar.split('.')[1];
+    for(int i = 0; i < sVariables.length; ++i){
+        var sUserVar = sVariables[i].split('.')[1];
         sUserVar = sUserVar.substring(0, sUserVar.length-1);
         if(pUser[sUserVar])
             pString = pString.replace(sVar, pUser[sUserVar]);
