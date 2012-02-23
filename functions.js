@@ -64,9 +64,9 @@ global.OnRemDJ = function(pData){
     LonelyDJ();
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
-    delete mDJs[mDJs.indexOf(sUser.userid)];
+    mDJs.splice(mDJs.indexOf(sUser.userid),1);
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
-        delete mJustRemovedDJ[mJustRemovedDJ.indexOf(sUser.userid)]; /// Don't treat them like a normal DJ if we just forced them to step down.
+        mJustRemovedDJ.splite(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
         Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
     if(mQueueCurrentlyEnabled) QueueAdvance();        /// Advance the queue to the next person in line.
@@ -256,16 +256,11 @@ function RemoveDJ(pUser){
 }
 
 function LonelyDJ(){
-    Log("Lonely DJ");
-    if(!mLonelyDJ){ Log("LonelyDJ disabled."); return; }
-    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
+    if(!mLonelyDJ){ return; }
+    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1))
         mBot.addDj();
-        Log("Getting on deck.");
-    } 
-    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
-         Log("Getting off deck.");
+    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1))
          mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
-     }
 }
 function Update_User(pUser, pSingle){
     if(pUser.userid in mUsers)
