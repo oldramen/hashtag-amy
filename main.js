@@ -15,21 +15,26 @@ global.mUtil        =   require("util");
 
 Log("Initializing");
 //Let's set some constant variables.
-global.mUsers       =   [];
-global.mAFKTimes    =   [];
-global.mParsing     =   {};
-global.mSongName    =   "";
-global.mUpVotes     =   0;
-global.mDownVotes   =   0;
-global.mSongCount   =   [];
-global.mDJs         =   [];
-global.mCurrentDJ   =   "";
-global.mModerators  =   [];
-global.mIsModerator =   false;
-global.mRoomName    =   "";
-global.mMongoDB     =   null;
-global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
-global.mBooted      =   false;
+global.mUsers           =   [];
+global.mAFKTimes        =   [];
+global.mParsing         =   {};
+global.mSongName        =   "";
+global.mUpVotes         =   0;
+global.mDownVotes       =   0;
+global.mSongCount       =   [];
+global.mDJs             =   [];
+global.mCurrentDJ       =   "";
+global.mModerators      =   [];
+global.mIsModerator     =   false;
+global.mRoomName        =   "";
+global.mMongoDB         =   null;
+global.mBot             =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
+global.mBooted          =   false;
+
+global.mCurrentQueue    =   [];
+global.mNextUp          =   null;
+
+global.mJustRemovedDJ   =   [];
 
 global.mQueueCurrentlyEnabled       = false;
 global.mSongLimitCurrentlyEnabled   = false;

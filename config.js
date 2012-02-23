@@ -51,7 +51,9 @@ global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!
 global.mOverMaxSongsQueueOff    = null;
 global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, the song limit is {songlimit}, {queue}, and {afk} minutes for afk.";  //the default help message.      
 global.mWarnMsg                 = "Hey, {username}, no falling asleep on deck!";  //the default warning message   
-
+global.mRemDJMsg                = "Sorry, {username}, you've been afk for too long.  I'm going to have to escort you off the stage.";
+global.mAdvanceQueue            = "Hey {username}, it's your time to shine!  Please take your spot before 5 minutes has passed.'";
+global.mWarnDJNotNextInQueue    = "Sorry, {username}, you have to wait your turn.  It's currently {nextinqueue}'s turn to get on deck.";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

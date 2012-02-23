@@ -48,26 +48,31 @@ global.OnRemModerator = function(pData){
 };
 
 global.OnAddDJ = function(pData){
-    mBot.roomInfo(OnGotRoomInfo);  
-    Update_User(pData.user[0], true);         /// Refreshing the information of the DJ that was added.
-    mSongCount[pData.user[0].userid] = 0;
-    Speak(pData.user[0], mAddDJ, SpeakingLevel.DJChange);
-    if(mQueueCurrentlyEnabled) GuaranteeQueue();      /// Guarantee that the net user in the queue is getting up.
+    //mBot.roomInfo(OnGotRoomInfo);  
+    var sUser = pData.user[0];
+    Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    if(mQueueCurrentlyEnabled) 
+        if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
+    mSongCount[sUser.userid] = 0;
+    Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
     LonelyDj();
 };
 
 global.OnRemDJ = function(pData){
     mBot.roomInfo(OnGotRoomInfo);
     LonelyDj();
-    Update_User(pData.user[0], true);         /// Refreshing the information of the DJ that was added.
-    Speak(pData.user[0], mRemDJ, SpeakingLevel.DJChange);
+    var sUser = pData.user[0];
+    Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
+        mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid), 1); /// Don't treat them like a normal DJ if we just forced them to step down.
+    else
+        Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
     if(mQueueCurrentlyEnabled) QueueAdvance();        /// Advance the queue to the next person in line.
 };
 
 global.OnNewSong = function(pData){
     
     if(mSongLimitCurrentlyEnabled && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
-    
     mCurrentDJ = mUsers[pData.room.current_dj]
     Increment_SongCount(mCurrentDJ);
     
@@ -93,10 +98,20 @@ global.Loop = function(){
 };
 
 function QueueAdvance(){
-    
+    if(!mNextUp)
+        mNextUp = mCurrentQueue.pop();
+    mParsing['{nextinqueue}'] = mUsers[mNextUp].name;
 }
-function GuaranteeQueue(){
-    
+function GuaranteeQueue(pUser){
+    if(!mNextUp) return true;
+    if(mNextUp == pUser.userid){
+        mNextUp = null;
+        return true;
+    }else{
+        RemoveDJ(pUser);
+        mBot.speak()
+        return false;
+    }
 }
 
 function Increment_SongCount(pUser){
@@ -118,7 +133,7 @@ function SpeakingAllowed(pSpeakingLevel){
 }
 
 function OverMaxSongs(pUser){
-    mBot.remDj(pUser.userid);
+    RemoveDJ(pUser);
     Speak(pUser, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
 }
 
@@ -211,7 +226,7 @@ function CheckAFKs(){
     if(!mAFK) return;
     for (i in mDJs) {
       var sUser = mUsers[mDJs[i]];
-      if (CheckAFKTime(sUser)) mBot.remDj(sUser.userid);
+      if (CheckAFKTime(sUser)) BootAFK(sUser);
     }
 }
 
@@ -228,12 +243,21 @@ function CheckAFKTime(pUser) {
     return false;
 }
 
+function BootAFK(pUser){
+    RemoveDJ(pUser);
+    Speak(pUser, mRemDJMsg, SpeakingLevel.Misc);
+}
+
+function RemoveDJ(pUser){
+    mJustRemovedDJ.push(pUser.userid);
+    mBot.remDj(pUser.userid);
+}
+
 function LonlelyDj(){
     if(!mLonelyDJ) return;
     if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
-    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
+    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
 }
-
 function Update_User(pUser, pSingle){
     if(pUser.userid in mUsers)
         Log(pUser.name + " updated");
