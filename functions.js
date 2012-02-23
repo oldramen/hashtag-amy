@@ -318,6 +318,7 @@ global.CalculateProperties = function(){
 }
 
 global.IsSongQueueEnabled = function(){
+    Log(mUsers.length + " - " + mDJs.length);
     if(mMinQueueOperator == "&" && mMinUsersForQueue && mMinDJsForQueue)
         mQueueCurrentlyOn = mQueueOn && mMinUsersForQueue <= mUsers.length && mMinDJsForQueue <= mDJs.length;
     else if(mMinQueueOperator && mMinUsersForQueue && mMinDJsForQueue)
