@@ -51,7 +51,7 @@ global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);  
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
-    mDJs.push(pUser.userid);
+    mDJs.push(sUser.userid);
     if(mQueueCurrentlyEnabled) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     mSongCount[sUser.userid] = 0;
