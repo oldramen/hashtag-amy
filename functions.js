@@ -229,6 +229,7 @@ global.SetMyName = function(pName){
 global.Remove_User = function(pUser){
     delete mUsers[pUser.userid];
     delete mAFKTimes[pUser.userid];
+    --mUsers.length;
 }
 
 global.CheckAFKs = function(){
@@ -272,8 +273,10 @@ global.LonelyDJ = function(){
 global.Update_User = function(pUser, pSingle){
     if(pUser.userid in mUsers)
         Log(pUser.name + " updated");
-    else
+    else{
         Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
+        ++mUsers.length;
+    }
     mUsers[pUser.userid] = pUser;
     if (pSingle) Update_AFKTime(pUser);
     /// Handle booting for bans here.

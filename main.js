@@ -17,7 +17,7 @@ global.mCommandsMod =   require("./commands.js");
 Log("Initializing");
 //Let's set some constant variables.
 global.mUsers           =   {};
-global.mAFKTimes        =   [];
+global.mAFKTimes        =   {};
 global.mParsing         =   {};
 global.mSongName        =   "";
 global.mUpVotes         =   0;
