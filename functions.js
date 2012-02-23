@@ -161,10 +161,8 @@ global.Greet = function(pUser){
     var sGreeting = mGreeting;
     if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
     if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
-    if(mGeetings){
-        var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
-        if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
-    }
+    var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
+    if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
     Speak(pUser, sGreeting, SpeakingLevel.Greeting);
 }
 
