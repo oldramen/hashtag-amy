@@ -52,6 +52,7 @@ global.OnAddDJ = function(pData){
         IsLonely();
     });  
     Update_User(pData.user[0], true);         /// Refreshing the information of the DJ that was added.
+    mSongCount[pData.user[0].userid] = 0;
     Speak(pData.user[0], mAddDJ, SpeakingLevel.DJChange);
     if(mQueueOn) GuaranteeQueue();      /// Guarantee that the net user in the queue is getting up.
 };
@@ -65,6 +66,13 @@ global.OnRemDJ = function(pData){
     Speak(pData.user[0], mRemDJ, SpeakingLevel.DJChange);
     if(mQueueOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
+
+global.OnNewSong = function(pData){
+    mBot.roomInfo(function(pData){
+        OnGotRoomInfo(pData);           /// Refresh room data.
+    });  
+    Increment_SongCount(mCurrentDJ);
+}
 
 global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
@@ -113,6 +121,10 @@ function QueueAdvance(){
 
 function GuaranteeQueue(){
     
+}
+
+function Increment_SongCount(pUser){
+  ++mSongCount[pUser];
 }
 
 function Speak(pUser, pSpeak, pSpeakingLevel){
