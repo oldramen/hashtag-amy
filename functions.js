@@ -64,7 +64,10 @@ global.OnRemDJ = function(pData){
     LonelyDJ();
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    Log(mDJs.length);
+    Log(sUser.name + " dropping.");
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
+    Log(mDJs.length);
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splite(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
