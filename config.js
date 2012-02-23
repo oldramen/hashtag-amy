@@ -18,19 +18,28 @@ global.mMongoUser               = "{mongo_user}";   //user of mongocollection
 global.mMongoPass               = "{mongo_pass}";   //password to mongocollection
 global.mMongoPort               = 27017;
 global.mName                    = "#Amy";           //name of bot
+global.mTheme                   = "Dubstep";        //default theme/genre for the room
+
+global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 global.mOwners                  = [];               //hard coded array of userids for owners
 global.mVIPs                    = [];               //hard coded array of VIP IDs
+
 global.mMaxSongs                = 3;                //default song limit
-global.mEnforceSongLimitNoQueue = true;
 global.mWaitSongs               = 5;                //how many songs you must wait after hitting limit to dj again
-global.mTheme                   = "Dubstep";        //default theme/genre for the room
 global.mLimitOn                 = false;            //if song limits are enabled by default
 global.mQueueOn                 = false;            //if queue is enabled by default
 global.mAFK                     = 15;               //default afk time (in minutes)
+global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
+global.mMinUsersForSongLimit    = 30;               // 
+global.mMinDJsForSongLimit      = 3;                //
+global.mMinQueueOperator        = "||";             //
+global.mMinUsersForQueue        = 50;               //
+global.mMinDJsForQueue          = 5                 //
+
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;             //todo: This.
-global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
+
 global.mGreeting                = "Ohai, @{username}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{username}, we have a VIP in the room!";
 global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{username}!";
@@ -42,7 +51,8 @@ global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!
 global.mOverMaxSongsQueueOff    = null;
 global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, the song limit is {songlimit}, {queue}, and {afk} minutes for afk.";  //the default help message.      
 global.mWarnMsg                 = "Hey, {username}, no falling asleep on deck!";  //the default warning message   
-global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue
+
+///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.
 

@@ -259,12 +259,18 @@ function IsSongQueueEnabled(){
         mQueueCurrentlyEnabled = mQueueEnabled && mMinUsersForQueue <= mUsers.length;
     else if(mMinDJsForQueue)
         mQueueCurrentlyEnabled = mQueueEnabled && mMinDJsForQueue <= mDJs.length;
-    else mQueueCurrentlyEnabled = mQueueEnabled;
+    else mQueueCurrentlyEnabled = mQueueOn;
 }
 
 function IsSongLimitEnabled(){
-    if(mSongLimitRequiresQueue)
-        mSongLimitCurrentlyEnabled = mLimitOn && mSongLimitRequiresQueue;
+    if(mMinSongLimitOperator == "&" && mMinUsersForSongLimit && mMinDJsForSongLimit)
+        mSongLimitCurrentlyEnabled = mSongLimitEnabled && mMinUsersForSongLimit <= mUsers.length && mMinDJsForSongLimit <= mDJs.length;
+    else if(mMinSongLimitOperator && mMinUsersForSongLimit && mMinDJsForSongLimit)
+        mSongLimitCurrentlyEnabled = mSongLimitEnabled && (mMinUsersForSongLimit <= mUsers.length || mMinDJsForSongLimit <= mDJs.length);
+    else if(mMinUsersForSongLimit)
+        mSongLimitCurrentlyEnabled = mSongLimitEnabled && mMinUsersForSongLimit <= mUsers.length;
+    else if(mMinDJsForSongLimit)
+        mSongLimitCurrentlyEnabled = mSongLimitEnabled && mMinDJsForSongLimit <= mDJs.length;
     else mSongLimitCurrentlyEnabled = mLimitOn;
 }
 
