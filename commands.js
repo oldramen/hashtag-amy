@@ -39,9 +39,10 @@ global.mCommands = [
         hint: "Makes the bot say something."
     },
     {
-        command: '/q+',         
+        command: '/q+',
         callback: function(pUser, pText){
-            /// Join the Queue.
+            if(mDJs.length == mMaxDJs) QueuePush(pUser.userid);
+            else Speak(pUser, mOpenSpotNoQueueing, SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
         hint: "Used to join the queue."
@@ -49,7 +50,7 @@ global.mCommands = [
     {
         command: '/q',          
         callback: function(pUser, pText){
-            /// What's the status of the queue and how to get in the queue
+            Speak(pUser, mQueueStatus, SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
         hint: "Tells what the current status of the queue is."

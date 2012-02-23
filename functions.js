@@ -60,7 +60,7 @@ global.OnAddDJ = function(pData){
 };
 
 global.OnRemDJ = function(pData){
-    mBot.roomInfo(OnGotRoomInfo);
+    //mBot.roomInfo(OnGotRoomInfo);
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
@@ -104,7 +104,7 @@ global.Loop = function(){
 ///TODO: Make sure they are in the room.
 global.QueueAdvance = function(){
     if(!mNextUp)
-        mNextUp = mCurrentQueue.pop();
+        mNextUp = mCurrentQueue.shift();
     mParsing['{nextinqueue}'] = mUsers[mNextUp].name;
 }
 global.GuaranteeQueue = function(pUser){
@@ -117,6 +117,11 @@ global.GuaranteeQueue = function(pUser){
         mBot.speak()
         return false;
     }
+}
+
+global.QueuePush = function(pUser){
+    mCurrentQueue.push(pUser);
+    mParsing['{queueamount}'] = mCurrentQueue.length;
 }
 
 global.Increment_SongCount = function(pUser){
@@ -185,6 +190,7 @@ global.RefreshMetaData = function(pMetaData){
     mCurrentDJ = mUsers[pMetaData.current_dj];
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
     for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
+    mMaxDJs = pMetaData.max_djs;
     
     IsSongQueueEnabled();
     IsSongLimitEnabled();
@@ -218,6 +224,7 @@ global.LoadParsing = function(){
     mParsing['{vips}']                          = mVIPs.join(', ');
     mParsing['{dodrink}']                       = mDoDrink ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
+    
     Log("Parsing library initialized");
 }
 
@@ -321,11 +328,10 @@ global.CalculateSongLimit = function(){
         mCurrentSongLimit = Math.floor(mSongLimitUserProportion / mUsers.length);
     else
         mCurrentSongLimit = mMaxSongs;
-    Log(mUsers.length);
-    Log(mCurrentSongLimit);
 }
 
 global.HandleCommand = function(pUser, pText){
+    if(!mBooted) return;
     var sMatch = pText.match(/^\/.*/);
     if(!sMatch) return;
     var sSplit = pText.split(' ');

@@ -28,7 +28,7 @@ global.mMaxSongs                = 3;                //default song limit
 global.mWaitSongs               = 5;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = false;            //if song limits are enabled by default
 global.mQueueOn                 = false;            //if queue is enabled by default
-global.mAFK                     = 15;               //default afk time (in minutes)
+global.mAFK                     = 60;               //default afk time (in minutes)
 global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
 global.mMinUsersForSongLimit    = 30;               // 
 global.mMinDJsForSongLimit      = 3;                //
@@ -55,6 +55,9 @@ global.mWarnMsg                 = "Hey, {username}, no falling asleep on deck!";
 global.mRemDJMsg                = "Sorry, {username}, you've been afk for too long.  I'm going to have to escort you off the stage.";
 global.mAdvanceQueue            = "Hey {username}, it's your time to shine!  Please take your spot before 5 minutes has passed.'";
 global.mWarnDJNotNextInQueue    = "Sorry, {username}, you have to wait your turn.  It's currently {nextinqueue}'s turn to get on deck.";
+global.mOpenSpotNoQueueing      = "Sorry, {username}, there's already an open spot.  Please take it before you worry about registering yourself in the queue.";
+global.mQueueOff                = "I'm sorry but the queue is currently off.";
+global.mQueueStatus             = "There is currently {queueamount} people standing in line to get on deck.";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

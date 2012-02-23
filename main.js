@@ -31,6 +31,7 @@ global.mRoomName        =   "";
 global.mMongoDB         =   null;
 global.mBot             =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
 global.mBooted          =   false;
+global.mMaxDJs          =   5;
 
 global.mCurrentQueue    =   [];
 global.mNextUp          =   null;
