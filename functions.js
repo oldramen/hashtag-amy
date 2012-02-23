@@ -328,7 +328,7 @@ global.IsSongQueueEnabled = function(){
     else if(mMinDJsForQueue)
         mQueueCurrentlyOn = mQueueOn && mMinDJsForQueue <= mDJs.length;
     else mQueueCurrentlyOn = mQueueOn;
-    mParsing['{queuecurrentlyenabled}'] = mQueueCurrentlyEnabled ? "on" : "off";
+    mParsing['{queuecurrentlyenabled}'] = mQueueCurrentlyEnabled ? "on2" : "off1";
 }
 
 global.IsSongLimitEnabled = function(){
