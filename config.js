@@ -34,8 +34,8 @@ global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
 global.mMinUsersForSongLimit    = 30;               // TODO: This.
 global.mMinDJsForSongLimit      = 3;                //
 global.mMinQueueOperator        = "||";             //
-global.mMinUsersForQueue        = 30;               //
-global.mMinDJsForQueue          = 3;                //
+global.mMinUsersForQueue        = null;               //
+global.mMinDJsForQueue          = null;                //
 global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in the room.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
