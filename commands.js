@@ -40,6 +40,7 @@ global.mCommands = [
     },
     {
         command: '/q+', ///TODO: What if they're already a DJ?
+                        ///TODO: What if they're already in the queue?
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);

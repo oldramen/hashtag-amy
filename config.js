@@ -29,7 +29,7 @@ global.mMaxSongs                = 3;                //default song limit
 global.mWaitSongs               = 5;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
 global.mQueueOn                 = true;             //if queue is enabled by default
-global.mAFK                     = 60;               //default afk time (in minutes)
+global.mAFK                     = 20;               //default afk time (in minutes)
 global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
 global.mMinUsersForSongLimit    = 30;               // TODO: This.
 global.mMinDJsForSongLimit      = 3;                //
@@ -42,7 +42,7 @@ global.mModBop                  = true;             //whether the /bop commands 
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;             // TODO: This.
 
-global.mGreeting                = null;//"Ohai, @{username}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
+global.mGreeting                = "Ohai, @{username}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{username}, we have a VIP in the room!";
 global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{username}!";
 global.mAddDJ                   = "Welcome to the deck, @{username}!  Remember to follow the rules!";

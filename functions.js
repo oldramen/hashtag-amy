@@ -55,7 +55,6 @@ global.OnAddDJ = function(pData){
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
-    Log(mQueueCurrentlyOn);
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     mSongCount[sUser.userid] = 0;
@@ -112,14 +111,12 @@ global.QueueAdvance = function(){
         mNextUp = mCurrentQueue.shift();
     mParsing['{nextinqueue}'] = mUsers[mNextUp].name;
     Speak(mUsers[mNextUp], mAdvanceQueue, SpeakingLevel.Misc);
-    Log(mParsing['{nextinqueue}'] + " is up next.");
+    //Log(mParsing['{nextinqueue}'] + " is up next.");
 }
 global.GuaranteeQueue = function(pUser){
-    Log(mNextUp);
     if(!mNextUp) return true;
     if(mNextUp == pUser.userid){
         mNextUp = null;
-        Log("No one else in the queue?");
         return true;
     }else{
         RemoveDJ(pUser);
@@ -283,6 +280,7 @@ global.BootAFK = function(pUser){
 }
 
 global.RemoveDJ = function(pUser){
+    if(!mIsModerator) return;
     mJustRemovedDJ.push(pUser.userid);
     mBot.remDj(pUser.userid);
 }
