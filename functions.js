@@ -51,7 +51,7 @@ global.OnRemModerator = function(pData){
 };
 
 global.OnAddDJ = function(pData){
-    //mBot.roomInfo(OnGotRoomInfo);  
+    //mBot.roomInfo(OnGotRoomInfo);
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
@@ -117,7 +117,7 @@ global.GuaranteeQueue = function(pUser){
         return true;
     }else{
         RemoveDJ(pUser);
-        mBot.speak()
+        mBot.speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
         return false;
     }
 }

@@ -17,6 +17,7 @@ global.mCommandsMod =   require("./commands.js");
 Log("Initializing");
 //Let's set some constant variables.
 global.mUsers           =   {length: 0};
+global.mGreetings       =   [];
 global.mAFKTimes        =   {};
 global.mParsing         =   {};
 global.mSongName        =   "";
