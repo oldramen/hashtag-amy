@@ -21,6 +21,7 @@ global.mParsing     =   {};
 global.mSongName    =   "";
 global.mUpVotes     =   0;
 global.mDownVotes   =   0;
+global.mSongCount   =   [];
 global.mDJs         =   [];
 global.mCurrentDJ   =   "";
 global.mModerators  =   [];
@@ -54,6 +55,7 @@ mBot.on("add_dj", OnAddDJ);
 mBot.on("rem_dj", OnRemDJ);
 mBot.on("speak", OnSpeak);
 mBot.on("pmmed", OnPmmed);
+mBot.on("newsong", OnNewSong);
 Log("Done");
 
 Log("Ready!");
