@@ -27,15 +27,15 @@ global.mVIPs                    = [];               //hard coded array of VIP ID
 
 global.mMaxSongs                = 3;                //default song limit
 global.mWaitSongs               = 5;                //how many songs you must wait after hitting limit to dj again
-global.mLimitOn                 = false;            //if song limits are enabled by default
-global.mQueueOn                 = false;            //if queue is enabled by default
+global.mLimitOn                 = true;             //if song limits are enabled by default
+global.mQueueOn                 = true;             //if queue is enabled by default
 global.mAFK                     = 60;               //default afk time (in minutes)
 global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
 global.mMinUsersForSongLimit    = 30;               // TODO: This.
 global.mMinDJsForSongLimit      = 3;                //
 global.mMinQueueOperator        = "||";             //
-global.mMinUsersForQueue        = null;               //
-global.mMinDJsForQueue          = null;                //
+global.mMinUsersForQueue        = 30;               //
+global.mMinDJsForQueue          = 3;                //
 global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in the room.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
