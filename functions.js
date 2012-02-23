@@ -99,6 +99,7 @@ global.Loop = function(){
     CheckAFKs();
 };
 
+///TODO: Make sure they are in the room.
 function QueueAdvance(){
     if(!mNextUp)
         mNextUp = mCurrentQueue.pop();
