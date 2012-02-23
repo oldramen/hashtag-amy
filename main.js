@@ -30,6 +30,11 @@ global.mRoomName    =   "";
 global.mMongoDB     =   null;
 global.mBot         =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
 global.mBooted      =   false;
+
+global.mQueueCurrentlyEnabled       = false;
+global.mSongLimitCurrentlyEnabled   = false;
+global.mCurrentSongLimit            = mMaxSongs;
+
 InitMongoDB();
 Refresh("greetings", function(e,pItems){ 
     if(!pItems) return;  

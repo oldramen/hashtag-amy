@@ -26,7 +26,8 @@ global.OnDeregistered = function(pData){
 global.OnGotRoomInfo = function(pData){
     Log("Got Room Data");
     mRoomName = pData.room.name;
-    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i], false);  //This is bad. don't update users on roominfo calls; idle wouldn't help it.
+    //This is bad. don't update users on roominfo calls; idle wouldn't help it.
+    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i], false); 
     RefreshMetaData(pData.room.metadata);
 };
 
@@ -47,31 +48,33 @@ global.OnRemModerator = function(pData){
 };
 
 global.OnAddDJ = function(pData){
-    mBot.roomInfo(function(pData){
-        OnGotRoomInfo(pData);           /// Refresh room data.
-        IsLonely();
-    });  
+    mBot.roomInfo(OnGotRoomInfo);  
     Update_User(pData.user[0], true);         /// Refreshing the information of the DJ that was added.
     mSongCount[pData.user[0].userid] = 0;
     Speak(pData.user[0], mAddDJ, SpeakingLevel.DJChange);
-    if(mQueueOn) GuaranteeQueue();      /// Guarantee that the net user in the queue is getting up.
+    if(mQueueCurrentlyEnabled) GuaranteeQueue();      /// Guarantee that the net user in the queue is getting up.
+    LonelyDj();
 };
 
 global.OnRemDJ = function(pData){
-    mBot.roomInfo(function(pData){
-        OnGotRoomInfo(pData);           /// Refresh current DJs
-        IsLonely();
-    });
+    mBot.roomInfo(OnGotRoomInfo);
+    LonelyDj();
     Update_User(pData.user[0], true);         /// Refreshing the information of the DJ that was added.
     Speak(pData.user[0], mRemDJ, SpeakingLevel.DJChange);
-    if(mQueueOn) QueueAdvance();        /// Advance the queue to the next person in line.
+    if(mQueueCurrentlyEnabled) QueueAdvance();        /// Advance the queue to the next person in line.
 };
 
 global.OnNewSong = function(pData){
-    mBot.roomInfo(function(pData){
-        OnGotRoomInfo(pData);           /// Refresh room data.
-    });  
+    
+    if(mSongLimitCurrentlyEnabled && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
+    
+    mCurrentDJ = mUsers[pData.room.current_dj]
     Increment_SongCount(mCurrentDJ);
+    
+    /*mBot.roomInfo(function(pData){
+        OnGotRoomInfo(pData);
+        Increment_SongCount(mCurrentDJ);
+    });*/
 }
 
 global.OnSpeak = function(pData){
@@ -89,42 +92,15 @@ global.Loop = function(){
     CheckAFKs();
 };
 
-function CheckAFKs(){
-    if(!mAFK) return;
-    for (i in mDJs) {
-      var sUser = mUsers[mDJs[i]];
-      if (CheckAFKTime(sUser)) mBot.remDj(sUser);
-    }
-}
-
- function CheckAFKTime(pUser) {
-    var sWarn = mAFK * (0.693148);
-    var sLast = mAFKTimes[pUser.userid];
-    var sAge = Date.now() - sLast;
-    var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
-    if (sAge_Minutes >= mAFK) return true;
-    if(!pUser.mAFKWarned && sAge_Minutes >= sWarn){
-        Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
-        pUser.mAFKWarned = true;
-    }
-    return false;
-};
-
-function IsLonlely(){
-    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
-    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
-}
-
 function QueueAdvance(){
     
 }
-
 function GuaranteeQueue(){
     
 }
 
 function Increment_SongCount(pUser){
-  ++mSongCount[pUser];
+  ++mSongCount[typeof(pUser) == 'number'?pUser:pUser.userid];
 }
 
 function Speak(pUser, pSpeak, pSpeakingLevel){
@@ -139,6 +115,11 @@ function Speak(pUser, pSpeak, pSpeakingLevel){
 function SpeakingAllowed(pSpeakingLevel){
     if(mSpeakingLevel.flags.indexOf(SpeakingLevel.Verbose) != -1) return true;
     else return mSpeakingLevel.indexOf(pSpeakingLevel) != -1;
+}
+
+function OverMaxSongs(pUser){
+    mBot.remDj(pUser.userid);
+    Speak(pUser, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
 }
 
 function Greet(pUser){
@@ -175,9 +156,15 @@ function RefreshMetaData(pMetaData){
     mDownVotes = pMetaData.downvotes;
     mDJs = [];
     for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
-    mCurrentDJ = pMetaData.current_dj;
+    mCurrentDJ = mUsers[pMetaData.current_dj];
     mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
     for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
+    
+    IsSongQueueEnabled();
+    IsSongLimitEnabled();
+    CalculateSongLimit();
+    
+    LoadParsing();
 }
 
 function BootUp(){
@@ -185,24 +172,25 @@ function BootUp(){
     SetMyName(mName);
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
-        LoadParsing();
         setInterval(Loop,5000);
         mBooted = true;
+        LonelyDj();
     });
 }
 
 function LoadParsing(){
-    mParsing['{room}']          = mRoomName;
-    mParsing['{theme}']         = mTheme;
-    mParsing['{songlimit}']     = mMaxSongs;
-    mParsing['{queue}']         = mQueueOn ? "on" : "off";
-    mParsing['{afklimit}']      = mAFK;
-    mParsing['{songwait}']      = mWaitSongs;
-    mParsing['{songovermax}']   = mOverMax;
-    mParsing['{owners}']        = mOwners.join(', ');
-    mParsing['{vips}']          = mVIPs.join(', ');
-    mParsing['{dodrink}']       = mDoDrink ? "on" : "off";
-    mParsing['{modbop}']        = mModBop ? "on" : "off";
+    mParsing['{room}']                          = mRoomName;
+    mParsing['{theme}']                         = mTheme;
+    mParsing['{songlimit}']                     = mCurrentSongLimit;
+    mParsing['{queue}']                         = mQueueOn ? "on" : "off";
+    mParsing['{afklimit}']                      = mAFK;
+    mParsing['{songwait}']                      = mWaitSongs;
+    mParsing['{queuecurrentlyenabled}']         = mQueueCurrentlyEnabled ? "on" : "off";
+    mParsing['{songlimitcurrentlyenabled}']     = mSongLimitCurrentlyEnabled ? "on" : "off";
+    mParsing['{owners}']                        = mOwners.join(', ');
+    mParsing['{vips}']                          = mVIPs.join(', ');
+    mParsing['{dodrink}']                       = mDoDrink ? "on" : "off";
+    mParsing['{modbop}']                        = mModBop ? "on" : "off";
 }
 
 function IsMe(pUser){
@@ -219,13 +207,40 @@ function Remove_User(pUser){
     delete mAFKTimes[pUser.userid];
 }
 
+function CheckAFKs(){
+    if(!mAFK) return;
+    for (i in mDJs) {
+      var sUser = mUsers[mDJs[i]];
+      if (CheckAFKTime(sUser)) mBot.remDj(sUser.userid);
+    }
+}
+
+function CheckAFKTime(pUser) {
+    var sWarn = mAFK * (0.693148);
+    var sLast = mAFKTimes[pUser.userid];
+    var sAge = Date.now() - sLast;
+    var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
+    if (sAge_Minutes >= mAFK) return true;
+    if(!pUser.mAFKWarned && sAge_Minutes >= sWarn){
+        Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
+        pUser.mAFKWarned = true;
+    }
+    return false;
+}
+
+function LonlelyDj(){
+    if(!mLonelyDJ) return;
+    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)) mBot.addDj();
+    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)) mBot.remDj();
+}
+
 function Update_User(pUser, pSingle){
     if(pUser.userid in mUsers)
         Log(pUser.name + " updated");
     else
         Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
     mUsers[pUser.userid] = pUser;
-    if (pSingle = true) Update_AFKTime(pUser);
+    if (pSingle) Update_AFKTime(pUser);
     /// Handle booting for bans here.
 }
 
@@ -235,17 +250,34 @@ function Update_AFKTime(pUser){
     pUser.mAFKWarned = false; /// We want to unward the user when they get updated, correct?
 }
 
-function Is_Moderator(pUser){
-    return _.any(mModerators, function(pId){ return pUser.userid === pId; });
+function IsSongQueueEnabled(){
+    if(mMinQueueOperator == "&" && mMinUsersForQueue && mMinDJsForQueue)
+        mQueueCurrentlyEnabled = mQueueEnabled && mMinUsersForQueue <= mUsers.length && mMinDJsForQueue <= mDJs.length;
+    else if(mMinQueueOperator && mMinUsersForQueue && mMinDJsForQueue)
+        mQueueCurrentlyEnabled = mQueueEnabled && (mMinUsersForQueue <= mUsers.length || mMinDJsForQueue <= mDJs.length);
+    else if(mMinUsersForQueue)
+        mQueueCurrentlyEnabled = mQueueEnabled && mMinUsersForQueue <= mUsers.length;
+    else if(mMinDJsForQueue)
+        mQueueCurrentlyEnabled = mQueueEnabled && mMinDJsForQueue <= mDJs.length;
+    else mQueueCurrentlyEnabled = mQueueEnabled;
 }
 
-function Is_SuperUser(pUser){
-    return pUser.acl > 0;
+function IsSongLimitEnabled(){
+    if(mSongLimitRequiresQueue)
+        mSongLimitCurrentlyEnabled = mLimitOn && mSongLimitRequiresQueue;
+    else mSongLimitCurrentlyEnabled = mLimitOn;
 }
 
-function Is_VIP(pUser){
-    return mVIPs.indexOf(pUser.userid) != -1;
+function CalculateSongLimit(){
+    if(!mSongLimitUserProportion)
+        mCurrentSongLimit = mMaxSongs;
+    else
+        mCurrentSongLimit = Math.floor(mSongLimitUserProportion / mUsers.length);
 }
+
+function Is_Moderator(pUser){return _.any(mModerators, function(pId){ return pUser.userid === pId; });}
+function Is_SuperUser(pUser){return pUser.acl > 0;}
+function Is_VIP(pUser){return mVIPs.indexOf(pUser.userid) != -1;}
 
 global.InitMongoDB = function(){
     var sConnectionString = mMongoUser+':'+mMongoPass+"@"+mMongoHost+":"+mMongoPort+"/"+mMongoDatabase+"?auto_reconnect";
