@@ -41,8 +41,14 @@ global.mCommands = [
     {
         command: '/q+', ///TODO: What if they're already a DJ?
         callback: function(pUser, pText){
-            if(mDJs.length == mMaxDJs) QueuePush(pUser.userid);
-            else Speak(pUser, mOpenSpotNoQueueing, SpeakingLevel.Misc);
+            if(mDJs.indexOf(pUser.userid) != -1) {
+                Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
+                return;
+            }
+            if(mDJs.length == mMaxDJs){
+                 QueuePush(pUser.userid);
+                 Speak(pUser, mQueueAdded, SpeakingLevel.Misc);
+            }else Speak(pUser, mOpenSpotNoQueueing, SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
         hint: "Used to join the queue."

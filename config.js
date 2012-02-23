@@ -59,6 +59,8 @@ global.mWarnDJNotNextInQueue    = "Sorry, {username}, you have to wait your turn
 global.mOpenSpotNoQueueing      = "Sorry, {username}, there's already an open spot.  Please take it before you worry about registering yourself in the queue.";
 global.mQueueOff                = "I'm sorry but the queue is currently off.";
 global.mQueueStatus             = "There is currently {queueamount} people standing in line to get on deck.";
+global.mQueueAdded              = "Alright, {username}, you've been added to the queue!";
+global.mQueueAlreadyDJ          = "I'm sorry, {username}, but you're already a DJ."
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

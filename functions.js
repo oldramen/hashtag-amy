@@ -130,6 +130,7 @@ global.QueuePush = function(pUser){
 
 global.Increment_SongCount = function(pUser){
   ++mSongCount[typeof(pUser) == 'number'?pUser:pUser.userid];
+  Log(pUser.name + " : " + mSongCount[pUser.userid]);
 }
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel){
@@ -155,8 +156,10 @@ global.Greet = function(pUser){
     var sGreeting = mGreeting;
     if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
     if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
-    var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
-    if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
+    if(mGeetings){
+        var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
+        if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
+    }
     Speak(pUser, sGreeting, SpeakingLevel.Greeting);
 }
 
