@@ -73,7 +73,6 @@ global.OnRemDJ = function(pData){
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
         Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
-    Log(mQueueCurrentlyOn);
     if(mQueueCurrentlyOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
 
@@ -112,7 +111,7 @@ global.QueueAdvance = function(){
     if(!mNextUp)
         mNextUp = mCurrentQueue.shift();
     mParsing['{nextinqueue}'] = mUsers[mNextUp].name;
-    
+    Speak(mUsers[mNextUp], mAdvanceQueue, SpeakingLevel.Misc);
     Log(mParsing['{nextinqueue}'] + " is up next.");
 }
 global.GuaranteeQueue = function(pUser){
@@ -120,6 +119,7 @@ global.GuaranteeQueue = function(pUser){
     if(!mNextUp) return true;
     if(mNextUp == pUser.userid){
         mNextUp = null;
+        Log("No one else in the queue?");
         return true;
     }else{
         RemoveDJ(pUser);
