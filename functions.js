@@ -12,7 +12,7 @@ global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     if(IsMe(pData.user[0])) BootUp();
     if(!IsMe(pData.user[0])){
-        Update_User(pData.user[0]);
+        Update_User(pData.user[0], true);
         // only greet if pData.user[0].RecentlyLeft - Date.now > joined delay. 
         Greet(pData.user[0]);
     }
@@ -26,7 +26,7 @@ global.OnDeregistered = function(pData){
 global.OnGotRoomInfo = function(pData){
     Log("Got Room Data");
     mRoomName = pData.room.name;
-    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i]);  //This is bad. don't update users on roominfo calls; idle wouldn't help it.
+    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i], false);  //This is bad. don't update users on roominfo calls; idle wouldn't help it.
     RefreshMetaData(pData.room.metadata);
 };
 
@@ -51,7 +51,7 @@ global.OnAddDJ = function(pData){
         OnGotRoomInfo(pData);           /// Refresh room data.
         IsLonely();
     });  
-    Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
+    Update_User(pData.user[0], true);         /// Refreshing the information of the DJ that was added.
     Speak(pData.user[0], mAddDJ, SpeakingLevel.DJChange);
     if(mQueueOn) GuaranteeQueue();      /// Guarantee that the net user in the queue is getting up.
 };
@@ -61,7 +61,7 @@ global.OnRemDJ = function(pData){
         OnGotRoomInfo(pData);           /// Refresh current DJs
         IsLonely();
     });
-    Update_User(pData.user[0]);         /// Refreshing the information of the DJ that was added.
+    Update_User(pData.user[0], true);         /// Refreshing the information of the DJ that was added.
     Speak(pData.user[0], mRemDJ, SpeakingLevel.DJChange);
     if(mQueueOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
@@ -69,7 +69,7 @@ global.OnRemDJ = function(pData){
 global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     if(sUser == null) return;
-    Update_User(sUser);
+    Update_User(sUser, true);
     console.log(sUser.name+": "+pData.text);
 };
 
@@ -207,13 +207,13 @@ function Remove_User(pUser){
     delete mAFKTimes[pUser.userid];
 }
 
-function Update_User(pUser){
+function Update_User(pUser, pSingle){
     if(pUser.userid in mUsers)
         Log(pUser.name + " updated");
     else
         Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
     mUsers[pUser.userid] = pUser;
-    Update_AFKTime(pUser);
+    if (pSingle = true) Update_AFKTime(pUser);
     /// Handle booting for bans here.
 }
 
