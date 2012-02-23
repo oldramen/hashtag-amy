@@ -51,6 +51,7 @@ global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);  
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    mDJs.push(pUser.userid);
     if(mQueueCurrentlyEnabled) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     mSongCount[sUser.userid] = 0;
@@ -63,8 +64,9 @@ global.OnRemDJ = function(pData){
     LonelyDJ();
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    delete mDJs[mDJs.indexOf(sUser.userid)];
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
-        mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid), 1); /// Don't treat them like a normal DJ if we just forced them to step down.
+        delete mJustRemovedDJ[mJustRemovedDJ.indexOf(sUser.userid)]; /// Don't treat them like a normal DJ if we just forced them to step down.
     else
         Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
     if(mQueueCurrentlyEnabled) QueueAdvance();        /// Advance the queue to the next person in line.
