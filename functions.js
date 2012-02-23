@@ -313,7 +313,7 @@ function CalculateSongLimit(){
 }
 
 function HandleCommand(pUser, pText){
-    var sMatch = sText.match(/^\/.*/);
+    var sMatch = pText.match(/^\/.*/);
     if(!sMatch) return;
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().toLowerCase();
