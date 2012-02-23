@@ -206,7 +206,7 @@ global.LoadParsing = function(){
     mParsing['{theme}']                         = mTheme;
     mParsing['{songlimit}']                     = mCurrentSongLimit;
     mParsing['{queue}']                         = mQueueOn ? "on" : "off";
-    mParsing['{afklimit}']                      = mAFK;
+    mParsing['{afklimit}'] = mParsing['{afk}']  = mAFK;
     mParsing['{songwait}']                      = mWaitSongs;
     mParsing['{queuecurrentlyenabled}']         = mQueueCurrentlyEnabled ? "on" : "off";
     mParsing['{songlimitcurrentlyenabled}']     = mSongLimitCurrentlyEnabled ? "on" : "off";
