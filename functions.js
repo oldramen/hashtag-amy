@@ -157,7 +157,7 @@ global.Parse = function(pUser, pString){
     var sVariables = pString.match(/\{[^\}]*\}/gi);
     for(var i = 0; i < sVariables.length; ++i){
         if(mParsing[sVariables[i]])
-            pString = pString.replace(sVariables[i], mParsing[sVar]);
+            pString = pString.replace(sVariables[i], mParsing[sVariables[i]]);
     }
     var sUsernameVariables = pString.match(/\{username\.[^}]*\}/gi);
     for(var i = 0; i < sVariables.length; ++i){
