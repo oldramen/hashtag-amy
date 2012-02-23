@@ -73,8 +73,8 @@ global.OnRemDJ = function(pData){
 global.OnNewSong = function(pData){
     
     if(mSongLimitCurrentlyEnabled && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
-    mCurrentDJ = mUsers[pData.room.current_dj]
-    Increment_SongCount(mCurrentDJ);
+    mCurrentDJ = mUsers[pData.room.current_dj];
+    if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
     
     /*mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
