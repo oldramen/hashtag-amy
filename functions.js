@@ -154,7 +154,7 @@ global.Greet = function(pUser){
 global.Parse = function(pUser, pString){
     if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
     if(!mBooted) return pString;
-    var sVariables = pString.match(/\{[^\}]\}/gi);
+    var sVariables = pString.match(/\{[^\}]*\}/gi);
     for(var sVar in sVariables){
         if(mParsing[sVar])
             pString = pString.replace(sVar, mParsing[sVar]);
@@ -212,6 +212,7 @@ global.LoadParsing = function(){
     mParsing['{vips}']                          = mVIPs.join(', ');
     mParsing['{dodrink}']                       = mDoDrink ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
+    Log("Parsing library initialized");
 }
 
 global.IsMe = function(pUser){
