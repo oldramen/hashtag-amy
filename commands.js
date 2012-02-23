@@ -6,8 +6,7 @@
 
 global.mCommands = [
     ['/help',       function(pUser, pText){
-        Log("/help o-o");
-        /// Speak help.
+        Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
     }, Requires.User, "Gives the users some pretty basic help and advice."],
     ['/refresh',    function(pUser, pText){
         /// Reload the variable + its coresponding collection.

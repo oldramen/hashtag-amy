@@ -5,6 +5,7 @@
     spits out.
 */
 
+///TODO: Add levels for Queue, Song Limit, and AFK.
 global.SpeakingLevel = {
     Misc: {
         Val: 1,
