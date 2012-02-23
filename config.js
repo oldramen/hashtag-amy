@@ -35,6 +35,7 @@ global.mMinDJsForSongLimit      = 3;                //
 global.mMinQueueOperator        = "||";             //
 global.mMinUsersForQueue        = 50;               //
 global.mMinDJsForQueue          = 5                 //
+global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in the room.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default

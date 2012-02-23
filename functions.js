@@ -299,10 +299,10 @@ function IsSongLimitEnabled(){
 }
 
 function CalculateSongLimit(){
-    if(!mSongLimitUserProportion)
-        mCurrentSongLimit = mMaxSongs;
-    else
+    if(mSongLimitUserProportion)
         mCurrentSongLimit = Math.floor(mSongLimitUserProportion / mUsers.length);
+    else
+        mCurrentSongLimit = mMaxSongs;
 }
 
 function Is_Moderator(pUser){return _.any(mModerators, function(pId){ return pUser.userid === pId; });}
