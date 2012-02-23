@@ -270,10 +270,10 @@ global.LonelyDJ = function(){
          mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
 }
 global.Update_User = function(pUser, pSingle){
-    if(pUser.userid in mUsers)
-        Log(pUser.name + " updated");
-    else
-        Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
+    //if(pUser.userid in mUsers)
+    //    Log(pUser.name + " updated");
+    //else
+    //    Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
     mUsers[pUser.userid] = pUser;
     if (pSingle) Update_AFKTime(pUser);
     /// Handle booting for bans here.
@@ -322,13 +322,14 @@ global.HandleCommand = function(pUser, pText){
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().toLowerCase();
     pText = sSplit.join(' ');
-    var sCommands = mCommands.filter(function(e){ return e[0] == sCommand; });
-    sCommands.forEach(function(e){ return e[1](pUser, pText); });
+    var sCommands = mCommands.filter(function(pCommand){ return pCommand.command == sCommand; });
+    sCommands.forEach(function(pCommand){ if(pCommand.requires.check(pUser)) pCommand.callback(pUser, pText); });
 }
 
 global.Is_Moderator = function(pUser){return _.any(mModerators, function(pId){ return pUser.userid === pId; });}
 global.Is_SuperUser = function(pUser){return pUser.acl > 0;}
 global.Is_VIP = function(pUser){return mVIPs.indexOf(pUser.userid) != -1;}
+global.Is_Owner = function(pUser){ return mOwners.indexOf(pUser.userid)!=-1; }
 
 global.InitMongoDB = function(){
     var sConnectionString = mMongoUser+':'+mMongoPass+"@"+mMongoHost+":"+mMongoPort+"/"+mMongoDatabase+"?auto_reconnect";

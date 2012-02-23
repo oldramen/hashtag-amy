@@ -57,9 +57,9 @@ global.Speaking = {
 };
 
 global.Requires = {
-    User:       { val: 0, status: "User" },
-    VIP:        { val: 1, status: "VIP" },
-    Moderator:  { val: 2, status: "Moderator" },
-    SuperUser:  { val: 3, status: "SuperUser" },
-    Owner:      { val: 4, status: "Owner" }
+    User:       { val: 0, status: "User", check: function(pUser){ return true; } },
+    VIP:        { val: 1, status: "VIP", check: function(pUser){ return Is_VIP(pUser); }},
+    Moderator:  { val: 2, status: "Moderator", check: function(pUser){ return Is_Moderator(pUser); } },
+    SuperUser:  { val: 3, status: "SuperUser", check: function(pUser){ return Is_SuperUser(pUser); } },
+    Owner:      { val: 4, status: "Owner", check: function(pUser){ return Is_Owner(pUser); } }
 }
