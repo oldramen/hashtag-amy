@@ -18,6 +18,7 @@ global.mMongoUser               = "{mongo_user}";   //user of mongocollection
 global.mMongoPass               = "{mongo_pass}";   //password to mongocollection
 global.mMongoPort               = 27017;
 global.mName                    = "#Amy";           //name of bot
+global.mLaptop                  = "chrome";
 global.mTheme                   = "Dubstep";        //default theme/genre for the room
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)

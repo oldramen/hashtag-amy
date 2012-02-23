@@ -202,6 +202,7 @@ global.RefreshMetaData = function(pMetaData){
 global.BootUp = function(){
     Log("Joined the room.  Booting up");
     SetMyName(mName);
+    SetLaptop();
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
         setInterval(Loop,5000);
@@ -224,7 +225,7 @@ global.LoadParsing = function(){
     mParsing['{vips}']                          = mVIPs.join(', ');
     mParsing['{dodrink}']                       = mDoDrink ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
-    
+    mParsing['{queueamount}']                   = 0;
     Log("Parsing library initialized");
 }
 
@@ -235,6 +236,9 @@ global.IsMe = function(pUser){
 global.SetMyName = function(pName){
     mBot.modifyProfile({ name: pName });
     mBot.modifyName(pName);
+}
+global.SetLaptop = function(){
+    mBot.modifyLaptop(mLaptop);
 }
 
 global.Remove_User = function(pUser){
