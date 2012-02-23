@@ -104,6 +104,7 @@ global.OnPmmed = function(pData){
 
 global.Loop = function(){
     CheckAFKs();
+    CalculateProperties();
 };
 
 ///TODO: Make sure they are in the room.
@@ -318,7 +319,6 @@ global.CalculateProperties = function(){
 }
 
 global.IsSongQueueEnabled = function(){
-    Log(mUsers.length + " - " + mDJs.length);
     if(mMinQueueOperator == "&" && mMinUsersForQueue && mMinDJsForQueue)
         mQueueCurrentlyOn = mQueueOn && mMinUsersForQueue <= mUsers.length && mMinDJsForQueue <= mDJs.length;
     else if(mMinQueueOperator && mMinUsersForQueue && mMinDJsForQueue)
@@ -328,7 +328,6 @@ global.IsSongQueueEnabled = function(){
     else if(mMinDJsForQueue)
         mQueueCurrentlyOn = mQueueOn && mMinDJsForQueue <= mDJs.length;
     else mQueueCurrentlyOn = mQueueOn;
-    Log(mQueueCurrentlyOn);
     mParsing['{queuecurrentlyenabled}'] = mQueueCurrentlyEnabled ? "on" : "off";
 }
 
