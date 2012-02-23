@@ -12,6 +12,7 @@ global._            =   require("underscore");
 global.mMongo       =   require("mongoskin");
 global.mReadLine    =   require("readline");
 global.mUtil        =   require("util");
+global.mCommandsMod =   require("./commands.js");
 
 Log("Initializing");
 //Let's set some constant variables.

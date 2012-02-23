@@ -5,23 +5,24 @@
  */
 
 global.mCommands = [
-    ['/help',       function(pData){
+    ['/help',       function(pUser, pText){
+        Log("/help o-o");
         /// Speak help.
-    }, "Gives the users some pretty basic help and advice."],
-    ['/refresh',    function(pData){
+    }, Requires.User, "Gives the users some pretty basic help and advice."],
+    ['/refresh',    function(pUser, pText){
         /// Reload the variable + its coresponding collection.
-    }, "Reloads the variable + its corresponding collection."],
-    ['/ban',        function(pData){
+    }, Requires.Owner, "Reloads the variable + its corresponding collection."],
+    ['/ban',        function(pUser, pText){
         /// Ban a user
         ///     Add to ban list, and kick from room.
-    }, "Add a user to the ban list and kicks them from the room."],
-    ['/say',        function(pData){
+    }, Requires.Moderator, "Add a user to the ban list and kicks them from the room."],
+    ['/say',        function(pUser, pText){
         /// Dalton's equivalent of PM'ing say Blahblahblah...
-    }, "Makes the bot say something."],
-    ['/q+',         function(pData){
+    }, Requires.Moderator, "Makes the bot say something."],
+    ['/q+',         function(pUser, pText){
         /// Join the Queue.
-    }, "Used to join the queue."],
-    ['/q',          function(pData){
+    }, Requires.User, "Used to join the queue."],
+    ['/q',          function(pUser, pText){
         /// What's the status of the queue and how to get in the queue
-    }, "Tells what the current status of the queue is."]
+    }, Requires.User, "Tells what the current status of the queue is."]
 ];

@@ -86,9 +86,11 @@ global.OnNewSong = function(pData){
 
 global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
+    var sText = pData.text;
     if(sUser == null) return;
     Update_User(sUser, true);
-    console.log(sUser.name+": "+pData.text);
+    console.log(sUser.name+": "+sText);
+    if(sText.match(/^\/.*/)) HandleCommand(sUser, sText);
 };
 
 global.OnPmmed = function(pData){
@@ -308,6 +310,16 @@ function CalculateSongLimit(){
         mCurrentSongLimit = Math.floor(mSongLimitUserProportion / mUsers.length);
     else
         mCurrentSongLimit = mMaxSongs;
+}
+
+function HandleCommand(pUser, pText){
+    var sMatch = sText.match(/^\/.*/);
+    if(!sMatch) return;
+    var sSplit = pText.split(' ');
+    var sCommand = sSplit.shift().toLowerCase();
+    pText = sSplit.join(' ');
+    var sCommands = mCommands.filter(function(e){ return e[0] == sCommand; });
+    sCommands.forEach(function(e){ return e[1](pUser, pText); });
 }
 
 function Is_Moderator(pUser){return _.any(mModerators, function(pId){ return pUser.userid === pId; });}
