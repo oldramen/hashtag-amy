@@ -314,6 +314,8 @@ global.CalculateSongLimit = function(){
         mCurrentSongLimit = Math.floor(mSongLimitUserProportion / mUsers.length);
     else
         mCurrentSongLimit = mMaxSongs;
+    Log(mUsers.length);
+    Log(mCurrentSongLimit);
 }
 
 global.HandleCommand = function(pUser, pText){
@@ -322,8 +324,13 @@ global.HandleCommand = function(pUser, pText){
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().toLowerCase();
     pText = sSplit.join(' ');
-    var sCommands = mCommands.filter(function(pCommand){ return pCommand.command == sCommand; });
-    sCommands.forEach(function(pCommand){ if(pCommand.requires.check(pUser)) pCommand.callback(pUser, pText); });
+    var sCommands = mCommands.filter(function(pCommand){ 
+        return pCommand.command == sCommand; 
+    });
+    sCommands.forEach(function(pCommand){ 
+        if(pCommand.requires.check(pUser)) 
+            pCommand.callback(pUser, pText); 
+    });
 }
 
 global.Is_Moderator = function(pUser){return _.any(mModerators, function(pId){ return pUser.userid === pId; });}
