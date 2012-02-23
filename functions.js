@@ -507,9 +507,11 @@ global.Loop = function(){
 global.QueueAdvance = function(){
     if(!mNextUp)
         mNextUp = mCurrentQueue.shift();
-    mParsing['{nextinqueue}'] = mUsers[mNextUp].name;
     
-    Log(mParsing['{nextinqueue}'] + " is up next.");
+    if(mNextUp){    
+        mParsing['{nextinqueue}'] = mUsers[mNextUp].name;
+        Log(mParsing['{nextinqueue}'] + " is up next.");
+    }
 }
 global.GuaranteeQueue = function(pUser){
     Log(mNextUp);
