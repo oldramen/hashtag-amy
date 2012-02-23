@@ -169,7 +169,7 @@ global.Parse = function(pUser, pString){
     
     for(var i = 0; i < sVariables.length; ++i){
         var sVar = sVariables[i];
-        if(mParsing[sVar])
+        if(mParsing[sVar] != null)
             pString = pString.replace(sVar, mParsing[sVar]);
     }
     var sUsernameVariables = pString.match(/\{username\.[^}]*\}/gi);
@@ -178,7 +178,7 @@ global.Parse = function(pUser, pString){
             var sVar = sUsernameVariables[i];
             var sUserVar = sVar.split('.')[1];
             sUserVar = sUserVar.substring(0, sUserVar.length-1);
-            if(pUser[sUserVar])
+            if(pUser[sUserVar] != null)
                 pString = pString.replace(sVar, pUser[sUserVar]);
         }
     return pString;
