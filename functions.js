@@ -274,28 +274,28 @@ function Update_AFKTime(pUser){
     pUser.mAFKWarned = false; /// We want to unward the user when they get updated, correct?
 }
 
-function IsSongQueueEnabled(){
+function IsSongQueueOn(){
     if(mMinQueueOperator == "&" && mMinUsersForQueue && mMinDJsForQueue)
-        mQueueCurrentlyEnabled = mQueueEnabled && mMinUsersForQueue <= mUsers.length && mMinDJsForQueue <= mDJs.length;
+        mQueueCurrentlyOn = mQueueOn && mMinUsersForQueue <= mUsers.length && mMinDJsForQueue <= mDJs.length;
     else if(mMinQueueOperator && mMinUsersForQueue && mMinDJsForQueue)
-        mQueueCurrentlyEnabled = mQueueEnabled && (mMinUsersForQueue <= mUsers.length || mMinDJsForQueue <= mDJs.length);
+        mQueueCurrentlyOn = mQueueOn && (mMinUsersForQueue <= mUsers.length || mMinDJsForQueue <= mDJs.length);
     else if(mMinUsersForQueue)
-        mQueueCurrentlyEnabled = mQueueEnabled && mMinUsersForQueue <= mUsers.length;
+        mQueueCurrentlyOn = mQueueOn && mMinUsersForQueue <= mUsers.length;
     else if(mMinDJsForQueue)
-        mQueueCurrentlyEnabled = mQueueEnabled && mMinDJsForQueue <= mDJs.length;
-    else mQueueCurrentlyEnabled = mQueueOn;
+        mQueueCurrentlyOn = mQueueOn && mMinDJsForQueue <= mDJs.length;
+    else mQueueCurrentlyOn = mQueueOn;
 }
 
-function IsSongLimitEnabled(){
+function IsSongLimitOn(){
     if(mMinSongLimitOperator == "&" && mMinUsersForSongLimit && mMinDJsForSongLimit)
-        mSongLimitCurrentlyEnabled = mSongLimitEnabled && mMinUsersForSongLimit <= mUsers.length && mMinDJsForSongLimit <= mDJs.length;
+        mSongLimitCurrentlyOn = mSongLimitOn && mMinUsersForSongLimit <= mUsers.length && mMinDJsForSongLimit <= mDJs.length;
     else if(mMinSongLimitOperator && mMinUsersForSongLimit && mMinDJsForSongLimit)
-        mSongLimitCurrentlyEnabled = mSongLimitEnabled && (mMinUsersForSongLimit <= mUsers.length || mMinDJsForSongLimit <= mDJs.length);
+        mSongLimitCurrentlyOn = mSongLimitOn && (mMinUsersForSongLimit <= mUsers.length || mMinDJsForSongLimit <= mDJs.length);
     else if(mMinUsersForSongLimit)
-        mSongLimitCurrentlyEnabled = mSongLimitEnabled && mMinUsersForSongLimit <= mUsers.length;
+        mSongLimitCurrentlyOn = mSongLimitOn && mMinUsersForSongLimit <= mUsers.length;
     else if(mMinDJsForSongLimit)
-        mSongLimitCurrentlyEnabled = mSongLimitEnabled && mMinDJsForSongLimit <= mDJs.length;
-    else mSongLimitCurrentlyEnabled = mLimitOn;
+        mSongLimitCurrentlyOn = mSongLimitOn && mMinDJsForSongLimit <= mDJs.length;
+    else mSongLimitCurrentlyOn = mLimitOn;
 }
 
 function CalculateSongLimit(){
