@@ -44,15 +44,11 @@ global.mCommands = [
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
-                return;
-            };
-            if(mCurrentQueue.indexOf(pUser.userid) != -1) {
-                Log("Already in queue.");
-                return;
-            };
-            if(mDJs.length == mMaxDJs){
-                 QueuePush(pUser.userid);
-                 Speak(pUser, mQueueAdded, SpeakingLevel.Misc);
+            }else if(mCurrentQueue.indexOf(pUser.userid) != -1) {
+                Speak(pUser, mAlreadyInQueue, SpeakingLevel.Misc);
+            }else if(mDJs.length == mMaxDJs){
+                QueuePush(pUser.userid);
+                Speak(pUser, mQueueAdded, SpeakingLevel.Misc);
             }else Speak(pUser, mOpenSpotNoQueueing, SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
