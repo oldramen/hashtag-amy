@@ -120,7 +120,7 @@ global.GuaranteeQueue = function(pUser){
         return true;
     }else{
         RemoveDJ(pUser);
-        mBot.speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
+        Speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
         return false;
     }
 }
