@@ -105,7 +105,8 @@ global.Loop = function(){
 global.QueueAdvance = function(){
     if(!mQueueNextUp)
         mQueueNextUp = mQueue.shift();
-    mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
+    if(mQueueNextUp)
+        mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
     if(!mQueueNotified)
         Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
     mQueueNotified = true;
