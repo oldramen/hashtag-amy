@@ -239,6 +239,7 @@ global.LoadParsing = function(){
 }
 
 global.IsMe = function(pUser){
+    if(!pUser) return false;
     return pUser.userid == mUserId;
 }
 
