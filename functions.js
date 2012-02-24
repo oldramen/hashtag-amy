@@ -39,7 +39,7 @@ global.OnNewModerator = function(pData){
     if(IsMe(pData.userid)) mIsModerator = true;
     else mModerators[pData.userid] = true;
     if(mUsers[pData.userid]) Speak(mUsers[pData.userid], mAddMod, SpeakingLevel.MODChange);
-    Log(data.name + " is now a moderator");
+    Log(pData.name + " is now a moderator");
 };
 
 global.OnRemModerator = function(pData){
@@ -47,7 +47,7 @@ global.OnRemModerator = function(pData){
     if(IsMe(pData.userid)) mIsModerator = false;
     else delete mModerators[pData.userid];
     if(mUsers[pData.userid]) Speak(mUsers[pData.userid], mRemMod, SpeakingLevel.MODChange);
-    Log(data.name + " is no longer a moderator");
+    Log(pData.name + " is no longer a moderator");
 };
 
 global.OnAddDJ = function(pData){
