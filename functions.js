@@ -81,7 +81,7 @@ global.OnNewSong = function(pData){
     if(mSongLimitCurrentlyOn && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
-}
+};
 
 global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
@@ -110,7 +110,7 @@ global.QueueAdvance = function(){
     if(!mQueueNotified)
         Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
     mQueueNotified = true;
-}
+};
 global.GuaranteeQueue = function(pUser){
     if(!mQueueNextUp) return true;
     if(mQueueNextUp == pUser.userid){
@@ -126,18 +126,18 @@ global.GuaranteeQueue = function(pUser){
         }
         return false;
     }
-}
+};
 
 global.QueuePush = function(pUser){
     mQueue.push(pUser);
     Log(mQueue.length);
     mParsing['{queueamount}'] = mQueue.length;
-}
+};
 
 global.Increment_SongCount = function(pUser){
   ++mSongCount[typeof(pUser) == 'number'?pUser:pUser.userid];
   Log(pUser.name + " : " + mSongCount[pUser.userid]);
-}
+};
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel){
     if(!pSpeak) return;
@@ -146,17 +146,17 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel){
     if(SpeakingAllowed(pSpeakingLevel)) 
         mBot.speak(pSpeak);
     return pSpeak;
-}
+};
 
 global.SpeakingAllowed = function(pSpeakingLevel){
     if(mSpeakingLevel.flags.indexOf(SpeakingLevel.Verbose) != -1) return true;
     else return mSpeakingLevel.indexOf(pSpeakingLevel) != -1;
-}
+};
 
 global.OverMaxSongs = function(pUser){
     RemoveDJ(pUser);
     Speak(pUser, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
-}
+};
 
 global.Greet = function(pUser){
     var sGreeting = mGreeting;
@@ -165,7 +165,7 @@ global.Greet = function(pUser){
     var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
     if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
     Speak(pUser, sGreeting, SpeakingLevel.Greeting);
-}
+};
 
 global.Parse = function(pUser, pString){
     if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
@@ -189,7 +189,7 @@ global.Parse = function(pUser, pString){
                 pString = pString.replace(sVar, pUser[sUserVar]);
         }
     return pString;
-}
+};
 
 global.RefreshMetaData = function(pMetaData){
     if(pMetaData.current_song)
@@ -206,7 +206,7 @@ global.RefreshMetaData = function(pMetaData){
     CalculateProperties();
     
     LoadParsing();
-}
+};
 
 global.BootUp = function(){
     Log("Joined the room.  Booting up");
@@ -219,7 +219,7 @@ global.BootUp = function(){
         Log("Booted up.  We're set to go");
         LonelyDJ();
     });
-}
+};
 
 global.LoadParsing = function(){
     mParsing['{room}']                          = mRoomName;
@@ -236,26 +236,26 @@ global.LoadParsing = function(){
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
     mParsing['{queueamount}']                   = 0;
     Log("Parsing library initialized");
-}
+};
 
 global.IsMe = function(pUser){
     if(!pUser) return false;
     return pUser.userid == mUserId;
-}
+};
 
 global.SetMyName = function(pName){
     mBot.modifyProfile({ name: pName });
     mBot.modifyName(pName);
-}
+};
 global.SetLaptop = function(){
     mBot.modifyLaptop(mLaptop);
-}
+};
 
 global.Remove_User = function(pUser){
     delete mUsers[pUser.userid];
     delete mAFKTimes[pUser.userid];
     --mUsers.length;
-}
+};
 
 global.CheckAFKs = function(){
     if(!mAFK) return;
@@ -263,7 +263,7 @@ global.CheckAFKs = function(){
       var sUser = mUsers[mDJs[i]];
       if (CheckAFKTime(sUser)) BootAFK(sUser);
     }
-}
+};
 
 global.CheckAFKTime = function(pUser) {
     var sWarn = mAFK * (0.693148);
@@ -276,18 +276,18 @@ global.CheckAFKTime = function(pUser) {
         pUser.mAFKWarned = true;
     }
     return false;
-}
+};
 
 global.BootAFK = function(pUser){
     RemoveDJ(pUser);
     Speak(pUser, mRemDJMsg, SpeakingLevel.Misc);
-}
+};
 
 global.RemoveDJ = function(pUser){
     if(!mIsModerator) return;
     mJustRemovedDJ.push(pUser.userid);
     mBot.remDj(pUser.userid);
-}
+};
 
 global.LonelyDJ = function(){
     if(!mLonelyDJ){ return; }
@@ -295,7 +295,7 @@ global.LonelyDJ = function(){
         mBot.addDj();
     if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1))
          mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
-}
+};
 global.Update_User = function(pUser, pSingle){
     if(pUser.userid in mUsers)
         Log(pUser.name + " updated");
@@ -305,20 +305,27 @@ global.Update_User = function(pUser, pSingle){
     }
     mUsers[pUser.userid] = pUser;
     if (pSingle) Update_AFKTime(pUser);
-    /// Handle booting for bans here.
-}
+    HandleBan(pUser);
+};
+
+global.HandleBan = function(pUser){
+    if(_.find(mBans, function(pItem){ return pItem.userid == pUser.userid; })){
+        Log(pUser.name + " is banned.  Booting.");
+        mBot.bootUser(pUser.userid, "You're banned.  Gtfo.");
+    }
+};
 
 global.Update_AFKTime = function(pUser){
     var sDate = new Date();
     mAFKTimes[pUser.userid] = sDate.getTime();
     pUser.mAFKWarned = false; /// We want to unward the user when they get updated, correct?
-}
+};
 
 global.CalculateProperties = function(){
     IsSongQueueEnabled();
     IsSongLimitEnabled();
     CalculateSongLimit();
-}
+};
 
 global.IsSongQueueEnabled = function(){
     if(mMinQueueOperator == "&" && mMinUsersForQueue && mMinDJsForQueue)
@@ -331,7 +338,7 @@ global.IsSongQueueEnabled = function(){
         mQueueCurrentlyOn = mQueueOn && mMinDJsForQueue <= mDJs.length;
     else mQueueCurrentlyOn = mQueueOn;
     mParsing['{queuecurrentlyon}'] = mQueueCurrentlyOn ? "on" : "off";
-}
+};
 
 global.IsSongLimitEnabled = function(){
     if(mMinSongLimitOperator == "&" && mMinUsersForSongLimit && mMinDJsForSongLimit)
@@ -344,7 +351,7 @@ global.IsSongLimitEnabled = function(){
         mSongLimitCurrentlyOn = mLimitOn && mMinDJsForSongLimit <= mDJs.length;
     else mSongLimitCurrentlyOn = mLimitOn;
     mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
-}
+};
 
 global.CalculateSongLimit = function(){
     if(mSongLimitUserProportion)
@@ -352,7 +359,7 @@ global.CalculateSongLimit = function(){
     else
         mCurrentSongLimit = mMaxSongs;
     mParsing['{songlimit}'] = mCurrentSongLimit;
-}
+};
 
 global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
@@ -368,7 +375,7 @@ global.HandleCommand = function(pUser, pText){
         if(pCommand.requires.check(pUser)) 
             pCommand.callback(pUser, pText); 
     });
-}
+};
 
 global.Is_Moderator = function(pUser){return _.any(mModerators, function(pId){ return pUser.userid === pId; });}
 global.Is_SuperUser = function(pUser){return pUser.acl > 0;}

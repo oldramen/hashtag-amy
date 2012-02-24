@@ -16,6 +16,7 @@ global.mCommands = [
     {
         command: '/refresh',
         callback: function(pUser, pText){
+            Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Reload the variable + its coresponding collection.
         }, 
         requires: Requires.Owner, 
@@ -24,6 +25,8 @@ global.mCommands = [
     {
         command: '/ban',
         callback: function(pUser, pText){
+            Insert("bans", {userid: pText});
+            ///Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Ban a user
             ///     Add to ban list, and kick from room.
         },
@@ -33,6 +36,7 @@ global.mCommands = [
     {
         command: '/say',        
         callback: function(pUser, pText){
+            Speak(pUser, pText, SpeakingLevel.Misc);
             /// Dalton's equivalent of PM'ing say Blahblahblah...
         }, 
         requires: Requires.Moderator, 

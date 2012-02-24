@@ -18,6 +18,7 @@ Log("Initializing");
 //Let's set some constant variables.
 global.mUsers           =   {length: 0};
 global.mGreetings       =   [];
+global.mBans            =   [];
 global.mAFKTimes        =   {};
 global.mParsing         =   {};
 global.mSongName        =   "";
@@ -46,6 +47,11 @@ global.mSongLimitCurrentlyOn   = false;
 global.mCurrentSongLimit            = mMaxSongs;
 
 InitMongoDB();
+Refresh("bans", function(e, pItems){
+   if(!pItems) return;
+   Log("Got Bans");
+   for(var i = 0; i < pItems.length; ++i) mBans.push(pItems[i].userid);
+});
 Refresh("greetings", function(e,pItems){ 
     if(!pItems) return;  
     Log("Got Greetings");
