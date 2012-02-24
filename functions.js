@@ -36,18 +36,20 @@ global.OnGotRoomInfo = function(pData){
 
 global.OnNewModerator = function(pData){
     if(!pData.success) return;
+    var sUser = mUsers[pData.userid];
     if(IsMe(pData.userid)) mIsModerator = true;
     else mModerators[pData.userid] = true;
-    if(mUsers[pData.userid]) Speak(mUsers[pData.userid], mAddMod, SpeakingLevel.MODChange);
-    Log(pData.name + " is now a moderator");
+    if(sUser) Speak(mUsers[sUser], mAddMod, SpeakingLevel.MODChange);
+    Log(sUser.name + " is now a moderator");
 };
 
 global.OnRemModerator = function(pData){
     if(!pData.success) return;
+    var sUser = mUsers[pData.userid];
     if(IsMe(pData.userid)) mIsModerator = false;
     else delete mModerators[pData.userid];
-    if(mUsers[pData.userid]) Speak(mUsers[pData.userid], mRemMod, SpeakingLevel.MODChange);
-    Log(pData.name + " is no longer a moderator");
+    if(sUser) Speak(sUser, mRemMod, SpeakingLevel.MODChange);
+    Log(sUser.name + " is no longer a moderator");
 };
 
 global.OnAddDJ = function(pData){
@@ -101,28 +103,34 @@ global.Loop = function(){
 
 ///TODO: Make sure they are in the room.
 global.QueueAdvance = function(){
-    if(!mNextUp)
-        mNextUp = mCurrentQueue.shift();
-    mParsing['{nextinqueue}'] = mUsers[mNextUp].name;
-    Speak(mUsers[mNextUp], mAdvanceQueue, SpeakingLevel.Misc);
-    //Log(mParsing['{nextinqueue}'] + " is up next.");
+    if(!mQueueNextUp)
+        mQueueNextUp = mQueue.shift();
+    mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
+    if(!mQueueNotified)
+        Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
+    mQueueNotified = true;
 }
 global.GuaranteeQueue = function(pUser){
-    if(!mNextUp) return true;
-    if(mNextUp == pUser.userid){
-        mNextUp = null;
+    if(!mQueueNextUp) return true;
+    if(mQueueNextUp == pUser.userid){
+        mQueueWarned = [];
+        mQueueNotified = false;
+        mQueueNextUp = null;
         return true;
     }else{
         RemoveDJ(pUser);
-        Speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
+        if(mQueueWarned.indexOf(pUser.userid) == -1){
+            Speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
+            mQueueWarned.push(pUser);
+        }
         return false;
     }
 }
 
 global.QueuePush = function(pUser){
-    mCurrentQueue.push(pUser);
-    Log(mCurrentQueue.length);
-    mParsing['{queueamount}'] = mCurrentQueue.length;
+    mQueue.push(pUser);
+    Log(mQueue.length);
+    mParsing['{queueamount}'] = mQueue.length;
 }
 
 global.Increment_SongCount = function(pUser){

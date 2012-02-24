@@ -61,5 +61,13 @@ global.mCommands = [
         }, 
         requires: Requires.User, 
         hint: "Tells what the current status of the queue is."
+    },
+    {
+        command: '/disable',
+        callback: function(pUser, pText){
+            exec(pText + " = null");
+        },
+        requires: Requires.Moderator,
+        hint: "Used to disable variables."
     }
 ];

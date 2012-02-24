@@ -34,8 +34,10 @@ global.mBot             =   new mTTAPI(global.mAuthId, global.mUserId, global.mR
 global.mBooted          =   false;
 global.mMaxDJs          =   5;
 
-global.mCurrentQueue    =   [];
-global.mNextUp          =   null;
+global.mQueue           =   [];
+global.mQueueNextUp     =   null;
+global.mQueueWarned     =   [];
+global.mQueueNotified   =   false;
 
 global.mJustRemovedDJ   =   [];
 
