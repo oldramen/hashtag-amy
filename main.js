@@ -46,17 +46,17 @@ global.mCurrentSongLimit            = mMaxSongs;
 InitMongoDB();
 Refresh("greetings", function(e,pItems){ 
     if(!pItems) return;  
-    Log("Got Greetings.");
+    Log("Got Greetings");
     global.mGreetings = pItems;
 });
 Refresh("owners", function(e,pItems){
     if(!pItems) return;
-    Log("Got Owners.");
+    Log("Got Owners");
     for(var i = 0; i < pItems.length; ++i) mOwners.push(pItems[i].userid);
 });
 Refresh("vips", function(e,pItems){
     if(!pItems) return;
-    Log("Got VIPs.");
+    Log("Got VIPs");
     for(var i = 0; i < pItems.length; ++i) mVIPs.push(pItems[i].userid);
 });
 Log("Done");
