@@ -45,7 +45,11 @@ global.mCommands = [
             if(mDJs.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
                 return;
-            }
+            };
+            if(mCurrentQueue.indexOf(pUser.userid) != -1) {
+                Log("Already in queue.");
+                return;
+            };
             if(mDJs.length == mMaxDJs){
                  QueuePush(pUser.userid);
                  Speak(pUser, mQueueAdded, SpeakingLevel.Misc);
