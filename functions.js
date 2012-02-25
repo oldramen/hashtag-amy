@@ -153,7 +153,8 @@ global.Increment_SongCount = function(pUser){
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
     if(IsMe(pUser)) return;
-    pSpeak = Parse(pUser, pSpeak);
+    console.log(JSON.stringify(pArgs));
+    pSpeak = Parse(pUser, pSpeak, pArgs);
     if(SpeakingAllowed(pSpeakingLevel)) 
         mBot.speak(pSpeak);
     return pSpeak;
