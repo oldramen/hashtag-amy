@@ -107,7 +107,7 @@ global.Loop = function(){
 global.RemoveOldMessages = function(){
     var timestamp = (new Date()).getTime() - mNoSpamTimeout * 1000;
     var sOldMessages = mSpokenMessages.filter(function(e){ return e.timestamp < timestamp });
-    for(var i = 0; i < mSpokenMessages.length; ++i){
+    for(var i = 0; i < sOldMessages.length; ++i){
         mSpokenMessages.splice(mSpokenMessages.indexOf(sOldMessages[i]),1);
         Log("Removing old message: " + sOldMessages[i].message);
     }
