@@ -193,16 +193,12 @@ global.Greet = function(pUsers){
 
 global.Parse = function(pUser, pString){
     if(pUser && !pUser.length) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
-    if(pUser && pUser.length) {
-        pString = pString.replace(/\{usernames\}/gi, 
-            _.reduce(pUser, function(pUsers, pUserNew){ 
+    if(pUser && pUser.length && pUser.length > 0) {
+        var sUsers = pUser[0].name;
+        if(pUser.length > 1) sUsers = _.reduce(pUser, function(pUsers, pUserNew){ 
                 return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + ", " + pUserNew.name;
-            })
-        );
-        console.log(JSON.stringify(_.reduce(pUser, function(pUsers, pUserNew){ 
-                return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + ", " + pUserNew.name;
-            })));
-            console.log(JSON.stringify(pUser));
+        });
+        pString = pString.replace(/\{usernames\}/gi, sUsers);
     }
     if(!mBooted) return pString; /// If we haven't booten up, don't bother even trying to use the variables.
     var sVariables = pString.match(/\{[^\}]*\}/gi);
