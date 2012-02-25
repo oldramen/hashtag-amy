@@ -235,7 +235,7 @@ global.Parse = function(pUser, pString, pArgs){
                 sParameter = sArg.parameter;
                 sValue = sArg.value;
             }
-            if(sParameter != null && sValue != null) pString = pString.match(sParameter, sValue);
+            if(sParameter != null && sValue != null) pString = pString.replace(sParameter, sValue);
         }
     }
     return pString;
