@@ -140,5 +140,13 @@ global.mCommands = [
         requires: Requires.User,
         hint: "Tells what the theme is.",
         bare: true
+    },
+    {
+        command: 'dance',
+        callback: function(pUser, pText){
+            mBot.vote("up");
+        },
+        requires: Requires.User,
+        hint: "Makes the bot dance.  Can not be done by regular users."
     }
 ];
