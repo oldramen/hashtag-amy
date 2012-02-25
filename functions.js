@@ -89,7 +89,7 @@ global.OnSpeak = function(pData){
     if(sUser == null) return;
     Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
-    if(sText.match(/^\/.*/)) HandleCommand(sUser, sText);
+    if(sText.match(/^[!*\/]/)) HandleCommand(sUser, sText);
 };
 
 global.OnPmmed = function(pData){
@@ -362,22 +362,12 @@ global.CalculateSongLimit = function(){
     mParsing['{songlimit}'] = mCurrentSongLimit;
 };
 
-///TODO : Make this work with / or *. My suggestion: replace the first word's word function and then change the command.
-///FOR EXAMPLE:
-/*
-in commands.js
-instead of command = '/ban' just have it command = 'ban'
-
-in HandleCommand - 
-if first word.match(args) first word.replace(args, ''). Make sense?
-*/
-
 global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
-    var sMatch = pText.match(/^\/.*/);
+    var sMatch = pText.match(/^[!*\/]/);
     if(!sMatch) return;
     var sSplit = pText.split(' ');
-    var sCommand = sSplit.shift().toLowerCase();
+    var sCommand = sSplit[0].replace (/^[!*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 
@@ -387,6 +377,7 @@ global.HandleCommand = function(pUser, pText){
             pCommand.callback(pUser, pText); 
     });
 };
+
 global.FindByName = function(pName){
     var Results = [];
     var sUserIDs = _.keys(mUsers);
