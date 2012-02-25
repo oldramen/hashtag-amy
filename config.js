@@ -37,7 +37,8 @@ global.mMinQueueOperator        = "&";              //
 global.mMinUsersForQueue        = 30;               //
 global.mMinDJsForQueue          = 3;                //
 global.mSongLimitUserProportion = 250;              //5 songs per 50 people in the room.
-global.mNoSpamTimeout           = 30;               //30 seconds before the bot can say the same thing again.
+global.mNoSpamTimeout           = 15;               //30 seconds before the bot can say the same thing again.
+global.mLoopTimeout             = 10;               //Does the main loop every 15 seconds.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
