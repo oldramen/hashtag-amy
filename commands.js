@@ -108,13 +108,13 @@ global.mCommands = [
     {
         command: 'djs',
         callback: function(pUser, pText){
-            var sDJSongCount = "";
+            var sDJSongCount = [];
             for(var sDJ in mSongCount){
                 var sUser = mUsers[sDJ];
                 var sSongCount = mSongCount[sDJ];
-                sDJSongCount += sUser.name + ": " + sSongCount;
+                sDJSongCount.push(sUser.name + ": " + sSongCount);
             }
-            Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc,[['{djsandsongcount}', sDJSongCount]]);
+            Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc,[['{djsandsongcount}', sDJSongCount.join(', ')]]);
         },
         requires: Requires.User,
         hint: "Tells the current song count for the DJs."
