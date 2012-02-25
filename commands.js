@@ -4,9 +4,10 @@
  * @description This is where all the commands are stored and loaded into runtime from.
  */
 
+global.mBareCommands = ['help', 'q', 'q+'];
 global.mCommands = [
     { 
-        command: '/help',
+        command: 'help',
         callback: function(pUser, pText){
             Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
@@ -14,7 +15,7 @@ global.mCommands = [
         hint: "Gives the users some pretty basic help and advice."
     },
     {
-        command: '/refresh',
+        command: 'refresh',
         callback: function(pUser, pText){
             Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Reload the variable + its coresponding collection.
@@ -23,7 +24,7 @@ global.mCommands = [
         hint: "Reloads the variable + its corresponding collection."
     },
     {
-        command: '/ban',
+        command: 'ban',
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
             console.log(JSON.stringify(mUsers));
@@ -52,7 +53,7 @@ global.mCommands = [
         hint: "Makes the bot say something."
     },
     {
-        command: '/q+', ///TODO: What if they're already a DJ?
+        command: 'q+', ///TODO: What if they're already a DJ?
                         ///TODO: What if they're already in the queue?
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
@@ -68,7 +69,7 @@ global.mCommands = [
         hint: "Used to join the queue."
     },
     {
-        command: '/q',          
+        command: 'q',          ///TODO: Make this spit out the contents of the queue, not just the length
         callback: function(pUser, pText){
             if(!mQueueCurrentlyOn)
                 Speak(pUser, mQueueOff, SpeakingLevel.Misc);
@@ -81,6 +82,7 @@ global.mCommands = [
         hint: "Tells what the current status of the queue is."
     },
     {
+<<<<<<< HEAD
         command: '/qstatus',
         callback: function(pUser, pText){
             if(!mQueueCurrentlyOn)
