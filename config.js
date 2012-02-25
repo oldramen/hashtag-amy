@@ -25,18 +25,18 @@ global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot tal
 global.mOwners                  = [];               //hard coded array of userids for owners
 global.mVIPs                    = [];               //hard coded array of VIP IDs
 
-global.mMaxSongs                = 3;                //default song limit
-global.mWaitSongs               = 5;                //how many songs you must wait after hitting limit to dj again
+global.mMaxSongs                = 0;                //default song limit
+global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
 global.mQueueOn                 = true;             //if queue is enabled by default
 global.mAFK                     = 20;               //default afk time (in minutes)
-global.mMinSongLimitOperator    = "&";              //Here ya go Dalton!  :D
-global.mMinUsersForSongLimit    = 30;               //TODO: This.
-global.mMinDJsForSongLimit      = 3;                //
+global.mMinSongLimitOperator    = null;              //Here ya go Dalton!  :D
+global.mMinUsersForSongLimit    = null;               //TODO: This.
+global.mMinDJsForSongLimit      = null;                //
 global.mMinQueueOperator        = "&";              //
 global.mMinUsersForQueue        = 30;               //
 global.mMinDJsForQueue          = 3;                //
-global.mSongLimitUserProportion = 250;              //5 songs per 50 people in the room.
+global.mSongLimitUserProportion = null;              //5 songs per 50 people in the room.
 global.mNoSpamTimeout           = 15;               //30 seconds before the bot can say the same thing again.
 global.mLoopTimeout             = 10;               //Does the main loop every 15 seconds.
 
