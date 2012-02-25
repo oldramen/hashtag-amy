@@ -101,9 +101,17 @@ global.Loop = function(){
     CalculateProperties();
     Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
+    RemoveOldMessages();
 };
 
-///TODO: Make sure they are in the room.
+global.RemoveOldMessages = function(){
+    var timestamp = (new Date()).getTime() - mNoSpamTimeout * 1000;
+    var sOldMessages = mSpokenMessages.filter(function(e){ return e.timestamp < timestamp });
+    for(var i = 0; i < mSpokenMessages.length; ++i){
+        mSpokenMessages.splice(mSpokenMessages.indexOf(sOldMessages[i]),1);
+        Log("Removing old message: " + sOldMessages[i].message);
+    }
+}
 global.QueueAdvance = function(){
     if(!mQueueNextUp)
         mQueueNextUp = mQueue.shift();
@@ -154,8 +162,11 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
     if(IsMe(pUser)) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
-    if(SpeakingAllowed(pSpeakingLevel)) 
-        mBot.speak(pSpeak);
+    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
+        if(SpeakingAllowed(pSpeakingLevel)) 
+            mBot.speak(pSpeak);
+        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+    }
     return pSpeak;
 };
 

@@ -30,13 +30,14 @@ global.mWaitSongs               = 5;                //how many songs you must wa
 global.mLimitOn                 = true;             //if song limits are enabled by default
 global.mQueueOn                 = true;             //if queue is enabled by default
 global.mAFK                     = 20;               //default afk time (in minutes)
-global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
-global.mMinUsersForSongLimit    = 30;               // TODO: This.
+global.mMinSongLimitOperator    = "&";              //Here ya go Dalton!  :D
+global.mMinUsersForSongLimit    = 30;               //TODO: This.
 global.mMinDJsForSongLimit      = 3;                //
 global.mMinQueueOperator        = "&";              //
 global.mMinUsersForQueue        = 30;               //
 global.mMinDJsForQueue          = 3;                //
-global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in the room.
+global.mSongLimitUserProportion = 250;              //5 songs per 50 people in the room.
+global.mNoSpamTimeout           = 30;               //30 seconds before the bot can say the same thing again.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default

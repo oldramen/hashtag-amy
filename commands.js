@@ -47,7 +47,7 @@ global.mCommands = [
     {
         command: 'say',        
         callback: function(pUser, pText){
-            Speak(pUser, pText, SpeakingLevel.Misc);
+            mBot.speak(pText); //Speak(pUser, pText, SpeakingLevel.Misc);
             /// Dalton's equivalent of PM'ing say Blahblahblah...
         }, 
         requires: Requires.Moderator, 
