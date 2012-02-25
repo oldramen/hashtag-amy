@@ -89,8 +89,7 @@ global.OnSpeak = function(pData){
     if(sUser == null) return;
     Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
-    if(sText.match(/^[!*\/]/)) HandleCommand(sUser, sText);
-    if(mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
+    if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
 };
 
 global.OnPmmed = function(pData){
