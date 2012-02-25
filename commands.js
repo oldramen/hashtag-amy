@@ -152,7 +152,7 @@ global.mCommands = [
     {
         command: 'moo',
         callback: function(pUser, pText){
-            HandleMenu(pText);
+            Speak(pUser, 'I\'m not a cow, but oka-MOOOOO!', SpeakingLevel.Misc)
         }, 
         requires: Requires.User, 
         hint: "moo.",
