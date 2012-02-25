@@ -125,5 +125,13 @@ global.mCommands = [
         },
         requires: Requires.User,
         hint: "Tells what all the commands are."
+    },
+    {
+        command: 'theme',
+        callback: function(pUser, pText){
+            Speak(pUser, mThemeIs, SpeakingLevel.Misc);
+        },
+        requires: Requires.User,
+        hint: "Tells what the theme is."
     }
 ];

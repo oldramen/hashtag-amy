@@ -48,7 +48,7 @@ global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //th
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
 global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{usernames}!";
 global.mModeratorGreeting       = "We've got a moderator in the room!  Welcome @{usernames}!";
-global.mAddDJ                   = "Welcome to the deck, @{username}!  Remember to follow the rules, and the current theme is {theme}.";
+global.mAddDJ                   = null;//"Welcome to the deck, @{username}!  Remember to follow the rules, and the current theme is {theme}.";
 global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
@@ -68,6 +68,7 @@ global.mQueueAdded              = "Alright, {username}, you've been added to the
 global.mQueueAlreadyDJ          = "I'm sorry, {username}, but you're already a DJ."
 global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the queue."
 global.mCommandsList            = "The list of commands are as follows: {commands}";
+global.mThemeIs                 = "The current theme is {theme}."
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.
