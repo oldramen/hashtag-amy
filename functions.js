@@ -312,6 +312,7 @@ global.Remove_User = function(pUser){
         mQueue.splice(mQueue.indexOf(pUser.userid),1);
         ParsingForQueue();
     }
+    mPushingOutGreeting.splice(mPushingOutGreeting.indexOf(pUser.userid),1);
 };
 
 global.CheckAFKs = function(){
