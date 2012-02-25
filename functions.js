@@ -362,6 +362,16 @@ global.CalculateSongLimit = function(){
     mParsing['{songlimit}'] = mCurrentSongLimit;
 };
 
+///TODO : Make this work with / or *. My suggestion: replace the first word's word function and then change the command.
+///FOR EXAMPLE:
+/*
+in commands.js
+instead of command = '/ban' just have it command = 'ban'
+
+in HandleCommand - 
+if first word.match(args) first word.replace(args, ''). Make sense?
+*/
+
 global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
     var sMatch = pText.match(/^\/.*/);

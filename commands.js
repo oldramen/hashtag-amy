@@ -68,7 +68,7 @@ global.mCommands = [
         hint: "Used to join the queue."
     },
     {
-        command: '/q',          
+        command: '/q',          ///TODO: Make this spit out the contents of the queue, not just the length
         callback: function(pUser, pText){
             Speak(pUser, mQueueStatus, SpeakingLevel.Misc);
         }, 
