@@ -25,7 +25,9 @@ global.mCommands = [
     {
         command: '/ban',
         callback: function(pUser, pText){
-            Insert("bans", {userid: pText});
+            sUser = _.find(mUsers, function(pItem){ return pItem.name == pText; });
+            Insert("bans", {userid: sUser.userid});
+            mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
             ///Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Ban a user
             ///     Add to ban list, and kick from room.

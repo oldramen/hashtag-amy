@@ -105,11 +105,12 @@ global.Loop = function(){
 global.QueueAdvance = function(){
     if(!mQueueNextUp)
         mQueueNextUp = mQueue.shift();
-    if(mQueueNextUp)
+    if(mQueueNextUp){
         mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
-    if(!mQueueNotified)
-        Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
-    mQueueNotified = true;
+        if(!mQueueNotified)
+            Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
+        mQueueNotified = true;
+    }
 };
 global.GuaranteeQueue = function(pUser){
     if(!mQueueNextUp) return true;
