@@ -150,7 +150,7 @@ global.Increment_SongCount = function(pUser){
   Log(pUser.name + "'s song count: " + mSongCount[pUser.userid]);
 };
 
-global.Speak = function(pUser, pSpeak, pSpeakingLevel){
+global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
     if(IsMe(pUser)) return;
     pSpeak = Parse(pUser, pSpeak);

@@ -118,7 +118,7 @@ global.mCommands = [
                 if(pCommand.requires.check(pUser))
                     sCommands.push(pCommand.command);
             });
-            Speak(pUser, mCommandsList, ['{commands}', sCommands.join(', ')]);
+            Speak(pUser, mCommandsList, SpeakingLevel.Misc, ['{commands}', sCommands.join(', ')]);
         },
         requires: Requires.User,
         hint: "Tells what all the commands are."
