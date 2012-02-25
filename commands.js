@@ -27,6 +27,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
             Log("Banning:" + pText);
+            Log(mUsers.length);
             sUser = _.find(mUsers, function(pItem){ 
                 Log(pItem.name + " = " + pItem.name.match(pText).toString());
                 return pItem.name.match(pText);
