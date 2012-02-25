@@ -89,7 +89,7 @@ global.OnSpeak = function(pData){
     if(sUser == null) return;
     Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
-    if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
+    if(sText.match(/^\/.*/)) HandleCommand(sUser, sText);
 };
 
 global.OnPmmed = function(pData){
@@ -195,8 +195,8 @@ global.Parse = function(pUser, pString){
     if(pUser && pUser.length) 
         pString = pString.replace(/\{usernames\}/gi, 
             _.reduce(pUser, function(pUsers, pUserNew){ 
-                return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + ", " + pUserNew.name ;
-            });
+                return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + ", " + pUserNew.name;
+            })
         );
     if(!mBooted) return pString; /// If we haven't booten up, don't bother even trying to use the variables.
     var sVariables = pString.match(/\{[^\}]*\}/gi);
@@ -397,10 +397,10 @@ global.CalculateSongLimit = function(){
 
 global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
-    var sMatch = pText.match(/^[!*\/]/);
-    if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
+    var sMatch = pText.match(/^\/.*/);
+    if(!sMatch) return;
     var sSplit = pText.split(' ');
-    var sCommand = sSplit[0].replace (/^[!*\/]/, "").toLowerCase();
+    var sCommand = sSplit.shift().toLowerCase();
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 
@@ -410,7 +410,6 @@ global.HandleCommand = function(pUser, pText){
             pCommand.callback(pUser, pText); 
     });
 };
-
 global.FindByName = function(pName){
     var Results = [];
     var sUserIDs = _.keys(mUsers);
