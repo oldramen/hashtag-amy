@@ -29,7 +29,7 @@ global.mCommands = [
             Log("Banning:" + pText);
             Log(mUsers.length);
             console.log(JSON.stringify(mUsers));
-            var sUser = FindByName(pName);
+            var sUser = FindByName(pText);
             if(sUser.length > 0) sUser = sUser[0];
             Log("Name:" + sUser.name);
             //Insert("bans", {userid: sUser.userid});
