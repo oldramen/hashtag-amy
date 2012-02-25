@@ -25,28 +25,30 @@ global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot tal
 global.mOwners                  = [];               //hard coded array of userids for owners
 global.mVIPs                    = [];               //hard coded array of VIP IDs
 
-global.mMaxSongs                = 3;                //default song limit
-global.mWaitSongs               = 5;                //how many songs you must wait after hitting limit to dj again
+global.mMaxSongs                = 0;                //default song limit
+global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
 global.mQueueOn                 = true;             //if queue is enabled by default
 global.mAFK                     = 20;               //default afk time (in minutes)
-global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
-global.mMinUsersForSongLimit    = 30;               // TODO: This.
-global.mMinDJsForSongLimit      = 3;                //
-global.mMinQueueOperator        = "&";             //
+global.mMinSongLimitOperator    = null;              //Here ya go Dalton!  :D
+global.mMinUsersForSongLimit    = null;               //TODO: This.
+global.mMinDJsForSongLimit      = null;                //
+global.mMinQueueOperator        = "&";              //
 global.mMinUsersForQueue        = 30;               //
 global.mMinDJsForQueue          = 3;                //
-global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in the room.
+global.mSongLimitUserProportion = null;              //5 songs per 50 people in the room.
+global.mNoSpamTimeout           = 15;               //30 seconds before the bot can say the same thing again.
+global.mLoopTimeout             = 10;               //Does the main loop every 15 seconds.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
-global.mLonelyDJ                = true;             // TODO: This.
+global.mLonelyDJ                = true;             // TODO: Write this descrition.
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
 global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{usernames}!";
 global.mModeratorGreeting       = "We've got a moderator in the room!  Welcome @{usernames}!";
-global.mAddDJ                   = "Welcome to the deck, @{username}!  Remember to follow the rules!";
+global.mAddDJ                   = null;//"Welcome to the deck, @{username}!  Remember to follow the rules, and the current theme is {theme}.";
 global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
@@ -66,6 +68,8 @@ global.mQueueAdded              = "Alright, {username}, you've been added to the
 global.mQueueAlreadyDJ          = "I'm sorry, {username}, but you're already a DJ."
 global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the queue."
 global.mCommandsList            = "The list of commands are as follows: {commands}";
+global.mThemeIs                 = "The current theme is {theme}.";
+global.mCurrentDJSongCount      = "The current song count is: {djsandsongcount}";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

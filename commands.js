@@ -5,8 +5,6 @@
  * @note All commands must be entirely lower case.
  */
 
-global.mBareCommands = ['help', 'q', 'q+'];
-
 global.mCommands = [
     { 
         command: 'help',
@@ -14,7 +12,8 @@ global.mCommands = [
             Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
         requires: Requires.User,
-        hint: "Gives the users some pretty basic help and advice."
+        hint: "Gives the users some pretty basic help and advice.",
+        bare: true
     },
     {
         command: 'refresh',
@@ -48,7 +47,7 @@ global.mCommands = [
     {
         command: 'say',        
         callback: function(pUser, pText){
-            Speak(pUser, pText, SpeakingLevel.Misc);
+            mBot.speak(pText); //Speak(pUser, pText, SpeakingLevel.Misc);
             /// Dalton's equivalent of PM'ing say Blahblahblah...
         }, 
         requires: Requires.Moderator, 
@@ -60,7 +59,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
-            }else if(mCurrentQueue.indexOf(pUser.userid) != -1) {
+            }else if(mQueue.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mAlreadyInQueue, SpeakingLevel.Misc);
             }else if(mDJs.length == mMaxDJs){
                 QueuePush(pUser.userid);
@@ -68,7 +67,8 @@ global.mCommands = [
             }else Speak(pUser, mOpenSpotNoQueueing, SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
-        hint: "Used to join the queue."
+        hint: "Used to join the queue.",
+        bare: true
     },
     {
         command: 'q',          
@@ -81,7 +81,8 @@ global.mCommands = [
                 Speak(pUser, mQueueEmpty, SpeakingLevel.Misc)
         }, 
         requires: Requires.User, 
-        hint: "Tells what the current status of the queue is."
+        hint: "Tells what the current status of the queue is.",
+        bare: true
     },
     {
         command: 'qstatus',
@@ -107,7 +108,13 @@ global.mCommands = [
     {
         command: 'djs',
         callback: function(pUser, pText){
-            
+            var sDJSongCount = [];
+            for(var sDJ in mSongCount){
+                var sUser = mUsers[sDJ];
+                var sSongCount = mSongCount[sDJ];
+                sDJSongCount.push(sUser.name + ": " + sSongCount);
+            }
+            Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc,[['{djsandsongcount}', sDJSongCount.join(', ')]]);
         },
         requires: Requires.User,
         hint: "Tells the current song count for the DJs."
@@ -124,5 +131,22 @@ global.mCommands = [
         },
         requires: Requires.User,
         hint: "Tells what all the commands are."
+    },
+    {
+        command: 'theme',
+        callback: function(pUser, pText){
+            Speak(pUser, mThemeIs, SpeakingLevel.Misc);
+        },
+        requires: Requires.User,
+        hint: "Tells what the theme is.",
+        bare: true
+    },
+    {
+        command: 'dance',
+        callback: function(pUser, pText){
+            mBot.vote("up");
+        },
+        requires: Requires.User,
+        hint: "Makes the bot dance.  Can not be done by regular users."
     }
 ];

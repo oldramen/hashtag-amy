@@ -34,6 +34,8 @@ global.mMongoDB         =   null;
 global.mBot             =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
 global.mBooted          =   false;
 global.mMaxDJs          =   5;
+global.mBareCommands    =   mCommands.filter(function(e){ return e.bare == true; });
+if(!mBareCommands) mBareCommands = []; else mBareCommands = mBareCommands.map(function(e){ return e.command; });;
 
 global.mQueue           =   [];
 global.mQueueNextUp     =   null;
@@ -51,9 +53,11 @@ global.mSpokenMessages          = [];
 
 InitMongoDB();
 Refresh("bans", function(e, pItems){
-   if(!pItems) return;
-   Log("Got Bans");
-   for(var i = 0; i < pItems.length; ++i) mBans.push(pItems[i].userid);
+    if(!pItems) return;
+    Log("Got Bans");
+    for(var i = 0; i < pItems.length; ++i){
+        mBans.push(pItems[i]);
+    }
 });
 Refresh("greetings", function(e,pItems){ 
     if(!pItems) return;  

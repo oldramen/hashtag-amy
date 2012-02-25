@@ -101,9 +101,15 @@ global.Loop = function(){
     CalculateProperties();
     Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
+    RemoveOldMessages();
 };
 
-///TODO: Make sure they are in the room.
+global.RemoveOldMessages = function(){
+    var timestamp = (new Date()).getTime() - mNoSpamTimeout * 1000;
+    var sOldMessages = mSpokenMessages.filter(function(e){ return e.timestamp < timestamp });
+    for(var i = 0; i < sOldMessages.length; ++i)
+        mSpokenMessages.splice(mSpokenMessages.indexOf(sOldMessages[i]),1);
+}
 global.QueueAdvance = function(){
     if(!mQueueNextUp)
         mQueueNextUp = mQueue.shift();
@@ -154,8 +160,11 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
     if(IsMe(pUser)) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
-    if(SpeakingAllowed(pSpeakingLevel)) 
-        mBot.speak(pSpeak);
+    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
+        if(SpeakingAllowed(pSpeakingLevel)) 
+            mBot.speak(pSpeak);
+        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+    }
     return pSpeak;
 };
 
@@ -267,7 +276,7 @@ global.BootUp = function(){
     SetLaptop();
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
-        setInterval(Loop,5000);
+        setInterval(Loop, mLoopTimeout);
         mBooted = true;
         Log("Booted up.  We're set to go");
         LonelyDJ();
@@ -312,6 +321,7 @@ global.Remove_User = function(pUser){
         mQueue.splice(mQueue.indexOf(pUser.userid),1);
         ParsingForQueue();
     }
+    mPushingOutGreeting.splice(mPushingOutGreeting.indexOf(pUser.userid),1);
 };
 
 global.CheckAFKs = function(){
@@ -357,17 +367,17 @@ global.Update_User = function(pUser, pSingle){
     if(pUser.userid in mUsers){
         //Log(pUser.name + " updated");
     }else{
+        HandleBan(pUser);
         //Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
         ++mUsers.length;
     }
     mUsers[pUser.userid] = pUser;
     if (pSingle) Update_AFKTime(pUser);
-    HandleBan(pUser);
 };
 
 global.HandleBan = function(pUser){
     if(_.find(mBans, function(pItem){ return pItem.userid == pUser.userid; })){
-        Log(pUser.name + " is banned.  Booting.");
+        Log(pUser.name + " is banned.  Booting");
         mBot.bootUser(pUser.userid, "You're banned.  Gtfo.");
     }
 };
@@ -420,10 +430,10 @@ global.CalculateSongLimit = function(){
 
 global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
-    var sMatch = pText.match(/^[!*\/]/);
+    var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
     var sSplit = pText.split(' ');
-    var sCommand = sSplit[0].replace (/^[!*\/]/, "").toLowerCase();
+    var sCommand = sSplit[0].replace (/^[!\*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 
