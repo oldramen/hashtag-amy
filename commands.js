@@ -110,7 +110,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             var sDJSongCount = "";
             for(var sDJ in mSongCount){
-                var sUser = mUsers[sSongCount];
+                var sUser = mUsers[sDJ];
                 var sSongCount = mSongCount[sDJ];
                 sDJSongCount += sUser.name + ": " + sSongCount;
             }
