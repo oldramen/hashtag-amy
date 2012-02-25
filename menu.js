@@ -15,7 +15,7 @@ global.mMenu = [,
       message: 'Have yourself a shot of ',
       callback: function () {
         console.log('you\'ve come this far...');
-        mBot.speak(this.message + mRandomItem(this.instock));
+        mBot.speak(this.message + mRandomItem(this.instock) + '.');
       }
     }
 ];

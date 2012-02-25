@@ -456,11 +456,9 @@ global.HandleMenu = function(pText){
 
 global.Split = function (pText) {
       var i = pText.search(/\s/);
-      if (i === -1) {
-        return [pText, ''];
-      }
+      if (i === -1)  return [pText, ''];
       return [pText.substr(0, i), pText.substr(i).trimLeft()];
-    };
+};
 
 global.FindByName = function(pName){
     var Results = [];
