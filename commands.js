@@ -59,7 +59,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
-            }else if(mCurrentQueue.indexOf(pUser.userid) != -1) {
+            }else if(mQueue.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mAlreadyInQueue, SpeakingLevel.Misc);
             }else if(mDJs.length == mMaxDJs){
                 QueuePush(pUser.userid);
