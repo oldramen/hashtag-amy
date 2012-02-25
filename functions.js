@@ -146,7 +146,7 @@ global.ParsingForQueue = function(){
 
 global.Increment_SongCount = function(pUser){
   ++mSongCount[typeof(pUser) == 'number'?pUser:pUser.userid];
-  Log(pUser.name + " : " + mSongCount[pUser.userid]);
+  Log(pUser.name + "'s song count: " + mSongCount[pUser.userid]);
 };
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel){
@@ -331,10 +331,10 @@ global.LonelyDJ = function(){
          mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
 };
 global.Update_User = function(pUser, pSingle){
-    if(pUser.userid in mUsers)
-        Log(pUser.name + " updated");
-    else{
-        Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
+    if(pUser.userid in mUsers){
+        //Log(pUser.name + " updated");
+    }else{
+        //Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
         ++mUsers.length;
     }
     mUsers[pUser.userid] = pUser;
