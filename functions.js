@@ -14,8 +14,7 @@ global.OnRegistered = function(pData){
     for(var i = 0, len = pData.user.length; i < len; ++i)
         if(!IsMe(pData.user[i])){
             Update_User(pData.user[i], true);
-            // only greet if pData.user[0].RecentlyLeft - Date.now > joined delay. 
-            Greet(pData.user[i]);
+            mPushingOutGreeting.push(pData.user[i]);
         }
     CalculateProperties();
 };
@@ -69,6 +68,7 @@ global.OnRemDJ = function(pData){
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
+    delete mSongCount[sUser.userid];
     LonelyDJ();
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
@@ -99,6 +99,7 @@ global.OnPmmed = function(pData){
 global.Loop = function(){
     CheckAFKs();
     CalculateProperties();
+    Greet(mPushingOutGreeting);
 };
 
 ///TODO: Make sure they are in the room.
@@ -107,6 +108,7 @@ global.QueueAdvance = function(){
         mQueueNextUp = mQueue.shift();
     if(mQueueNextUp){
         mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
+        mParsing['{queuestatus}'] = mQueue.join(', ');
         if(!mQueueNotified)
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
         mQueueNotified = true;
@@ -159,22 +161,39 @@ global.OverMaxSongs = function(pUser){
     Speak(pUser, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
 };
 
-global.Greet = function(pUser){
-    var sGreeting = mGreeting;
-    if(Is_VIP(pUser)) sGreeting = mVIPGreeting;
-    if(Is_SuperUser(pUser)) sGreeting = mSuperGreeting;
-    var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
-    if(sOwnGreeting && sOwnGreeting.length > 0) sGreeting = sOwnGreeting[0];
-    Speak(pUser, sGreeting, SpeakingLevel.Greeting);
+global.Greet = function(pUsers){
+    var sDefaultGreetings = [];
+    var sVIPGreetings = [];
+    var sSuperUserGreetings = [];
+    var sModeratorGreetings = [];
+    for(var i = 0; i < pUsers.length; ++i){
+        var pUser = pUsers[i];
+        var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
+        if(sOwnGreeting && sOwnGreeting.length > 0){ 
+            sGreeting = sOwnGreeting[0];
+            Speak(pUser, sGreeting, SpeakingLevel.Greeting);
+        }else if(Is_SuperUser(pUser)) sSuperUserGreetings.push(pUser);
+        else if(Is_Moderator(pUser)) sModeratorGreetings.push(pUser);
+        else if(Is_VIP(pUser)) sVIPGreetings.push(pUser);
+        else sDefaultGreetings.push(pUser);
+    }
+    if(sSuperUserGreetings.length > 0) Speak(sSuperUserGreetings, mSuperGreeting, SpeakingLevel.Greeting);
+    if(sModeratorGreetings.length > 0) Speak(sModeratorGreetings, mModeratorGreeting, SpeakingLevel.Greeting);
+    if(sVIPGreetings.length > 0) Speak(sVIPGreetings, mVIPGreeting, SpeakingLevel.Greeting);
+    if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mDefaultGreeting, SpeakingLevel.Greeting);
 };
 
 global.Parse = function(pUser, pString){
-    if(pUser) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
-    if(!mBooted) return pString;
-    
+    if(pUser && !pUser.length) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
+    if(pUser && pUser.length) 
+        pString = pString.replace(/\{usernames\}/gi, 
+            _.reduce(pUser, function(pUsers, pUserNew){ 
+                return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + ", " + pUserNew.name ;
+            });
+        );
+    if(!mBooted) return pString; /// If we haven't booten up, don't bother even trying to use the variables.
     var sVariables = pString.match(/\{[^\}]*\}/gi);
     if(sVariables == null) return pString;
-    
     for(var i = 0; i < sVariables.length; ++i){
         var sVar = sVariables[i];
         if(mParsing[sVar] != null)
@@ -256,6 +275,8 @@ global.Remove_User = function(pUser){
     delete mUsers[pUser.userid];
     delete mAFKTimes[pUser.userid];
     --mUsers.length;
+    if(mQueue.indexOf(pUser.userid) != -1)
+        mQueue.splice(mQueue.indexOf(pUser.userid),1);
 };
 
 global.CheckAFKs = function(){

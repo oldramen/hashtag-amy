@@ -82,5 +82,13 @@ global.mCommands = [
         },
         requires: Requires.Moderator,
         hint: "Used to disable variables."
+    },
+    {
+        command: '/djs',
+        callback: function(pUser, pText){
+            
+        },
+        requires: Requires.User,
+        hint: "Tells the current song count for the DJs."
     }
 ];
