@@ -124,7 +124,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             var sCommands = [];
             mCommands.forEach(function(pCommand){
-                if(pCommand.requires.check(pUser))
+                if(pCommand.requires.check(pUser) && !(pCommand.hidden))
                     sCommands.push(pCommand.command);
             });
             Speak(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
@@ -155,7 +155,8 @@ global.mCommands = [
             HandleMenu(pText);
         }, 
         requires: Requires.User, 
-        hint: "moo."
+        hint: "moo.",
+        hidden:true
     },
     {
         command: 'order',
