@@ -377,7 +377,7 @@ global.HandleCommand = function(pUser, pText){
             pCommand.callback(pUser, pText); 
     });
 };
-global.FindByName(pName){
+global.FindByName = function(pName){
     var Results = [];
     var sUserIDs = _.keys(mUsers);
     sUserIDs.splice(0,1);
