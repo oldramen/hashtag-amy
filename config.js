@@ -68,7 +68,8 @@ global.mQueueAdded              = "Alright, {username}, you've been added to the
 global.mQueueAlreadyDJ          = "I'm sorry, {username}, but you're already a DJ."
 global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the queue."
 global.mCommandsList            = "The list of commands are as follows: {commands}";
-global.mThemeIs                 = "The current theme is {theme}."
+global.mThemeIs                 = "The current theme is {theme}.";
+global.mCurrentDJSongCount      = "The current song count is: {djsandsongcount}";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

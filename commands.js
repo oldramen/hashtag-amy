@@ -108,7 +108,13 @@ global.mCommands = [
     {
         command: 'djs',
         callback: function(pUser, pText){
-            
+            var sDJSongCount = "";
+            for(var sDJ in mSongCount){
+                var sUser = mUsers[sSongCount];
+                var sSongCount = mSongCount[sDJ];
+                sDJSongCount += sUser.name + ": " + sSongCount;
+            }
+            Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc,[['{djsandsongcount}', sDJSongCount]]);
         },
         requires: Requires.User,
         hint: "Tells the current song count for the DJs."
