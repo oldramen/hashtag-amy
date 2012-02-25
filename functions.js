@@ -220,19 +220,22 @@ global.Parse = function(pUser, pString, pArgs){
                 pString = pString.replace(sVar, pUser[sUserVar]);
         }
     if(pArgs && pArgs.length){
+        Log("Got args.");
         for(var i = 0; i < pArgs.length; ++i)
         {
             var sArg = pArgs[i];
             var sParameter = null;
             var sValue = null;
             if(sArg.length && sArg.length == 2){
+                Log("Got array args.")
                 sParameter = sArg[0];
                 sValue = sArg[1];
             }else if(sArg.parameter && sArg.value){
+                Log("Got object args.");
                 sParameter = sArg.parameter;
                 sValue = sArg.value;
             }
-            if(sParameter && sValue) pString = pString.match(sParameter, sValue);
+            if(sParameter != null && sValue != null) pString = pString.match(sParameter, sValue);
         }
     }
     return pString;
