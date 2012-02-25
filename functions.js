@@ -383,7 +383,7 @@ global.FindByName = function(pName){
     sUserIDs.splice(0,1);
     for(var i = 0; i < sUserIDs.length; ++i){
         var sUserID = sUserIDs[i];
-        if(mUsers[sUserID].match(pName)){
+        if(mUsers[sUserID]name.match(pName)){
             Results.push(mUsers[sUserID]);
         }
     }
