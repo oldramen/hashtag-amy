@@ -421,10 +421,10 @@ global.CalculateSongLimit = function(){
 
 global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
-    var sMatch = pText.match(/^[!*\/]/);
+    var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
     var sSplit = pText.split(' ');
-    var sCommand = sSplit[0].replace (/^[!*\/]/, "").toLowerCase();
+    var sCommand = sSplit[0].replace (/^[!\*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 

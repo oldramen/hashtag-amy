@@ -5,8 +5,6 @@
  * @note All commands must be entirely lower case.
  */
 
-global.mBareCommands = ['help', 'q', 'q+'];
-
 global.mCommands = [
     { 
         command: 'help',
@@ -14,7 +12,8 @@ global.mCommands = [
             Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
         requires: Requires.User,
-        hint: "Gives the users some pretty basic help and advice."
+        hint: "Gives the users some pretty basic help and advice.",
+        bare: true
     },
     {
         command: 'refresh',
@@ -68,7 +67,8 @@ global.mCommands = [
             }else Speak(pUser, mOpenSpotNoQueueing, SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
-        hint: "Used to join the queue."
+        hint: "Used to join the queue.",
+        bare: true
     },
     {
         command: 'q',          
@@ -81,7 +81,8 @@ global.mCommands = [
                 Speak(pUser, mQueueEmpty, SpeakingLevel.Misc)
         }, 
         requires: Requires.User, 
-        hint: "Tells what the current status of the queue is."
+        hint: "Tells what the current status of the queue is.",
+        bare: true
     },
     {
         command: 'qstatus',
