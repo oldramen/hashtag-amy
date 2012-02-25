@@ -378,7 +378,7 @@ global.HandleCommand = function(pUser, pText){
     });
 };
 
-global.Is_Moderator = function(pUser){return _.any(mModerators, function(pId){ return pUser.userid === pId; });}
+global.Is_Moderator = function(pUser){return mModerators.indexOf(pUser.userid) != -1; }
 global.Is_SuperUser = function(pUser){return pUser.acl > 0;}
 global.Is_VIP = function(pUser){return mVIPs.indexOf(pUser.userid) != -1;}
 global.Is_Owner = function(pUser){ return mOwners.indexOf(pUser.userid)!=-1; }
