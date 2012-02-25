@@ -41,7 +41,7 @@ global.mNoSpamTimeout           = 15;               //30 seconds before the bot 
 global.mLoopTimeout             = 10;               //Does the main loop every 15 seconds.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
-global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
+global.mWaiter                 = true;            //whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;             // TODO: Write this descrition.
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"

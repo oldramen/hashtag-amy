@@ -294,7 +294,7 @@ global.LoadParsing = function(){
     mParsing['{songlimitcurrentlyon}']          = mSongLimitCurrentlyOn ? "on" : "off";
     mParsing['{owners}']                        = mOwners.join(', ');
     mParsing['{vips}']                          = mVIPs.join(', ');
-    mParsing['{dodrink}']                       = mDoDrink ? "on" : "off";
+    mParsing['{waiter}']                       = mWaiter ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
     mParsing['{queueamount}']                   = 0;
     Log("Parsing library initialized");
@@ -443,6 +443,24 @@ global.HandleCommand = function(pUser, pText){
             pCommand.callback(pUser, pText); 
     });
 };
+
+global.HandleMenu = function(pText){
+    var sItem =  Split(pText)[1];
+    var sItems = mMenu.filter(function(pMenu){ 
+        return pMenu.item == sItem; 
+    });
+    sItems.forEach(function(pMenu){ 
+            pMenu.callback(sItem); 
+    });
+};
+
+global.Split = function (pText) {
+      var i = pText.search(/\s/);
+      if (i === -1) {
+        return [pText, ''];
+      }
+      return [pText.substr(0, i), pText.substr(i).trimLeft()];
+    };
 
 global.FindByName = function(pName){
     var Results = [];

@@ -148,5 +148,13 @@ global.mCommands = [
         },
         requires: Requires.User,
         hint: "Makes the bot dance.  Can not be done by regular users."
+    },
+    {
+        command: 'order',
+        callback: function(pUser, pText){
+            HandleMenu(pText);
+        }, 
+        requires: Requires.User, 
+        hint: "Order something off the menu."
     }
 ];
