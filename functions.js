@@ -445,7 +445,7 @@ global.HandleCommand = function(pUser, pText){
 };
 
 global.HandleMenu = function(pText){
-    var sItem =  Split(pText)[1];
+    var sItem =  Split(pText)[1].toLowerCase();;
     var sItems = mMenu.filter(function(pMenu){ 
         return pMenu.item == sItem; 
     });
