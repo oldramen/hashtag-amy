@@ -26,7 +26,9 @@ global.mCommands = [
         command: '/ban',
         callback: function(pUser, pText){
             Log("Banning:" + pText);
-            sUser = _.find(mUsers, function(pItem){ return pItem.name.toLowerCase() == pText.toLowerCase(); });
+            sUser = _.find(mUsers, function(pItem){ 
+                return pItem.name.toLowerCase() == pText.toLowerCase(); 
+            });
             Log("Name:" + sUser.name);
             Insert("bans", {userid: sUser.userid});
             mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
