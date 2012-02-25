@@ -132,6 +132,7 @@ global.mCommands = [
             Speak(pUser, mThemeIs, SpeakingLevel.Misc);
         },
         requires: Requires.User,
-        hint: "Tells what the theme is."
+        hint: "Tells what the theme is.",
+        bare: true
     }
 ];
