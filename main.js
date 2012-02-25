@@ -56,8 +56,7 @@ Refresh("bans", function(e, pItems){
     if(!pItems) return;
     Log("Got Bans");
     for(var i = 0; i < pItems.length; ++i){
-        mBans.push(pItems[i].userid);
-        Log(pItems[i].userid);
+        mBans.push(pItems[i]);
     }
 });
 Refresh("greetings", function(e,pItems){ 

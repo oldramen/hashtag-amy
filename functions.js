@@ -358,12 +358,12 @@ global.Update_User = function(pUser, pSingle){
     if(pUser.userid in mUsers){
         //Log(pUser.name + " updated");
     }else{
+        HandleBan(pUser);
         //Log(pUser.name + " joined the room" + (mRoomName === "" ? "" : " " + mRoomName));
         ++mUsers.length;
     }
     mUsers[pUser.userid] = pUser;
     if (pSingle) Update_AFKTime(pUser);
-    HandleBan(pUser);
 };
 
 global.HandleBan = function(pUser){
