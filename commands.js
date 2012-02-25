@@ -25,13 +25,15 @@ global.mCommands = [
     {
         command: '/ban',
         callback: function(pUser, pText){
+            pText = pText.replace("@", "^").trimRight() + "$";
             Log("Banning:" + pText);
             sUser = _.find(mUsers, function(pItem){ 
-                return pItem.name.toLowerCase() == pText.toLowerCase(); 
+                return pItem.name.match(pText);
             });
             Log("Name:" + sUser.name);
-            Insert("bans", {userid: sUser.userid});
-            mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
+            //Insert("bans", {userid: sUser.userid});
+            //mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
+            
             ///Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Ban a user
             ///     Add to ban list, and kick from room.
