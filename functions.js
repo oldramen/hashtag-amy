@@ -219,6 +219,7 @@ global.Parse = function(pUser, pString, pArgs){
             if(pUser[sUserVar] != null)
                 pString = pString.replace(sVar, pUser[sUserVar]);
         }
+    console.log(JSON.stringify(pArgs));
     if(pArgs && pArgs.length){
         Log("Got args.");
         for(var i = 0; i < pArgs.length; ++i)
