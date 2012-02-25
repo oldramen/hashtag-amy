@@ -42,7 +42,7 @@ global.mModBop                  = true;             //whether the /bop commands 
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;             // TODO: This.
 
-global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {rooms}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
+global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
 global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{usernames}!";
 global.mModeratorGreeting       = "We've got a moderator in the room!  Welcome @{usernames}!";
