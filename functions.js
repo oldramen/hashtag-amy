@@ -200,8 +200,8 @@ global.RefreshMetaData = function(pMetaData){
     mDJs = [];
     for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
     mCurrentDJ = mUsers[pMetaData.current_dj];
-    mIsModerator = _.any(pMetaData.moderator_id, function(pId){ return pId == mUserId; });
-    for(var i = 0, len = pMetaData.moderator_id.length; i < len; ++i) mModerators[pMetaData.moderator_id[i]] = true;
+    mIsModerator = pMetaData.moderator_id.indexOf(mUserId) != -1;
+    mModerators = pMetaData.moderator_id;
     mMaxDJs = pMetaData.max_djs;
     
     CalculateProperties();
