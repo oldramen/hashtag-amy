@@ -28,11 +28,13 @@ global.mCommands = [
             pText = pText.replace("@", "^").trimRight() + "$";
             Log("Banning:" + pText);
             Log(mUsers.length);
+            console.log(JSON.stringify(mUsers));
             sUser = _.find(mUsers, function(pItem){ 
+                console.log(JSON.stringify(pItem));
                 Log(pItem.name + " = " + pItem.name.match(pText).toString());
                 return pItem.name.match(pText);
             });
-            Log("Name:" + sUser.name);
+            //Log("Name:" + sUser.name);
             //Insert("bans", {userid: sUser.userid});
             //mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
             
