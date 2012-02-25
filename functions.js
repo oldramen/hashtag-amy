@@ -89,7 +89,7 @@ global.OnSpeak = function(pData){
     if(sUser == null) return;
     Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
-    if(sText.match(/^\/.*/)) HandleCommand(sUser, sText);
+    if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
 };
 
 global.OnPmmed = function(pData){
@@ -420,10 +420,10 @@ global.CalculateSongLimit = function(){
 
 global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
-    var sMatch = pText.match(/^\/.*/);
-    if(!sMatch) return;
+    var sMatch = pText.match(/^[!*\/]/);
+    if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
     var sSplit = pText.split(' ');
-    var sCommand = sSplit.shift().toLowerCase();
+    var sCommand = sSplit[0].replace (/^[!*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 
@@ -433,6 +433,7 @@ global.HandleCommand = function(pUser, pText){
             pCommand.callback(pUser, pText); 
     });
 };
+
 global.FindByName = function(pName){
     var Results = [];
     var sUserIDs = _.keys(mUsers);

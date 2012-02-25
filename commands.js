@@ -5,9 +5,11 @@
  * @note All commands must be entirely lower case.
  */
 
+global.mBareCommands = ['help', 'q', 'q+'];
+
 global.mCommands = [
     { 
-        command: '/help',
+        command: 'help',
         callback: function(pUser, pText){
             Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
@@ -15,7 +17,7 @@ global.mCommands = [
         hint: "Gives the users some pretty basic help and advice."
     },
     {
-        command: '/refresh',
+        command: 'refresh',
         callback: function(pUser, pText){
             Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Reload the variable + its coresponding collection.
@@ -24,7 +26,7 @@ global.mCommands = [
         hint: "Reloads the variable + its corresponding collection."
     },
     {
-        command: '/ban',
+        command: 'ban',
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
             console.log(JSON.stringify(mUsers));
@@ -44,7 +46,7 @@ global.mCommands = [
         hint: "Add a user to the ban list and kicks them from the room."
     },
     {
-        command: '/say',        
+        command: 'say',        
         callback: function(pUser, pText){
             Speak(pUser, pText, SpeakingLevel.Misc);
             /// Dalton's equivalent of PM'ing say Blahblahblah...
@@ -53,7 +55,7 @@ global.mCommands = [
         hint: "Makes the bot say something."
     },
     {
-        command: '/q+', ///TODO: What if they're already a DJ?
+        command: 'q+', ///TODO: What if they're already a DJ?
                         ///TODO: What if they're already in the queue?
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
@@ -69,7 +71,7 @@ global.mCommands = [
         hint: "Used to join the queue."
     },
     {
-        command: '/q',          
+        command: 'q',          
         callback: function(pUser, pText){
             if(!mQueueCurrentlyOn)
                 Speak(pUser, mQueueOff, SpeakingLevel.Misc);
@@ -82,7 +84,7 @@ global.mCommands = [
         hint: "Tells what the current status of the queue is."
     },
     {
-        command: '/qstatus',
+        command: 'qstatus',
         callback: function(pUser, pText){
             if(!mQueueCurrentlyOn)
                 Speak(pUser, mQueueOff, SpeakingLevel.Misc);
@@ -95,7 +97,7 @@ global.mCommands = [
         hint: "Tells you the amount of people in the queue."
     },
     {
-        command: '/disable',
+        command: 'disable',
         callback: function(pUser, pText){
             exec(pText + " = null");
         },
@@ -103,7 +105,7 @@ global.mCommands = [
         hint: "Used to disable variables."
     },
     {
-        command: '/djs',
+        command: 'djs',
         callback: function(pUser, pText){
             
         },
@@ -111,7 +113,7 @@ global.mCommands = [
         hint: "Tells the current song count for the DJs."
     },
     {
-        command: '/commands',
+        command: 'commands',
         callback: function(pUser, pText){
             var sCommands = [];
             mCommands.forEach(function(pCommand){
