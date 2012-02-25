@@ -191,7 +191,7 @@ global.Greet = function(pUsers){
     if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mDefaultGreeting, SpeakingLevel.Greeting);
 };
 
-global.Parse = function(pUser, pString){
+global.Parse = function(pUser, pString, pArgs){
     if(pUser && !pUser.length) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
     if(pUser && pUser.length && pUser.length > 0) {
         var sUsers = pUser[0].name;
@@ -219,6 +219,22 @@ global.Parse = function(pUser, pString){
             if(pUser[sUserVar] != null)
                 pString = pString.replace(sVar, pUser[sUserVar]);
         }
+    if(pArgs && pArgs.length){
+        for(var i = 0; i < pArgs.length; ++i)
+        {
+            var sArg = pArgs[i];
+            var sParameter = null;
+            var sValue = null;
+            if(sArg.length && sArg.length == 2){
+                sParameter = sArg[0];
+                sValue = sArg[1];
+            }else if(sArg.parameter && sArg.value){
+                sParameter = sArg.parameter;
+                sValue = sArg.value;
+            }
+            if(sParameter && sValue) pString = pString.match(sParameter, sValue);
+        }
+    }
     return pString;
 };
 

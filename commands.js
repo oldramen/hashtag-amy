@@ -109,5 +109,18 @@ global.mCommands = [
         },
         requires: Requires.User,
         hint: "Tells the current song count for the DJs."
+    },
+    {
+        command: '/commands',
+        callback: function(pUser, pText){
+            var sCommands = [];
+            mCommands.forEach(function(pCommand){
+                if(pCommand.requires.check(pUser))
+                    sCommands.push(pCommand.command);
+            });
+            Speak(pUser, mCommandsList, ['{commands}', sCommands.join(', ')]);
+        },
+        requires: Requires.User,
+        hint: "Tells what all the commands are."
     }
 ];

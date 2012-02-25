@@ -65,6 +65,7 @@ global.mQueueUsers              = "The queue is currently: {usernames}, in that 
 global.mQueueAdded              = "Alright, {username}, you've been added to the queue!";
 global.mQueueAlreadyDJ          = "I'm sorry, {username}, but you're already a DJ."
 global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the queue."
+global.mCommandsList            = "The list of commands are as follows: {commands}";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.
