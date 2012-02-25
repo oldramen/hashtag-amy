@@ -26,14 +26,11 @@ global.mCommands = [
         command: '/ban',
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
-            Log("Banning:" + pText);
-            Log(mUsers.length);
             console.log(JSON.stringify(mUsers));
             var sUser = FindByName(pText);
             if(sUser.length > 0) sUser = sUser[0];
-            Log("Name:" + sUser.name);
-            //Insert("bans", {userid: sUser.userid});
-            //mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
+            Insert("bans", {userid: sUser.userid});
+            mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
             
             ///Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Ban a user
