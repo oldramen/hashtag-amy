@@ -224,7 +224,10 @@ global.RefreshMetaData = function(pMetaData){
     mUpVotes = pMetaData.upvotes;
     mDownVotes = pMetaData.downvotes;
     mDJs = [];
-    for(var i = 0, len = pMetaData.djs.length; i < len; ++i) mDJs[i] = pMetaData.djs[i];
+    for(var i = 0, len = pMetaData.djs.length; i < len; ++i){
+        mDJs[i] = pMetaData.djs[i];
+        mSongCount[pMetaData.djs[i]] = 0;
+    }
     mCurrentDJ = mUsers[pMetaData.current_dj];
     mIsModerator = pMetaData.moderator_id.indexOf(mUserId) != -1;
     mModerators = pMetaData.moderator_id;
