@@ -33,7 +33,7 @@ global.mAFK                     = 20;               //default afk time (in minut
 global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
 global.mMinUsersForSongLimit    = 30;               // TODO: This.
 global.mMinDJsForSongLimit      = 3;                //
-global.mMinQueueOperator        = "||";             //
+global.mMinQueueOperator        = "&";             //
 global.mMinUsersForQueue        = 30;               //
 global.mMinDJsForQueue          = 3;                //
 global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in the room.
@@ -42,9 +42,10 @@ global.mModBop                  = true;             //whether the /bop commands 
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;             // TODO: This.
 
-global.mGreeting                = "Ohai, @{username}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
-global.mVIPGreeting             = "Welcome @{username}, we have a VIP in the room!";
-global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{username}!";
+global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
+global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
+global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{usernames}!";
+global.mModeratorGreeting       = "We've got a moderator in the room!  Welcome @{usernames}!";
 global.mAddDJ                   = "Welcome to the deck, @{username}!  Remember to follow the rules!";
 global.mRemDJ                   = null;
 global.mAddMod                  = null;
@@ -59,9 +60,12 @@ global.mWarnDJNotNextInQueue    = "Sorry, {username}, you have to wait your turn
 global.mOpenSpotNoQueueing      = "Sorry, {username}, there's already an open spot.  Please take it before you worry about registering yourself in the queue.";
 global.mQueueOff                = "I'm sorry but the queue is currently off.";
 global.mQueueStatus             = "There is currently {queueamount} people standing in line to get on deck.";
+global.mQueueEmpty              = "The queue is currently empty!";
+global.mQueueUsers              = "The queue is currently: {usernames}, in that order.";
 global.mQueueAdded              = "Alright, {username}, you've been added to the queue!";
 global.mQueueAlreadyDJ          = "I'm sorry, {username}, but you're already a DJ."
 global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the queue."
+global.mCommandsList            = "The list of commands are as follows: {commands}";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.
