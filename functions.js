@@ -100,6 +100,7 @@ global.Loop = function(){
     CheckAFKs();
     CalculateProperties();
     Greet(mPushingOutGreeting);
+    mPushingOutGreeting = [];
 };
 
 ///TODO: Make sure they are in the room.
