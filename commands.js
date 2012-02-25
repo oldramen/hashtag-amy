@@ -4,6 +4,7 @@
  * @description This is where all the commands are stored and loaded into runtime from.
  */
 
+global.mBareCommands = ['help', 'q', 'q+'];
 global.mCommands = [
     { 
         command: 'help',
