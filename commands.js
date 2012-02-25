@@ -70,10 +70,28 @@ global.mCommands = [
     {
         command: '/q',          
         callback: function(pUser, pText){
-            Speak(pUser, mQueueStatus, SpeakingLevel.Misc);
+            if(!mQueueCurrentlyOn)
+                Speak(pUser, mQueueOff, SpeakingLevel.Misc);
+            else if(mQueue.length > 0)
+                Speak(pUser, mQueueUsers, SpeakingLevel.Misc);
+            else
+                Speak(pUser, mQueueEmpty, SpeakingLevel.Misc)
         }, 
         requires: Requires.User, 
         hint: "Tells what the current status of the queue is."
+    },
+    {
+        command: '/qstatus',
+        callback: function(pUser, pText){
+            if(!mQueueCurrentlyOn)
+                Speak(pUser, mQueueOff, SpeakingLevel.Misc);
+            else if(mQueue.length > 0)
+                Speak(pUser, mQueueStatus, SpeakingLevel.Misc);
+            else
+                Speak(pUser, mQueueEmpty, SpeakingLevel.Misc) 
+        },
+        requires: Requires.User,
+        hint: "Tells you the amount of people in the queue."
     },
     {
         command: '/disable',

@@ -108,11 +108,11 @@ global.QueueAdvance = function(){
         mQueueNextUp = mQueue.shift();
     if(mQueueNextUp){
         mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
-        mParsing['{queuestatus}'] = mQueue.join(', ');
         if(!mQueueNotified)
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
         mQueueNotified = true;
     }
+    ParsingForQueue();
 };
 global.GuaranteeQueue = function(pUser){
     if(!mQueueNextUp) return true;
@@ -134,8 +134,15 @@ global.GuaranteeQueue = function(pUser){
 global.QueuePush = function(pUser){
     mQueue.push(pUser);
     Log(mQueue.length);
-    mParsing['{queueamount}'] = mQueue.length;
+    ParsingForQueue();
 };
+
+global.ParsingForQueue = function(){
+    mParsing['{queueamount}'] = mQueue.length;
+    mParsing['{queueusers}'] = _.reduce(mQueue, function(pUsers, pUserNew){ 
+            return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + ", " + pUserNew.name ;
+    });
+}
 
 global.Increment_SongCount = function(pUser){
   ++mSongCount[typeof(pUser) == 'number'?pUser:pUser.userid];
@@ -275,8 +282,10 @@ global.Remove_User = function(pUser){
     delete mUsers[pUser.userid];
     delete mAFKTimes[pUser.userid];
     --mUsers.length;
-    if(mQueue.indexOf(pUser.userid) != -1)
+    if(mQueue.indexOf(pUser.userid) != -1){
         mQueue.splice(mQueue.indexOf(pUser.userid),1);
+        ParsingForQueue();
+    }
 };
 
 global.CheckAFKs = function(){
