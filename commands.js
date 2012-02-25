@@ -2,12 +2,12 @@
  * @copyright 2012 yayramen && Inumedia.
  * @author Inumedia
  * @description This is where all the commands are stored and loaded into runtime from.
+ * @note All commands must be entirely lower case.
  */
 
-global.mBareCommands = ['help', 'q', 'q+'];
 global.mCommands = [
     { 
-        command: 'help',
+        command: '/help',
         callback: function(pUser, pText){
             Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
@@ -15,7 +15,7 @@ global.mCommands = [
         hint: "Gives the users some pretty basic help and advice."
     },
     {
-        command: 'refresh',
+        command: '/refresh',
         callback: function(pUser, pText){
             Speak(pUser, "TODO", SpeakingLevel.Misc);
             /// Reload the variable + its coresponding collection.
@@ -24,7 +24,7 @@ global.mCommands = [
         hint: "Reloads the variable + its corresponding collection."
     },
     {
-        command: 'ban',
+        command: '/ban',
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
             console.log(JSON.stringify(mUsers));
@@ -53,7 +53,7 @@ global.mCommands = [
         hint: "Makes the bot say something."
     },
     {
-        command: 'q+', ///TODO: What if they're already a DJ?
+        command: '/q+', ///TODO: What if they're already a DJ?
                         ///TODO: What if they're already in the queue?
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
@@ -69,19 +69,58 @@ global.mCommands = [
         hint: "Used to join the queue."
     },
     {
-        command: 'q',          ///TODO: Make this spit out the contents of the queue, not just the length
+        command: '/q',          
         callback: function(pUser, pText){
-            Speak(pUser, mQueueStatus, SpeakingLevel.Misc);
+            if(!mQueueCurrentlyOn)
+                Speak(pUser, mQueueOff, SpeakingLevel.Misc);
+            else if(mQueue.length > 0)
+                Speak(pUser, mQueueUsers, SpeakingLevel.Misc);
+            else
+                Speak(pUser, mQueueEmpty, SpeakingLevel.Misc)
         }, 
         requires: Requires.User, 
         hint: "Tells what the current status of the queue is."
     },
     {
-        command: 'disable',
+        command: '/qstatus',
+        callback: function(pUser, pText){
+            if(!mQueueCurrentlyOn)
+                Speak(pUser, mQueueOff, SpeakingLevel.Misc);
+            else if(mQueue.length > 0)
+                Speak(pUser, mQueueStatus, SpeakingLevel.Misc);
+            else
+                Speak(pUser, mQueueEmpty, SpeakingLevel.Misc) 
+        },
+        requires: Requires.User,
+        hint: "Tells you the amount of people in the queue."
+    },
+    {
+        command: '/disable',
         callback: function(pUser, pText){
             exec(pText + " = null");
         },
         requires: Requires.Moderator,
         hint: "Used to disable variables."
+    },
+    {
+        command: '/djs',
+        callback: function(pUser, pText){
+            
+        },
+        requires: Requires.User,
+        hint: "Tells the current song count for the DJs."
+    },
+    {
+        command: '/commands',
+        callback: function(pUser, pText){
+            var sCommands = [];
+            mCommands.forEach(function(pCommand){
+                if(pCommand.requires.check(pUser))
+                    sCommands.push(pCommand.command);
+            });
+            Speak(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', ')]]);
+        },
+        requires: Requires.User,
+        hint: "Tells what all the commands are."
     }
 ];

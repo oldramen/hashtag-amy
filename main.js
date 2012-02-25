@@ -24,7 +24,7 @@ global.mParsing         =   {};
 global.mSongName        =   "";
 global.mUpVotes         =   0;
 global.mDownVotes       =   0;
-global.mSongCount       =   [];
+global.mSongCount       =   {};
 global.mDJs             =   [];
 global.mCurrentDJ       =   "";
 global.mModerators      =   [];
@@ -42,9 +42,12 @@ global.mQueueNotified   =   false;
 
 global.mJustRemovedDJ   =   [];
 
-global.mQueueCurrentlyOn       = false;
-global.mSongLimitCurrentlyOn   = false;
-global.mCurrentSongLimit            = mMaxSongs;
+global.mQueueCurrentlyOn        = false;
+global.mSongLimitCurrentlyOn    = false;
+global.mCurrentSongLimit        = mMaxSongs;
+
+global.mPushingOutGreeting      = [];
+global.mSpokenMessages          = [];
 
 InitMongoDB();
 Refresh("bans", function(e, pItems){
