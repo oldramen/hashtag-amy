@@ -2,6 +2,7 @@
  * @copyright 2012 yayramen && Inumedia.
  * @author Inumedia
  * @description This is where all the commands are stored and loaded into runtime from.
+ * @note All commands must be entirely lower case.
  */
 
 global.mCommands = [
