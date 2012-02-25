@@ -377,7 +377,18 @@ global.HandleCommand = function(pUser, pText){
             pCommand.callback(pUser, pText); 
     });
 };
-
+global.FindByName(pName){
+    var Results = [];
+    var sUserIDs = _.keys(mUsers);
+    sUserIDs.splice(0,1);
+    for(var i = 0; i < sUserIDs.length; ++i){
+        var sUserID = sUserIDs[i];
+        if(mUsers[sUserID].match(pName)){
+            Results.push(mUsers[sUserID]);
+        }
+    }
+    return Results;
+}
 global.Is_Moderator = function(pUser){return mModerators.indexOf(pUser.userid) != -1; }
 global.Is_SuperUser = function(pUser){return pUser.acl > 0;}
 global.Is_VIP = function(pUser){return mVIPs.indexOf(pUser.userid) != -1;}

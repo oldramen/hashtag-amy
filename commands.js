@@ -29,12 +29,9 @@ global.mCommands = [
             Log("Banning:" + pText);
             Log(mUsers.length);
             console.log(JSON.stringify(mUsers));
-            sUser = _.find(mUsers, function(pItem){ 
-                console.log(JSON.stringify(pItem));
-                Log(pItem.name + " = " + pItem.name.match(pText).toString());
-                return pItem.name.match(pText);
-            });
-            //Log("Name:" + sUser.name);
+            var sUser = FindByName(pName);
+            if(sUser.length > 0) sUser = sUser[0];
+            Log("Name:" + sUser.name);
             //Insert("bans", {userid: sUser.userid});
             //mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
             
