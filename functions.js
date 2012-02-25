@@ -368,7 +368,7 @@ global.Update_User = function(pUser, pSingle){
 
 global.HandleBan = function(pUser){
     if(_.find(mBans, function(pItem){ return pItem.userid == pUser.userid; })){
-        Log(pUser.name + " is banned.  Booting.");
+        Log(pUser.name + " is banned.  Booting");
         mBot.bootUser(pUser.userid, "You're banned.  Gtfo.");
     }
 };
