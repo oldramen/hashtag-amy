@@ -33,14 +33,14 @@ global.mAFK                     = 20;               //default afk time (in minut
 global.mMinSongLimitOperator    = "&";              // Here ya go Dalton!  :D
 global.mMinUsersForSongLimit    = 30;               // TODO: This.
 global.mMinDJsForSongLimit      = 3;                //
-global.mMinQueueOperator        = "&";             //
+global.mMinQueueOperator        = "&";              //
 global.mMinUsersForQueue        = 30;               //
 global.mMinDJsForQueue          = 3;                //
 global.mSongLimitUserProportion = 250;              // 5 songs per 50 people in the room.
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mDoDrink                 = false;            //whether bartender (if we add that function) is enabled by default
-global.mLonelyDJ                = true;             // TODO: This.
+global.mLonelyDJ                = true;             // TODO: Write this descrition.
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
