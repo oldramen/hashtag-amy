@@ -448,13 +448,13 @@ global.HandleCommand = function(pUser, pText){
     });
 };
 
-global.HandleMenu = function(pText){
+global.HandleMenu = function(pUser, pText){
     var sItem =  Split(pText)[1].toLowerCase();;
     var sItems = mMenu.filter(function(pMenu){ 
         return pMenu.item == sItem; 
     });
     sItems.forEach(function(pMenu){ 
-            pMenu.callback(sItem); 
+            pMenu.callback(pUser, sItem); 
     });
 };
 

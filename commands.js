@@ -161,7 +161,7 @@ global.mCommands = [
     {
         command: 'order',
         callback: function(pUser, pText){
-            HandleMenu(pText);
+            HandleMenu(pUser, pText);
         }, 
         requires: Requires.User, 
         hint: "Order something off the menu."
