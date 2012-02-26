@@ -96,6 +96,10 @@ global.OnPmmed = function(pData){
     console.log(JSON.stringify(pData));
 };
 
+global.OnSnagged = function(pData){
+    //Do Hearts here.
+}
+
 global.Loop = function(){
     CheckAFKs();
     CalculateProperties();
