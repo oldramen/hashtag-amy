@@ -150,10 +150,17 @@ global.QueuePush = function(pUser){
 
 global.ParsingForQueue = function(){
     mParsing['{queueamount}'] = mQueue.length;
-    mParsing['{queueusers}'] = _.reduce(mQueue, function(pUsers, pUserNew){ 
-            return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + ", " + pUserNew.name ;
-    });
-}
+    if (mQueue.length < 1) mParsing['{queueusers}'] = null;
+    if (mQueue.length > 0) {
+        var sQueueUsers = [];
+            for(var sQ in mQueue){
+                var sUser = mQueue[sQ];
+                var sName = mUsers[sUser].name;
+                sQueueUsers.push(sName);
+              }
+            mParsing['{queueusers}'] = sQueueUsers.join(', ');
+   }
+};
 
 global.Increment_SongCount = function(pUser){
   ++mSongCount[typeof(pUser) == 'number'?pUser:pUser.userid];
