@@ -36,10 +36,6 @@ global.mCommands = [
             
             Insert("bans", {userid: sUser.userid});
             mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
-            
-            ///Speak(pUser, "TODO", SpeakingLevel.Misc);
-            /// Ban a user
-            ///     Add to ban list, and kick from room.
         },
         requires: Requires.Moderator, 
         hint: "Add a user to the ban list and kicks them from the room."
@@ -47,15 +43,13 @@ global.mCommands = [
     {
         command: 'say',        
         callback: function(pUser, pText){
-            mBot.speak(pText); //Speak(pUser, pText, SpeakingLevel.Misc);
-            /// Dalton's equivalent of PM'ing say Blahblahblah...
+            mBot.speak(pText);
         }, 
         requires: Requires.Moderator, 
         hint: "Makes the bot say something."
     },
     {
-        command: 'q+', ///TODO: What if they're already a DJ?
-                        ///TODO: What if they're already in the queue?
+        command: 'q+',
         callback: function(pUser, pText){
             if(mDJs.indexOf(pUser.userid) != -1) {
                 Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
@@ -71,13 +65,14 @@ global.mCommands = [
         bare: true
     },
     {
-        command: 'q-', ///TODO: What if they're already a DJ?
-                        ///TODO: What if they're already in the queue?
+        command: 'q-',
         callback: function(pUser, pText){
-            if(mQueue.indexOf(pUser.userid) != -1) {
+            if(mDJs.indexOf(pUser.userid) != -1) {
+                Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
+            }else if(mQueue.indexOf(pUser.userid) != -1) {
                 mQueue.splice(mQueue.indexOf(pUser.userid), 1);
-                Speak(pUser, 'You\'re no longer in the queue.', SpeakingLevel.Misc);
-            }else Speak(pUser, 'You\'re not in the queue.', SpeakingLevel.Misc);
+                Speak(pUser, mRemoveFromQueue, SpeakingLevel.Misc);
+            }else Speak(pUser, mNotInQueue, SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
         hint: "Used to remove from the queue.",
@@ -113,11 +108,10 @@ global.mCommands = [
     {
         command: 'maul',
         callback: function(pUser, pText){
-          console.log('text: '+pText);
-          var sUser = FindByName(pText);
-          if(sUser.length > 0) sUser = sUser[0];
-          mBot.remDj(sUser.userid);
-          },
+            var sUser = FindByName(pText);
+            if(sUser.length > 0) sUser = sUser[0];
+                mBot.remDj(sUser.userid);
+        },
         requires: Requires.Moderator,
         hint: "Remove a DJ"
     },
@@ -186,7 +180,7 @@ global.mCommands = [
     {
         command: 'moo',
         callback: function(pUser, pText){
-            Speak(pUser, 'I\'m not a cow, but oka-MOOOOO!', SpeakingLevel.Misc)
+            Speak(pUser, "I'm not a cow, but oka-MOOOOO!", SpeakingLevel.Misc);
         }, 
         requires: Requires.User, 
         hint: "moo.",
