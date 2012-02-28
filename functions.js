@@ -80,6 +80,7 @@ global.OnRemDJ = function(pData){
 global.OnNewSong = function(pData){
     if(mSongLimitCurrentlyOn && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
+    mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
 };
 
@@ -103,6 +104,7 @@ global.OnSnagged = function(pData){
 global.OnVote = function(pData){
   mUpVotes = pData.room.metadata.upvotes;
   mDownVotes = pData.room.metadata.downvotes;
+  mSongName = pData.room.metadata.current_song.metadata.song;
   if (mAfkBop){
       var sVote = pData.room.metadata.votelog;
       var sVoters = [];
