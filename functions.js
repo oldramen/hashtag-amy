@@ -104,14 +104,13 @@ global.OnSnagged = function(pData){
 global.OnVote = function(pData){
   mUpVotes = pData.room.metadata.upvotes;
   mDownVotes = pData.room.metadata.downvotes;
-  mSongName = pData.room.metadata.current_song.metadata.song;
   if (mAfkBop){
       var sVote = pData.room.metadata.votelog;
       var sVoters = [];
       for (var _i = 0; _i < sVote.length; _i++) {
         var sVotes = sVote[_i]; var sUserId = sVotes[0];
         var sUser = mUsers[sUserId];
-        sVoters.push(Update_User(sUser));
+        if (!sUser || !IsMe(sUser)) sVoters.push(Update_User(sUser));
       }
       return sVoters;
   }

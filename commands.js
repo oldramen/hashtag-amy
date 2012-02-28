@@ -71,6 +71,19 @@ global.mCommands = [
         bare: true
     },
     {
+        command: 'q-', ///TODO: What if they're already a DJ?
+                        ///TODO: What if they're already in the queue?
+        callback: function(pUser, pText){
+            if(mQueue.indexOf(pUser.userid) != -1) {
+                mQueue.splice(mQueue.indexOf(pUser.userid), 1);
+                Speak(pUser, 'You\'re no longer in the queue.', SpeakingLevel.Misc);
+            }else Speak(pUser, 'You\'re not in the queue.', SpeakingLevel.Misc);
+        }, 
+        requires: Requires.User, 
+        hint: "Used to remove from the queue.",
+        bare: true
+    },
+    {
         command: 'q',          
         callback: function(pUser, pText){
             if(!mQueueCurrentlyOn)
