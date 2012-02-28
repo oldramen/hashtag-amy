@@ -475,7 +475,7 @@ global.HandleCommand = function(pUser, pText){
     });
     sCommands.forEach(function(pCommand){ 
         if(pCommand.requires.check(pUser)) 
-            pCommand.callback(pUser, sArgs); 
+            pCommand.callback(pUser, pText); 
     });
 };
 
