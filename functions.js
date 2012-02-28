@@ -468,9 +468,8 @@ global.HandleCommand = function(pUser, pText){
     var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
     var sSplit = pText.split(' ');
-    var sCommand = sSplit[0].replace (/^[!\*\/]/, "").toLowerCase();
+    var sCommand = sSplit.unshift().replace (/^[!\*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');
-    var sArgs =  Split(pText)[1];
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 
     });
