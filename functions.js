@@ -100,6 +100,29 @@ global.OnSnagged = function(pData){
     //Do Hearts here.
 }
 
+global.OnVote = function(pData){
+  mUpVotes = pData.room.metadata.upvotes;
+  mDownVotes = pData.room.metadata.downvotes;
+  if (mAfkBop){
+      var sVote = pData.room.metadata.votelog;
+      var sVoters = [];
+      for (var _i = 0; _i < sVote.length; _i++) {
+        var sVotes = sVote[_i]; var sUserId = sVotes[0];
+        var sUser = mUsers[sUserId];
+        sVoters.push(Update_User(sUser));
+      }
+      return sVoters;
+  }
+};
+
+global.OnEndSong = function(pData){
+  var sMessage = mEndSong
+  .replace(/\{songtitle\}/gi, mSongName)
+  .replace(/\{up\}/gi, mUpVotes)
+  .replace(/\{down\}/gi, mDownVotes);
+  Speak(mCurrentDJ, sMessage, SpeakingLevel.Misc);
+};
+
 global.Loop = function(){
     CheckAFKs();
     CalculateProperties();

@@ -43,7 +43,8 @@ global.mLoopTimeout             = 10;               //Does the main loop every 1
 
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mWaiter                 = true;            //whether bartender (if we add that function) is enabled by default
-global.mLonelyDJ                = true;             // TODO: Write this descrition.
+global.mLonelyDJ                = true;             // whether the bot will dj if only one dj in room
+global.mAfkBop                = true;             //whether bops reset the afk timer or not
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
@@ -53,6 +54,7 @@ global.mAddDJ                   = null;//"Welcome to the deck, @{username}!  Rem
 global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
+global.mEndSong                  = "{songtitle}: [{up}] Awesomes, [{down}] Lames.";
 global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} songs to get back up.";
 global.mOverMaxSongsQueueOff    = null;
 global.mHelpMsg                 = "Hey, {username.name}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
