@@ -111,6 +111,17 @@ global.mCommands = [
         hint: "Tells you the amount of people in the queue."
     },
     {
+        command: 'maul',
+        callback: function(pUser, pText){
+          console.log('text: '+pText);
+          var sUser = FindByName(pText);
+          if(sUser.length > 0) sUser = sUser[0];
+          mBot.remDj(sUser.userid);
+          },
+        requires: Requires.Moderator,
+        hint: "Remove a DJ"
+    },
+    {
         command: 'disable',
         callback: function(pUser, pText){
             exec(pText + " = null");
