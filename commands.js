@@ -106,6 +106,16 @@ global.mCommands = [
         hint: "Used to disable variables."
     },
     {
+        command: 'settheme',
+        callback: function(pUser, pText){
+            mTheme = pText;
+            LoadParsing();
+            Speak(pUser, mThemeIs, SpeakingLevel.Misc);
+        },
+        requires: Requires.Moderator,
+        hint: "Set/change the theme."
+    },
+    {
         command: 'djs',
         callback: function(pUser, pText){
             var sDJSongCount = [];

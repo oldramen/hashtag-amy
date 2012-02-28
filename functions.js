@@ -301,7 +301,7 @@ global.LoadParsing = function(){
     mParsing['{waiter}']                       = mWaiter ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
     mParsing['{queueamount}']                   = 0;
-    Log("Parsing library initialized");
+    Log("Updated Parsing Library");
 };
 
 global.IsMe = function(pUser){
@@ -439,12 +439,13 @@ global.HandleCommand = function(pUser, pText){
     var sSplit = pText.split(' ');
     var sCommand = sSplit[0].replace (/^[!\*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');
+    var sArgs =  Split(pText)[1];
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 
     });
     sCommands.forEach(function(pCommand){ 
         if(pCommand.requires.check(pUser)) 
-            pCommand.callback(pUser, pText); 
+            pCommand.callback(pUser, sArgs); 
     });
 };
 
