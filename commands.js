@@ -154,7 +154,7 @@ global.mCommands = [
     {
         command: 'dance',
         callback: function(pUser, pText){
-            mBot.vote("up");
+            if(!mModBop || Is_Moderator(pUser))mBot.vote("up");
         },
         requires: Requires.User,
         hint: "Makes the bot dance.  Can not be done by regular users."
