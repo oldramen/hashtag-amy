@@ -133,7 +133,7 @@ global.mCommands = [
         command: 'settheme',
         callback: function(pUser, pText){
             mTheme = pText;
-            LoadParsing();
+            mParsing['{theme}'] = mTheme;
             Speak(pUser, mThemeIs, SpeakingLevel.Misc);
         },
         requires: Requires.Moderator,
