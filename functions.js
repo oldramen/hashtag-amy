@@ -349,7 +349,7 @@ global.CheckAFKTime = function(pUser) {
     var sAge = Date.now() - sLast;
     var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     if (sAge_Minutes >= mAFK) return true;
-    if(!pUser.mAFKWarned && sAge_Minutes >= sWarn){
+    if(!pUser.mAFKWarned && sAge_Minutes >= sWarn && (mWarn)){
         Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
         pUser.mAFKWarned = true;
     }
