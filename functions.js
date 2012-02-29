@@ -110,7 +110,7 @@ global.OnVote = function(pData){
       for (var _i = 0; _i < sVote.length; _i++) {
         var sVotes = sVote[_i]; var sUserId = sVotes[0];
         var sUser = mUsers[sUserId];
-        if (sUser && !IsMe(sUser)) sVoters.push(Update_User(sUser));
+        if (sUser && !IsMe(sUser)) sVoters.push(Update_User(sUser, true));
       }
       return sVoters;
   }
