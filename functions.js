@@ -522,7 +522,7 @@ global.FindByName = function(pName){
     sUserIDs.splice(0,1);
     for(var i = 0; i < sUserIDs.length; ++i){
         var sUserID = sUserIDs[i];
-        if(mUsers[sUserID].name.match(pName)){
+        if(mUsers[sUserID].indexOf(pName) != -1){
             Results.push(mUsers[sUserID]);
         }
     }
