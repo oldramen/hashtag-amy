@@ -47,8 +47,10 @@ global.mCommands = [
         callback: function(pUser, pText){
             mBot.speak(pText);
         }, 
-        requires: Requires.Moderator, 
-        hint: "Makes the bot say something."
+        requires: Requires.Owner, 
+        hint: "Makes the bot say something.",
+        pm: true,
+        bare: true
     },
     {
         command: 'q+',
@@ -110,12 +112,45 @@ global.mCommands = [
     {
         command: 'maul',
         callback: function(pUser, pText){
+            pText = pText.replace("@", "^").trimRight() + "$";
             var sUser = FindByName(pText);
             if(sUser.length > 0) sUser = sUser[0];
                 mBot.remDj(sUser.userid);
         },
         requires: Requires.Moderator,
         hint: "Remove a DJ"
+    },
+    {
+        command: 'gtfo',
+        callback: function(pUser, pText){
+            pText = pText.replace("@", "^").trimRight() + "$";
+            var sUser = FindByName(pText);
+            if(sUser.length > 0) sUser = sUser[0];
+                mBot.bootUser(sUser.userid, "Not in my kitchen.");
+        },
+        requires: Requires.Moderator,
+        hint: "Remove a DJ"
+    },
+    {
+        command: 'stagedive',
+        message: ["{username} is surfing the crowd!", "Oops! {username} lost a shoe sufing the crowd.", "Wooo! {username}'s surfin' the crowd! Now to figure out where the wheelchair came from...", "Well, {username} is surfing the crowd, but where did they get a raft...", "{username} dived off the stage...too bad no one in the audience caught them.", "{username} tried to jump off the stage, but kicked their laptop. Ouch.", "{username} said they were going to do a stagedive, but they just walked off.", "And {username} is surfing the crowd! But why are they shirtless?", "{username} just traumatized us all by squashing that poor kid up front."],
+        callback: function(pUser, pText){
+            if(mDJs.indexOf(pUser.userid) != -1) {
+                mBot.remDj(pUser.userid);
+                var sMessage = mRandomItem(this.message);
+                Speak(pUser, sMessage, SpeakingLevel.Misc);
+              }
+        },
+        requires: Requires.User,
+        hint: "Removes if DJ"
+    },
+    {
+        command: 'ragequit',
+        callback: function(pUser, pText){
+                mBot.bootUser(pUser.userid, "Not in my kitchen.");
+        },
+        requires: Requires.User,
+        hint: "Remove self from room"
     },
     {
         command: 'disable',

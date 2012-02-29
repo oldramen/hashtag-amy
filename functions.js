@@ -527,7 +527,12 @@ global.FindByName = function(pName){
         }
     }
     return Results;
-}
+};
+
+global.mRandomItem = function (list) {
+      return list[Math.floor(Math.random() * list.length)];
+};
+
 global.Is_Moderator = function(pUser){return mModerators.indexOf(pUser.userid) != -1; }
 global.Is_SuperUser = function(pUser){return pUser.acl > 0;}
 global.Is_VIP = function(pUser){return mVIPs.indexOf(pUser.userid) != -1;}
