@@ -94,7 +94,7 @@ global.OnSpeak = function(pData){
 };
 
 global.OnPmmed = function(pData){
-    console.log(JSON.stringify(pData));
+    if(mPMSpeak && mPMCommands.indexOf(pData.text) !== -1) HandleCommand(mUsers[pData.senderid], pData.text);
 };
 
 global.OnSnagged = function(pData){
@@ -198,6 +198,18 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
         if(SpeakingAllowed(pSpeakingLevel)) 
             mBot.speak(pSpeak);
+        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+    }
+    return pSpeak;
+};
+
+global.PM = function(pUser, pSpeak, pSpeakingLevel, pArgs){
+    if(!pSpeak) return;
+    if(IsMe(pUser)) return;
+    pSpeak = Parse(pUser, pSpeak, pArgs);
+    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
+        if(SpeakingAllowed(pSpeakingLevel)) 
+            mBot.pm(pSpeak, pUser.userid);
         mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
     }
     return pSpeak;
@@ -467,6 +479,22 @@ global.HandleCommand = function(pUser, pText){
     if(!mBooted) return;
     var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
+    var sSplit = pText.split(' ');
+    var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
+    pText = sSplit.join(' ');
+    var sCommands = mCommands.filter(function(pCommand){ 
+        return pCommand.command == sCommand; 
+    });
+    sCommands.forEach(function(pCommand){ 
+        if(pCommand.requires.check(pUser)) 
+            pCommand.callback(pUser, pText); 
+    });
+};
+
+global.HandlePM = function(pUser, pText){
+    if(!mBooted || !mPMSpeak) return;
+    var sMatch = pText.match(/^[!\*\/]/);
+    if(!sMatch && mBareCommands.indexOf(pText) === -1 && mPMCommands.indexOf(pText) != -1) return;
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');

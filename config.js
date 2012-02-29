@@ -41,6 +41,7 @@ global.mSongLimitUserProportion = null;              //5 songs per 50 people in 
 global.mNoSpamTimeout           = 15;               //30 seconds before the bot can say the same thing again.
 global.mLoopTimeout             = 10;               //Does the main loop every 15 seconds.
 
+global.mPMSpeak                  = true;             //whether the bot will PM users so as to not spam
 global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
 global.mWaiter                 = true;            //whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;             // whether the bot will dj if only one dj in room

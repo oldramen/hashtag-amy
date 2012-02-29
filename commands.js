@@ -9,11 +9,13 @@ global.mCommands = [
     { 
         command: 'help',
         callback: function(pUser, pText){
-            Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
+            if (mPMSpeak) PM(pUser, mHelpMsg, SpeakingLevel.Misc);
+            else Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
         requires: Requires.User,
         hint: "Gives the users some pretty basic help and advice.",
-        bare: true
+        bare: true,
+        pm: true
     },
     {
         command: 'refresh',
