@@ -380,6 +380,7 @@ global.CheckAFKs = function(){
 };
 
 global.CheckAFKTime = function(pUser) {
+    if (!pUser) return;
     var sWarn = mAFK * (0.693148);
     var sLast = mAFKTimes[pUser.userid];
     var sAge = Date.now() - sLast;
