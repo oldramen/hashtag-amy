@@ -97,6 +97,27 @@ global.mCommands = [
         bare: true
     },
     {
+        command: 'punch',          
+        callback: function(pUser, pText){
+            if(mQueue.length > 0) {
+              if (!pText) {
+                  mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
+                  mQueue.shift();
+                }else {
+                  pText = pText.replace("@", "^").trimRight() + "$";
+                  var sUser = FindByName(pText);
+                  if(sUser.length > 0) sUser = sUser[0];
+                  if(mQueue.indexOf(sUser.userid) === -1) return;
+                  mQueue.splice(mQueue.indexOf(sUser.userid), 1)
+                  mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, sUser.name));
+                }
+            };
+        }, 
+        requires: Requires.Moderator, 
+        hint: "Tells what the current status of the queue is.",
+        bare: true
+    },
+    {
         command: 'qstatus',
         callback: function(pUser, pText){
             if(!mQueueCurrentlyOn)

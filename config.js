@@ -76,6 +76,7 @@ global.mThemeIs                 = "The current theme is {theme}.";
 global.mCurrentDJSongCount      = "The current song count is: {djsandsongcount}";
 global.mRemoveFromQueue         = "You've been removed from the queue.";
 global.mNotInQueue              = "You're not in the queue.";
+global.mModRemoveFromQueue              = "Removed {user} from the queue.";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.
