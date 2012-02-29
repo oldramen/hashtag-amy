@@ -252,6 +252,16 @@ global.mCommands = [
         hint: "Makes the bot dance.  Can not be done by regular users."
     },
     {
+        command: 'hulk',
+        message: ['This is my favorite dubstep.', 'I just want to hump the speaker.'],
+        callback: function(pUser, pText){
+            mBot.vote("up");
+            mBot.speak(mRandomItem(this.message));
+        },
+        requires: Requires.Moderator,
+        hint: "Makes the bot dance.  Can not be done by regular users."
+    },
+    {
         command: 'moo',
         callback: function(pUser, pText){
             Speak(pUser, "I'm not a cow, but oka-MOOOOO!", SpeakingLevel.Misc);
