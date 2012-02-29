@@ -178,7 +178,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             exec(pText + " = null");
         },
-        requires: Requires.Moderator,
+        requires: Requires.Owner,
         hint: "Used to disable variables."
     },
     {
@@ -204,6 +204,22 @@ global.mCommands = [
         },
         requires: Requires.User,
         hint: "Tells the current song count for the DJs."
+    },
+    {
+        command: 'afks',
+        callback: function(pUser, pText){
+            var sDJAfkCount = [];
+            for(var sDJ in mSongCount){
+                var sUser = mUsers[sDJ];
+                var sAfkTime = mAFKTimes[sDJ];                
+                var sAge = Date.now() - sAfkTime;
+                var sAge_Minutes = Math.floor(sAge / 1000 / 60);
+                sDJAfkCount.push(sUser.name + ": " + sAge_Minutes+'m');
+            }
+            Speak(pUser, mCurrentDJAfkCount, SpeakingLevel.Misc,[['{djsandafkcount}', sDJAfkCount.join(', ')]]);
+        },
+        requires: Requires.User,
+        hint: "Tells the current afk timer for the DJs."
     },
     {
         command: 'commands',

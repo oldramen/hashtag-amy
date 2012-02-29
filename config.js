@@ -74,6 +74,7 @@ global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the 
 global.mCommandsList            = "The list of commands are as follows: /{commands}";
 global.mThemeIs                 = "The current theme is {theme}.";
 global.mCurrentDJSongCount      = "The current song count is: {djsandsongcount}";
+global.mCurrentDJAfkCount      = "The current afk timer is: {djsandafkcount}";
 global.mRemoveFromQueue         = "You've been removed from the queue.";
 global.mNotInQueue              = "You're not in the queue.";
 global.mModRemoveFromQueue              = "Removed {user} from the queue.";
