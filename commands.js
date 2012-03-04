@@ -1,3 +1,4 @@
+
 /**
  * @copyright 2012 yayramen && Inumedia.
  * @author Inumedia
@@ -39,7 +40,7 @@ global.mCommands = [
             var sUser = FindByName(pText);
             if(sUser.length > 0) sUser = sUser[0];
             else return;
-            if(IsMe(sUser) || Is_Moderator(pUser) || Is_SuperUser(pUser) || Is_Owner(pUser)) return;
+            if(IsMe(sUser) || Is_Moderator(sUser) || Is_SuperUser(sUser) || Is_Owner(sUser)) return;
             
             Insert("bans", {userid: sUser.userid});
             mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
