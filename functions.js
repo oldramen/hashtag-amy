@@ -518,6 +518,11 @@ global.HandleMenu = function(pUser, pText){
     });
 };
 
+global.CanPM = function(pUser) {
+    if (pUser.laptop != 'iphone') return true;
+    else return false;
+}
+
 global.FindByName = function(pName){
     var Results = [];
     var sUserIDs = _.keys(mUsers);
