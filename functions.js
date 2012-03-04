@@ -94,7 +94,7 @@ global.OnSpeak = function(pData){
 };
 
 global.OnPmmed = function(pData){
-    if(mPMSpeak && mPMCommands.indexOf(pData.text) !== -1) HandleCommand(mUsers[pData.senderid], pData.text);
+    if(mPMSpeak) HandlePM(mUsers[pData.senderid], pData.text);
 };
 
 global.OnSnagged = function(pData){
@@ -495,9 +495,10 @@ global.HandleCommand = function(pUser, pText){
 global.HandlePM = function(pUser, pText){
     if(!mBooted || !mPMSpeak) return;
     var sMatch = pText.match(/^[!\*\/]/);
-    if(!sMatch && mBareCommands.indexOf(pText) === -1 && mPMCommands.indexOf(pText) != -1) return;
+    if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
+    if(mPMCommands.indexOf(sCommand) === -1) return;
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand; 
@@ -523,7 +524,7 @@ global.FindByName = function(pName){
     sUserIDs.splice(0,1);
     for(var i = 0; i < sUserIDs.length; ++i){
         var sUserID = sUserIDs[i];
-        if(mUsers[sUserID].indexOf(pName) != -1){
+        if(mUsers[sUserID].name.match(pName)){
             Results.push(mUsers[sUserID]);
         }
     }

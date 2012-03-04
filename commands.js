@@ -3,6 +3,11 @@
  * @author Inumedia
  * @description This is where all the commands are stored and loaded into runtime from.
  * @note All commands must be entirely lower case.
+ * 
+ * @variables:
+ * hidden - whether or not the command shows up in the /command list
+ * bare - whether or not the command can be accessed without an idetifier. ( ie / or *)
+ * pm - whether or not the command will be processed if it is PM'd to the bot [mPMSpeak must be enabled]
  */
 
 global.mCommands = [
@@ -229,19 +234,23 @@ global.mCommands = [
                 if(pCommand.requires.check(pUser) && !(pCommand.hidden))
                     sCommands.push(pCommand.command);
             });
-            Speak(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
+            if (mPMSpeak) PM(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
+            else Speak(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
         },
         requires: Requires.User,
-        hint: "Tells what all the commands are."
+        hint: "Tells what all the commands are.",
+        pm: true
     },
     {
         command: 'theme',
         callback: function(pUser, pText){
-            Speak(pUser, mThemeIs, SpeakingLevel.Misc);
+            if (mPMSpeak) PM(pUser, mThemeIs, SpeakingLevel.Misc);
+            else Speak(pUser, mThemeIs, SpeakingLevel.Misc);
         },
         requires: Requires.User,
         hint: "Tells what the theme is.",
-        bare: true
+        bare: true,
+        pm: true
     },
     {
         command: 'dance',
