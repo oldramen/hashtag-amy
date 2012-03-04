@@ -15,7 +15,7 @@ global.mCommands = [
     { 
         command: 'help',
         callback: function(pUser, pText){
-            if (CanPM(pUser) && mPMSpeak) PM(pUser, mHelpMsg, SpeakingLevel.Misc);
+            if (CanPM(pUser)) PM(pUser, mHelpMsg, SpeakingLevel.Misc);
             else Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
         requires: Requires.User,
@@ -235,7 +235,7 @@ global.mCommands = [
                 if(pCommand.requires.check(pUser) && !(pCommand.hidden))
                     sCommands.push(pCommand.command);
             });
-            if (CanPM(pUser) && mPMSpeak) PM(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
+            if (CanPM(pUser)) PM(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
             else Speak(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
         },
         requires: Requires.User,
@@ -245,7 +245,7 @@ global.mCommands = [
     {
         command: 'theme',
         callback: function(pUser, pText){
-            if (CanPM(pUser) && mPMSpeak) PM(pUser, mThemeIs, SpeakingLevel.Misc);
+            if (CanPM(pUser)) PM(pUser, mThemeIs, SpeakingLevel.Misc);
             else Speak(pUser, mThemeIs, SpeakingLevel.Misc);
         },
         requires: Requires.User,
@@ -278,6 +278,15 @@ global.mCommands = [
         }, 
         requires: Requires.User, 
         hint: "moo.",
+        hidden:true
+    },
+    {
+        command: 'pats',
+        callback: function(pUser, pText){
+            Speak(pUser, "/me purrrrrrrrrrrrs", SpeakingLevel.Misc);
+        }, 
+        requires: Requires.User, 
+        hint: "pats.",
         hidden:true
     },
     {
