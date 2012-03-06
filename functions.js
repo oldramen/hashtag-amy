@@ -294,10 +294,14 @@ global.RegisterUsers = function(pUsers){
 			var sUser = pUsers[i];
 			console.log("Actually registering: " + sUser.name);
 			var sRegistered = array.filter(function(e){ return e.userid == sUser.userid });
-			if(sRegistered && sRegistered.length)
+			console.log(JSON.stringify(sRegistered));
+			if(sRegistered && sRegistered.length){
 				mUsers[pData.userid] = sRegistered[0].extend(sUser);
-			else
+				console.log("Extending off old.");
+			}else{
 				Insert("users", mUsers[sUser.userid]);
+				console.log("Inserting.");
+			}
 			console.log("Registered:" + mUsers[sUser.userid].name);
 		}
 	});
