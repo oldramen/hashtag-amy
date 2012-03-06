@@ -554,5 +554,5 @@ BaseUser = {
 	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
 	    }
 	    return pSpeak;
-	};
+	}
 };
