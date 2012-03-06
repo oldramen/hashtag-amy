@@ -280,7 +280,7 @@ global.RegisterUser = function(pData){
 };
 
 global.RegisterUsers = function(pUsers){
-	if(!pUsers || !pUser.length) return;
+	if(!pUsers || !pUsers.length) return;
 	var sUserIDs = [];
 	for(var i = 0; i < pUsers.length; ++i){
 		var sUser = pUsers[i];
