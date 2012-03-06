@@ -469,13 +469,12 @@ BaseUser = {
 	isSuperUser: false,
 	laptop: "pc",
 	afkWarned: false,
-	afkTime: 0,
+	afkTime: (new Date()).getTime(),
 	songCount: 0,
 	IsiOS: function(){ return laptop === "iphone"; },
 	CheckAFK : function(){
 		var sWarn = mAFK * (0.693148);
-    	var sLast = this.afkTime
-    	var sAge = Date.now() - sLast;
+    	var sAge = Date.now() - this.afkTime;
     	var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     	if (sAge_Minutes >= mAFK) return true;
     	if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
