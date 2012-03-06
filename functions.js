@@ -270,6 +270,7 @@ global.LonelyDJ = function(){
 
 global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser.extend(pData);
+	++mUsers.length;
 	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
 		if(!cursor){
 			Insert("users", mUsers[pData.userid]);
@@ -285,13 +286,14 @@ global.RegisterUsers = function(pUsers){
 	for(var i = 0; i < pUsers.length; ++i){
 		var sUser = pUsers[i];
 		mUsers[sUser.userid] = BaseUser.extend(sUser);
+		++mUsers.length;
 		sUserIDs.push(sUser.userid);
 		console.log("Pseudo Registered: " + sUser.name + ":" + mUsers[sUser.userid].name);
 	}
-	console.log(0); console.log(JSON.stringify(mUsers));
 	console.log("Registering users...");
+	var keys = _.keys(mUsers);
+	keys.shift(); for(var i = 0; i < keys; ++i) console.log(mUsers[keys[i]].name);
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
-		console.log("2");console.log(JSON.stringify(mUsers));
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
 			
@@ -305,9 +307,7 @@ global.RegisterUsers = function(pUsers){
 			}
 			console.log("Registered: " + mUsers[sUser.userid].name + "("+sUser.userid+")");
 		}
-		console.log("3");console.log(JSON.stringify(mUsers));
 	});
-	console.log("1");console.log(JSON.stringify(mUsers));
 };
 
 global.Update_Users = function(pUsers, pSingle){
