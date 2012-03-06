@@ -270,7 +270,8 @@ global.LonelyDJ = function(){
 
 global.RegisterUser = function(pData){
 	var res = mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
-		mUsers[pData.name] = cursor.extend(pData);
+		mUsers[pData.userid] = cursor.extend(pData);
+		console.log("Registered: " + mUsers[pData.userid].name);
 	});
 };
 
