@@ -286,6 +286,7 @@ global.RegisterUsers = function(pUsers){
 		var sUser = pUsers[i];
 		mUsers[sUser.userid] = BaseUser.extend(sUser);
 		sUserIDs.push(sUser.userid);
+		console.log("Pseudo Registered: " + sUser.name);
 	}
 	console.log("Registering users...");
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
@@ -305,9 +306,10 @@ global.Update_Users = function(pUsers, pSingle){
 	var sRegisteringUsers = [];
 	for(var i = 0; i < pUsers.length; ++i){
 		var sUser = pUsers[i];
-		if(!mUsers[sUser.userid])
+		if(!mUsers[sUser.userid]){
+			console.log("Registering user: "+ sUser.name);
 			sRegisteringUsers.push(sUser);
-		else {
+		}else {
 			mUsers[sUser.userid] = mUsers[sUser.userid].extend(sUser);
 			if(pSingle)	mUsers[sUser.userid].Update(); /// TODO: Make this
 		}
