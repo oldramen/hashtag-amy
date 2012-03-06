@@ -10,12 +10,8 @@ global.Log = function(pOutput){
 
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
-    if(IsMe(pData.user[0])) BootUp();
-    for(var i = 0, len = pData.user.length; i < len; ++i)
-        if(!pData.user[i].IsBot()){
-            Update_User(pData.user[i], true);
-            mPushingOutGreeting.push(pData.user[i]);
-        }
+    for(var i = 0; i < pData.user.length; ++i){ RegisterUser(pData.user[i]); mPushingOutGreeting.push(pData.user[i]); }
+    if(mUsers[0].IsBot()) BootUp();
     CalculateProperties();
 };
 
@@ -265,17 +261,9 @@ global.LonelyDJ = function(){
          mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
 };
 
-global.Update_User = function(pUser, pSingle){
-    if(pUser.userid in mUsers){
- 		mUsers[pUser.userid].extend(pUser);
- 		Log(pUser.name + " updated");
-    }else{
-        var res = mMongoDB.find({userid: pUser.userid});
-		console.log(res);
-    }
-    console.log("Fuck fuck fuck.");
-    mUsers[pUser.userid] = pUser;
-    if (pSingle) Update_AFKTime(pUser);
+global.RegisterUser = function(pData){
+	var res = mMongoDB.find({userid: pData.userid});
+	console.log(res);
 };
 
 global.CalculateProperties = function(){
