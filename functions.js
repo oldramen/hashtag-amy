@@ -256,6 +256,7 @@ global.CheckAFKs = function(){
     if(!mAFK) return;
     for (i in mDJs) {
       var sUser = mUsers[mDJs[i]];
+      console.log(JSON.stringify(sUser));
       if (sUser.CheckAFK()) sUser.BootAFK(sUser);
     }
 };
