@@ -292,6 +292,19 @@ global.RegisterUsers = function(pUsers){
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
+			
+			var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
+			if(sRegistered && sRegistered.length){
+				mUsers[pData.userid] = sRegistered[0].extend(sUser);
+				console.log("Extending off old.");
+			}else{
+				Insert("users", mUsers[sUser.userid]);
+				console.log("Inserting.");
+			}
+			console.log("Registered: " + mUsers[sUser.userid].name + "("+sUser.userid+")");
+		}
+		/*for(var i = 0; i < pUsers.length; ++i){
+			var sUser = pUsers[i];
 			console.log("Actually registering: " + sUser.name);
 			var sRegistered = array.filter(function(e){ return e.userid == sUser.userid });
 			console.log(JSON.stringify(sRegistered));
@@ -303,7 +316,7 @@ global.RegisterUsers = function(pUsers){
 				console.log("Inserting.");
 			}
 			console.log("Registered:" + mUsers[sUser.userid].name);
-		}
+		}*/
 	});
 };
 
