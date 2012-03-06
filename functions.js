@@ -286,7 +286,7 @@ global.RegisterUsers = function(pUsers){
 		var sUser = pUsers[i];
 		mUsers[sUser.userid] = BaseUser.extend(sUser);
 		sUserIDs.push(sUser.userid);
-		console.log("Pseudo Registered: " + sUser.name);
+		console.log("Pseudo Registered: " + sUser.name + ":" + mUsers[sUser.userid].name);
 	}
 	console.log("Registering users...");
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
