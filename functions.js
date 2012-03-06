@@ -299,7 +299,7 @@ global.RegisterUsers = function(pUsers){
 				
 				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 				if(sRegistered && sRegistered.length){
-					mUsers[sUser.userid] = sRegistered[0].extend(sUser);
+					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0])
 				}else{
 					toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
 					console.log("Inserting: " + sUser.name);
