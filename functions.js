@@ -9,11 +9,10 @@ global.Log = function(pOutput){
 };
 
 global.OnRegistered = function(pData){
-    Log("Wat.");
     if(pData.user.length == 0) return;
     if(IsMe(pData.user[0])) BootUp();
     for(var i = 0, len = pData.user.length; i < len; ++i)
-        if(!IsMe(pData.user[i])){
+        if(!pData.user[i].IsBot()){
             Update_User(pData.user[i], true);
             mPushingOutGreeting.push(pData.user[i]);
         }
