@@ -290,6 +290,7 @@ global.RegisterUsers = function(pUsers){
 	}
 	console.log("Registering users...");
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
+		console.log("2");_.forEach(mUsers, function(e){ console.log(e.name); })
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
 			
@@ -303,21 +304,9 @@ global.RegisterUsers = function(pUsers){
 			}
 			console.log("Registered: " + mUsers[sUser.userid].name + "("+sUser.userid+")");
 		}
-		/*for(var i = 0; i < pUsers.length; ++i){
-			var sUser = pUsers[i];
-			console.log("Actually registering: " + sUser.name);
-			var sRegistered = array.filter(function(e){ return e.userid == sUser.userid });
-			console.log(JSON.stringify(sRegistered));
-			if(sRegistered && sRegistered.length){
-				mUsers[pData.userid] = sRegistered[0].extend(sUser);
-				console.log("Extending off old.");
-			}else{
-				Insert("users", mUsers[sUser.userid]);
-				console.log("Inserting.");
-			}
-			console.log("Registered:" + mUsers[sUser.userid].name);
-		}*/
+		console.log("3");_.forEach(mUsers, function(e){ console.log(e.name); })
 	});
+	console.log("1");_.forEach(mUsers, function(e){ console.log(e.name); })
 };
 
 global.Update_Users = function(pUsers, pSingle){
