@@ -290,7 +290,7 @@ global.RegisterUsers = function(pUsers){
 		sUserIDs.push(sUser.userid);
 	}
 	
-	mMongoDB.collection("users").findAll({'userid': {'$in': sUserIDs}}, function(err, cursor){
+	mMongoDB.collection("users").find({'userid': {'$in': sUserIDs}}, function(err, cursor){
 		cursor.toArray(function(err,array){
 			var toInsert = [];
 			console.log(JSON.stringify(sUserIDs));
