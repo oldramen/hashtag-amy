@@ -288,9 +288,10 @@ global.RegisterUsers = function(pUsers){
 		sUserIDs.push(sUser.userid);
 		console.log("Pseudo Registered: " + sUser.name + ":" + mUsers[sUser.userid].name);
 	}
+	console.log(0); console.log(JSON.stringify(mUsers));
 	console.log("Registering users...");
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
-		console.log("2");_.all(mUsers, function(e){ console.log(e.name); })
+		console.log("2");console.log(JSON.stringify(mUsers));
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
 			
@@ -304,9 +305,9 @@ global.RegisterUsers = function(pUsers){
 			}
 			console.log("Registered: " + mUsers[sUser.userid].name + "("+sUser.userid+")");
 		}
-		console.log("3");_.all(mUsers, function(e){ console.log(e.name); })
+		console.log("3");console.log(JSON.stringify(mUsers));
 	});
-	console.log("1");_.all(mUsers, function(e){ console.log(e.name); })
+	console.log("1");console.log(JSON.stringify(mUsers));
 };
 
 global.Update_Users = function(pUsers, pSingle){
