@@ -269,29 +269,53 @@ global.LonelyDJ = function(){
 
 global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser.extend(pData);
-	var res = mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
+	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
 		if(!cursor){
 			Insert("users", mUsers[pData.userid]);
 			console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
 			return;
 		}
 		console.log(JSON.stringify(cursor));
-		mUsers[pData.userid] = cursor.extend(pData);
+		mUsers[pData.userid] = cursor.extend(pData).Reload();
 		console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
 		console.log("Registered: " + mUsers[pData.userid].name + " : " + pData.name);
 	});
 };
 
+global.RegisterUsers = function(pUsers){
+	if(!pUsers || !pUser.length) return;
+	var sUserIDs = [];
+	for(var i = 0; i < pUsers.length; ++i){
+		var sUser = pUsers[i];
+		mUsers[sUser.userid] = BaseUser.extend(sUser);
+		sUserIDs.push(sUser.userid);
+	}
+	
+	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
+		for(var i = 0; i < pUsers.length; ++i){
+			var sUser = pUsers[i];
+			var sRegistered = array.filter(function(e){ return e.userid == sUser.userid });
+			if(sRegistered && sRegistered.length)
+				mUsers[pData.userid] = sRegistered[0].extend(sUser).Reload();
+			else
+				Insert("users", mUsers[pData.userid]);
+			console.log("Registered:" + mUsers[pData.name]);
+		}
+	});
+};
+
 global.Update_Users = function(pUsers, pSingle){
+	var sRegisteringUsers = [];
 	for(var i = 0; i < pUsers.length; ++i){
 		var sUser = pUsers[i];
 		if(!mUsers[sUser.userid])
-			RegisterUser(sUser);
+			sRegisteringUsers.push(sUser);
 		else {
 			mUsers[sUser.userid] = mUsers[sUser.userid].extend(sUser);
 			if(pSingle)	mUsers[sUser.userid].Update(); /// TODO: Make this
 		}
 	}
+	if(sRegisteringUsers && sRegisteringUsers.length) RegisterUsers(sRegisteringUsers);
 };
 
 global.CalculateProperties = function(){
@@ -450,6 +474,7 @@ BaseUser = {
 	laptop: "pc",
 	afkWarned: false,
 	afkTime: 0,
+	songCount: 0,
 	IsiOS: function(){ return laptop === "iphone"; },
 	CheckAFK : function(){
 		var sWarn = mAFK * (0.693148);
