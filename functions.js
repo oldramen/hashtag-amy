@@ -290,7 +290,7 @@ global.RegisterUsers = function(pUsers){
 	}
 	console.log("Registering users...");
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
-		console.log("2");_.forEach(mUsers, function(e){ console.log(e.name); })
+		console.log("2");_.all(mUsers, function(e){ console.log(e.name); })
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
 			
@@ -304,9 +304,9 @@ global.RegisterUsers = function(pUsers){
 			}
 			console.log("Registered: " + mUsers[sUser.userid].name + "("+sUser.userid+")");
 		}
-		console.log("3");_.forEach(mUsers, function(e){ console.log(e.name); })
+		console.log("3");_.all(mUsers, function(e){ console.log(e.name); })
 	});
-	console.log("1");_.forEach(mUsers, function(e){ console.log(e.name); })
+	console.log("1");_.all(mUsers, function(e){ console.log(e.name); })
 };
 
 global.Update_Users = function(pUsers, pSingle){
