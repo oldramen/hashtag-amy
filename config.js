@@ -10,7 +10,7 @@ require("./enums.js");
 
 //Variables
 global.mAuthId                  = "{auth_id}";      //authid of bot
-global.mUserId                  = "{user_id}";      //userid of bot
+global.sGreeting                  = "{user_id}";      //userid of bot
 global.mRoomId                  = "{room_id}";      //roomid of room to be hosted in
 global.mMongoHost               = "{mongo_host}";   //host of mongodb
 global.mMongoDatabase           = "{mongo_database}";//mongocollection for bot.
@@ -22,15 +22,13 @@ global.mLaptop                  = "chrome";
 global.mTheme                   = "EDM";            //default theme/genre for the room
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
-global.mOwners                  = [];               //hard coded array of userids for owners
-global.mVIPs                    = [];               //hard coded array of VIP IDs
 
 global.mMaxSongs                = 0;                //default song limit
 global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
 global.mQueueOn                 = true;             //if queue is enabled by default
 global.mAFK                     = 20;               //default afk time (in minutes)
-global.mWarn                     = false;               //Whether bot warns for AFKs
+global.mWarn                    = false;               //Whether bot warns for AFKs
 global.mMinSongLimitOperator    = null;              //Here ya go Dalton!  :D
 global.mMinUsersForSongLimit    = null;               //TODO: This.
 global.mMinDJsForSongLimit      = null;                //
@@ -41,11 +39,11 @@ global.mSongLimitUserProportion = null;              //5 songs per 50 people in 
 global.mNoSpamTimeout           = 15;               //30 seconds before the bot can say the same thing again.
 global.mLoopTimeout             = 10;               //Does the main loop every 15 seconds.
 
-global.mPMSpeak                  = true;             //whether the bot will PM users so as to not spam
-global.mModBop                  = true;             //whether the /bop commands are for everyone or just mods
-global.mWaiter                 = true;            //whether bartender (if we add that function) is enabled by default
-global.mLonelyDJ                = true;             // whether the bot will dj if only one dj in room
-global.mAfkBop                = true;             //whether bops reset the afk timer or not
+global.mPMSpeak                 = true;            //whether the bot will PM users so as to not spam
+global.mModBop                  = true;            //whether the /bop commands are for everyone or just mods
+global.mWaiter                 	= true;            //whether bartender (if we add that function) is enabled by default
+global.mLonelyDJ                = true;            // whether the bot will dj if only one dj in room
+global.mAfkBop                	= true;            //whether bops reset the afk timer or not
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
