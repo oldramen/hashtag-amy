@@ -290,7 +290,7 @@ global.RegisterUsers = function(pUsers){
 		mUsers[sUser.userid] = BaseUser.extend(sUser);
 		sUserIDs.push(sUser.userid);
 	}
-	
+	console.log("Registering users...");
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
@@ -596,5 +596,8 @@ BaseUser = {
 	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
 	    }
 	    return pSpeak;
+	},
+	Update : function(){
+		/// Nope.avi
 	}
 };
