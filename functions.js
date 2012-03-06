@@ -129,7 +129,8 @@ global.OnEndSong = function(pData){
 global.Loop = function(){
     CheckAFKs();
     CalculateProperties();
-    Greet(mPushingOutGreeting);
+    var toGreet = mUsers.filter(function(e){ return mPushingOutGreeting.indexOf(e.userid) != -1; });
+    if(toGreet) toGreet.forEach(function(e){ e.Greet(); })
     mPushingOutGreeting = [];
     RemoveOldMessages();
 };
