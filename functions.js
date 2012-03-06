@@ -19,6 +19,7 @@ global.OnRegistered = function(pData){
 	    	mPushingOutGreeting.push(pData.user[i]); 
     	}
 	}
+	if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
     CalculateProperties();
 };
 
@@ -272,7 +273,6 @@ global.RegisterUser = function(pData){
 	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
 		if(!cursor){
 			Insert("users", mUsers[pData.userid]);
-			console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
 			return;
 		}
 		mUsers[pData.userid] = cursor.extend(pData);
