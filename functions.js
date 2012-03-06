@@ -11,7 +11,7 @@ global.Log = function(pOutput){
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     for(var i = 0; i < pData.user.length; ++i){ RegisterUser(pData.user[i]); mPushingOutGreeting.push(pData.user[i]); }
-    if(mUsers[0].IsBot()) BootUp();
+    //if(mUsers[0].IsBot()) BootUp();
     CalculateProperties();
 };
 
