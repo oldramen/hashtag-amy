@@ -10,7 +10,6 @@ global.Log = function(pOutput){
 
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
-    if(pData.user[0].userid == mUserId) BootUp();
     for(var i = 0; i < pData.user.length; ++i){
     	var sUser = pData.user[i];
     	if(sUser = mUsers[pData.user[i].userid]){
@@ -32,7 +31,7 @@ global.OnDeregistered = function(pData){
 global.OnGotRoomInfo = function(pData){
     Log("Got Room Data");
     mRoomName = pData.room.name;
-    for(var i = 0, len = pData.users.length; i < len; ++i) Update_Users(pData.users[i], false); 
+    for(var i = 0, len = pData.users.length; i < len; ++i) Update_Users(pData.users, false); 
     RefreshMetaData(pData.room.metadata);
 };
 
@@ -61,7 +60,7 @@ global.OnAddDJ = function(pData){
     mDJs.push(sUser.userid);
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
-    mSongCount[sUser.userid] = 0;
+    
     LonelyDJ();
     Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
@@ -269,19 +268,23 @@ global.LonelyDJ = function(){
 };
 
 global.RegisterUser = function(pData){
+	mUsers[pData.userid] = BaseUser.extend(pData);
 	var res = mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
 		mUsers[pData.userid] = cursor.extend(pData);
+		
 		console.log("Registered: " + mUsers[pData.userid].name);
 	});
 };
 
-global.Update_Users = function(pUsers){
+global.Update_Users = function(pUsers, pSingle){
 	for(var i = 0; i < pUsers.length; ++i){
 		var sUser = pUsers[i];
 		if(!mUsers[sUser.userid])
 			RegisterUser(sUser);
-		else
-			mUsers[sUser.userid].Update();
+		else {
+			mUsers[sUser.userid] = mUsers[sUser.userid].extend(sUser);
+			if(pSingle)	mUsers[sUser.userid].Update(); /// TODO: Make this
+		}
 	}
 };
 
