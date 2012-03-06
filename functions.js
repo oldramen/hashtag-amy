@@ -296,7 +296,7 @@ global.RegisterUsers = function(pUsers){
 				mUsers[pData.userid] = sRegistered[0].extend(sUser);
 			else
 				Insert("users", mUsers[sUser.userid]);
-			console.log("Registered:" + mUsers[sUser.userid]);
+			console.log("Registered:" + mUsers[sUser.userid].name);
 		}
 	});
 };
