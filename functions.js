@@ -31,7 +31,7 @@ global.OnDeregistered = function(pData){
 global.OnGotRoomInfo = function(pData){
     Log("Got Room Data");
     mRoomName = pData.room.name;
-    for(var i = 0, len = pData.users.length; i < len; ++i) Update_Users(pData.users, false); 
+    Update_Users(pData.users, false); 
     RefreshMetaData(pData.room.metadata);
 };
 
@@ -275,10 +275,7 @@ global.RegisterUser = function(pData){
 			console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
 			return;
 		}
-		console.log(JSON.stringify(cursor));
 		mUsers[pData.userid] = cursor.extend(pData);
-		console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
-		console.log("Registered: " + mUsers[pData.userid].name + " : " + pData.name);
 	});
 };
 
