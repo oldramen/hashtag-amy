@@ -71,7 +71,6 @@ global.OnRemDJ = function(pData){
     var sUser = pData.user[0];
     Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
-    delete mSongCount[sUser.userid];
     LonelyDJ();
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
@@ -202,7 +201,7 @@ global.RefreshMetaData = function(pMetaData){
     mDJs = [];
     for(var i = 0, len = pMetaData.djs.length; i < len; ++i){
         mDJs[i] = pMetaData.djs[i];
-        mSongCount[pMetaData.djs[i]] = 0;
+        mUsers[mDJs[i]].songCount = 0;
     }
     mCurrentDJ = mUsers[pMetaData.current_dj];
     mIsModerator = pMetaData.moderator_id.indexOf(mUserId) != -1;
