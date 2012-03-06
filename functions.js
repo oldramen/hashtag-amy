@@ -262,7 +262,7 @@ global.LonelyDJ = function(){
 };
 
 global.RegisterUser = function(pData){
-	var res = mMongoDB.find({userid: pData.userid});
+	var res = mMongoDB.collection("users").find({userid: pData.userid});
 	console.log(res);
 };
 
