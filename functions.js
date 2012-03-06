@@ -269,14 +269,14 @@ global.LonelyDJ = function(){
 };
 
 global.RegisterUser = function(pData){
-	mUsers[pData.userid] = pData.extend(BaseUser);
+	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
 	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
 		if(!cursor){
 			Insert("users", mUsers[pData.userid]);
 			return;
 		}
-		mUsers[pData.userid] = pData.extend(cursor);
+		mUsers[pData.userid] = cursor.extend(pData);
 	});
 };
 
@@ -285,7 +285,7 @@ global.RegisterUsers = function(pUsers){
 	var sUserIDs = [];
 	for(var i = 0; i < pUsers.length; ++i){
 		var sUser = pUsers[i];
-		mUsers[sUser.userid] = sUser.extend(BaseUser);
+		mUsers[sUser.userid] = BaseUser().extend(sUser);
 		++mUsers.length;
 		sUserIDs.push(sUser.userid);
 		console.log("Pseudo Registered: " + sUser.name + ":" + mUsers[sUser.userid].name);
@@ -299,7 +299,7 @@ global.RegisterUsers = function(pUsers){
 			
 			var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 			if(sRegistered && sRegistered.length){
-				mUsers[pData.userid] = sUser.extend(Registered[0]);
+				mUsers[pData.userid] = sRegistered[0].extend(sUser);
 				console.log("Extending off old.");
 			}else{
 				Insert("users", mUsers[sUser.userid]);
@@ -318,7 +318,7 @@ global.Update_Users = function(pUsers, pSingle){
 			console.log("Registering user: "+ sUser.name);
 			sRegisteringUsers.push(sUser);
 		}else {
-			mUsers[sUser.userid] = sUser.extend(mUsers[sUser.userid]);
+			mUsers[sUser.userid] = mUsers[sUser.userid].extend(sUser);
 			if(pSingle)	mUsers[sUser.userid].Update(); /// TODO: Make this
 		}
 	}
@@ -470,7 +470,7 @@ Object.defineProperty(Object.prototype, "extend", {
     }
 });
 
-BaseUser = {
+BaseUser = function(){return {
 	userid: -1,
 	name: "I said what what",
 	isBanned: false,
@@ -606,4 +606,5 @@ BaseUser = {
 	Update : function(){
 		/// Nope.avi
 	}
+};
 };
