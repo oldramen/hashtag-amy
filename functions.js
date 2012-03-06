@@ -10,6 +10,7 @@ global.Log = function(pOutput){
 
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
+    Log("Wat.");
     if(IsMe(pData.user[0])) BootUp();
     for(var i = 0, len = pData.user.length; i < len; ++i)
         if(!IsMe(pData.user[i])){
@@ -273,6 +274,7 @@ global.Update_User = function(pUser, pSingle){
         var res = mMongoDB.find({userid: pUser.userid});
 		console.log(res);
     }
+    console.log("Fuck fuck fuck.");
     mUsers[pUser.userid] = pUser;
     if (pSingle) Update_AFKTime(pUser);
 };
