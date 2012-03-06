@@ -288,25 +288,22 @@ global.RegisterUsers = function(pUsers){
 		mUsers[sUser.userid] = BaseUser().extend(sUser);
 		++mUsers.length;
 		sUserIDs.push(sUser.userid);
-		console.log("Pseudo Registered: " + sUser.name + ":" + mUsers[sUser.userid].name);
 	}
-	console.log("Registering users...");
-	var keys = _.keys(mUsers);
-	keys.shift(); for(var i = 0; i < keys.length; ++i) console.log(mUsers[keys[i]].name);
+	
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
+		var toInsert = [];
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
 			
 			var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 			if(sRegistered && sRegistered.length){
 				mUsers[pData.userid] = sRegistered[0].extend(sUser);
-				console.log("Extending off old.");
 			}else{
-				Insert("users", mUsers[sUser.userid]);
-				console.log("Inserting.");
+				toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
+				console.log("Inserting: " + sUser.name);
 			}
-			console.log("Registered: " + mUsers[sUser.userid].name + "("+sUser.userid+")");
 		}
+		Insert("users", toInsert);
 	});
 };
 
@@ -315,7 +312,6 @@ global.Update_Users = function(pUsers, pSingle){
 	for(var i = 0; i < pUsers.length; ++i){
 		var sUser = pUsers[i];
 		if(!mUsers[sUser.userid]){
-			console.log("Registering user: "+ sUser.name);
 			sRegisteringUsers.push(sUser);
 		}else {
 			mUsers[sUser.userid] = mUsers[sUser.userid].extend(sUser);
