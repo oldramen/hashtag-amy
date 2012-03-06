@@ -32,8 +32,7 @@ global.OnDeregistered = function(pData){
 global.OnGotRoomInfo = function(pData){
     Log("Got Room Data");
     mRoomName = pData.room.name;
-    //This is bad. don't update users on roominfo calls; idle wouldn't help it.
-    for(var i = 0, len = pData.users.length; i < len; ++i) Update_User(pData.users[i], false); 
+    for(var i = 0, len = pData.users.length; i < len; ++i) Update_Users(pData.users[i], false); 
     RefreshMetaData(pData.room.metadata);
 };
 
@@ -274,6 +273,16 @@ global.RegisterUser = function(pData){
 		mUsers[pData.userid] = cursor.extend(pData);
 		console.log("Registered: " + mUsers[pData.userid].name);
 	});
+};
+
+global.Update_Users = function(pUsers){
+	for(var i = 0; i < pUsers.length; ++i){
+		var sUser = pUsers[i];
+		if(!mUsers[sUser.userid])
+			RegisterUser(sUser);
+		else
+			mUsers[sUser.userid].Update();
+	}
 };
 
 global.CalculateProperties = function(){
