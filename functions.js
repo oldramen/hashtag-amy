@@ -270,6 +270,11 @@ global.LonelyDJ = function(){
 global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser.extend(pData);
 	var res = mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
+		if(!cursor){
+			Insert("users", mUsers[pData.userid]);
+			console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
+			return;
+		}
 		console.log(JSON.stringify(cursor));
 		mUsers[pData.userid] = cursor.extend(pData);
 		console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
