@@ -292,6 +292,7 @@ global.RegisterUsers = function(pUsers){
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
+			console.log("Actually registering: " + sUser.name);
 			var sRegistered = array.filter(function(e){ return e.userid == sUser.userid });
 			if(sRegistered && sRegistered.length)
 				mUsers[pData.userid] = sRegistered[0].extend(sUser);
