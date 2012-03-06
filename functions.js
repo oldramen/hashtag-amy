@@ -12,7 +12,8 @@ global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     if(pData.user[0].userid == mUserId) BootUp();
     for(var i = 0; i < pData.user.length; ++i){
-    	if((var sUser = mUsers[pData.userid])){
+    	var sUser = pData.user[i];
+    	if(sUser = mUsers[pData.user[i].userid]){
     		Log("Me Gusta.");
     	}else{
 	    	RegisterUser(pData.user[i]); 
