@@ -10,7 +10,7 @@ require("./enums.js");
 
 //Variables
 global.mAuthId                  = "{auth_id}";      //authid of bot
-global.sGreeting                  = "{user_id}";      //userid of bot
+global.mUserId                  = "{user_id}";      //userid of bot
 global.mRoomId                  = "{room_id}";      //roomid of room to be hosted in
 global.mMongoHost               = "{mongo_host}";   //host of mongodb
 global.mMongoDatabase           = "{mongo_database}";//mongocollection for bot.
