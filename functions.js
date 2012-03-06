@@ -235,9 +235,9 @@ global.LoadParsing = function(){
     mParsing['{songwait}']                      = mWaitSongs;
     mParsing['{queuecurrentlyon}']              = mQueueCurrentlyOn ? "on" : "off";
     mParsing['{songlimitcurrentlyon}']          = mSongLimitCurrentlyOn ? "on" : "off";
-    mParsing['{owners}']                        = mOwners.join(', ');
-    mParsing['{vips}']                          = mVIPs.join(', ');
-    mParsing['{waiter}']                       = mWaiter ? "on" : "off";
+    //mParsing['{owners}']                        = mOwners.join(', ');
+    //mParsing['{vips}']                          = mVIPs.join(', ');
+    mParsing['{waiter}']                       	= mWaiter ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
     mParsing['{queueamount}']                   = 0;
     Log("Updated Parsing Library");
