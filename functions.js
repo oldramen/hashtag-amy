@@ -290,22 +290,25 @@ global.RegisterUsers = function(pUsers){
 		sUserIDs.push(sUser.userid);
 	}
 	
-	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
-		var toInsert = [];
-		console.log(JSON.stringify(array));
-		for(var i = 0; i < pUsers.length; ++i){
-			var sUser = pUsers[i];
-			
-			var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
-			if(sRegistered && sRegistered.length){
-				mUsers[pData.userid] = sRegistered[0].extend(sUser);
-			}else{
-				toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
-				console.log("Inserting: " + sUser.name);
+	mMongoDB.collection("users").find({userid: sUserIDs}, function(err, cursor){
+		cursor.toArray(function(err,array){
+			var toInsert = [];
+			console.log(JSON.stringify(sUserIDs));
+			console.log(JSON.stringify(array));
+			for(var i = 0; i < pUsers.length; ++i){
+				var sUser = pUsers[i];
+				
+				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
+				if(sRegistered && sRegistered.length){
+					mUsers[pData.userid] = sRegistered[0].extend(sUser);
+				}else{
+					toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
+					console.log("Inserting: " + sUser.name);
+				}
 			}
-		}
-		//Insert("users", toInsert);
-	});
+			//Insert("users", toInsert);
+		});
+	})
 };
 
 global.Update_Users = function(pUsers, pSingle){
