@@ -292,6 +292,7 @@ global.RegisterUsers = function(pUsers){
 	
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
 		var toInsert = [];
+		console.log(JSON.stringify(array));
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
 			
@@ -303,7 +304,7 @@ global.RegisterUsers = function(pUsers){
 				console.log("Inserting: " + sUser.name);
 			}
 		}
-		Insert("users", toInsert);
+		//Insert("users", toInsert);
 	});
 };
 
