@@ -57,7 +57,7 @@ global.OnRemModerator = function(pData){
 global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = pData.user[0];
-    Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
@@ -69,7 +69,7 @@ global.OnAddDJ = function(pData){
 global.OnRemDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = pData.user[0];
-    Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
@@ -90,7 +90,7 @@ global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     var sText = pData.text;
     if(sUser == null) return;
-    Update_User(sUser, true);
+    sUser.Update(); Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
     if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
 };
@@ -107,13 +107,17 @@ global.OnVote = function(pData){
   mUpVotes = pData.room.metadata.upvotes;
   mDownVotes = pData.room.metadata.downvotes;
   if (mAfkBop){
-      var sVote = pData.room.metadata.votelog;
-      var sVoters = [];
-      for (var _i = 0; _i < sVote.length; _i++) {
-        var sVotes = sVote[_i]; var sUserId = sVotes[0];
-        var sUser = mUsers[sUserId];
-        if (sUser && !IsMe(sUser)) sVoters.push(Update_User(sUser, true));
-      }
+    var sVote = pData.room.metadata.votelog;
+    var sVoters = [];
+  	for (var _i = 0; _i < sVote.length; _i++) {
+		var sVotes = sVote[_i]; 
+		var sUserId = sVotes[0];
+		var sUser = mUsers[sUserId];
+		if (sUser && !sUser.IsBot()){
+        	 sVoters.push(sUser.userid);
+        	 ///Variable to update user on vote if configured?
+    	}
+	}
       return sVoters;
   }
 };
@@ -256,7 +260,6 @@ global.CheckAFKs = function(){
     if(!mAFK) return;
     for (i in mDJs) {
       var sUser = mUsers[mDJs[i]];
-      console.log(JSON.stringify(sUser));
       if (sUser.CheckAFK()) sUser.BootAFK(sUser);
     }
 };
