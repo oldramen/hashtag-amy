@@ -276,7 +276,7 @@ global.RegisterUser = function(pData){
 			return;
 		}
 		console.log(JSON.stringify(cursor));
-		mUsers[pData.userid] = cursor.extend(pData).Reload();
+		mUsers[pData.userid] = cursor.extend(pData);
 		console.log("mUsers = " + JSON.stringify(mUsers[pData.userid]));
 		console.log("Registered: " + mUsers[pData.userid].name + " : " + pData.name);
 	});
@@ -296,7 +296,7 @@ global.RegisterUsers = function(pUsers){
 			var sUser = pUsers[i];
 			var sRegistered = array.filter(function(e){ return e.userid == sUser.userid });
 			if(sRegistered && sRegistered.length)
-				mUsers[pData.userid] = sRegistered[0].extend(sUser).Reload();
+				mUsers[pData.userid] = sRegistered[0].extend(sUser);
 			else
 				Insert("users", mUsers[pData.userid]);
 			console.log("Registered:" + mUsers[pData.name]);
