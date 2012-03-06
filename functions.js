@@ -292,7 +292,7 @@ global.RegisterUsers = function(pUsers){
 	}
 	console.log("Registering users...");
 	var keys = _.keys(mUsers);
-	keys.shift(); for(var i = 0; i < keys; ++i) console.log(mUsers[keys[i]].name);
+	keys.shift(); for(var i = 0; i < keys.length; ++i) console.log(mUsers[keys[i]].name);
 	mMongoDB.collection("users").find({userid: sUserIDs}).toArray(function(err,array){
 		for(var i = 0; i < pUsers.length; ++i){
 			var sUser = pUsers[i];
