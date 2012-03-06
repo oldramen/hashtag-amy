@@ -9,8 +9,8 @@ global.Log = function(pOutput){
 };
 
 global.OnRegistered = function(pData){
-    if(pData.user.length == 0) return;
     Log("Wat.");
+    if(pData.user.length == 0) return;
     if(IsMe(pData.user[0])) BootUp();
     for(var i = 0, len = pData.user.length; i < len; ++i)
         if(!IsMe(pData.user[i])){
