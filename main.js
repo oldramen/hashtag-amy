@@ -18,27 +18,33 @@ if (mWaiter) require("./menu.js");
 Log("Initializing");
 //Let's set some constant variables.
 global.mUsers           =   {length: 0};
-global.mGreetings       =   [];
-global.mBans            =   [];
-global.mAFKTimes        =   {};
-global.mParsing         =   {};
-global.mSongName        =   "";
+
+global.mCurrentSong = {
+	songName: "",
+	upVotes: -1,
+	downVotes: -1,
+}
+
+/*global.mSongName        =   "";
 global.mUpVotes         =   0;
 global.mDownVotes       =   0;
-global.mSongCount       =   {};
+global.mSongCount       =   {};*/
+
 global.mDJs             =   [];
-global.mCurrentDJ       =   "";
-global.mModerators      =   [];
-global.mIsModerator     =   false;
+global.mCurrentDJ       =   null; /// Will be a user ( type )
+
+
 global.mRoomName        =   "";
+global.mMaxDJs          =   5;
+
+global.mParsing         =   {};
 global.mMongoDB         =   null;
 global.mBot             =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
 global.mBooted          =   false;
-global.mMaxDJs          =   5;
+global.mIsModerator     =   false;
+
 global.mBareCommands    =   mCommands.filter(function(e){ return e.bare == true; });
 if(!mBareCommands) mBareCommands = []; else mBareCommands = mBareCommands.map(function(e){ return e.command; });;
-global.mPMCommands    =   mCommands.filter(function(e){ return e.pm == true; });
-if(!mPMCommands) mPMCommands = []; else mPMCommands = mPMCommands.map(function(e){ return e.command; });;
 
 global.mQueue           =   [];
 global.mQueueNextUp     =   null;
@@ -55,28 +61,6 @@ global.mPushingOutGreeting      = [];
 global.mSpokenMessages          = [];
 
 InitMongoDB();
-Refresh("bans", function(e, pItems){
-    if(!pItems) return;
-    Log("Got Bans");
-    for(var i = 0; i < pItems.length; ++i){
-        mBans.push(pItems[i]);
-    }
-});
-Refresh("greetings", function(e,pItems){ 
-    if(!pItems) return;  
-    Log("Got Greetings");
-    global.mGreetings = pItems;
-});
-Refresh("owners", function(e,pItems){
-    if(!pItems) return;
-    Log("Got Owners");
-    for(var i = 0; i < pItems.length; ++i) mOwners.push(pItems[i].userid);
-});
-Refresh("vips", function(e,pItems){
-    if(!pItems) return;
-    Log("Got VIPs");
-    for(var i = 0; i < pItems.length; ++i) mVIPs.push(pItems[i].userid);
-});
 Log("Done");
 
 Log("Hooking events");
@@ -91,8 +75,6 @@ mBot.on("speak", OnSpeak);
 mBot.on("pmmed", OnPmmed);
 mBot.on("newsong", OnNewSong);
 mBot.on("snagged", OnSnagged);
-mBot.on("update_votes", OnVote);
-mBot.on("endsong", OnEndSong);
 Log("Done");
 
 Log("Ready");

@@ -296,5 +296,15 @@ global.mCommands = [
         }, 
         requires: Requires.User, 
         hint: "Order something off the menu."
+    },
+    {
+        command: 'log',
+        callback: function(pUser, pText){
+            console.log(pUser);
+        }, 
+        requires: Requires.Owner, 
+        hint: "Order something off the menu.",
+        hidden: true,
+        pm: true
     }
 ];
