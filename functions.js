@@ -519,7 +519,6 @@ global.HandleMenu = function(pUser, pText){
 };
 
 global.CanPM = function(pUser) {
-    if (!mPMSpeak) return false;
     if (pUser.laptop != 'iphone') return true;
     else return false;
 }
