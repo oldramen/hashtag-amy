@@ -313,7 +313,7 @@ global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
 	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
-		Log("Finding: " + JSON.stringify(pData));
+		Log("Finding: " + JSON.stringify(pData) + pData.Initialize);
 		if(!cursor){
 			Insert("users", mUsers[pData.userid]);
 			Log("Inserting: " + mUsers[pData.userid].name);
