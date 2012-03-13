@@ -15,7 +15,7 @@ global.mCommands = [
     { 
         command: 'help',
         callback: function(pUser, pText){
-            if (CanPM(pUser)) PM(pUser, mHelpMsg, SpeakingLevel.Misc);
+            if (CanPM(pUser)) pUser.PM(mHelpMsg, SpeakingLevel.Misc);
             else Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
         }, 
         requires: Requires.User,
