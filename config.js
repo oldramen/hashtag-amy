@@ -24,6 +24,8 @@ global.mTimeForCacheFlush		= 15000;
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 
+global.mOwners					= [];
+global.mVIPs					= [];
 global.mMaxSongs                = 3;                //default song limit
 global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default

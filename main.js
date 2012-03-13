@@ -37,6 +37,7 @@ global.mRecentlyLeft	=	{};
 global.mRoomName        =   "";
 global.mRoomShortcut	= 	"";
 global.mMaxDJs          =   5;
+global.mModerators		=	[];
 
 global.mParsing         =   {};
 global.mMongoDB         =   null;

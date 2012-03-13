@@ -324,9 +324,11 @@ global.RegisterUser = function(pData){
 	if(mBooted)
 		mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
 			if(!cursor){
-				Insert(mRoomShortcut, mUsers[pData.userid]);
-				Log("Inserting: " + mUsers[pData.userid].name);
-				mUsers[pData.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+				var sUser = mUsers[pData.userid];
+				Insert(mRoomShortcut, sUser);
+				Log("Inserting: " + sUser.name);
+				sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
+				sUser.Initialize();
 				return;
 			}
 			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
@@ -352,12 +354,13 @@ global.RegisterUsers = function(pUsers){
 				var sUser = pUsers[i];
 				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 				if(sRegistered && sRegistered.length){
-					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
+					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
 					mUsers[sUser.userid].Initialize();
 				}else{
 					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					Log("Inserting: " + sUser.name);
 					mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+					mUsers[sUser.userid].Initialize();
 				}
 			}
 			Insert(mRoomShortcut, toInsert);
@@ -568,6 +571,7 @@ BaseUser = function(){return {
 	isOwner: false,
 	isVip: false,
 	isSuperUser: false,
+	isDJ: false,
 	laptop: "pc",
 	afkWarned: false,
 	afkTime: Date.now(),
@@ -646,6 +650,11 @@ BaseUser = function(){return {
 		this.afkTime = Date.now();
 		this.afkWarned = false;
 		this.bootAfterSong = false;
+		this.isDJ = mDJs.indexOf(this.userid) != -1;
+		this.isMod = mModerators.indexOf(this.userid) != -1;
+		this.isOwner = mOwners.indexOf(this.userid) != -1;
+		this.isVip = mVIPs.indexOf(this.userid) != -1;
+		this.isSuperUser = this.acl > 0;
 	}
 };
 };

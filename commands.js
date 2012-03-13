@@ -297,5 +297,14 @@ global.mCommands = [
         }, 
         requires: Requires.User, 
         hint: "Order something off the menu."
+    },
+    {
+    	command: 'bootaftersong',
+    	callback: function(pUser, pText){
+    		if(pUser.)
+    		pUser.bootAfterSong = true;
+    	},
+    	requires: Requires.User,
+    	hint: "Removes the user from the deck after their song is over."
     }
 ];
