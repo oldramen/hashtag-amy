@@ -41,7 +41,7 @@ global.OnNewModerator = function(pData){
     var sUser = mUsers[pData.userid];
     if(IsMe(pData.userid)) mIsModerator = true;
     else mModerators[pData.userid] = true;
-    if(sUser) mUsers.Speak([sUser], mAddMod, SpeakingLevel.MODChange);
+    if(sUser) Speak(mUsers[sUser], mAddMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is now a moderator");
 };
 
@@ -50,7 +50,7 @@ global.OnRemModerator = function(pData){
     var sUser = mUsers[pData.userid];
     if(IsMe(pData.userid)) mIsModerator = false;
     else delete mModerators[pData.userid];
-    if(sUser) sUser.Speak(, mRemMod, SpeakingLevel.MODChange);
+    if(sUser) Speak(sUser, mRemMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is no longer a moderator");
 };
 
@@ -63,7 +63,7 @@ global.OnAddDJ = function(pData){
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     
     LonelyDJ();
-    sUser.Speak(, mAddDJ, SpeakingLevel.DJChange);
+    Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
 
 global.OnRemDJ = function(pData){
@@ -75,7 +75,7 @@ global.OnRemDJ = function(pData){
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
-        sUser.Speak(, mRemDJ, SpeakingLevel.DJChange);
+        Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
     if(mQueueCurrentlyOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
 
@@ -127,7 +127,7 @@ global.OnEndSong = function(pData){
   .replace(/\{songtitle\}/gi, mSongName)
   .replace(/\{up\}/gi, mUpVotes)
   .replace(/\{down\}/gi, mDownVotes);
-  mCurrentDJ.Speak(, sMessage, SpeakingLevel.Misc);
+  Speak(mCurrentDJ, sMessage, SpeakingLevel.Misc);
 };
 
 global.Loop = function(){
@@ -151,7 +151,7 @@ global.QueueAdvance = function(){
     if(mQueueNextUp){
         mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
         if(!mQueueNotified)
-            mUsers.Speak([mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
+            Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
         mQueueNotified = true;
     }
     ParsingForQueue();
@@ -166,7 +166,7 @@ global.GuaranteeQueue = function(pUser){
     }else{
         RemoveDJ(pUser);
         if(mQueueWarned.indexOf(pUser.userid) == -1){
-            pUser.Speak(, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
+            Speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
             mQueueWarned.push(pUser);
         }
         return false;
@@ -491,14 +491,14 @@ BaseUser = function(){return {
     	var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     	if (sAge_Minutes >= mAFK) return true;
     	if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
-    	    pUser.Speak(, mWarnMsg, SpeakingLevel.Misc);
+    	    Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
 			this.afkWarned = true;
     	}
     	return false;
 	},
 	BootAFK : function(){
 		this.RemoveDJ();
-	    this.mRemDJMsg.Speak(, SpeakingLevel.Misc);
+	    this.Speak(mRemDJMsg, SpeakingLevel.Misc);
 	},
 	Remove: function(){
 	    delete mUsers[this.userid];
@@ -529,14 +529,14 @@ BaseUser = function(){return {
 	},
 	OverMaxSongs : function(){
 	    RemoveDJ();
-	    this.Speak(, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
+	    Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
 	},
 	Greet : function(){
 		var sGreeting = mDefaultGreeting;
 	    var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == this.userid; });
         if(sOwnGreeting && sOwnGreeting.length > 0){ 
             sGreeting = sOwnGreeting[0];
-            this.Speak(, sGreeting, SpeakingLevel.Greeting);
+            Speak(this, sGreeting, SpeakingLevel.Greeting);
         }else if(Is_SuperUser()) sGreeting = mSuperGreeting;
         else if(Is_Moderator()) sGreeting = mModeratorGreeting;
         else if(Is_VIP()) sGreeting = mVIPGreeting;
@@ -600,7 +600,7 @@ BaseUser = function(){return {
 	    pSpeak = this.Parse(pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
-	            mBot.pSpeak.Speak();
+	            mBot.speak(pSpeak);
 	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
 	    }
 	    return pSpeak;
