@@ -657,6 +657,8 @@ BaseUser = function(){return {
 		this.isOwner = mOwners.indexOf(this.userid) != -1;
 		this.isVip = mVIPs.indexOf(this.userid) != -1;
 		this.isSuperUser = this.acl > 0;
+		
+		console.log(this.name, this.isDJ, this.isMod, this.isOwner, this.isVip, this.isSuperUser);
 	}
 };
 };
