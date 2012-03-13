@@ -484,7 +484,7 @@ BaseUser = function(){return {
 	afkWarned: false,
 	afkTime: (new Date()).getTime(),
 	songCount: 0,
-	IsiOS: function(){ return laptop === "iphone"; },
+	IsiOS: function(){ console.log(JSON.stringify(this)); return laptop === "iphone"; },
 	CheckAFK : function(){
 		var sWarn = mAFK * (0.693148);
     	var sAge = Date.now() - this.afkTime;
