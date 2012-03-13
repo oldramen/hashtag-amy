@@ -11,17 +11,6 @@ global.Log = function(pOutput){
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     for(var i = 0; i < pData.user.length; ++i){
-<<<<<<< HEAD
-        var sUser = pData.user[i];
-        if(sUser = mUsers[pData.user[i].userid]){
-            Log("Me Gusta.");
-        }else{
-            RegisterUser(pData.user[i]); 
-            mPushingOutGreeting.push(pData.user[i]); 
-        }
-    }
-    if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
-=======
     	var sUser = pData.user[i];
     	if(sUser = mUsers[pData.user[i].userid]){
     		Log("Me Gusta.");
@@ -31,7 +20,6 @@ global.OnRegistered = function(pData){
     	}
 	}
 	if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
->>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
     CalculateProperties();
 };
 
@@ -92,11 +80,7 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnNewSong = function(pData){
-<<<<<<< HEAD
-    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
-=======
     if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
->>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
@@ -125,15 +109,15 @@ global.OnVote = function(pData){
   if (mAfkBop){
     var sVote = pData.room.metadata.votelog;
     var sVoters = [];
-    for (var _i = 0; _i < sVote.length; _i++) {
-        var sVotes = sVote[_i]; 
-        var sUserId = sVotes[0];
-        var sUser = mUsers[sUserId];
-        if (sUser && !sUser.IsBot()){
-             sVoters.push(sUser.userid);
-             ///Variable to update user on vote if configured?
-        }
-    }
+  	for (var _i = 0; _i < sVote.length; _i++) {
+		var sVotes = sVote[_i]; 
+		var sUserId = sVotes[0];
+		var sUser = mUsers[sUserId];
+		if (sUser && !sUser.IsBot()){
+        	 sVoters.push(sUser.userid);
+        	 ///Variable to update user on vote if configured?
+    	}
+	}
       return sVoters;
   }
 };
@@ -237,16 +221,9 @@ global.SpeakingAllowed = function(pSpeakingLevel){
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
-<<<<<<< HEAD
-    console.log(JSON.stringify(pUser));
-    if(pUser.IsBot && pUser.IsBot()) return;
-    var sIsSelf = false;
-    if(pUser && pUser.length) pUser.forEach(function(e){ console.log(JSON.stringify(e), e.IsBot()); sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
-=======
     if(pUser.IsBot && pUser.IsBot()) return;
     var sIsSelf = false;
     if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
->>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
     if(sIsSelf) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
@@ -301,7 +278,7 @@ global.LoadParsing = function(){
     mParsing['{songlimitcurrentlyon}']          = mSongLimitCurrentlyOn ? "on" : "off";
     //mParsing['{owners}']                        = mOwners.join(', ');
     //mParsing['{vips}']                          = mVIPs.join(', ');
-    mParsing['{waiter}']                        = mWaiter ? "on" : "off";
+    mParsing['{waiter}']                       	= mWaiter ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
     mParsing['{queueamount}']                   = 0;
     Log("Updated Parsing Library");
@@ -332,58 +309,58 @@ global.LonelyDJ = function(){
 };
 
 global.RegisterUser = function(pData){
-    mUsers[pData.userid] = BaseUser().extend(pData);
-    ++mUsers.length;
-    mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
-        if(!cursor){
-            Insert("users", mUsers[pData.userid]);
-            return;
-        }
-        mUsers[pData.userid] = cursor.extend(pData);
-    });
+	mUsers[pData.userid] = BaseUser().extend(pData);
+	++mUsers.length;
+	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
+		if(!cursor){
+			Insert("users", mUsers[pData.userid]);
+			return;
+		}
+		mUsers[pData.userid] = cursor.extend(pData);
+	});
 };
 
 global.RegisterUsers = function(pUsers){
-    if(!pUsers || !pUsers.length) return;
-    var sUserIDs = [];
-    for(var i = 0; i < pUsers.length; ++i){
-        var sUser = pUsers[i];
-        mUsers[sUser.userid] = BaseUser().extend(sUser);
-        ++mUsers.length;
-        sUserIDs.push(sUser.userid);
-    }
-    
-    mMongoDB.collection("users").find({'userid': {'$in': sUserIDs}}, function(err, cursor){
-        cursor.toArray(function(err,array){
-            var toInsert = [];
-            for(var i = 0; i < pUsers.length; ++i){
-                var sUser = pUsers[i];
-                
-                var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
-                if(sRegistered && sRegistered.length){
-                    mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0])
-                }else{
-                    toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
-                    console.log("Inserting: " + sUser.name);
-                }
-            }
-            //Insert("users", toInsert);
-        });
-    })
+	if(!pUsers || !pUsers.length) return;
+	var sUserIDs = [];
+	for(var i = 0; i < pUsers.length; ++i){
+		var sUser = pUsers[i];
+		mUsers[sUser.userid] = BaseUser().extend(sUser);
+		++mUsers.length;
+		sUserIDs.push(sUser.userid);
+	}
+	
+	mMongoDB.collection("users").find({'userid': {'$in': sUserIDs}}, function(err, cursor){
+		cursor.toArray(function(err,array){
+			var toInsert = [];
+			for(var i = 0; i < pUsers.length; ++i){
+				var sUser = pUsers[i];
+				
+				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
+				if(sRegistered && sRegistered.length){
+					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0])
+				}else{
+					toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
+					console.log("Inserting: " + sUser.name);
+				}
+			}
+			//Insert("users", toInsert);
+		});
+	})
 };
 
 global.Update_Users = function(pUsers, pSingle){
-    var sRegisteringUsers = [];
-    for(var i = 0; i < pUsers.length; ++i){
-        var sUser = pUsers[i];
-        if(!mUsers[sUser.userid]){
-            sRegisteringUsers.push(sUser);
-        }else {
-            mUsers[sUser.userid] = mUsers[sUser.userid].extend(sUser);
-            if(pSingle) mUsers[sUser.userid].Update(); /// TODO: Make this
-        }
-    }
-    if(sRegisteringUsers && sRegisteringUsers.length) RegisterUsers(sRegisteringUsers);
+	var sRegisteringUsers = [];
+	for(var i = 0; i < pUsers.length; ++i){
+		var sUser = pUsers[i];
+		if(!mUsers[sUser.userid]){
+			sRegisteringUsers.push(sUser);
+		}else {
+			mUsers[sUser.userid] = mUsers[sUser.userid].extend(sUser);
+			if(pSingle)	mUsers[sUser.userid].Update(); /// TODO: Make this
+		}
+	}
+	if(sRegisteringUsers && sRegisteringUsers.length) RegisterUsers(sRegisteringUsers);
 };
 
 global.CalculateProperties = function(){
@@ -523,7 +500,7 @@ global.Parse = function(pUser, pString, pArgs){
 };
 
 global.FindByName = function(pName){
-    throw "TODO: FindByName."
+	throw "TODO: FindByName."
     var Results = [];
     var sUserIDs = _.keys(mUsers);
     sUserIDs.splice(0,1);
@@ -563,7 +540,7 @@ global.Remove = function(pFrom, pData){
 };
 
 global.Save = function(pTo, pData){
-    mMongoDB.collection(pTo).save(pData);
+	mMongoDB.collection(pTo).save(pData);
 }
 
 Object.defineProperty(Object.prototype, "extend", {
@@ -582,74 +559,6 @@ Object.defineProperty(Object.prototype, "extend", {
 });
 
 BaseUser = function(){return {
-<<<<<<< HEAD
-    userid: -1,
-    name: "I said what what",
-    isBanned: false,
-    isMod: false,
-    isOwner: false,
-    isVip: false,
-    isSuperUser: false,
-    laptop: "pc",
-    afkWarned: false,
-    afkTime: (new Date()).getTime(),
-    songCount: 0,
-    customGreeting: null,
-    IsiOS: function(){ return this.laptop === "iphone"; },
-    CheckAFK : function(){
-        var sWarn = mAFK * (0.693148);
-        var sAge = Date.now() - this.afkTime;
-        var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
-        if (sAge_Minutes >= mAFK) return true;
-        if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
-            Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
-            this.afkWarned = true;
-        }
-        return false;
-    },
-    BootAFK : function(){
-        this.RemoveDJ();
-        Speak(this, mRemDJMsg, SpeakingLevel.Misc);
-    },
-    Remove: function(){
-        delete mUsers[this.userid];
-        --mUsers.length;
-        if(mQueue.indexOf(pUser.userid) != -1){
-            mQueue.splice(mQueue.indexOf(this.userid),1);
-            ParsingForQueue();
-        }
-        mPushingOutGreeting.splice(mPushingOutGreeting.indexOf(this.userid),1);
-    },
-    PM: function(pSpeak, pSpeakingLevel, pArgs){
-        if(!pSpeak) return;
-        if(this.IsBot())
-        pSpeak = Parse(pSpeak, pArgs);
-        if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
-            if(SpeakingAllowed(pSpeakingLevel)) 
-                mBot.pm(pSpeak, this.userid);
-            mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
-        }
-        return pSpeak;
-    },
-    IsBot: function(){ return this.userid == mUserId; },
-    RemoveDJ: function(){
-        if(!mIsModerator) return;
-        if(!this.isDJ) return;
-        mJustRemovedDJ.push(this.userid);
-        mBot.remDj(this.userid);
-    },
-    OverMaxSongs : function(){
-        RemoveDJ();
-        Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
-    },
-    Increment_SongCount : function(){
-      ++this.songCount;
-      Log(this.name + "'s song count: " + this.songCount);
-    },
-    Update : function(){
-        /// Nope.avi
-    }
-=======
 	userid: -1,
 	name: "I said what what",
 	isBanned: false,
@@ -716,6 +625,5 @@ BaseUser = function(){return {
 	Update : function(){
 		/// Nope.avi
 	}
->>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
 };
 };

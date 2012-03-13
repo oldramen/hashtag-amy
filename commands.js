@@ -174,6 +174,7 @@ global.mCommands = [
     {
         command: 'ragequit',
         callback: function(pUser, pText){
+        		Log("Ragequit!");
                 mBot.bootUser(pUser.userid, "Not in my kitchen.");
         },
         requires: Requires.User,
@@ -296,15 +297,5 @@ global.mCommands = [
         }, 
         requires: Requires.User, 
         hint: "Order something off the menu."
-    },
-    {
-        command: 'log',
-        callback: function(pUser, pText){
-            console.log(pUser);
-        }, 
-        requires: Requires.Owner, 
-        hint: "Order something off the menu.",
-        hidden: true,
-        pm: true
     }
 ];
