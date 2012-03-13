@@ -221,6 +221,7 @@ global.SpeakingAllowed = function(pSpeakingLevel){
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
+    console.log(JSON.stringify(pUser));
     if(pUser.IsBot && pUser.IsBot()) return;
     var sIsSelf = false;
     if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
@@ -599,7 +600,7 @@ BaseUser = function(){return {
 	PM: function(pSpeak, pSpeakingLevel, pArgs){
 	    if(!pSpeak) return;
 	    if(this.IsBot())
-	    pSpeak = this.Parse(pSpeak, pArgs);
+	    pSpeak = Parse(pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
 	            mBot.pm(pSpeak, this.userid);
