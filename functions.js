@@ -90,6 +90,7 @@ global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     var sText = pData.text;
     if(sUser == null) return;
+    console.log(JSON.stringify(sUser));
     sUser.Update(); //Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
     if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
