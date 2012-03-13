@@ -39,7 +39,7 @@ global.OnGotRoomInfo = function(pData){
 global.OnNewModerator = function(pData){
     if(!pData.success) return;
     var sUser = mUsers[pData.userid];
-    if(IsMe(pData.userid)) mIsModerator = true;
+    if(sUser.IsBot()) mIsModerator = true;
     else mModerators[pData.userid] = true;
     if(sUser) Speak(mUsers[sUser], mAddMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is now a moderator");
@@ -48,7 +48,7 @@ global.OnNewModerator = function(pData){
 global.OnRemModerator = function(pData){
     if(!pData.success) return;
     var sUser = mUsers[pData.userid];
-    if(IsMe(pData.userid)) mIsModerator = false;
+    if(sUser.IsBot()) mIsModerator = false;
     else delete mModerators[pData.userid];
     if(sUser) Speak(sUser, mRemMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is no longer a moderator");
@@ -56,8 +56,8 @@ global.OnRemModerator = function(pData){
 
 global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
-    var sUser = pData.user[0];
-    sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    var sUser = mUsers[pData.user[0].userid];
+    //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
@@ -68,7 +68,7 @@ global.OnAddDJ = function(pData){
 
 global.OnRemDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
-    var sUser = pData.user[0];
+    var sUser = mUsers[pData.user[0].userid];
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
@@ -80,7 +80,7 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnNewSong = function(pData){
-    if(mSongLimitCurrentlyOn && mSongCount[mCurrentDJ.userid] >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
+    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
@@ -90,7 +90,7 @@ global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     var sText = pData.text;
     if(sUser == null) return;
-    sUser.Update(); Update_User(sUser, true);
+    sUser.Update(); //Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
     if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
 };
@@ -134,9 +134,30 @@ global.Loop = function(){
     CheckAFKs();
     CalculateProperties();
     var toGreet = _.filter(mUsers, function(e){ return mPushingOutGreeting.indexOf(e.userid) != -1; });
-    if(toGreet) toGreet.forEach(function(e){ e.Greet(); });
+    Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
     RemoveOldMessages();
+};
+
+global.Greet = function(pUsers){
+    var sDefaultGreetings = [];
+    var sVIPGreetings = [];
+    var sSuperUserGreetings = [];
+    var sModeratorGreetings = [];
+    for(var i = 0; i < pUsers.length; ++i){
+        var pUser = pUsers[i];
+        if(pUser.customGreeting){ 
+            sGreeting = pUser.customGreeting;
+            Speak(pUser, sGreeting, SpeakingLevel.Greeting);
+        }else if(pUser.isSuperUser) sSuperUserGreetings.push(pUser);
+        else if(pUser.isMod) sModeratorGreetings.push(pUser);
+        else if(pUser.Vip) sVIPGreetings.push(pUser);
+        else sDefaultGreetings.push(pUser);
+    }
+    if(sSuperUserGreetings.length > 0) Speak(sSuperUserGreetings, mSuperGreeting, SpeakingLevel.Greeting);
+    if(sModeratorGreetings.length > 0) Speak(sModeratorGreetings, mModeratorGreeting, SpeakingLevel.Greeting);
+    if(sVIPGreetings.length > 0) Speak(sVIPGreetings, mVIPGreeting, SpeakingLevel.Greeting);
+    if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mDefaultGreeting, SpeakingLevel.Greeting);
 };
 
 global.RemoveOldMessages = function(){
@@ -196,6 +217,22 @@ global.ParsingForQueue = function(){
 global.SpeakingAllowed = function(pSpeakingLevel){
     if(mSpeakingLevel.flags.indexOf(SpeakingLevel.Verbose) != -1) return true;
     else return mSpeakingLevel.indexOf(pSpeakingLevel) != -1;
+};
+
+global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
+    if(!pSpeak) return;
+    console.log(JSON.stringify(pUser));
+    if(pUser.IsBot && pUser.IsBot()) return;
+    var sIsSelf = false;
+    if(pUser && pUser.length) pUser.forEach(function(e){ console.log(JSON.stringify(e), e.IsBot()); sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
+    if(sIsSelf) return;
+    pSpeak = Parse(pUser, pSpeak, pArgs);
+    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
+        if(SpeakingAllowed(pSpeakingLevel)) 
+            mBot.speak(pSpeak);
+        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+    }
+    return pSpeak;
 };
 
 global.RefreshMetaData = function(pMetaData){
@@ -413,6 +450,56 @@ global.CanPM = function(pUser) {
     else return false;
 }
 
+global.Parse = function(pUser, pString, pArgs){
+    if(pUser && !pUser.length) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
+    if(pUser && pUser.length && pUser.length > 0) {
+        var sUsers = pUser[0].name;
+        var sJoin = ", ";
+        if(pString.match(/@\{usernames}/gi)) sJoin = ", @";
+        if(pUser.length > 1) sUsers = _.reduce(pUser, function(pUsers, pUserNew){ 
+                return (typeof(pUsers) == 'string' ? pUsers : pUsers.name) + sJoin + pUserNew.name;
+        });
+        pString = pString.replace(/\{usernames\}/gi, sUsers);
+    }
+    if(!mBooted) return pString; /// If we haven't booten up, don't bother even trying to use the variables.
+    var sVariables = pString.match(/\{[^\}]*\}/gi);
+    if(sVariables == null) return pString;
+    for(var i = 0; i < sVariables.length; ++i){
+        var sVar = sVariables[i];
+        if(mParsing[sVar] != null)
+            pString = pString.replace(sVar, mParsing[sVar]);
+    }
+    var sUsernameVariables = pString.match(/\{username\.[^}]*\}/gi);
+    if(sUsernameVariables)
+        for(var i = 0; i < sUsernameVariables.length; ++i){
+            var sVar = sUsernameVariables[i];
+            var sUserVar = sVar.split('.')[1];
+            sUserVar = sUserVar.substring(0, sUserVar.length-1);
+            if(pUser[sUserVar] != null)
+                pString = pString.replace(sVar, pUser[sUserVar]);
+        }
+    if(pArgs && pArgs.length){
+        Log("Got args.");
+        for(var i = 0; i < pArgs.length; ++i)
+        {
+            var sArg = pArgs[i];
+            var sParameter = null;
+            var sValue = null;
+            if(sArg.length && sArg.length == 2){
+                Log("Got array args.")
+                sParameter = sArg[0];
+                sValue = sArg[1];
+            }else if(sArg.parameter && sArg.value){
+                Log("Got object args.");
+                sParameter = sArg.parameter;
+                sValue = sArg.value;
+            }
+            if(sParameter != null && sValue != null) pString = pString.replace(sParameter, sValue);
+        }
+    }
+    return pString;
+};
+
 global.FindByName = function(pName){
     throw "TODO: FindByName."
     var Results = [];
@@ -484,7 +571,8 @@ BaseUser = function(){return {
     afkWarned: false,
     afkTime: (new Date()).getTime(),
     songCount: 0,
-    IsiOS: function(){ return laptop === "iphone"; },
+    customGreeting: null,
+    IsiOS: function(){ return this.laptop === "iphone"; },
     CheckAFK : function(){
         var sWarn = mAFK * (0.693148);
         var sAge = Date.now() - this.afkTime;
@@ -498,7 +586,7 @@ BaseUser = function(){return {
     },
     BootAFK : function(){
         this.RemoveDJ();
-        this.Speak(mRemDJMsg, SpeakingLevel.Misc);
+        Speak(this, mRemDJMsg, SpeakingLevel.Misc);
     },
     Remove: function(){
         delete mUsers[this.userid];
@@ -511,11 +599,11 @@ BaseUser = function(){return {
     },
     PM: function(pSpeak, pSpeakingLevel, pArgs){
         if(!pSpeak) return;
-        if(IsBot())
-        pSpeak = this.Parse(pSpeak, pArgs);
+        if(this.IsBot())
+        pSpeak = Parse(pSpeak, pArgs);
         if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
             if(SpeakingAllowed(pSpeakingLevel)) 
-                mBot.pm(pSpeak, pUser.userid);
+                mBot.pm(pSpeak, this.userid);
             mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
         }
         return pSpeak;
@@ -531,79 +619,9 @@ BaseUser = function(){return {
         RemoveDJ();
         Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
     },
-    Greet : function(){
-        var sGreeting = mDefaultGreeting;
-        var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == this.userid; });
-        if(sOwnGreeting && sOwnGreeting.length > 0){ 
-            sGreeting = sOwnGreeting[0];
-            Speak(this, sGreeting, SpeakingLevel.Greeting);
-        }else if(Is_SuperUser()) sGreeting = mSuperGreeting;
-        else if(Is_Moderator()) sGreeting = mModeratorGreeting;
-        else if(Is_VIP()) sGreeting = mVIPGreeting;
-    },
-    Parse : function(pString, pArgs){
-        if(this && !this.length) pString = pString.replace(/\{username\}/gi, this.name); /// We obviously need the this here.
-        if(this && this.length && this.length > 0) {
-            var thiss = this[0].name;
-            var sJoin = ", ";
-            if(pString.match(/@\{usernames}/gi)) sJoin = ", @";
-            if(this.length > 1) thiss = _.reduce(this, function(thiss, thisNew){ 
-                    return (typeof(thiss) == 'string' ? thiss : thiss.name) + sJoin + thisNew.name;
-            });
-            pString = pString.replace(/\{usernames\}/gi, thiss);
-        }
-        if(!mBooted) return pString; /// If we haven't booten up, don't bother even trying to use the variables.
-        var sVariables = pString.match(/\{[^\}]*\}/gi);
-        if(sVariables == null) return pString;
-        for(var i = 0; i < sVariables.length; ++i){
-            var sVar = sVariables[i];
-            if(mParsing[sVar] != null)
-                pString = pString.replace(sVar, mParsing[sVar]);
-        }
-        var thisnameVariables = pString.match(/\{username\.[^}]*\}/gi);
-        if(thisnameVariables)
-            for(var i = 0; i < thisnameVariables.length; ++i){
-                var sVar = thisnameVariables[i];
-                var thisVar = sVar.split('.')[1];
-                thisVar = thisVar.substring(0, thisVar.length-1);
-                if(this[thisVar] != null)
-                    pString = pString.replace(sVar, this[thisVar]);
-            }
-        if(pArgs && pArgs.length){
-            Log("Got args.");
-            for(var i = 0; i < pArgs.length; ++i)
-            {
-                var sArg = pArgs[i];
-                var sParameter = null;
-                var sValue = null;
-                if(sArg.length && sArg.length == 2){
-                    Log("Got array args.")
-                    sParameter = sArg[0];
-                    sValue = sArg[1];
-                }else if(sArg.parameter && sArg.value){
-                    Log("Got object args.");
-                    sParameter = sArg.parameter;
-                    sValue = sArg.value;
-                }
-                if(sParameter != null && sValue != null) pString = pString.replace(sParameter, sValue);
-            }
-        }
-        return pString;
-    },
     Increment_SongCount : function(){
       ++this.songCount;
       Log(this.name + "'s song count: " + this.songCount);
-    },
-    Speak : function(pSpeak, pSpeakingLevel, pArgs){
-        if(!pSpeak) return;
-        if(this.IsBot()) return;
-        pSpeak = this.Parse(pSpeak, pArgs);
-        if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
-            if(SpeakingAllowed(pSpeakingLevel)) 
-                mBot.speak(pSpeak);
-            mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
-        }
-        return pSpeak;
     },
     Update : function(){
         /// Nope.avi
