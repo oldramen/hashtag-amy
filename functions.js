@@ -646,7 +646,11 @@ BaseUser = function(){return {
 	Remove: function(){
 		Log("TODO: Timer to remove from mUsers");
 		//delete mUsers[this.userid];
-		mRecentlyLeft[this.userid] = setTimeout(function(){ delete mUsers[this.userid]; delete mRecentlyLeft[this.userid]; }, mTimeForCacheFlush);
+		mRecentlyLeft[this.userid] = setTimeout(function(){ 
+			console.log("Flushing user from cache."); 
+			delete mUsers[this.userid]; 
+			delete mRecentlyLeft[this.userid]; 
+		}, mTimeForCacheFlush);
 		Save(mRoomShortcut, this);
 	},
 	Initialize: function(){
