@@ -24,7 +24,7 @@ global.OnRegistered = function(pData){
 };
 
 global.OnDeregistered = function(pData){
-    for(var i = 0, len = pData.user.length; i < len; ++i) Remove_User(pData.user[i]);   //not quite done yet. 
+    for(var i = 0, len = pData.user.length; i < len; ++i) mUsers[pData.user[i].userid].Remove();   //not quite done yet. 
     // pData.user[i].RecentlyLeft = Date.now();
     CalculateProperties();
 };
@@ -417,7 +417,7 @@ global.HandleCommand = function(pUser, pText){
 };
 
 global.HandlePM = function(pUser, pText){
-    if(/*!mBooted || */!mPMSpeak) return; HandleCommand(puser, pText);
+    if(/*!mBooted || */!mPMSpeak) return; HandleCommand(pUser, pText);
     /// Give me one good reason why this should be here.
     /*var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
@@ -625,6 +625,10 @@ BaseUser = function(){return {
 	},
 	Update : function(){
 		/// Nope.avi
+	},
+	Remove: function(){
+		delete mUsers[this.userid];
+		Save("users", this);
 	}
 };
 };
