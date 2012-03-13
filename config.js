@@ -23,21 +23,21 @@ global.mTheme                   = "EDM";            //default theme/genre for th
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 
-global.mMaxSongs                = 5;                //default song limit
+global.mMaxSongs                = 3;                //default song limit
 global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
 global.mQueueOn                 = true;             //if queue is enabled by default
-global.mAFK                     = 20;               //default afk time (in minutes)
-global.mWarn                    = false;               //Whether bot warns for AFKs
-global.mMinSongLimitOperator    = null;              //Here ya go Dalton!  :D
-global.mMinUsersForSongLimit    = null;               //TODO: This.
-global.mMinDJsForSongLimit      = null;                //
-global.mMinQueueOperator        = "&";              //
-global.mMinUsersForQueue        = 30;               //
-global.mMinDJsForQueue          = 3;                //
-global.mSongLimitUserProportion = null;              //5 songs per 50 people in the room.
-global.mNoSpamTimeout           = 15;               //30 seconds before the bot can say the same thing again.
-global.mLoopTimeout             = 10;               //Does the main loop every 15 seconds.
+global.mAFK                     = 10;               //default afk time (in minutes)
+global.mWarn                    = true;             //Whether bot warns for AFKs
+global.mMinSongLimitOperator    = null;             //Here ya go Dalton!  :D
+global.mMinUsersForSongLimit    = null;             //TODO: This.
+global.mMinDJsForSongLimit      = null;             //
+global.mMinQueueOperator        = null;             //
+global.mMinUsersForQueue        = null;             //
+global.mMinDJsForQueue          = null;             //
+global.mSongLimitUserProportion = null;             //5 songs per 50 people in the room.
+global.mNoSpamTimeout           = 15;               //15 seconds before the bot can say the same thing again.
+global.mLoopTimeout             = 10;               //Does the main loop every 10 seconds.
 
 global.mPMSpeak                 = true;            //whether the bot will PM users so as to not spam
 global.mModBop                  = true;            //whether the /bop commands are for everyone or just mods
@@ -76,6 +76,7 @@ global.mCurrentDJAfkCount       = "The current afk timer is: {djsandafkcount}";
 global.mRemoveFromQueue         = "You've been removed from the queue.";
 global.mNotInQueue              = "You're not in the queue.";
 global.mModRemoveFromQueue      = "Removed {user} from the queue.";
+global.mInfoOnRoom				= "I see this is your first time to {roomname}, so I'll give you the run down.  The theme is {theme}, the song limit is {songlimit}, and if you're on deck you can only be afk for {afk} minutes.";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

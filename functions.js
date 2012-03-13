@@ -317,6 +317,7 @@ global.RegisterUser = function(pData){
 			if(!cursor){
 				Insert(mRoomShortcut, mUsers[pData.userid]);
 				Log("Inserting: " + mUsers[pData.userid].name);
+				mUsers[pData.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
 				return;
 			}
 			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
@@ -347,6 +348,7 @@ global.RegisterUsers = function(pUsers){
 				}else{
 					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					Log("Inserting: " + sUser.name);
+					mUsers[pData.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
 				}
 			}
 			Insert(mRoomShortcut, toInsert);
