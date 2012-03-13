@@ -79,7 +79,7 @@ global.OnRemDJ = function(pData){
     if(mQueueCurrentlyOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
 
-global.OnNewSong = function(pData){)
+global.OnNewSong = function(pData){
     if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
@@ -221,10 +221,9 @@ global.SpeakingAllowed = function(pSpeakingLevel){
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
-    console.log(JSON.stringify(pUser));
     if(pUser.IsBot && pUser.IsBot()) return;
     var sIsSelf = false;
-    if(pUser && pUser.length) pUser.forEach(function(e){ console.log(JSON.stringify(e), e.IsBot()); sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
+    if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
     if(sIsSelf) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
