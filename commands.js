@@ -203,10 +203,9 @@ global.mCommands = [
         command: 'djs',
         callback: function(pUser, pText){
             var sDJSongCount = [];
-            for(var sDJ in mSongCount){
-                var sUser = mUsers[sDJ];
-                var sSongCount = mSongCount[sDJ];
-                sDJSongCount.push(sUser.name + ": " + sSongCount);
+            for(var sDJ in mDJs){
+            	var sUser = mUsers[mDJs[sDJ]];
+            	sDJSongCount.push(sUser.name + ": " + sUser.songCount);
             }
             Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc,[['{djsandsongcount}', sDJSongCount.join(', ')]]);
         },
