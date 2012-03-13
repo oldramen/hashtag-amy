@@ -16,7 +16,7 @@ global.OnRegistered = function(pData){
     		Log("Me Gusta.");
     	}else{
 	    	RegisterUser(pData.user[i]); 
-	    	mPushingOutGreeting.push(pData.user[i]); 
+	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
     	}
 	}
 	if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
