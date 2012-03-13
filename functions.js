@@ -12,8 +12,8 @@ global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     for(var i = 0; i < pData.user.length; ++i){
     	var sUser = pData.user[i];
-    	if(sUser = mUsers[pData.user[i].userid]){
-    		Log("Me Gusta.");
+    	if(sUser == mUsers[pData.user[i].userid]){
+    		Log("found "+sUser.name+" in the memory.");
     	}else{
 	    	RegisterUser(pData.user[i]); 
 	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
@@ -32,6 +32,8 @@ global.OnDeregistered = function(pData){
 global.OnGotRoomInfo = function(pData){
     Log("Got Room Data");
     mRoomName = pData.room.name;
+    mRoomShortcut = pData.room.shortcut;
+    InitMongoDB();
     Update_Users(pData.users, false); 
     RefreshMetaData(pData.room.metadata);
 };
@@ -248,7 +250,6 @@ global.RefreshMetaData = function(pMetaData){
     mIsModerator = pMetaData.moderator_id.indexOf(mUserId) != -1;
     mModerators = pMetaData.moderator_id;
     mMaxDJs = pMetaData.max_djs;
-    /// WE HAVE TO DO A HELLAOFALOTMORE HERE.
     CalculateProperties();
     
     LoadParsing();
@@ -311,15 +312,16 @@ global.LonelyDJ = function(){
 global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
-	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
-		if(!cursor){
-			Insert("users", mUsers[pData.userid]);
-			Log("Inserting: " + mUsers[pData.userid].name);
-			return;
-		}
-		mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
-		mUsers[pData.userid].Initialize();
-	});
+	if(mBooted)
+		mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
+			if(!cursor){
+				Insert(mRoomShortcut, mUsers[pData.userid]);
+				Log("Inserting: " + mUsers[pData.userid].name);
+				return;
+			}
+			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
+			mUsers[pData.userid].Initialize();
+		});
 };
 
 global.RegisterUsers = function(pUsers){
@@ -332,7 +334,7 @@ global.RegisterUsers = function(pUsers){
 		sUserIDs.push(sUser.userid);
 	}
 	
-	mMongoDB.collection("users").find({'userid': {'$in': sUserIDs}}, function(err, cursor){
+	mMongoDB.collection(mRoomShortcut).find({'userid': {'$in': sUserIDs}}, function(err, cursor){
 		Log("Registering Users");
 		cursor.toArray(function(err,array){
 			var toInsert = [];
@@ -343,11 +345,11 @@ global.RegisterUsers = function(pUsers){
 					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
 					mUsers[sUser.userid].Initialize();
 				}else{
-					toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
+					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					Log("Inserting: " + sUser.name);
 				}
 			}
-			Insert("users", toInsert);
+			Insert(mRoomShortcut, toInsert);
 		});
 	})
 };
@@ -503,7 +505,7 @@ global.Parse = function(pUser, pString, pArgs){
 };
 
 global.FindByName = function(pName){
-	throw "TODO: FindByName."
+	Log("Finding by name: " + pName);
     var Results = [];
     var sUserIDs = _.keys(mUsers);
     sUserIDs.splice(0,1);
@@ -628,11 +630,14 @@ BaseUser = function(){return {
 	  Log(this.name + "'s song count: " + this.songCount);
 	},
 	Update : function(){
-		/// Nope.avi
+		afkTime = Date.now();
+		afkWarned = false;
+		Save(mRoomShortcut, this);
 	},
 	Remove: function(){
-		delete mUsers[this.userid];
-		Save("users", this);
+		Log("TODO: Timer to remove from mUsers");
+		//delete mUsers[this.userid];
+		Save(mRoomShortcut, this);
 	},
 	Initialize: function(){
 		Log("Reinitializing: " + this.name);

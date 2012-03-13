@@ -103,7 +103,7 @@ global.mCommands = [
         bare: true
     },
     {
-        command: 'punch',          
+        command: 'punch',
         callback: function(pUser, pText){
             if(mQueue.length > 0) {
               if (!pText) {
@@ -151,6 +151,7 @@ global.mCommands = [
         command: 'gtfo',
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
+            console.log(JSON.stringify(mUsers));
             var sUser = FindByName(pText);
             if(sUser.length > 0) sUser = sUser[0];
                 mBot.bootUser(sUser.userid, "Not in my kitchen.");
@@ -257,7 +258,7 @@ global.mCommands = [
     {
         command: 'dance',
         callback: function(pUser, pText){
-            if(!mModBop || Is_Moderator(pUser))mBot.vote("up");
+            if(!mModBop || pUser.isMod)mBot.vote("up");
         },
         requires: Requires.User,
         hint: "Makes the bot dance.  Can not be done by regular users."
