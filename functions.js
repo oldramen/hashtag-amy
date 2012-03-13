@@ -56,8 +56,8 @@ global.OnRemModerator = function(pData){
 
 global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
-    var sUser = pData.user[0];
-    sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
+    var sUser = mUsers[pData.user[0].userid];
+    //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
@@ -68,7 +68,7 @@ global.OnAddDJ = function(pData){
 
 global.OnRemDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
-    var sUser = pData.user[0];
+    var sUser = mUsers[pData.user[0].userid];
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
