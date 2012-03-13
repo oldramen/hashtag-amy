@@ -219,6 +219,18 @@ global.SpeakingAllowed = function(pSpeakingLevel){
     else return mSpeakingLevel.indexOf(pSpeakingLevel) != -1;
 };
 
+global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
+    if(!pSpeak) return;
+    if(IsMe(pUser)) return;
+    pSpeak = Parse(pUser, pSpeak, pArgs);
+    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
+        if(SpeakingAllowed(pSpeakingLevel)) 
+            mBot.speak(pSpeak);
+        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+    }
+    return pSpeak;
+};
+
 global.RefreshMetaData = function(pMetaData){
     if(pMetaData.current_song)
         mSongName = pMetaData.current_song.metadata.song;
