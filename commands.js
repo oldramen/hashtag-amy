@@ -103,7 +103,7 @@ global.mCommands = [
         bare: true
     },
     {
-        command: 'punch',          
+        command: 'punch',
         callback: function(pUser, pText){
             if(mQueue.length > 0) {
               if (!pText) {
@@ -257,7 +257,7 @@ global.mCommands = [
     {
         command: 'dance',
         callback: function(pUser, pText){
-            if(!mModBop || Is_Moderator(pUser))mBot.vote("up");
+            if(!mModBop || pUser.isMod)mBot.vote("up");
         },
         requires: Requires.User,
         hint: "Makes the bot dance.  Can not be done by regular users."
