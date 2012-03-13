@@ -511,7 +511,7 @@ BaseUser = function(){return {
 	},
 	PM: function(pSpeak, pSpeakingLevel, pArgs){
 	    if(!pSpeak) return;
-	    if(IsBot())
+	    if(this.IsBot())
 	    pSpeak = this.Parse(pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
