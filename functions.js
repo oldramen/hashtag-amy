@@ -582,6 +582,7 @@ BaseUser = function(){return {
     	if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
     	    Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
 			this.afkWarned = true;
+			console.log(this.afkWarned, sAge_Minutes, sWarn, mWarn, this.afkTime);
     	}
     	return false;
 	},
