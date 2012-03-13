@@ -107,7 +107,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             if(mQueue.length > 0) {
               if (!pText) {
-                  mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
+                  Speak(mModRemoveFromQueue, [['{user}', mUsers[mQueue[0]].name]]);//mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
                   mQueue.shift();
                 }else {
                   pText = pText.replace("@", "^").trimRight() + "$";
@@ -301,8 +301,9 @@ global.mCommands = [
     {
     	command: 'bootaftersong',
     	callback: function(pUser, pText){
-    		if(pUser.)
-    		pUser.bootAfterSong = true;
+    		if(pUser.isDJ)
+    			pUser.bootAfterSong = true;
+			else pUser.PM()
     	},
     	requires: Requires.User,
     	hint: "Removes the user from the deck after their song is over."
