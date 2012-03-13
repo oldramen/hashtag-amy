@@ -174,6 +174,7 @@ global.mCommands = [
     {
         command: 'ragequit',
         callback: function(pUser, pText){
+        		Log("Ragequit!");
                 mBot.bootUser(pUser.userid, "Not in my kitchen.");
         },
         requires: Requires.User,
