@@ -303,7 +303,7 @@ global.mCommands = [
     	callback: function(pUser, pText){
     		if(pUser.isDJ)
     			pUser.bootAfterSong = true;
-			else pUser.PM()
+			else pUser.PM(mNotDJ, SpeakingLevel.Misc);
     	},
     	requires: Requires.User,
     	hint: "Removes the user from the deck after their song is over."
