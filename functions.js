@@ -503,6 +503,7 @@ global.Parse = function(pUser, pString, pArgs){
 };
 
 global.FindByName = function(pName){
+	Log("Finding by name: " + pName);
     var Results = [];
     var sUserIDs = _.keys(mUsers);
     sUserIDs.splice(0,1);

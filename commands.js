@@ -151,6 +151,7 @@ global.mCommands = [
         command: 'gtfo',
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
+            console.log(JSON.stringify(mUsers));
             var sUser = FindByName(pText);
             if(sUser.length > 0) sUser = sUser[0];
                 mBot.bootUser(sUser.userid, "Not in my kitchen.");
