@@ -312,9 +312,9 @@ global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
 	if(mBooted)
-		mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
+		mMongoDB.collection(mRoomName).findOne({userid: pData.userid}, function(err,cursor){
 			if(!cursor){
-				Insert("users", mUsers[pData.userid]);
+				Insert(mRoomName, mUsers[pData.userid]);
 				Log("Inserting: " + mUsers[pData.userid].name);
 				return;
 			}
@@ -333,7 +333,7 @@ global.RegisterUsers = function(pUsers){
 		sUserIDs.push(sUser.userid);
 	}
 	
-	mMongoDB.collection("users").find({'userid': {'$in': sUserIDs}}, function(err, cursor){
+	mMongoDB.collection(mRoomName).find({'userid': {'$in': sUserIDs}}, function(err, cursor){
 		Log("Registering Users");
 		cursor.toArray(function(err,array){
 			var toInsert = [];
@@ -344,11 +344,11 @@ global.RegisterUsers = function(pUsers){
 					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
 					mUsers[sUser.userid].Initialize();
 				}else{
-					toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
+					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomName, mUsers[sUser.userid]);
 					Log("Inserting: " + sUser.name);
 				}
 			}
-			Insert("users", toInsert);
+			Insert(mRoomName, toInsert);
 		});
 	})
 };
@@ -629,12 +629,14 @@ BaseUser = function(){return {
 	  Log(this.name + "'s song count: " + this.songCount);
 	},
 	Update : function(){
-		Save("users", this);
+		afkTime = Date.now();
+		afkWarned = false;
+		Save(mRoomName, this);
 	},
 	Remove: function(){
 		Log("TODO: Timer to remove from mUsers");
 		//delete mUsers[this.userid];
-		Save("users", this);
+		Save(mRoomName, this);
 	},
 	Initialize: function(){
 		Log("Reinitializing: " + this.name);
