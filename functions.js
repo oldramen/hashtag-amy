@@ -333,11 +333,12 @@ global.RegisterUsers = function(pUsers){
 	}
 	
 	mMongoDB.collection("users").find({'userid': {'$in': sUserIDs}}, function(err, cursor){
+		Log("Registering Users");
 		cursor.toArray(function(err,array){
 			var toInsert = [];
 			for(var i = 0; i < pUsers.length; ++i){
 				var sUser = pUsers[i];
-				
+				Log(sUser.name);
 				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 				if(sRegistered && sRegistered.length){
 					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
