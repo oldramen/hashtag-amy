@@ -221,7 +221,7 @@ global.SpeakingAllowed = function(pSpeakingLevel){
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
-    if(IsMe(pUser)) return;
+    if(pUser.IsBot()) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
         if(SpeakingAllowed(pSpeakingLevel)) 
