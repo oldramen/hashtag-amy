@@ -319,7 +319,7 @@ global.RegisterUser = function(pData){
 			Log("Inserting: " + mUsers[pData.userid].name);
 			return;
 		}
-		mUsers[pData.userid] = cursor.extend(pData);
+		mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
 		mUsers[pData.userid].Initialize();
 	});
 };
