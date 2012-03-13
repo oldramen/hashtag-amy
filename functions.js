@@ -348,7 +348,7 @@ global.RegisterUsers = function(pUsers){
 				}else{
 					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					Log("Inserting: " + sUser.name);
-					mUsers[pData.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+					mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
 				}
 			}
 			Insert(mRoomShortcut, toInsert);
