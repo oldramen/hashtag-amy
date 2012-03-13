@@ -457,7 +457,6 @@ global.CanPM = function(pUser) {
 }
 
 global.Parse = function(pUser, pString, pArgs){
-	console.log("Parsing", pString);
     if(pUser && !pUser.length) pString = pString.replace(/\{username\}/gi, pUser.name); /// We obviously need the pUser here.
     if(pUser && pUser.length && pUser.length > 0) {
         var sUsers = pUser[0].name;
@@ -504,7 +503,6 @@ global.Parse = function(pUser, pString, pArgs){
             if(sParameter != null && sValue != null) pString = pString.replace(sParameter, sValue);
         }
     }
-    console.log("Postparsed", pString);
     return pString;
 };
 
