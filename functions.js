@@ -83,7 +83,7 @@ global.OnNewSong = function(pData){
     if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
-    if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
+    if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
 };
 
 global.OnSpeak = function(pData){
@@ -571,6 +571,7 @@ BaseUser = function(){return {
 	afkTime: (new Date()).getTime(),
 	songCount: 0,
 	customGreeting: null,
+	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){
 		var sWarn = mAFK * (0.693148);
