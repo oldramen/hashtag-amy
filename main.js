@@ -35,6 +35,7 @@ global.mCurrentDJ       =   null; /// Will be a user ( type )
 
 
 global.mRoomName        =   "";
+global.mRoomShortcut	= 	"";
 global.mMaxDJs          =   5;
 
 global.mParsing         =   {};
