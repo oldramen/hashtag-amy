@@ -314,9 +314,11 @@ global.RegisterUser = function(pData){
 	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
 		if(!cursor){
 			Insert("users", mUsers[pData.userid]);
+			Log("Inserting: " + mUsers[pData.userid].name);
 			return;
 		}
-		mUsers[pData.userid] = cursor.extend(pData);
+		mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
+		mUsers[pData.userid].Initialize();
 	});
 };
 
@@ -331,20 +333,21 @@ global.RegisterUsers = function(pUsers){
 	}
 	
 	mMongoDB.collection("users").find({'userid': {'$in': sUserIDs}}, function(err, cursor){
+		Log("Registering Users");
 		cursor.toArray(function(err,array){
 			var toInsert = [];
 			for(var i = 0; i < pUsers.length; ++i){
 				var sUser = pUsers[i];
-				
 				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 				if(sRegistered && sRegistered.length){
-					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0])
+					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
+					mUsers[sUser.userid].Initialize();
 				}else{
 					toInsert.push(mUsers[sUser.userid]);//Insert("users", mUsers[sUser.userid]);
-					console.log("Inserting: " + sUser.name);
+					Log("Inserting: " + sUser.name);
 				}
 			}
-			//Insert("users", toInsert);
+			Insert("users", toInsert);
 		});
 	})
 };
@@ -568,7 +571,7 @@ BaseUser = function(){return {
 	isSuperUser: false,
 	laptop: "pc",
 	afkWarned: false,
-	afkTime: (new Date()).getTime(),
+	afkTime: Date.now(),
 	songCount: 0,
 	customGreeting: null,
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
@@ -581,6 +584,7 @@ BaseUser = function(){return {
     	if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
     	    Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
 			this.afkWarned = true;
+			console.log(this.afkWarned, sAge_Minutes, sWarn, mWarn, this.afkTime);
     	}
     	return false;
 	},
@@ -629,6 +633,12 @@ BaseUser = function(){return {
 	Remove: function(){
 		delete mUsers[this.userid];
 		Save("users", this);
+	},
+	Initialize: function(){
+		Log("Reinitializing: " + this.name);
+		this.songCount = 0;
+		this.afkTime = Date.now();
+		this.afkWarned = false;
 	}
 };
 };
