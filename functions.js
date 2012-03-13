@@ -146,9 +146,8 @@ global.Greet = function(pUsers){
     var sModeratorGreetings = [];
     for(var i = 0; i < pUsers.length; ++i){
         var pUser = pUsers[i];
-        var sOwnGreeting = mGreetings.filter(function(e){ return e.userid == pUser.userid; });
-        if(sOwnGreeting && sOwnGreeting.length > 0){ 
-            sGreeting = sOwnGreeting[0];
+        if(pUser.customGreeting){ 
+            sGreeting = pUser.customGreeting;
             Speak(pUser, sGreeting, SpeakingLevel.Greeting);
         }else if(Is_SuperUser(pUser)) sSuperUserGreetings.push(pUser);
         else if(Is_Moderator(pUser)) sModeratorGreetings.push(pUser);
@@ -556,6 +555,7 @@ BaseUser = function(){return {
 	afkWarned: false,
 	afkTime: (new Date()).getTime(),
 	songCount: 0,
+	customGreeting: null,
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){
 		var sWarn = mAFK * (0.693148);
