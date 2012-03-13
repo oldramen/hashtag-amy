@@ -632,6 +632,7 @@ BaseUser = function(){return {
 	  Log(this.name + "'s song count: " + this.songCount);
 	},
 	Update : function(){
+		Log("Updating: " + this.name);
 		afkTime = Date.now();
 		afkWarned = false;
 		Save(mRoomShortcut, this);
@@ -643,6 +644,7 @@ BaseUser = function(){return {
 			console.log("Flushing user from cache."); 
 			delete mUsers[this.userid]; 
 			delete mRecentlyLeft[this.userid]; 
+			console.log(mUsers[this.userid]);
 		}, mTimeForCacheFlush);
 		Save(mRoomShortcut, this);
 	},
