@@ -79,8 +79,8 @@ global.OnRemDJ = function(pData){
     if(mQueueCurrentlyOn) QueueAdvance();        /// Advance the queue to the next person in line.
 };
 
-global.OnNewSong = function(pData){
-    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
+global.OnNewSong = function(pData){)
+    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
