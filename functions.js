@@ -632,9 +632,8 @@ BaseUser = function(){return {
 	  Log(this.name + "'s song count: " + this.songCount);
 	},
 	Update : function(){
-		Log("Updating: " + this.name);
-		afkTime = Date.now();
-		afkWarned = false;
+		this.afkTime = Date.now();
+		this.afkWarned = false;
 		Save(mRoomShortcut, this);
 	},
 	Remove: function(){
@@ -658,8 +657,6 @@ BaseUser = function(){return {
 		this.isOwner = mOwners.indexOf(this.userid) != -1;
 		this.isVip = mVIPs.indexOf(this.userid) != -1;
 		this.isSuperUser = this.acl > 0;
-		
-		console.log(this.name, this.isDJ, this.isMod);
 	}
 };
 };

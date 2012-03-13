@@ -216,9 +216,9 @@ global.mCommands = [
         command: 'afks',
         callback: function(pUser, pText){
             var sDJAfkCount = [];
-            for(var sDJ in mSongCount){
-                var sUser = mUsers[sDJ];
-                var sAfkTime = mAFKTimes[sDJ];                
+            for(var sDJ in mDJs){
+                var sUser = mUsers[mDJs[sDJ]];
+                var sAfkTime = sUser.afkTime;              
                 var sAge = Date.now() - sAfkTime;
                 var sAge_Minutes = Math.floor(sAge / 1000 / 60);
                 sDJAfkCount.push(sUser.name + ": " + sAge_Minutes+'m');
