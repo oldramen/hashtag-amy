@@ -53,7 +53,7 @@ global.mAddDJ                   = null;//"Welcome to the deck, @{username}!  Rem
 global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
-global.mEndSong                  = "{songtitle}: [{up}] Awesomes, [{down}] Lames.";
+global.mEndSong                 = "{songtitle}: [{up}] Awesomes, [{down}] Lames.";
 global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} songs to get back up.";
 global.mOverMaxSongsQueueOff    = null;
 global.mHelpMsg                 = "Hey, {username.name}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
@@ -72,10 +72,10 @@ global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the 
 global.mCommandsList            = "The list of commands are as follows: /{commands}";
 global.mThemeIs                 = "The current theme is {theme}.";
 global.mCurrentDJSongCount      = "The current song count is: {djsandsongcount}";
-global.mCurrentDJAfkCount      = "The current afk timer is: {djsandafkcount}";
+global.mCurrentDJAfkCount       = "The current afk timer is: {djsandafkcount}";
 global.mRemoveFromQueue         = "You've been removed from the queue.";
 global.mNotInQueue              = "You're not in the queue.";
-global.mModRemoveFromQueue              = "Removed {user} from the queue.";
+global.mModRemoveFromQueue      = "Removed {user} from the queue.";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.
