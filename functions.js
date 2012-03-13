@@ -338,7 +338,6 @@ global.RegisterUsers = function(pUsers){
 			var toInsert = [];
 			for(var i = 0; i < pUsers.length; ++i){
 				var sUser = pUsers[i];
-				Log(sUser.name);
 				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 				if(sRegistered && sRegistered.length){
 					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
@@ -348,7 +347,7 @@ global.RegisterUsers = function(pUsers){
 					Log("Inserting: " + sUser.name);
 				}
 			}
-			//Insert("users", toInsert);
+			Insert("users", toInsert);
 		});
 	})
 };
