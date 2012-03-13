@@ -609,7 +609,7 @@ BaseUser = function(){return {
 	},
 	PM: function(pSpeak, pSpeakingLevel, pArgs){
 	    if(!pSpeak) return;
-	    if(this.IsBot())
+	    if(this.IsBot()) return;
 	    pSpeak = Parse(this, pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
