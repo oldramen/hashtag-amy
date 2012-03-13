@@ -23,7 +23,7 @@ global.mTheme                   = "EDM";            //default theme/genre for th
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 
-global.mMaxSongs                = 0;                //default song limit
+global.mMaxSongs                = 5;                //default song limit
 global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
 global.mQueueOn                 = true;             //if queue is enabled by default

@@ -11,6 +11,7 @@ global.Log = function(pOutput){
 global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     for(var i = 0; i < pData.user.length; ++i){
+<<<<<<< HEAD
         var sUser = pData.user[i];
         if(sUser = mUsers[pData.user[i].userid]){
             Log("Me Gusta.");
@@ -20,6 +21,17 @@ global.OnRegistered = function(pData){
         }
     }
     if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
+=======
+    	var sUser = pData.user[i];
+    	if(sUser = mUsers[pData.user[i].userid]){
+    		Log("Me Gusta.");
+    	}else{
+	    	RegisterUser(pData.user[i]); 
+	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
+    	}
+	}
+	if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
+>>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
     CalculateProperties();
 };
 
@@ -80,7 +92,11 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnNewSong = function(pData){
+<<<<<<< HEAD
     if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) OverMaxSongs(mCurrentDJ);
+=======
+    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
+>>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) Increment_SongCount(mCurrentDJ);
@@ -221,10 +237,16 @@ global.SpeakingAllowed = function(pSpeakingLevel){
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
+<<<<<<< HEAD
     console.log(JSON.stringify(pUser));
     if(pUser.IsBot && pUser.IsBot()) return;
     var sIsSelf = false;
     if(pUser && pUser.length) pUser.forEach(function(e){ console.log(JSON.stringify(e), e.IsBot()); sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
+=======
+    if(pUser.IsBot && pUser.IsBot()) return;
+    var sIsSelf = false;
+    if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
+>>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
     if(sIsSelf) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
@@ -560,6 +582,7 @@ Object.defineProperty(Object.prototype, "extend", {
 });
 
 BaseUser = function(){return {
+<<<<<<< HEAD
     userid: -1,
     name: "I said what what",
     isBanned: false,
@@ -626,5 +649,73 @@ BaseUser = function(){return {
     Update : function(){
         /// Nope.avi
     }
+=======
+	userid: -1,
+	name: "I said what what",
+	isBanned: false,
+	isMod: false,
+	isOwner: false,
+	isVip: false,
+	isSuperUser: false,
+	laptop: "pc",
+	afkWarned: false,
+	afkTime: (new Date()).getTime(),
+	songCount: 0,
+	customGreeting: null,
+	IsiOS: function(){ return this.laptop === "iphone"; },
+	CheckAFK : function(){
+		var sWarn = mAFK * (0.693148);
+    	var sAge = Date.now() - this.afkTime;
+    	var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
+    	if (sAge_Minutes >= mAFK) return true;
+    	if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
+    	    Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
+			this.afkWarned = true;
+    	}
+    	return false;
+	},
+	BootAFK : function(){
+		this.RemoveDJ();
+	    Speak(this, mRemDJMsg, SpeakingLevel.Misc);
+	},
+	Remove: function(){
+	    delete mUsers[this.userid];
+	    --mUsers.length;
+	    if(mQueue.indexOf(pUser.userid) != -1){
+	        mQueue.splice(mQueue.indexOf(this.userid),1);
+	        ParsingForQueue();
+	    }
+	    mPushingOutGreeting.splice(mPushingOutGreeting.indexOf(this.userid),1);
+	},
+	PM: function(pSpeak, pSpeakingLevel, pArgs){
+	    if(!pSpeak) return;
+	    if(this.IsBot())
+	    pSpeak = Parse(pSpeak, pArgs);
+	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
+	        if(SpeakingAllowed(pSpeakingLevel)) 
+	            mBot.pm(pSpeak, this.userid);
+	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+	    }
+	    return pSpeak;
+	},
+	IsBot: function(){ return this.userid == mUserId; },
+	RemoveDJ: function(){
+	    if(!mIsModerator) return;
+	    if(!this.isDJ) return;
+	    mJustRemovedDJ.push(this.userid);
+	    mBot.remDj(this.userid);
+	},
+	OverMaxSongs : function(){
+	    RemoveDJ();
+	    Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
+	},
+	Increment_SongCount : function(){
+	  ++this.songCount;
+	  Log(this.name + "'s song count: " + this.songCount);
+	},
+	Update : function(){
+		/// Nope.avi
+	}
+>>>>>>> a1ef466781a9a3ebd0dcd56ddecb1b4841e4f655
 };
 };
