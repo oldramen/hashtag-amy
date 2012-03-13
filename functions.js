@@ -78,6 +78,7 @@ global.OnAddDJ = function(pData){
 global.OnRemDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = mUsers[pData.user[0].userid];
+    sUser.bootAfterSong = false;
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
@@ -90,6 +91,7 @@ global.OnRemDJ = function(pData){
 
 global.OnNewSong = function(pData){
     if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
+    if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
@@ -585,7 +587,7 @@ BaseUser = function(){return {
     	var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     	if (sAge_Minutes >= mAFK) return true;
     	if(!this.afkWarned && sAge_Minutes >= mAFKWarn && mWarn){
-    	    Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
+    	    Speak(this, mWarnMsg, SpeakingLevel.Misc);
 			this.afkWarned = true;
 			console.log(this.afkWarned, sAge_Minutes, sWarn, mWarn, this.afkTime);
     	}
