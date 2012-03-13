@@ -149,9 +149,9 @@ global.Greet = function(pUsers){
         if(pUser.customGreeting){ 
             sGreeting = pUser.customGreeting;
             Speak(pUser, sGreeting, SpeakingLevel.Greeting);
-        }else if(Is_SuperUser(pUser)) sSuperUserGreetings.push(pUser);
-        else if(Is_Moderator(pUser)) sModeratorGreetings.push(pUser);
-        else if(Is_VIP(pUser)) sVIPGreetings.push(pUser);
+        }else if(pUser.isSuperUser) sSuperUserGreetings.push(pUser);
+        else if(pUser.isMod) sModeratorGreetings.push(pUser);
+        else if(pUser.Vip) sVIPGreetings.push(pUser);
         else sDefaultGreetings.push(pUser);
     }
     if(sSuperUserGreetings.length > 0) Speak(sSuperUserGreetings, mSuperGreeting, SpeakingLevel.Greeting);
