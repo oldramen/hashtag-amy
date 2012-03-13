@@ -278,7 +278,7 @@ global.BootUp = function(){
 };
 
 global.LoadParsing = function(){
-    mParsing['{room}'] mParsing['{roomname}'] = = mRoomName;
+    mParsing['{room}'] = mParsing['{roomname}'] = mRoomName;
     mParsing['{theme}']                         = mTheme;
     mParsing['{songlimit}']                     = mCurrentSongLimit;
     mParsing['{queue}']                         = mQueueOn ? "on" : "off";
