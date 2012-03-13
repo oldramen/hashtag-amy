@@ -39,7 +39,7 @@ global.OnGotRoomInfo = function(pData){
 global.OnNewModerator = function(pData){
     if(!pData.success) return;
     var sUser = mUsers[pData.userid];
-    if(pData.IsBot()) mIsModerator = true;
+    if(sUser.IsBot()) mIsModerator = true;
     else mModerators[pData.userid] = true;
     if(sUser) Speak(mUsers[sUser], mAddMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is now a moderator");
@@ -48,7 +48,7 @@ global.OnNewModerator = function(pData){
 global.OnRemModerator = function(pData){
     if(!pData.success) return;
     var sUser = mUsers[pData.userid];
-    if(IsMe(pData.userid)) mIsModerator = false;
+    if(sUser.IsBot()) mIsModerator = false;
     else delete mModerators[pData.userid];
     if(sUser) Speak(sUser, mRemMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is no longer a moderator");
@@ -221,7 +221,10 @@ global.SpeakingAllowed = function(pSpeakingLevel){
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     if(!pSpeak) return;
-    if(pUser.IsBot()) return;
+    if(pUser.IsBot && pUser.IsBot()) return;
+    var sIsSelf = false;
+    if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
+    if(sIsSelf) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
         if(SpeakingAllowed(pSpeakingLevel)) 
