@@ -34,7 +34,7 @@ global.OnGotRoomInfo = function(pData){
     mRoomName = pData.room.name;
     mRoomShortcut = pData.room.shortcut;
     InitMongoDB();
-    Update_Users(pData.users, false); 
+    Update_Users(pData.users, false);
     RefreshMetaData(pData.room.metadata);
 };
 
@@ -606,7 +606,7 @@ BaseUser = function(){return {
 	PM: function(pSpeak, pSpeakingLevel, pArgs){
 	    if(!pSpeak) return;
 	    if(this.IsBot())
-	    pSpeak = Parse(pSpeak, pArgs);
+	    pSpeak = Parse(this, pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
 	            mBot.pm(pSpeak, this.userid);
