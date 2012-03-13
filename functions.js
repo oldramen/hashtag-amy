@@ -90,7 +90,6 @@ global.OnSpeak = function(pData){
     var sUser = mUsers[pData.userid];
     var sText = pData.text;
     if(sUser == null) return;
-    console.log(JSON.stringify(sUser));
     sUser.Update(); //Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
     if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
@@ -313,7 +312,6 @@ global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
 	mMongoDB.collection("users").findOne({userid: pData.userid}, function(err,cursor){
-		Log("Finding: " + JSON.stringify(pData) + pData.Initialize);
 		if(!cursor){
 			Insert("users", mUsers[pData.userid]);
 			Log("Inserting: " + mUsers[pData.userid].name);
