@@ -20,6 +20,7 @@ global.mMongoPort               = 27017;
 global.mName                    = "#Amy";           //name of bot
 global.mLaptop                  = "chrome";
 global.mTheme                   = "EDM";            //default theme/genre for the room
+global.mTimeForCacheFlush		= 15000;
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 

@@ -32,7 +32,7 @@ global.mSongCount       =   {};*/
 
 global.mDJs             =   [];
 global.mCurrentDJ       =   null; /// Will be a user ( type )
-
+global.mRecentlyLeft	=	{};
 
 global.mRoomName        =   "";
 global.mRoomShortcut	= 	"";

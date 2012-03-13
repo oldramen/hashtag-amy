@@ -12,8 +12,15 @@ global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     for(var i = 0; i < pData.user.length; ++i){
     	var sUser = pData.user[i];
-    	if(sUser == mUsers[pData.user[i].userid]){
+    	var sCached = mUsers[sUser.userid];
+    	if(sCached){
     		Log("found "+sUser.name+" in the memory.");
+    		if(mRecentlyLeft[sUser.userid]){
+    			Log("Removing their timeout.");
+    			clearTimeout(sUser.userid);
+    			delete mRecentlyLeft[sUser.userid];
+    		}
+    		mUsers[sUser.userid] = sCached; /// Just incase there's that slim chance that they got removed.
     	}else{
 	    	RegisterUser(pData.user[i]); 
 	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
@@ -639,10 +646,10 @@ BaseUser = function(){return {
 	Remove: function(){
 		Log("TODO: Timer to remove from mUsers");
 		//delete mUsers[this.userid];
+		mRecentlyLeft[this.userid] = setTimeout(function(){ delete mUsers[this.userid]; delete mRecentlyLeft[this.userid]; }, mTimeForCacheFlush);
 		Save(mRoomShortcut, this);
 	},
 	Initialize: function(){
-		Log("Reinitializing: " + this.name);
 		this.songCount = 0;
 		this.afkTime = Date.now();
 		this.afkWarned = false;
