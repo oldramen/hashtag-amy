@@ -569,7 +569,7 @@ BaseUser = function(){return {
 	isSuperUser: false,
 	laptop: "pc",
 	afkWarned: false,
-	afkTime: (new Date()).getTime(),
+	afkTime: Date.now(),
 	songCount: 0,
 	customGreeting: null,
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
