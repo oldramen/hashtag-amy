@@ -313,9 +313,9 @@ global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
 	if(mBooted)
-		mMongoDB.collectionmRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
+		mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
 			if(!cursor){
-				InsertmRoomShortcut, mUsers[pData.userid]);
+				Insert(mRoomShortcut, mUsers[pData.userid]);
 				Log("Inserting: " + mUsers[pData.userid].name);
 				return;
 			}
@@ -334,7 +334,7 @@ global.RegisterUsers = function(pUsers){
 		sUserIDs.push(sUser.userid);
 	}
 	
-	mMongoDB.collectionmRoomShortcut).find({'userid': {'$in': sUserIDs}}, function(err, cursor){
+	mMongoDB.collection(mRoomShortcut).find({'userid': {'$in': sUserIDs}}, function(err, cursor){
 		Log("Registering Users");
 		cursor.toArray(function(err,array){
 			var toInsert = [];
@@ -345,11 +345,11 @@ global.RegisterUsers = function(pUsers){
 					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
 					mUsers[sUser.userid].Initialize();
 				}else{
-					toInsert.push(mUsers[sUser.userid]);//InsertmRoomShortcut, mUsers[sUser.userid]);
+					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					Log("Inserting: " + sUser.name);
 				}
 			}
-			InsertmRoomShortcut, toInsert);
+			Insert(mRoomShortcut, toInsert);
 		});
 	})
 };
@@ -632,12 +632,12 @@ BaseUser = function(){return {
 	Update : function(){
 		afkTime = Date.now();
 		afkWarned = false;
-		SavemRoomShortcut, this);
+		Save(mRoomShortcut, this);
 	},
 	Remove: function(){
 		Log("TODO: Timer to remove from mUsers");
 		//delete mUsers[this.userid];
-		SavemRoomShortcut, this);
+		Save(mRoomShortcut, this);
 	},
 	Initialize: function(){
 		Log("Reinitializing: " + this.name);
