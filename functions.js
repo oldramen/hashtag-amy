@@ -515,7 +515,7 @@ BaseUser = function(){return {
 	    pSpeak = this.Parse(pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
-	            mBot.pm(pSpeak, pUser.userid);
+	            mBot.pm(pSpeak, this.userid);
 	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
 	    }
 	    return pSpeak;
