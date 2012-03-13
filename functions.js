@@ -70,7 +70,7 @@ global.OnAddDJ = function(pData){
     mDJs.push(sUser.userid);
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
-    
+    if(!mCurrentDJ) mCurrentDJ = sUser;
     LonelyDJ();
     Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
@@ -146,6 +146,8 @@ global.Loop = function(){
     Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
     RemoveOldMessages();
+    var sPM = mPMQueue.shift();
+    if(sPM) mBot.pm(sPM[0], sPM[1]);
 };
 
 global.Greet = function(pUsers){
@@ -431,21 +433,7 @@ global.HandleCommand = function(pUser, pText){
 };
 
 global.HandlePM = function(pUser, pText){
-    if(/*!mBooted || */!mPMSpeak) return; HandleCommand(pUser, pText);
-    /// Give me one good reason why this should be here.
-    /*var sMatch = pText.match(/^[!\*\/]/);
-    if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
-    var sSplit = pText.split(' ');
-    var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
-    if(mPMCommands.indexOf(sCommand) === -1) return;
-    pText = sSplit.join(' ');
-    var sCommands = mCommands.filter(function(pCommand){ 
-        return pCommand.command == sCommand; 
-    });
-    sCommands.forEach(function(pCommand){ 
-        if(pCommand.requires.check(pUser)) 
-            pCommand.callback(pUser, pText); 
-    });*/
+    if(!mPMSpeak) return; HandleCommand(pUser, pText);
 };
 
 global.HandleMenu = function(pUser, pText){
@@ -585,14 +573,14 @@ BaseUser = function(){return {
 	afkTime: Date.now(),
 	songCount: 0,
 	customGreeting: null,
+	bootAfterSong: false,
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){
-		var sWarn = mAFK * (0.693148);
     	var sAge = Date.now() - this.afkTime;
     	var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     	if (sAge_Minutes >= mAFK) return true;
-    	if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
+    	if(!this.afkWarned && sAge_Minutes >= mAFKWarn && mWarn){
     	    Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
 			this.afkWarned = true;
 			console.log(this.afkWarned, sAge_Minutes, sWarn, mWarn, this.afkTime);
@@ -618,7 +606,7 @@ BaseUser = function(){return {
 	    pSpeak = Parse(this, pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
-	            mBot.pm(pSpeak, this.userid);
+	            mPMQueue.push([pSpeak, this.userid]);//mBot.pm(pSpeak, this.userid);
 	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
 	    }
 	    return pSpeak;
@@ -657,6 +645,7 @@ BaseUser = function(){return {
 		this.songCount = 0;
 		this.afkTime = Date.now();
 		this.afkWarned = false;
+		this.bootAfterSong = false;
 	}
 };
 };

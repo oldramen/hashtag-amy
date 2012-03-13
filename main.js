@@ -58,8 +58,11 @@ global.mQueueCurrentlyOn        = false;
 global.mSongLimitCurrentlyOn    = false;
 global.mCurrentSongLimit        = mMaxSongs;
 
+global.mAFKWarn = mAFK * (0.693148);
+
 global.mPushingOutGreeting      = [];
 global.mSpokenMessages          = [];
+global.mPMQueue					= [];
 
 InitMongoDB();
 Log("Done");
