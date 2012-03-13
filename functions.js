@@ -224,7 +224,7 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     console.log(JSON.stringify(pUser));
     if(pUser.IsBot && pUser.IsBot()) return;
     var sIsSelf = false;
-    if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
+    if(pUser && pUser.length) pUser.forEach(function(e){ console.log(JSON.stringify(e), e.IsBot()); sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
     if(sIsSelf) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
