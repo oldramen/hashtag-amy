@@ -39,7 +39,7 @@ global.OnGotRoomInfo = function(pData){
 global.OnNewModerator = function(pData){
     if(!pData.success) return;
     var sUser = mUsers[pData.userid];
-    if(IsMe(pData.userid)) mIsModerator = true;
+    if(pData.IsBot()) mIsModerator = true;
     else mModerators[pData.userid] = true;
     if(sUser) Speak(mUsers[sUser], mAddMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is now a moderator");
