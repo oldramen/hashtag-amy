@@ -68,6 +68,7 @@ global.OnAddDJ = function(pData){
     var sUser = mUsers[pData.user[0].userid];
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
+    sUser.Update();
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     if(!mCurrentDJ) mCurrentDJ = sUser;
