@@ -327,6 +327,7 @@ global.RegisterUser = function(pData){
 	++mUsers.length;
 	if(!mBooted){
 		mBootedQueue.push(function(){ RegisterUser(pData); });
+		return;
 	}
 	mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
 		if(!cursor){
