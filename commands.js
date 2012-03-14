@@ -150,8 +150,6 @@ global.mCommands = [
     {
         command: 'gtfo',
         callback: function(pUser, pText){
-            pText = pText.replace("@", "^").trimRight() + "$";
-            console.log(JSON.stringify(mUsers));
             var sUser = FindByName(pText);
             if(sUser.length > 0) sUser = sUser[0];
                 mBot.bootUser(sUser.userid, "Not in my kitchen.");
@@ -163,11 +161,10 @@ global.mCommands = [
         command: 'stagedive',
         message: ["{username} is surfing the crowd!", "Oops! {username} lost a shoe sufing the crowd.", "Wooo! {username}'s surfin' the crowd! Now to figure out where the wheelchair came from...", "Well, {username} is surfing the crowd, but where did they get a raft...", "{username} dived off the stage...too bad no one in the audience caught them.", "{username} tried to jump off the stage, but kicked their laptop. Ouch.", "{username} said they were going to do a stagedive, but they just walked off.", "And {username} is surfing the crowd! But why are they shirtless?", "{username} just traumatized us all by squashing that poor kid up front."],
         callback: function(pUser, pText){
-            if(mDJs.indexOf(pUser.userid) != -1) {
-                mBot.remDj(pUser.userid);
-                var sMessage = mRandomItem(this.message);
-                Speak(pUser, sMessage, SpeakingLevel.Misc);
-              }
+            if(mDJs.indexOf(pUser.userid) == -1) return;
+            var sMessage = mRandomItem(this.message);
+            Speak(pUser, sMessage, SpeakingLevel.Misc);
+            pUser.RemoveDJ();
         },
         requires: Requires.User,
         hint: "Removes if DJ"
@@ -308,5 +305,11 @@ global.mCommands = [
     	},
     	requires: Requires.User,
     	hint: "Removes the user from the deck after their song is over."
+    },
+    {
+    	command: 'vip',
+    	callback: function(pUser, pText){
+    		
+    	}
     }
 ];

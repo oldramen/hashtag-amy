@@ -507,6 +507,7 @@ global.Parse = function(pUser, pString, pArgs){
 };
 
 global.FindByName = function(pName){
+	pName = pName.replace("@", "^").trimRight() + "$";
 	Log("Finding by name: " + pName);
     var Results = [];
     var sUserIDs = _.keys(mUsers);
@@ -624,7 +625,7 @@ BaseUser = function(){return {
 	    mBot.remDj(this.userid);
 	},
 	OverMaxSongs : function(){
-	    RemoveDJ();
+	    this.RemoveDJ();
 	    Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
 	},
 	Increment_SongCount : function(){
