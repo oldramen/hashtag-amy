@@ -311,6 +311,7 @@ global.mCommands = [
     	callback: function(pUser, pText){
     		var sUser = FindByName(pText);
     		sUser.isVip = true;
+    		Speak(sUser, mIsNowVIP, SpeakingLevel.Misc);
     	},
     	requires: Requires.Moderator,
     	hint: "Makes a user a VIP"
