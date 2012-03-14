@@ -81,6 +81,7 @@ global.mNotInQueue              = "You're not in the queue.";
 global.mModRemoveFromQueue      = "Removed {user} from the queue.";
 global.mInfoOnRoom				= "I see this is your first time to {roomname}, so I'll give you the run down.  The theme is {theme}, the song limit is {songlimit}, and if you're on deck you can only be afk for {afk} minutes.";
 global.mNotDJ					= "I'm sorry {username}, but you're not a dj.";
+global.mIsNowVIP				= "{username} is now a VIP.";
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.
