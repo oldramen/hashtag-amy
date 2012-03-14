@@ -64,6 +64,7 @@ global.mAFKWarn = mAFK * (0.693148);
 global.mPushingOutGreeting      = [];
 global.mSpokenMessages          = [];
 global.mPMQueue					= [];
+global.mBootedQueue				= [];
 
 InitMongoDB();
 Log("Done");

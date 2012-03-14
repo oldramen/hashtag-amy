@@ -90,8 +90,10 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnNewSong = function(pData){
-    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
-    if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
+	if(mCurrentDJ){
+	    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
+	    if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
+   	}
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
@@ -323,19 +325,21 @@ global.LonelyDJ = function(){
 global.RegisterUser = function(pData){
 	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
-	if(mBooted)
-		mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
-			if(!cursor){
-				var sUser = mUsers[pData.userid];
-				Insert(mRoomShortcut, sUser);
-				Log("Inserting: " + sUser.name);
-				sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
-				sUser.Initialize();
-				return;
-			}
-			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
-			mUsers[pData.userid].Initialize();
-		});
+	if(!mBooted){
+		mBootedQueue.push(function(){ RegisterUser(pData); });
+	}
+	mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
+		if(!cursor){
+			var sUser = mUsers[pData.userid];
+			Insert(mRoomShortcut, sUser);
+			Log("Inserting: " + sUser.name);
+			sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
+			sUser.Initialize();
+			return;
+		}
+		mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
+		mUsers[pData.userid].Initialize();
+	});
 };
 
 global.RegisterUsers = function(pUsers){

@@ -309,7 +309,10 @@ global.mCommands = [
     {
     	command: 'vip',
     	callback: function(pUser, pText){
-    		
-    	}
+    		var sUser = FindByName(pText);
+    		sUser.isVip = true;
+    	},
+    	requires: Requires.Moderator,
+    	hint: "Makes a user a VIP"
     }
 ];
