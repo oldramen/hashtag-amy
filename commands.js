@@ -107,7 +107,7 @@ global.mCommands = [
         callback: function(pUser, pText){
             if(mQueue.length > 0) {
               if (!pText) {
-                  mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
+                  Speak(mModRemoveFromQueue, [['{user}', mUsers[mQueue[0]].name]]);//mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
                   mQueue.shift();
                 }else {
                   pText = pText.replace("@", "^").trimRight() + "$";
@@ -203,10 +203,9 @@ global.mCommands = [
         command: 'djs',
         callback: function(pUser, pText){
             var sDJSongCount = [];
-            for(var sDJ in mSongCount){
-                var sUser = mUsers[sDJ];
-                var sSongCount = mSongCount[sDJ];
-                sDJSongCount.push(sUser.name + ": " + sSongCount);
+            for(var sDJ in mDJs){
+            	var sUser = mUsers[mDJs[sDJ]];
+            	sDJSongCount.push(sUser.name + ": " + sUser.songCount);
             }
             Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc,[['{djsandsongcount}', sDJSongCount.join(', ')]]);
         },
@@ -217,9 +216,9 @@ global.mCommands = [
         command: 'afks',
         callback: function(pUser, pText){
             var sDJAfkCount = [];
-            for(var sDJ in mSongCount){
-                var sUser = mUsers[sDJ];
-                var sAfkTime = mAFKTimes[sDJ];                
+            for(var sDJ in mDJs){
+                var sUser = mUsers[mDJs[sDJ]];
+                var sAfkTime = sUser.afkTime;              
                 var sAge = Date.now() - sAfkTime;
                 var sAge_Minutes = Math.floor(sAge / 1000 / 60);
                 sDJAfkCount.push(sUser.name + ": " + sAge_Minutes+'m');
@@ -258,9 +257,10 @@ global.mCommands = [
     {
         command: 'dance',
         callback: function(pUser, pText){
+        	Log("Dancing");
             if(!mModBop || pUser.isMod)mBot.vote("up");
         },
-        requires: Requires.User,
+        requires: Requires.Moderator,
         hint: "Makes the bot dance.  Can not be done by regular users."
     },
     {
@@ -298,5 +298,15 @@ global.mCommands = [
         }, 
         requires: Requires.User, 
         hint: "Order something off the menu."
+    },
+    {
+    	command: 'bootaftersong',
+    	callback: function(pUser, pText){
+    		if(pUser.isDJ)
+    			pUser.bootAfterSong = true;
+			else pUser.PM(mNotDJ, SpeakingLevel.Misc);
+    	},
+    	requires: Requires.User,
+    	hint: "Removes the user from the deck after their song is over."
     }
 ];

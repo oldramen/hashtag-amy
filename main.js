@@ -32,11 +32,12 @@ global.mSongCount       =   {};*/
 
 global.mDJs             =   [];
 global.mCurrentDJ       =   null; /// Will be a user ( type )
-
+global.mRecentlyLeft	=	{};
 
 global.mRoomName        =   "";
 global.mRoomShortcut	= 	"";
 global.mMaxDJs          =   5;
+global.mModerators		=	[];
 
 global.mParsing         =   {};
 global.mMongoDB         =   null;
@@ -58,8 +59,11 @@ global.mQueueCurrentlyOn        = false;
 global.mSongLimitCurrentlyOn    = false;
 global.mCurrentSongLimit        = mMaxSongs;
 
+global.mAFKWarn = mAFK * (0.693148);
+
 global.mPushingOutGreeting      = [];
 global.mSpokenMessages          = [];
+global.mPMQueue					= [];
 
 InitMongoDB();
 Log("Done");

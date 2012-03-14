@@ -12,8 +12,15 @@ global.OnRegistered = function(pData){
     if(pData.user.length == 0) return;
     for(var i = 0; i < pData.user.length; ++i){
     	var sUser = pData.user[i];
-    	if(sUser == mUsers[pData.user[i].userid]){
+    	var sCached = mUsers[sUser.userid];
+    	if(sCached){
     		Log("found "+sUser.name+" in the memory.");
+    		if(mRecentlyLeft[sUser.userid]){
+    			Log("Removing their timeout.");
+    			clearTimeout(sUser.userid);
+    			delete mRecentlyLeft[sUser.userid];
+    		}
+    		mUsers[sUser.userid] = sCached; /// Just incase there's that slim chance that they got removed.
     	}else{
 	    	RegisterUser(pData.user[i]); 
 	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
@@ -34,7 +41,7 @@ global.OnGotRoomInfo = function(pData){
     mRoomName = pData.room.name;
     mRoomShortcut = pData.room.shortcut;
     InitMongoDB();
-    Update_Users(pData.users, false); 
+    Update_Users(pData.users, false);
     RefreshMetaData(pData.room.metadata);
 };
 
@@ -63,7 +70,7 @@ global.OnAddDJ = function(pData){
     mDJs.push(sUser.userid);
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
-    
+    if(!mCurrentDJ) mCurrentDJ = sUser;
     LonelyDJ();
     Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
@@ -71,6 +78,7 @@ global.OnAddDJ = function(pData){
 global.OnRemDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = mUsers[pData.user[0].userid];
+    sUser.bootAfterSong = false;
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
@@ -83,6 +91,7 @@ global.OnRemDJ = function(pData){
 
 global.OnNewSong = function(pData){
     if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
+    if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
@@ -139,6 +148,8 @@ global.Loop = function(){
     Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
     RemoveOldMessages();
+    var sPM = mPMQueue.shift();
+    if(sPM) mBot.pm(sPM[0], sPM[1]);
 };
 
 global.Greet = function(pUsers){
@@ -269,7 +280,7 @@ global.BootUp = function(){
 };
 
 global.LoadParsing = function(){
-    mParsing['{room}']                          = mRoomName;
+    mParsing['{room}'] = mParsing['{roomname}'] = mRoomName;
     mParsing['{theme}']                         = mTheme;
     mParsing['{songlimit}']                     = mCurrentSongLimit;
     mParsing['{queue}']                         = mQueueOn ? "on" : "off";
@@ -315,8 +326,11 @@ global.RegisterUser = function(pData){
 	if(mBooted)
 		mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
 			if(!cursor){
-				Insert(mRoomShortcut, mUsers[pData.userid]);
-				Log("Inserting: " + mUsers[pData.userid].name);
+				var sUser = mUsers[pData.userid];
+				Insert(mRoomShortcut, sUser);
+				Log("Inserting: " + sUser.name);
+				sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
+				sUser.Initialize();
 				return;
 			}
 			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
@@ -342,11 +356,13 @@ global.RegisterUsers = function(pUsers){
 				var sUser = pUsers[i];
 				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
 				if(sRegistered && sRegistered.length){
-					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0]);
+					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
 					mUsers[sUser.userid].Initialize();
 				}else{
 					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					Log("Inserting: " + sUser.name);
+					mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+					mUsers[sUser.userid].Initialize();
 				}
 			}
 			Insert(mRoomShortcut, toInsert);
@@ -422,21 +438,7 @@ global.HandleCommand = function(pUser, pText){
 };
 
 global.HandlePM = function(pUser, pText){
-    if(/*!mBooted || */!mPMSpeak) return; HandleCommand(pUser, pText);
-    /// Give me one good reason why this should be here.
-    /*var sMatch = pText.match(/^[!\*\/]/);
-    if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
-    var sSplit = pText.split(' ');
-    var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
-    if(mPMCommands.indexOf(sCommand) === -1) return;
-    pText = sSplit.join(' ');
-    var sCommands = mCommands.filter(function(pCommand){ 
-        return pCommand.command == sCommand; 
-    });
-    sCommands.forEach(function(pCommand){ 
-        if(pCommand.requires.check(pUser)) 
-            pCommand.callback(pUser, pText); 
-    });*/
+    if(!mPMSpeak) return; HandleCommand(pUser, pText);
 };
 
 global.HandleMenu = function(pUser, pText){
@@ -571,22 +573,22 @@ BaseUser = function(){return {
 	isOwner: false,
 	isVip: false,
 	isSuperUser: false,
+	isDJ: false,
 	laptop: "pc",
 	afkWarned: false,
 	afkTime: Date.now(),
 	songCount: 0,
 	customGreeting: null,
+	bootAfterSong: false,
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){
-		var sWarn = mAFK * (0.693148);
     	var sAge = Date.now() - this.afkTime;
     	var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     	if (sAge_Minutes >= mAFK) return true;
-    	if(!this.afkWarned && sAge_Minutes >= sWarn && mWarn){
-    	    Speak(pUser, mWarnMsg, SpeakingLevel.Misc);
+    	if(!this.afkWarned && sAge_Minutes >= mAFKWarn && mWarn){
+    	    Speak(this, mWarnMsg, SpeakingLevel.Misc);
 			this.afkWarned = true;
-			console.log(this.afkWarned, sAge_Minutes, sWarn, mWarn, this.afkTime);
     	}
     	return false;
 	},
@@ -605,11 +607,11 @@ BaseUser = function(){return {
 	},
 	PM: function(pSpeak, pSpeakingLevel, pArgs){
 	    if(!pSpeak) return;
-	    if(this.IsBot())
-	    pSpeak = Parse(pSpeak, pArgs);
+	    if(this.IsBot()) return;
+	    pSpeak = Parse(this, pSpeak, pArgs);
 	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
 	        if(SpeakingAllowed(pSpeakingLevel)) 
-	            mBot.pm(pSpeak, this.userid);
+	            mPMQueue.push([pSpeak, this.userid]);//mBot.pm(pSpeak, this.userid);
 	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
 	    }
 	    return pSpeak;
@@ -630,20 +632,31 @@ BaseUser = function(){return {
 	  Log(this.name + "'s song count: " + this.songCount);
 	},
 	Update : function(){
-		afkTime = Date.now();
-		afkWarned = false;
+		this.afkTime = Date.now();
+		this.afkWarned = false;
 		Save(mRoomShortcut, this);
 	},
 	Remove: function(){
 		Log("TODO: Timer to remove from mUsers");
 		//delete mUsers[this.userid];
+		mRecentlyLeft[this.userid] = setTimeout(function(){ 
+			console.log("Flushing user from cache."); 
+			delete mUsers[this.userid]; 
+			delete mRecentlyLeft[this.userid]; 
+			console.log(mUsers[this.userid]);
+		}, mTimeForCacheFlush);
 		Save(mRoomShortcut, this);
 	},
 	Initialize: function(){
-		Log("Reinitializing: " + this.name);
 		this.songCount = 0;
 		this.afkTime = Date.now();
 		this.afkWarned = false;
+		this.bootAfterSong = false;
+		this.isDJ = mDJs.indexOf(this.userid) != -1;
+		this.isMod = mModerators.indexOf(this.userid) != -1;
+		this.isOwner = mOwners.indexOf(this.userid) != -1;
+		this.isVip = mVIPs.indexOf(this.userid) != -1;
+		this.isSuperUser = this.acl > 0;
 	}
 };
 };
