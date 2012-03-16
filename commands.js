@@ -259,11 +259,31 @@ global.mCommands = [
         pm: true
     },
     {
-        command: 'dance',
+        command: 'bop',
         callback: function(pUser, pText){
         	if(!mModBop || pUser.isMod) mBot.vote("up");
         },
-        requires: Requires.Moderator,
+        requires: Requires.User,
+        hint: "Makes the bot dance.  Can not be done by regular users."
+    },
+    {
+        command: 'party',
+        message: 'Gimme a shot and clear the dance floor!!',
+        callback: function(pUser, pText){
+            if(!mModBop || pUser.isMod) mBot.vote("up");
+            Speak(pUser, this.message, SpeakingLevel.Misc);
+        },
+        requires: Requires.User,
+        hint: "Makes the bot dance.  Can not be done by regular users."
+    },
+    {
+        command: 'dance',
+        message: 'Bust a move!',
+        callback: function(pUser, pText){
+            if(!mModBop || pUser.isMod) mBot.vote("up");
+            Speak(pUser, this.message, SpeakingLevel.Misc);
+        },
+        requires: Requires.User,
         hint: "Makes the bot dance.  Can not be done by regular users."
     },
     {
