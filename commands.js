@@ -35,15 +35,10 @@ global.mCommands = [
     {
         command: 'ban',
         callback: function(pUser, pText){
-            pText = pText.replace("@", "^").trimRight() + "$";
-            console.log(JSON.stringify(mUsers));
-            var sUser = FindByName(pText);
-            if(sUser.length > 0) sUser = sUser[0];
-            else return;
-            if(IsMe(sUser) || Is_Moderator(sUser) || Is_SuperUser(sUser) || Is_Owner(sUser)) return;
-            
-            Insert("bans", {userid: sUser.userid});
-            mBot.bootUser(sUser.userid, "You're banned.  Gtfo.");
+        	var sSplit = pText.split(' ');
+        	if(sSplit.length == 1)
+            	Ban(sSplit[0]);
+        	else Ban(sSplit.shift(), sSplit.join(' '));
         },
         requires: Requires.Moderator, 
         hint: "Add a user to the ban list and kicks them from the room."

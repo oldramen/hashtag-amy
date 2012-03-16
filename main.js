@@ -80,7 +80,9 @@ mBot.on("rem_dj", OnRemDJ);
 mBot.on("speak", OnSpeak);
 mBot.on("pmmed", OnPmmed);
 mBot.on("newsong", OnNewSong);
+mBot.on("endsong", OnEndSong);
 mBot.on("snagged", OnSnagged);
+mBot.on("nosong", OnNoSong);
 Log("Done");
 
 Log("Ready");

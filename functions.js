@@ -25,6 +25,7 @@ global.OnRegistered = function(pData){
 	    	RegisterUser(pData.user[i]); 
 	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
     	}
+    	if(sUser.isBanned) sUser.Boot(sUser.banReason ? sUser.banReason : mBanReason);
 	}
 	if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
     CalculateProperties();
@@ -49,7 +50,7 @@ global.OnNewModerator = function(pData){
     if(!pData.success) return;
     var sUser = mUsers[pData.userid];
     if(sUser.IsBot()) mIsModerator = true;
-    else mModerators[pData.userid] = true;
+    else sUser.isMod = true;///mModerators[pData.userid] = true;
     if(sUser) Speak(mUsers[sUser], mAddMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is now a moderator");
 };
@@ -58,7 +59,7 @@ global.OnRemModerator = function(pData){
     if(!pData.success) return;
     var sUser = mUsers[pData.userid];
     if(sUser.IsBot()) mIsModerator = false;
-    else delete mModerators[pData.userid];
+    else sUser.isMod = false;///delete mModerators[pData.userid];
     if(sUser) Speak(sUser, mRemMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is no longer a moderator");
 };
@@ -143,6 +144,10 @@ global.OnEndSong = function(pData){
   .replace(/\{down\}/gi, mDownVotes);
   Speak(mCurrentDJ, sMessage, SpeakingLevel.Misc);
 };
+
+global.OnNoSong = function(pData){
+	Log("There is currently no song.");
+}
 
 global.Loop = function(){
     CheckAFKs();
@@ -435,7 +440,7 @@ global.HandleCommand = function(pUser, pText){
     var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
-        return pCommand.command == sCommand; 
+        return pCommand.command == sCommand;
     });
     sCommands.forEach(function(pCommand){ 
         if(pCommand.requires.check(pUser)) 
@@ -512,7 +517,7 @@ global.Parse = function(pUser, pString, pArgs){
     return pString;
 };
 
-global.FindByName = function(pName){
+global.FindByName = function(pName, pCallback){
 	pName = pName.replace("@", "^").trimRight() + "$";
 	Log("Finding by name: " + pName);
     var Results = [];
@@ -526,7 +531,27 @@ global.FindByName = function(pName){
     }
     return Results;
 };
-
+global.Ban = function(pName, pReason){
+	Log("Banning " + pName + " for: " + pReason);
+	var sUser = FindByName(pName);
+    if(sUser.length > 0) sUser = sUser[0];
+    else return;
+    if(IsMe(sUser) || Is_Moderator(sUser) || Is_SuperUser(sUser) || Is_Owner(sUser)) return;
+    
+    Log("Banning: " + sUser.name);
+    
+    sUser.isBanned = true;//Insert("", {userid: sUser.userid});
+    sUser.banReason = pReason;
+    sUser.Boot(pReason ? pReason : mBanReason);
+}
+global.Unban = function(pName, pReason){
+	var sUser = FindByName(pName);
+    if(sUser.length > 0) sUser = sUser[0];
+    else return;
+    sUser.isBanned = false;//Insert("", {userid: sUser.userid});
+    delete sUser.banReason;
+    Speak(sUser, mUnbanned, SpeakingLevel.Misc);
+}
 global.mRandomItem = function (list) {
       return list[Math.floor(Math.random() * list.length)];
 };
@@ -602,15 +627,6 @@ BaseUser = function(){return {
 	BootAFK : function(){
 		this.RemoveDJ();
 	    Speak(this, mRemDJMsg, SpeakingLevel.Misc);
-	},
-	Remove: function(){
-	    delete mUsers[this.userid];
-	    --mUsers.length;
-	    if(mQueue.indexOf(pUser.userid) != -1){
-	        mQueue.splice(mQueue.indexOf(this.userid),1);
-	        ParsingForQueue();
-	    }
-	    mPushingOutGreeting.splice(mPushingOutGreeting.indexOf(this.userid),1);
 	},
 	PM: function(pSpeak, pSpeakingLevel, pArgs){
 	    if(!pSpeak) return;
