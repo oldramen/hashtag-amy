@@ -269,6 +269,8 @@ global.RefreshMetaData = function(pMetaData){
     mIsModerator = pMetaData.moderator_id.indexOf(mUserId) != -1;
     mModerators = pMetaData.moderator_id;
     mMaxDJs = pMetaData.max_djs;
+    mCreator = pMetaData.creator.userid;
+    mOwners.push(mCreator);
     CalculateProperties();
     
     LoadParsing();
@@ -342,14 +344,13 @@ global.RegisterUser = function(pData){
 			Insert(mRoomShortcut, sUser, function(err, records){
 				if(!records || records.length != 1) { Log("Error inserting " + pData.name); return; }
 				var sRecord = records[0]; /// There should only be one.  |:
-				sUser = mUsers[pData.userid] = mUsers[pData.userid].extend(sRecord.extend(pData));
 				sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
 				sUser.Initialize();
+				sUser._id = sRecord._id;
 			});
 			return;
 		}
 		mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
-		
 		mUsers[pData.userid].Initialize();
 	});
 };
@@ -382,9 +383,10 @@ global.RegisterUsers = function(pUsers){
 				if(!records) return;
 				for(var i = 0; i < records.length; ++i){
 					var sRecord = records[i];
-					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRecord.extend(sUser));
-					var sUser = mUsers[sUser.userid].Initialize();
-					Log("Inserted: " + sUser.name + "("+sRecord.name+")");
+					mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
+					mUsers[sUser.userid].Initialize();
+					//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
+					mUsers[sUser.userid]._id = sRecord._id;
 					mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
 				}
 			});
@@ -687,7 +689,7 @@ BaseUser = function(){return {
 	Update : function(){
 		this.afkTime = Date.now();
 		this.afkWarned = false;
-		Save(mRoomShortcut, this);
+		this.Save();///Save(mRoomShortcut, this);
 	},
 	Remove: function(){
 		//delete mUsers[this.userid];
@@ -697,7 +699,7 @@ BaseUser = function(){return {
 			delete mRecentlyLeft[this.userid]; 
 			console.log(JSON.stringify(mUsers[this.userid]));
 		}, mTimeForCacheFlush);
-		Save(mRoomShortcut, this);
+		this.Save();///Save(mRoomShortcut, this);
 	},
 	Initialize: function(){
 		this.songCount = 0;
@@ -718,6 +720,24 @@ BaseUser = function(){return {
 		if(this.isDJ) return 1;
 		if(this.isBanned) return -1;
 		return 0;
+	},
+	Save: function(){
+		if(this._id){
+			Save(mRoomShortcut, this);
+			return;
+		}
+		if(this.saveToken) return;
+		Object.defineProperty(this, "saveToken",{
+			enumerable: false,
+			value: setInterval(function(){
+				if(!this._id) return;
+				Log("Delayed saving of " + this.name);
+				Save(mRoomShortcut, this);
+				var sSaveToken = this.saveToken;
+				delete this.saveToken;
+				clearInterval(sSaveToken);
+			})
+	},100);
 	}
 };
 };
