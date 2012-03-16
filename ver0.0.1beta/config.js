@@ -9,13 +9,13 @@ require("./enums.js");
 //This is where setup the streamers and shit for the party.
 
 //Variables
-global.mAuthId                  = "auth+live+d9c865fd77713d7f3c30647c84e0f6eafbde94d3";      //authid of bot
-global.mUserId                  = "4ebce0d8a3f75102e600095f";      //userid of bot
-global.mRoomId                  = "4f20b53ba3f75176b400087d";      //roomid of room to be hosted in
-global.mMongoHost               = "localhost";   //host of mongodb
-global.mMongoDatabase           = "turntable";//mongocollection for bot.
-global.mMongoUser               = "turntable";   //user of mongocollection
-global.mMongoPass               = "ae8a7fd96a";   //password to mongocollection
+global.mAuthId                  = "{auth_id}";      //authid of bot
+global.mUserId                  = "{user_id}";      //userid of bot
+global.mRoomId                  = "{room_id}";      //roomid of room to be hosted in
+global.mMongoHost               = "{mongo_host}";   //host of mongodb
+global.mMongoDatabase           = "{mongo_database}";//mongocollection for bot.
+global.mMongoUser               = "{mongo_user}";   //user of mongocollection
+global.mMongoPass               = "{mongo_pass}";   //password to mongocollection
 global.mMongoPort               = 27017;
 global.mName                    = "#Amy";           //name of bot
 global.mLaptop                  = "chrome";
