@@ -120,7 +120,9 @@ global.OnSpeak = function(pData){
 };
 
 global.OnPmmed = function(pData){
-    if(mPMSpeak) HandlePM(mUsers[pData.senderid], pData.text);
+    if (!mUsers[pData.senderid]) return;
+    console.log('got pm');
+    HandleCommand(mUsers[pData.senderid], pData.text, true);
 };
 
 global.OnSnagged = function(pData){
@@ -249,7 +251,7 @@ global.SpeakingAllowed = function(pSpeakingLevel){
     else return mSpeakingLevel.indexOf(pSpeakingLevel) != -1;
 };
 
-global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
+global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs, pPM){
     if(!pSpeak) return;
     if(pUser.IsBot && pUser.IsBot()) return;
     var sIsSelf = false;
@@ -258,7 +260,8 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs){
     pSpeak = Parse(pUser, pSpeak, pArgs);
     if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
         if(SpeakingAllowed(pSpeakingLevel)) 
-            mBot.speak(pSpeak);
+            if (pPM && CanPM(pUser)) mBot.pm(pSpeak, pUser.userid);
+            else mBot.speak(pSpeak);
         mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
     }
     return pSpeak;
@@ -467,12 +470,14 @@ global.CalculateSongLimit = function(){
     mParsing['{songlimit}'] = mCurrentSongLimit;
 };
 
-global.HandleCommand = function(pUser, pText){
+global.HandleCommand = function(pUser, pText, pPM){
     if(!mBooted) return;
+    if (pPM && !mPMSpeak) return;
     var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
+    if(pPM && mPMCommands.indexOf(sCommand) === -1) return;
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
         return pCommand.command == sCommand;
@@ -481,10 +486,6 @@ global.HandleCommand = function(pUser, pText){
         if(pCommand.requires.check(pUser)) 
             pCommand.callback(pUser, pText); 
     });
-};
-
-global.HandlePM = function(pUser, pText){
-    if(!mPMSpeak) return; HandleCommand(pUser, pText);
 };
 
 global.HandleMenu = function(pUser, pText){

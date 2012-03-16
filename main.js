@@ -48,6 +48,9 @@ global.mIsModerator     =   false;
 global.mBareCommands    =   mCommands.filter(function(e){ return e.bare == true; });
 if(!mBareCommands) mBareCommands = []; else mBareCommands = mBareCommands.map(function(e){ return e.command; });;
 
+global.mPMCommands    =   mCommands.filter(function(e){ return e.pm == true; });
+if(!mPMCommands) mPMCommands = []; else mPMCommands = mPMCommands.map(function(e){ return e.command; });;
+
 global.mQueue           =   [];
 global.mQueueNextUp     =   null;
 global.mQueueWarned     =   [];

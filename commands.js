@@ -15,8 +15,7 @@ global.mCommands = [
     { 
         command: 'help',
         callback: function(pUser, pText){
-            if (CanPM(pUser)) pUser.PM(mHelpMsg, SpeakingLevel.Misc);
-            else Speak(pUser, mHelpMsg, SpeakingLevel.Misc);
+            Speak(pUser, mHelpMsg, SpeakingLevel.Misc, null, true);
         }, 
         requires: Requires.User,
         hint: "Gives the users some pretty basic help and advice.",
@@ -240,8 +239,7 @@ global.mCommands = [
                 if(pCommand.requires.check(pUser) && !(pCommand.hidden))
                     sCommands.push(pCommand.command);
             });
-            if (CanPM(pUser)) PM(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
-            else Speak(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]]);
+            Speak(pUser, mCommandsList, SpeakingLevel.Misc, [['{commands}', sCommands.join(', /')]], true);
         },
         requires: Requires.User,
         hint: "Tells what all the commands are.",
@@ -250,8 +248,7 @@ global.mCommands = [
     {
         command: 'theme',
         callback: function(pUser, pText){
-            if (CanPM(pUser)) PM(pUser, mThemeIs, SpeakingLevel.Misc);
-            else Speak(pUser, mThemeIs, SpeakingLevel.Misc);
+            Speak(pUser, mThemeIs, SpeakingLevel.Misc, null, true);
         },
         requires: Requires.User,
         hint: "Tells what the theme is.",
@@ -346,7 +343,7 @@ global.mCommands = [
     {
         command: 'set',
         callback: function(pUser, pText){
-            //TODO: all of this. :|
+            //TODO: all of this.
         },
         requires: Requires.Moderator,
         hint: "Temporarily changes options"
