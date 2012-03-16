@@ -342,5 +342,13 @@ global.mCommands = [
     	},
     	requires: Requires.Moderator,
     	hint: "Makes a user a VIP"
+    },
+    {
+        command: 'set',
+        callback: function(pUser, pText){
+            //TODO: all of this. :|
+        },
+        requires: Requires.Moderator,
+        hint: "Temporarily changes options"
     }
 ];
