@@ -57,6 +57,7 @@ global.mJustRemovedDJ   =   [];
 
 global.mQueueCurrentlyOn        = false;
 global.mSongLimitCurrentlyOn    = false;
+global.mAFKLimitCurrentlyOn		= false;
 global.mCurrentSongLimit        = mMaxSongs;
 
 global.mAFKWarn = mAFK * (0.693148);

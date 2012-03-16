@@ -420,6 +420,7 @@ global.Update_Users = function(pUsers, pSingle){
 global.CalculateProperties = function(){
     IsSongQueueEnabled();
     IsSongLimitEnabled();
+    IsAFKLimitEnabled();
     CalculateSongLimit();
 };
 global.IsSongQueueEnabled = function(){
@@ -446,6 +447,18 @@ global.IsSongLimitEnabled = function(){
     else mSongLimitCurrentlyOn = mLimitOn;
     mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
 };
+global.IsAFKLimitEnabled = function(){
+	if(mMinAFKLimitOperator == "&" && mMinUsersForAFKLimit && mMinDJsForAFKLimit)
+        mAFKLimitCurrentlyOn = mLimitOn && mMinUsersForAFKLimit <= mUsers.length && mMinDJsForAFKLimit <= mDJs.length;
+    else if(mMinUsersForAFKLimit && mMinDJsForAFKLimit)
+        mAFKLimitCurrentlyOn = mLimitOn && (mMinUsersForAFKLimit <= mUsers.length || mMinDJsForAFKLimit <= mDJs.length);
+    else if(mMinUsersForAFKLimit)
+        mAFKLimitCurrentlyOn = mLimitOn && mMinUsersForAFKLimit <= mUsers.length;
+    else if(mMinDJsForAFKLimit)
+        mAFKLimitCurrentlyOn = mLimitOn && mMinDJsForAFKLimit <= mDJs.length;
+    else mAFKLimitCurrentlyOn = mLimitOn;
+    mParsing['{afklimitcurrentlyon}'] = mAFKLimitCurrentlyOn ? "on" : "off";
+}
 global.CalculateSongLimit = function(){
     if(mSongLimitUserProportion)
         mCurrentSongLimit = Math.floor(mSongLimitUserProportion / mUsers.length);
@@ -656,6 +669,7 @@ BaseUser = function(){return {
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){
+		if(!mAFKLimitCurrentlyOn || this.GetLevel() > 1) return false; /// Because idgaf.
     	var sAge = Date.now() - this.afkTime;
     	var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
     	if (sAge_Minutes >= mAFK) return true;
@@ -666,8 +680,8 @@ BaseUser = function(){return {
     	return false;
 	},
 	BootAFK : function(){
-		this.RemoveDJ();
 	    Speak(this, mRemDJMsg, SpeakingLevel.Misc);
+		this.RemoveDJ();
 	},
 	PM: function(pSpeak, pSpeakingLevel, pArgs){
 	    if(!pSpeak) return;
