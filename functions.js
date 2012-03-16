@@ -550,7 +550,7 @@ global.Ban = function(pName, pReason){
 	FindByName(pName, function(sUser){
 	    if(sUser.length > 0) sUser = sUser[0];
 	    else return;
-	    if(IsMe(sUser) || Is_Moderator(sUser) || Is_SuperUser(sUser) || Is_Owner(sUser)) return;
+	    if(sUser.GetLevel() > 2) return;
 	    
 	    Log("Banning: " + sUser.name);
 	    
@@ -696,6 +696,15 @@ BaseUser = function(){return {
 		this.isOwner = mOwners.indexOf(this.userid) != -1;
 		this.isVip = mVIPs.indexOf(this.userid) != -1;
 		this.isSuperUser = this.acl > 0;
+	},
+	GetLevel: function(){
+		if(this.isOwner) return 5;
+		if(this.isSuperUser) return 4;
+		if(this.isMod) return 3;
+		if(this.isVip) return 2;
+		if(this.isDJ) return 1;
+		if(this.isBanned) return -1;
+		return 0;
 	}
 };
 };
