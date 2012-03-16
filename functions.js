@@ -518,7 +518,7 @@ global.Parse = function(pUser, pString, pArgs){
 };
 
 global.FindByName = function(pName, pCallback){
-	if(pCallback){ 
+	if(!pCallback){ 
 		Log("Was going to find by name, but no callback, so returning");
 		return;
 	}
