@@ -106,11 +106,12 @@ global.mCommands = [
                   mQueue.shift();
                 }else {
                   pText = pText.replace("@", "^").trimRight() + "$";
-                  var sUser = FindByName(pText);
-                  if(sUser.length > 0) sUser = sUser[0];
-                  if(mQueue.indexOf(sUser.userid) === -1) return;
-                  mQueue.splice(mQueue.indexOf(sUser.userid), 1)
-                  mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, sUser.name));
+                  FindByName(pText, function(sUser){
+	                  if(sUser.length > 0) sUser = sUser[0];
+	                  if(mQueue.indexOf(sUser.userid) === -1) return;
+	                  mQueue.splice(mQueue.indexOf(sUser.userid), 1)
+	                  mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, sUser.name));
+                  });
                 }
             };
         }, 
@@ -135,9 +136,10 @@ global.mCommands = [
         command: 'maul',
         callback: function(pUser, pText){
             pText = pText.replace("@", "^").trimRight() + "$";
-            var sUser = FindByName(pText);
-            if(sUser.length > 0) sUser = sUser[0];
-                mBot.remDj(sUser.userid);
+            FindByName(pText,function(sUser){
+	            if(sUser.length > 0) sUser = sUser[0];
+	                mBot.remDj(sUser.userid);
+         	});
         },
         requires: Requires.Moderator,
         hint: "Remove a DJ"
@@ -145,9 +147,10 @@ global.mCommands = [
     {
         command: 'gtfo',
         callback: function(pUser, pText){
-            var sUser = FindByName(pText);
-            if(sUser.length > 0) sUser = sUser[0];
-                mBot.bootUser(sUser.userid, "Not in my kitchen.");
+            FindByName(pText, function(sUser){
+	            if(sUser.length > 0) sUser = sUser[0];
+	                mBot.bootUser(sUser.userid, "Not in my kitchen.");
+            });
         },
         requires: Requires.Moderator,
         hint: "Remove a DJ"
@@ -304,9 +307,10 @@ global.mCommands = [
     {
     	command: 'vip',
     	callback: function(pUser, pText){
-    		var sUser = FindByName(pText);
-    		sUser.isVip = true;
-    		Speak(sUser, mIsNowVIP, SpeakingLevel.Misc);
+    		FindByName(pText, function(sUser){
+	    		sUser.isVip = true;
+	    		Speak(sUser, mIsNowVIP, SpeakingLevel.Misc);
+    		});
     	},
     	requires: Requires.Moderator,
     	hint: "Makes a user a VIP"

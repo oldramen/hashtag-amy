@@ -518,39 +518,56 @@ global.Parse = function(pUser, pString, pArgs){
 };
 
 global.FindByName = function(pName, pCallback){
+	if(pCallback){ 
+		Log("Was going to find by name, but no callback, so returning");
+		return;
+	}
 	pName = pName.replace("@", "^").trimRight() + "$";
 	Log("Finding by name: " + pName);
-    var Results = [];
-    var sUserIDs = _.keys(mUsers);
-    sUserIDs.splice(0,1);
-    for(var i = 0; i < sUserIDs.length; ++i){
-        var sUserID = sUserIDs[i];
-        if(mUsers[sUserID].name.match(pName)){
-            Results.push(mUsers[sUserID]);
-        }
-    }
-    return Results;
+	mMongoDB.collection(mRoomShortcut).find({'name': {'$regex': pName}}, function(err, cursor){
+		Log("Registering Users");
+		cursor.toArray(function(err,array){
+			var sResults = {};
+			array.forEach(function(e){
+				BaseUser.extend(e);
+				sResults[e.userid] = e;
+			});
+		    var sUserIDs = _.keys(mUsers);
+		    sUserIDs.splice(0,1);
+		    for(var i = 0; i < sUserIDs.length; ++i){
+		        var sUserID = sUserIDs[i];
+		        if(mUsers[sUserID].name.match(pName)){
+		            //Results.push(mUsers[sUserID]);
+		            if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
+		            else sResults[sUserID] = mUsers[sUserID];
+		        }
+		    }
+		    pCallback(_.values(sResults));
+		});
+ 	});
 };
 global.Ban = function(pName, pReason){
 	Log("Banning " + pName + " for: " + pReason);
-	var sUser = FindByName(pName);
-    if(sUser.length > 0) sUser = sUser[0];
-    else return;
-    if(IsMe(sUser) || Is_Moderator(sUser) || Is_SuperUser(sUser) || Is_Owner(sUser)) return;
-    
-    Log("Banning: " + sUser.name);
-    
-    sUser.isBanned = true;//Insert("", {userid: sUser.userid});
-    sUser.banReason = pReason;
-    sUser.Boot(pReason ? pReason : mBanReason);
+	FindByName(pName, function(sUser){
+	    if(sUser.length > 0) sUser = sUser[0];
+	    else return;
+	    if(IsMe(sUser) || Is_Moderator(sUser) || Is_SuperUser(sUser) || Is_Owner(sUser)) return;
+	    
+	    Log("Banning: " + sUser.name);
+	    
+	    sUser.isBanned = true;//Insert("", {userid: sUser.userid});
+	    sUser.banReason = pReason;
+	    sUser.Boot(pReason ? pReason : mBanReason);
+   	});
 }
 global.Unban = function(pName, pReason){
-	var sUser = FindByName(pName);
-    if(sUser.length > 0) sUser = sUser[0];
-    else return;
-    sUser.isBanned = false;//Insert("", {userid: sUser.userid});
-    delete sUser.banReason;
-    Speak(sUser, mUnbanned, SpeakingLevel.Misc);
+	FindByName(pName, function(sUser){
+	    if(sUser.length > 0) sUser = sUser[0];
+	    else return;
+	    sUser.isBanned = false;//Insert("", {userid: sUser.userid});
+	    delete sUser.banReason;
+	    Speak(sUser, mUnbanned, SpeakingLevel.Misc);
+    });
 }
 global.mRandomItem = function (list) {
       return list[Math.floor(Math.random() * list.length)];
