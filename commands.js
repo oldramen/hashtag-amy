@@ -44,6 +44,15 @@ global.mCommands = [
         hint: "Add a user to the ban list and kicks them from the room."
     },
     {
+        command: 'unban',
+        callback: function(pUser, pText){
+        	if(pText)
+            	Unban(pText);
+        },
+        requires: Requires.Moderator, 
+        hint: "Add a user to the ban list and kicks them from the room."
+    },
+    {
         command: 'say',        
         callback: function(pUser, pText){
             mBot.speak(pText);
@@ -252,8 +261,7 @@ global.mCommands = [
     {
         command: 'dance',
         callback: function(pUser, pText){
-        	Log("Dancing");
-            if(!mModBop || pUser.isMod)mBot.vote("up");
+        	if(!mModBop || pUser.isMod) mBot.vote("up");
         },
         requires: Requires.Moderator,
         hint: "Makes the bot dance.  Can not be done by regular users."

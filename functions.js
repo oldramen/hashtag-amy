@@ -554,18 +554,21 @@ global.Ban = function(pName, pReason){
 	    
 	    Log("Banning: " + sUser.name);
 	    
-	    sUser.isBanned = true;//Insert("", {userid: sUser.userid});
+	    sUser.isBanned = true;
 	    sUser.banReason = pReason;
+	    Speak(sUser, mBanned, SpeakingLevel.Misc);
+	    sUser.Update();
 	    sUser.Boot(pReason ? pReason : mBanReason);
    	});
 }
-global.Unban = function(pName, pReason){
+global.Unban = function(pName){
 	FindByName(pName, function(sUser){
 	    if(sUser.length > 0) sUser = sUser[0];
 	    else return;
-	    sUser.isBanned = false;//Insert("", {userid: sUser.userid});
+	    sUser.isBanned = false;
 	    delete sUser.banReason;
 	    Speak(sUser, mUnbanned, SpeakingLevel.Misc);
+	    sUser.Update();
     });
 }
 global.mRandomItem = function (list) {
@@ -676,13 +679,12 @@ BaseUser = function(){return {
 		Save(mRoomShortcut, this);
 	},
 	Remove: function(){
-		Log("TODO: Timer to remove from mUsers");
 		//delete mUsers[this.userid];
 		mRecentlyLeft[this.userid] = setTimeout(function(){ 
 			console.log("Flushing user from cache."); 
 			delete mUsers[this.userid]; 
 			delete mRecentlyLeft[this.userid]; 
-			console.log(mUsers[this.userid]);
+			console.log(JSON.stringify(mUsers[this.userid]));
 		}, mTimeForCacheFlush);
 		Save(mRoomShortcut, this);
 	},
