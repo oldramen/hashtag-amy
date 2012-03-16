@@ -340,7 +340,7 @@ global.RegisterUser = function(pData){
 			var sUser = mUsers[pData.userid];
 			Log("Inserting: " + sUser.name);
 			Insert(mRoomShortcut, sUser, function(err, records){
-				if(records.length != 1) { Log("Error inserting " + pData.name); return; }
+				if(!records || records.length != 1) { Log("Error inserting " + pData.name); return; }
 				var sRecord = records[0]; /// There should only be one.  |:
 				sUser = mUsers[pData.userid] = mUsers[pData.userid].extend(sRecord.extend(pData));
 				sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
@@ -379,6 +379,7 @@ global.RegisterUsers = function(pUsers){
 				}
 			}
 			Insert(mRoomShortcut, toInsert, function(err, records){
+				if(!records) return;
 				for(var i = 0; i < records.length; ++i){
 					var sRecord = records[i];
 					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRecord.extend(sUser));
