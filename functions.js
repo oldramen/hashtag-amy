@@ -416,7 +416,7 @@ global.CalculateProperties = function(){
 global.IsSongQueueEnabled = function(){
     if(mMinQueueOperator == "&" && mMinUsersForQueue && mMinDJsForQueue)
         mQueueCurrentlyOn = mQueueOn && mMinUsersForQueue <= mUsers.length && mMinDJsForQueue <= mDJs.length;
-    else if(mMinQueueOperator && mMinUsersForQueue && mMinDJsForQueue)
+    else if(mMinUsersForQueue && mMinDJsForQueue)
         mQueueCurrentlyOn = mQueueOn && (mMinUsersForQueue <= mUsers.length || mMinDJsForQueue <= mDJs.length);
     else if(mMinUsersForQueue)
         mQueueCurrentlyOn = mQueueOn && mMinUsersForQueue <= mUsers.length;
@@ -428,7 +428,7 @@ global.IsSongQueueEnabled = function(){
 global.IsSongLimitEnabled = function(){
     if(mMinSongLimitOperator == "&" && mMinUsersForSongLimit && mMinDJsForSongLimit)
         mSongLimitCurrentlyOn = mLimitOn && mMinUsersForSongLimit <= mUsers.length && mMinDJsForSongLimit <= mDJs.length;
-    else if(mMinSongLimitOperator && mMinUsersForSongLimit && mMinDJsForSongLimit)
+    else if(mMinUsersForSongLimit && mMinDJsForSongLimit)
         mSongLimitCurrentlyOn = mLimitOn && (mMinUsersForSongLimit <= mUsers.length || mMinDJsForSongLimit <= mDJs.length);
     else if(mMinUsersForSongLimit)
         mSongLimitCurrentlyOn = mLimitOn && mMinUsersForSongLimit <= mUsers.length;
@@ -538,7 +538,6 @@ global.FindByName = function(pName, pCallback){
 	pName = pName.replace("@", "^").trimRight() + "$";
 	Log("Finding by name: " + pName);
 	mMongoDB.collection(mRoomShortcut).find({'name': {'$regex': pName}}, function(err, cursor){
-		Log("Registering Users");
 		cursor.toArray(function(err,array){
 			var sResults = {};
 			array.forEach(function(e){
