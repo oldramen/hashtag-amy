@@ -338,13 +338,18 @@ global.RegisterUser = function(pData){
 	mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
 		if(!cursor){
 			var sUser = mUsers[pData.userid];
-			Insert(mRoomShortcut, sUser);
 			Log("Inserting: " + sUser.name);
-			sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
-			sUser.Initialize();
+			Insert(mRoomShortcut, sUser, function(err, records){
+				if(records.length != 1) { Log("Error inserting " + pData.name); return; }
+				var sRecord = records[0]; /// There should only be one.  |:
+				sUser = mUsers[pData.userid] = mUsers[pData.userid].extend(sRecord.extend(pData));
+				sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
+				sUser.Initialize();
+			});
 			return;
 		}
 		mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
+		
 		mUsers[pData.userid].Initialize();
 	});
 };
@@ -371,12 +376,17 @@ global.RegisterUsers = function(pUsers){
 					mUsers[sUser.userid].Initialize();
 				}else{
 					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
-					Log("Inserting: " + sUser.name);
-					mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
-					mUsers[sUser.userid].Initialize();
 				}
 			}
-			Insert(mRoomShortcut, toInsert);
+			Insert(mRoomShortcut, toInsert, function(err, records){
+				for(var i = 0; i < records.length; ++i){
+					var sRecord = records[i];
+					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRecord.extend(sUser));
+					var sUser = mUsers[sUser.userid].Initialize();
+					Log("Inserted: " + sUser.name + "("+sRecord.name+")");
+					mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+				}
+			});
 		});
 	})
 };
@@ -589,8 +599,8 @@ global.Refresh = function(pFrom, pCallback){
     return true;
 };
 
-global.Insert = function(pTo, pData){
-    mMongoDB.collection(pTo).insert(pData);
+global.Insert = function(pTo, pData, pCallback){
+    mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
 };
 
 global.Remove = function(pFrom, pData){
