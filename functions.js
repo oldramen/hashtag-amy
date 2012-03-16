@@ -529,7 +529,8 @@ global.FindByName = function(pName, pCallback){
 		cursor.toArray(function(err,array){
 			var sResults = {};
 			array.forEach(function(e){
-				sResults[e.userid] = BaseUser().extend(e);
+				BaseUser().extend(e);
+				sResults[e.userid] = e;
 			});
 		    var sUserIDs = _.keys(mUsers);
 		    sUserIDs.splice(0,1);
