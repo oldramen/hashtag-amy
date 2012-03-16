@@ -22,7 +22,7 @@ global.OnRegistered = function(pData){
     		}
     		mUsers[sUser.userid] = sCached; /// Just incase there's that slim chance that they got removed.
     	}else{
-	    	RegisterUser(pData.user[i]); 
+	    	RegisterUser(pData.user[i]);
 	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
     	}
     	if(sUser.isBanned) sUser.Boot(sUser.banReason ? sUser.banReason : mBanReason);
@@ -99,6 +99,15 @@ global.OnNewSong = function(pData){
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
+    var sUsersWaiting = _.keys(mWaitingSongLimit);
+    for(var i = 0; i < sUsersWaiting.length; ++i){
+    	var sUserId = sUsersWaiting[i];
+    	--mWaitingSongLimit[sUserId];
+    	if(!mWaitingSongLimit[sUserId]){
+    		delete mWaitingSongLimit[sUserId];
+    		mUsers[sUserId].songCount = 0;
+    	}
+    }
 };
 
 global.OnSpeak = function(pData){
@@ -641,6 +650,7 @@ BaseUser = function(){return {
 	afkWarned: false,
 	afkTime: Date.now(),
 	songCount: 0,
+	totalSongCount: 0,
 	customGreeting: null,
 	bootAfterSong: false,
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
@@ -683,7 +693,8 @@ BaseUser = function(){return {
 	},
 	Increment_SongCount : function(){
 	  ++this.songCount;
-	  Log(this.name + "'s song count: " + this.songCount);
+	  ++this.totalSongCount;
+	  Log(this.name + "'s song count: " + this.songCount + " total of: " + this.totalSongCount);
 	},
 	Update : function(){
 		this.afkTime = Date.now();
