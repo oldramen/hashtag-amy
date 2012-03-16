@@ -690,6 +690,7 @@ BaseUser = function(){return {
 	OverMaxSongs : function(){
 	    this.RemoveDJ();
 	    Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
+	    mWaitingSongLimit[this.userid] = mWaitSongs;
 	},
 	Increment_SongCount : function(){
 	  ++this.songCount;
