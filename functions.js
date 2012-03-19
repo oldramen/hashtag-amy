@@ -135,6 +135,7 @@ global.OnSnagged = function(pData){
 global.OnVote = function(pData){
   mCurrentSong.upVotes = pData.room.metadata.upvotes;
   mCurrentSong.downVotes = pData.room.metadata.downvotes;
+  console.log(mCurrentSong.upVotes, ' - ', mCurrentSong.downVotes);
   if (mAfkBop){
     var sVote = pData.room.metadata.votelog;
     var sVoters = [];
@@ -534,18 +535,15 @@ global.Parse = function(pUser, pString, pArgs){
                 pString = pString.replace(sVar, pUser[sUserVar]);
         }
     if(pArgs && pArgs.length){
-        Log("Got args.");
         for(var i = 0; i < pArgs.length; ++i)
         {
             var sArg = pArgs[i];
             var sParameter = null;
             var sValue = null;
             if(sArg.length && sArg.length == 2){
-                Log("Got array args.")
                 sParameter = sArg[0];
                 sValue = sArg[1];
             }else if(sArg.parameter && sArg.value){
-                Log("Got object args.");
                 sParameter = sArg.parameter;
                 sValue = sArg.value;
             }
