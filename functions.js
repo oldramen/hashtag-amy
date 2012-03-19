@@ -68,7 +68,6 @@ global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = mUsers[pData.user[0].userid];
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
-    LonelyDJ(mDJs.length + 1);
     if(!sUser.IsBot())
 		mDJs.push(sUser.userid);
     sUser.Update();
@@ -79,6 +78,7 @@ global.OnAddDJ = function(pData){
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     if(!mCurrentDJ) mCurrentDJ = sUser;
+	LonelyDJ(mDJs);
     Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
 
@@ -348,15 +348,15 @@ global.CheckAFKs = function(){
     }
 };
 
-global.LonelyDJ = function(pCount){
+global.LonelyDJ = function(pCount, pUser){
     if(!mLonelyDJ){ return; }
-    if(pCount == 1 && (mDJs.indexOf(mUserId) == -1)){
+    if(pDJs == 1 && (pDJs.indexOf(mUserId) == -1)){
         mBot.addDj();
-        mDJs.push(mUserId);
+        pDJs.push(mUserId);
         mUsingLonelyDJ = true;
-   	}else if((pCount > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
+   	}else if((pDJs > 2 || pDJs.length == 1 ) && (pDJs.indexOf(mUserId) != -1)){
          mBot.remDj(); /// We could add ourselves to the just booted, but it wouldn't matter since we can't talk about ourselves.
-         mDJs.splice(mDJs.indexOf(mUserId),1);
+         pDJs.splice(mDJs.indexOf(mUserId),1);
          mUsingLonelyDJ = false;
     }
 };
