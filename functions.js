@@ -628,7 +628,7 @@ global.InitMongoDB = function(){
 };
 
 global.Refresh = function(pFrom, pCallback){
-    Log("Refreshing: "+ pFrom);
+    if(!pFrom) return;
     var sCollection = mMongoDB.collection(pFrom);
     if(!sCollection) return false;
     sCollection.find().toArray(pCallback);
@@ -636,15 +636,18 @@ global.Refresh = function(pFrom, pCallback){
 };
 
 global.Insert = function(pTo, pData, pCallback){
-    mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
+    if(pTo && pData)
+    	mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
 };
 
 global.Remove = function(pFrom, pData){
-    mMongoDB.collection(pFrom).remove(pData);
+	if(pFrom)
+    	mMongoDB.collection(pFrom).remove(pData);
 };
 
 global.Save = function(pTo, pData){
-	mMongoDB.collection(pTo).save(pData);
+	if(pTo && pData)
+		mMongoDB.collection(pTo).save(pData);
 }
 
 Object.defineProperty(Object.prototype, "extend", {
@@ -749,7 +752,7 @@ BaseUser = function(){return {
 		this.isSuperUser = this.acl > 0;
 		this.joinedTime = Date.now();
 		this.whiteList = mWhiteList.indexOf(this.userid) != -1;
-		Save();
+		this.Save();
 	},
 	GetLevel: function(){
 		if(this.isOwner) return 5;
