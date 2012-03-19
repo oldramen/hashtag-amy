@@ -45,7 +45,8 @@ global.mMinDJsForQueue          = 4;	            //
 global.mSongLimitUserProportion = null;             //5 songs per 50 people in the room.
 global.mNoSpamTimeout           = 15;               //15 seconds before the bot can say the same thing again.
 global.mLoopTimeout             = 10;               //Does the main loop every 10 seconds.
-global.mTimeForCacheFlush		= 15000;
+global.mSaveTimeout				= 30;				//Saves everyone after 30 seconds.
+global.mTimeForCacheFlush		= 15000;			//Time that the user stays in the cache after they leave.
 
 global.mPMSpeak                 = true;            	//whether the bot will PM users so as to not spam
 global.mModBop                  = true;            	//true, only mods can use the /dance command, false, anyone can.

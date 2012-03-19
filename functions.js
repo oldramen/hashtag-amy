@@ -183,10 +183,10 @@ global.Loop = function(){
 	    	var sKeys = _.keys(mUsers);
 	    	for(var i = 0; i < sKeys.length; ++i){
 	    		var sUser = mUsers[sKeys[i]];
-	    		if(sUser.Save)sUser.Save();
+	    		if(sUser.Save) sUser.Save();
 	    	}
 	    	mSaving = false;
-    	}, 1);
+    	}, mSaveTimeout * 1000);
     }
 };
 
