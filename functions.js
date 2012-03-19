@@ -195,7 +195,7 @@ global.Greet = function(pUsers){
     if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mDefaultGreeting, SpeakingLevel.Greeting);
 };
 
-global.CheckAutoban = function(pUser, pText){
+global.CheckAutoBan = function(pUser, pText){
 	var joinedTimeAgo = pUser.joinedTime - Date.now();
 	console.log(joinedTimeAgo);
 	if(mAutoBanOnTTLink){
