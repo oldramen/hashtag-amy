@@ -95,7 +95,7 @@ global.mIsNoLongerVIP			= "{username} is no longer a VIP."
 global.mUnbanned				= "{username} is now unbanned.";
 global.mBanReason				= "You're banned.  Gtfo.";
 global.mBanned					= "{username} is now banned.";
-global.mTheirUserId					= "{username}'s userid is: {user.userid}";
+global.mTheirUserId				= "{username}'s userid is: {user.userid}";
 global.mYourUserId				= "Your userid is: {user.userid}";
 global.mNotOnWhiteList			= "I'm sorry, but you're not on the white list."; /// PMed to User.
 
