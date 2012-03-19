@@ -58,6 +58,7 @@ global.mAutoBopForMods			= false;			//If we should automatically bop for mods an
 global.mAutoBanBoots			= false;			//Instead of banning people, we simply boot them from the room.
 global.mAutoBanOnTTLink			= true;				//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
 global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
+global.mDownVotesForOffGenre    = 3;
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
@@ -99,7 +100,9 @@ global.mBanReason				= "You're banned.  Gtfo.";
 global.mBanned					= "{username} is now banned.";
 global.mTheirUserId				= "{username}'s userid is: {user.userid}";
 global.mYourUserId				= "Your userid is: {user.userid}";
-global.mNotOnWhiteList			= "I'm sorry, but you're not on the white list."; /// PMed to User.
+global.mNotOnWhiteList			= "I'm sorry, but you're not on the whitelist."; /// PMed to User.
+global.mAddedToWhiteList		= "{username} has been added to the whitelist.";
+global.mRemovedFromWhiteList    = "{username} has been removed from the whitelist.";
 
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 

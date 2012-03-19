@@ -364,11 +364,15 @@ global.mCommands = [
     	command: 'addwhitelist',
     	callback: function(pUser, pText){
     		if(!pText) return;
-    		if(mUsers[pText.trim()])
-    			mUsers[pText.trim()].whiteList = true;
-			else FindByName(pText, function(sUser){ 
+    		if(mUsers[pText.trim()]){
+    			var sUser = mUsers[pText.trim()];
+    			sUser.whiteList = true;
+    			Speak(sUser, mAddedToWhiteList, SpeakingLevel.Misc);
+    			sUser.Save();
+			}else FindByName(pText, function(sUser){ 
 				sUser.whiteList = true; 
 				sUser.Save(); 
+				Speak(sUser, mAddedToWhiteList, SpeakingLevel.Misc);
 			});
     	},
     	requires: Requires.Moderator,
@@ -381,11 +385,13 @@ global.mCommands = [
     			var sUser = mUsers[pText.trim()];
     			sUser.whiteList = false;
     			if(sUser.isDJ) sUser.RemoveDJ();
+    			Speak(sUser, mRemovedFromWhiteList, SpeakingLevel.Misc);
 			}else FindByName(pText, function(sUser){ 
 				sUser.whiteList = false;  
 				if(sUser.isDJ) 
 					sUser.RemoveDJ(); 
 				sUser.Save(); 
+				Speak(sUser, mRemovedFromWhiteList, SpeakingLevel.Misc);
 			});
     	},
     	requires: Requires.Moderator,
@@ -394,9 +400,11 @@ global.mCommands = [
     {
     	command: ['offgenre','offtheme'],
     	callback: function(pUser, pText){
-    		
+    		if(mCurrentSong.downVotes >= mDownVotesForOffGenre){
+    			mCurrentDJ.RemoveDJ();
+    		}
     	},
     	requires: Requires.User,
-    	hint: "Boots the DJ after X amount of down votes for not being the correct song for the theme."
+    	hint: "Boots the DJ after "+mDownVotesForOffGenre+" amount of down votes for not being the correct song for the theme."
     }
 ];
