@@ -23,8 +23,9 @@ global.mTheme                   = "EDM";            //default theme/genre for th
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 
-global.mOwners					= [];
-global.mVIPs					= [];
+global.mOwners					= [];				//array of userids for who's an owner of the room.
+global.mVIPs					= [];				//array of userids for who's a VIP.
+global.mWhiteList				= null;				//array of userids for whitelist.
 global.mMaxSongs                = 3;                //default song limit
 global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
@@ -82,10 +83,11 @@ global.mCurrentDJSongCount      = "The current song count is: {djsandsongcount}"
 global.mCurrentDJAfkCount       = "The current afk timer is: {djsandafkcount}";
 global.mRemoveFromQueue         = "You've been removed from the queue.";
 global.mNotInQueue              = "You're not in the queue.";
-global.mModRemoveFromQueue      = "Removed {user} from the queue.";
+global.mModRemoveFromQueue      = "Removed {username} from the queue.";
 global.mInfoOnRoom				= "I see this is your first time to {roomname}, so I'll give you the run down.  The theme is {theme}, the song limit is {songlimit}, and if you're on deck you can only be afk for {afk} minutes.";
 global.mNotDJ					= "I'm sorry {username}, but you're not a dj.";
 global.mIsNowVIP				= "{username} is now a VIP.";
+global.mIsNoLongerVIP			= "{username} is no longer a VIP."
 global.mUnbanned				= "{username} is now unbanned.";
 global.mBanReason				= "You're banned.  Gtfo.";
 global.mBanned					= "{username} is now banned.";

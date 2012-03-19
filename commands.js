@@ -23,15 +23,6 @@ global.mCommands = [
         pm: true
     },
     {
-        command: 'refresh',
-        callback: function(pUser, pText){
-            Speak(pUser, "TODO", SpeakingLevel.Misc);
-            /// Reload the variable + its coresponding collection.
-        }, 
-        requires: Requires.Owner, 
-        hint: "Reloads the variable + its corresponding collection."
-    },
-    {
         command: 'ban',
         callback: function(pUser, pText){
         	var sSplit = pText.split(' ');
@@ -110,15 +101,19 @@ global.mCommands = [
         callback: function(pUser, pText){
             if(mQueue.length > 0) {
               if (!pText) {
-                  Speak(mModRemoveFromQueue, [['{user}', mUsers[mQueue[0]].name]]);//mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
+              	  var sUser = mUsers[mQueue[0]];
+                  Speak(sUser, mModRemoveFromQueue, SpeakingLevel.Misc);//mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
                   mQueue.shift();
                 }else {
                   pText = pText.replace("@", "^").trimRight() + "$";
-                  FindByName(pText, function(sUser){
-	                  if(sUser.length > 0) sUser = sUser[0];
-	                  if(mQueue.indexOf(sUser.userid) === -1) return;
-	                  mQueue.splice(mQueue.indexOf(sUser.userid), 1)
-	                  mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, sUser.name));
+                  FindByName(pText, function(sUsers){
+	                  if(sUsers.length > 0)
+	                  for(var i = 0; i < sUsers.length; ++i){
+	                  	  sUser = sUser[i];
+		                  if(mQueue.indexOf(sUser.userid) === -1) return;
+		                  mQueue.splice(mQueue.indexOf(sUser.userid), 1)
+		                  Speak(sUser, mModRemoveFromQueue, SpeakingLevel.Misc)//mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, sUser.name));
+	                  }
                   });
                 }
             };
@@ -143,10 +138,9 @@ global.mCommands = [
     {
         command: 'maul',
         callback: function(pUser, pText){
-            pText = pText.replace("@", "^").trimRight() + "$";
             FindByName(pText,function(sUser){
-	            if(sUser.length > 0) sUser = sUser[0];
-	                mBot.remDj(sUser.userid);
+	            for(var i = 0; i < sUser.length; ++i)
+	                mBot.remDj(sUser[i].userid);
          	});
         },
         requires: Requires.Moderator,
@@ -178,7 +172,6 @@ global.mCommands = [
     {
         command: 'ragequit',
         callback: function(pUser, pText){
-        		Log("Ragequit!");
                 mBot.bootUser(pUser.userid, "Not in my kitchen.");
         },
         requires: Requires.User,
@@ -190,7 +183,7 @@ global.mCommands = [
             exec(pText + " = null");
         },
         requires: Requires.Owner,
-        hint: "Used to disable variables."
+        hint: "Used to disable variables.  Handle with care."
     },
     {
         command: 'settheme',
@@ -256,14 +249,6 @@ global.mCommands = [
         pm: true
     },
     {
-        command: 'bop',
-        callback: function(pUser, pText){
-        	if(!mModBop || pUser.isMod) mBot.vote("up");
-        },
-        requires: Requires.User,
-        hint: "Makes the bot dance.  Can not be done by regular users."
-    },
-    {
         command: 'party',
         message: 'Gimme a shot and clear the dance floor!!',
         callback: function(pUser, pText){
@@ -274,7 +259,7 @@ global.mCommands = [
         hint: "Makes the bot dance.  Can not be done by regular users."
     },
     {
-        command: 'dance',
+        command: ['dance','bop'],
         message: 'Bust a move!',
         callback: function(pUser, pText){
             if(!mModBop || pUser.isMod) mBot.vote("up");
@@ -341,11 +326,25 @@ global.mCommands = [
     	hint: "Makes a user a VIP"
     },
     {
+    	command: 'unvip',
+    	callback: function(pUser, pText){
+    		FindByName(pText, function(sUser){
+	    		sUser.isVip = false;
+	    		Speak(sUser, mIsNoLongerVIP, SpeakingLevel.Misc);
+    		});
+    	},
+    	requires: Requires.Moderator,
+    	hint: "Makes a user a VIP"
+    },
+    {
         command: 'set',
         callback: function(pUser, pText){
-            //TODO: all of this.
+            var sSplit = pText.split(' ');
+            var sVariable = sSplit.shift();
+            var sValue = sSplit.join(' ');
+            eval(sVariable + ' = ' + sValue);
         },
-        requires: Requires.Moderator,
+        requires: Requires.Owner,
         hint: "Temporarily changes options"
     }
 ];

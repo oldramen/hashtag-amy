@@ -70,6 +70,7 @@ global.OnAddDJ = function(pData){
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
     sUser.Update();
+    if(mWhiteList && mWhiteList.indexOf(sUser.userid) == -1 && !sUser.IsBot()) sUser.RemoveDJ();
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     if(!mCurrentDJ) mCurrentDJ = sUser;
@@ -485,10 +486,10 @@ global.HandleCommand = function(pUser, pText, pPM){
     if(pPM && mPMCommands.indexOf(sCommand) === -1) return;
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function(pCommand){ 
-        return pCommand.command == sCommand;
+        return (pCommand.command && pCommand.command == sCommand) || (pCommand.command.length && pCommand.command.indexOf(sCommand) != -1);
     });
     sCommands.forEach(function(pCommand){ 
-        if(pCommand.requires.check(pUser)) 
+        if(pCommand.requires.check(pUser))
             pCommand.callback(pUser, pText); 
     });
 };
@@ -702,8 +703,7 @@ BaseUser = function(){return {
 	},
 	IsBot: function(){ return this.userid == mUserId; },
 	RemoveDJ: function(){
-	    if(!mIsModerator) return;
-	    if(!this.isDJ) return;
+	    if(!mIsModerator || !this.isDJ || this.IsBot()) return;
 	    mJustRemovedDJ.push(this.userid);
 	    mBot.remDj(this.userid);
 	},
