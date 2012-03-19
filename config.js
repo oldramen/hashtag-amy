@@ -23,7 +23,7 @@ global.mTheme                   = "EDM";            //default theme/genre for th
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 
-global.mOwners					= [];				//array of userids for who's an owner of the room.
+global.mOwners					= ['4e6498184fe7d042db021e95'];				//array of userids for who's an owner of the room.
 global.mVIPs					= [];				//array of userids for who's a VIP.
 global.mWhiteList				= null;				//array of userids for whitelist.
 global.mMaxSongs                = 3;                //default song limit
