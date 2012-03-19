@@ -671,14 +671,15 @@ global.Insert = function(pTo, pData, pCallback){
     	mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
 };
 
-global.Remove = function(pFrom, pData){
+global.Remove = function(pFrom, pData, pCallback){
 	if(pFrom)
-    	mMongoDB.collection(pFrom).remove(pData);
+    	mMongoDB.collection(pFrom).remove(pData, pCallback ? {safe: true} : null, pCallback);
 };
 
 global.Save = function(pTo, pData){
-	if(pTo && pData)
-		mMongoDB.collection(pTo).save(pData);
+	Remove(pTo, {_id: pData._id}, function(err,cur){
+		Insert(pTo, pData);
+	});
 }
 
 Object.defineProperty(Object.prototype, "extend", {
