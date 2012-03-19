@@ -101,7 +101,7 @@ global.OnNewSong = function(pData){
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
     if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
-    if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) setTimeout(function(){ mBot.vote("up"); }, 2500);
+    if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) setTimeout(function(){ Log("Autobopping for mod or greater"); mBot.vote("up"); }, 2500);
     var sUsersWaiting = _.keys(mWaitingSongLimit);
     for(var i = 0; i < sUsersWaiting.length; ++i){
     	var sUserId = sUsersWaiting[i];
@@ -135,7 +135,6 @@ global.OnSnagged = function(pData){
 global.OnVote = function(pData){
   mCurrentSong.upVotes = pData.room.metadata.upvotes;
   mCurrentSong.downVotes = pData.room.metadata.downvotes;
-  console.log(mCurrentSong.upVotes, ' - ', mCurrentSong.downVotes);
   if (mAfkBop){
     var sVote = pData.room.metadata.votelog;
     var sVoters = [];
