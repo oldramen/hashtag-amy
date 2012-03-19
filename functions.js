@@ -97,8 +97,8 @@ global.OnNewSong = function(pData){
 	    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
 	    if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
    	}
+   	mCurrentSong.songName = pData.room.metadata.current_song.metadata.song;
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
-    mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
     if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
     if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) mBot.vote("up");
@@ -133,8 +133,8 @@ global.OnSnagged = function(pData){
 }
 
 global.OnVote = function(pData){
-  mUpVotes = pData.room.metadata.upvotes;
-  mDownVotes = pData.room.metadata.downvotes;
+  mCurrentSong.upVotes = pData.room.metadata.upvotes;
+  mCurrentSong.downVotes = pData.room.metadata.downvotes;
   if (mAfkBop){
     var sVote = pData.room.metadata.votelog;
     var sVoters = [];
@@ -152,11 +152,7 @@ global.OnVote = function(pData){
 };
 
 global.OnEndSong = function(pData){
-  var sMessage = mEndSong
-  .replace(/\{songtitle\}/gi, mSongName)
-  .replace(/\{up\}/gi, mUpVotes)
-  .replace(/\{down\}/gi, mDownVotes);
-  Speak(mCurrentDJ, sMessage, SpeakingLevel.Misc);
+	Speak(mCurrentDJ, mEndSong, SpeakingLevel.Misc, [['{songtitle}', mCurrentSong.songName], ['{up}', mCurrentSong.upVotes], ['{down}', mCurrentSong.downVotes]]);
 };
 
 global.OnNoSong = function(pData){
@@ -267,14 +263,13 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs, pPM){
             else mBot.speak(pSpeak);
         mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
     }
-    return pSpeak;
 };
 
 global.RefreshMetaData = function(pMetaData){
     if(pMetaData.current_song)
-        mSongName = pMetaData.current_song.metadata.song;
-    mUpVotes = pMetaData.upvotes;
-    mDownVotes = pMetaData.downvotes;
+        mCurrentSong.songName = pMetaData.current_song.metadata.song;
+    mCurrentSong.upVotes = pMetaData.upvotes;
+    mCurrentSong.downVotes = pMetaData.downvotes;
     mDJs = [];
     for(var i = 0, len = pMetaData.djs.length; i < len; ++i){
         mDJs[i] = pMetaData.djs[i];
