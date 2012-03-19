@@ -68,7 +68,9 @@ global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = mUsers[pData.user[0].userid];
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
-    mDJs.push(sUser.userid);
+    LonelyDJ(mDJs.length + 1);
+    if(!sUser.IsBot())
+		mDJs.push(sUser.userid);
     sUser.Update();
     if(mWhiteListEnabled && !sUser.whiteList && !sUser.IsBot()){
     	sUser.RemoveDJ();
@@ -77,7 +79,6 @@ global.OnAddDJ = function(pData){
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     if(!mCurrentDJ) mCurrentDJ = sUser;
-    LonelyDJ();
     Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
 
@@ -86,8 +87,9 @@ global.OnRemDJ = function(pData){
     var sUser = mUsers[pData.user[0].userid];
     sUser.bootAfterSong = false;
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
-    mDJs.splice(mDJs.indexOf(sUser.userid),1);
-    LonelyDJ();
+    if(!sUser.IsBot())
+    	mDJs.splice(mDJs.indexOf(sUser.userid),1);
+    LonelyDJ(mDJs.length);
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
@@ -309,7 +311,7 @@ global.BootUp = function(){
         setInterval(Loop, mLoopTimeout);
         mBooted = true;
         Log("Booted up.  We're set to go");
-        LonelyDJ();
+        LonelyDJ(mDJs.length);
     });
 };
 
@@ -346,13 +348,15 @@ global.CheckAFKs = function(){
     }
 };
 
-global.LonelyDJ = function(){
+global.LonelyDJ = function(pCount){
     if(!mLonelyDJ){ return; }
-    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
+    if(pCount == 1 && (mDJs.indexOf(mUserId) == -1)){
         mBot.addDj();
+        mDJs.push(mUserId);
         mUsingLonelyDJ = true;
-   	}else if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
+   	}else if((pCount > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
          mBot.remDj(); /// We could add ourselves to the just booted, but it wouldn't matter since we can't talk about ourselves.
+         mDJs.splice(mDJs.indexOf(mUserId),1);
          mUsingLonelyDJ = false;
     }
 };
