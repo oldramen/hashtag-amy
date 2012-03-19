@@ -350,11 +350,11 @@ global.CheckAFKs = function(){
 
 global.LonelyDJ = function(pDJs){
     if(!mLonelyDJ){ return; }
-    if(pDJs == 1 && (pDJs.indexOf(mUserId) == -1)){
+    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
         mBot.addDj();
         pDJs.push(mUserId);
         mUsingLonelyDJ = true;
-   	}else if((pDJs > 2 || pDJs.length == 1 ) && (pDJs.indexOf(mUserId) != -1)){
+   	}else if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
          mBot.remDj(); /// We could add ourselves to the just booted, but it wouldn't matter since we can't talk about ourselves.
          pDJs.splice(mDJs.indexOf(mUserId),1);
          mUsingLonelyDJ = false;
