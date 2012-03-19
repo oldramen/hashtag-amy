@@ -18,7 +18,7 @@ global.mMongoUser               = "{mongo_user}";   //user of mongocollection
 global.mMongoPass               = "{mongo_pass}";   //password to mongocollection
 global.mMongoPort               = 27017;
 global.mName                    = "#Amy";           //name of bot
-global.mLaptop                  = "chrome";
+global.mLaptop                  = "cake";
 global.mTheme                   = "EDM";            //default theme/genre for the room
 global.mTimeForCacheFlush		= 15000;
 
@@ -45,11 +45,13 @@ global.mSongLimitUserProportion = null;             //5 songs per 50 people in t
 global.mNoSpamTimeout           = 15;               //15 seconds before the bot can say the same thing again.
 global.mLoopTimeout             = 10;               //Does the main loop every 10 seconds.
 
-global.mPMSpeak                 = true;            //whether the bot will PM users so as to not spam
-global.mModBop                  = true;            //whether the /bop commands are for everyone or just mods
-global.mWaiter                 	= true;            //whether bartender (if we add that function) is enabled by default
-global.mLonelyDJ                = true;            // whether the bot will dj if only one dj in room
-global.mAfkBop                	= true;            //whether bops reset the afk timer or not
+global.mPMSpeak                 = true;            	//whether the bot will PM users so as to not spam
+global.mModBop                  = true;            	//true, only mods can use the /dance command, false, anyone can.
+global.mWaiter                 	= true;            	//whether bartender (if we add that function) is enabled by default
+global.mLonelyDJ                = true;            	//whether the bot will dj if only one dj in room
+global.mCheckAFKWithLonely		= false;			//Should we check to see if people are afk when they're using Lonely DJ?
+global.mCheckSongCountWithLonely= false;			//Should we check the song count when they're using Lonely DJ?
+global.mAfkBop                	= true;            	//whether bops reset the afk timer or not
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";

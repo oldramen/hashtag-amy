@@ -99,6 +99,7 @@ global.OnNewSong = function(pData){
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
+    if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
     var sUsersWaiting = _.keys(mWaitingSongLimit);
     for(var i = 0; i < sUsersWaiting.length; ++i){
     	var sUserId = sUsersWaiting[i];
@@ -327,7 +328,7 @@ global.SetLaptop = function(){
 };
 
 global.CheckAFKs = function(){
-    if(!mAFK) return;
+    if(!mAFK || (mUsingLonelyDJ && !mCheckAFKWithLonely)) return;
     for (i in mDJs) {
       var sUser = mUsers[mDJs[i]];
       if (sUser.CheckAFK()) sUser.BootAFK(sUser);
@@ -336,10 +337,13 @@ global.CheckAFKs = function(){
 
 global.LonelyDJ = function(){
     if(!mLonelyDJ){ return; }
-    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1))
+    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
         mBot.addDj();
-    if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1))
-         mBot.remDj(); /// We could add ourselves to the justbooted, but it wouldn't matter since we can't talk about ourselves.
+        mUsingLonelyDJ = true;
+   	}else if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
+         mBot.remDj(); /// We could add ourselves to the just booted, but it wouldn't matter since we can't talk about ourselves.
+         mUsingLonelyDJ = false;
+    }
 };
 
 global.RegisterUser = function(pData){
