@@ -93,6 +93,7 @@ global.mIsNoLongerVIP			= "{username} is no longer a VIP."
 global.mUnbanned				= "{username} is now unbanned.";
 global.mBanReason				= "You're banned.  Gtfo.";
 global.mBanned					= "{username} is now banned.";
+global.mNotOnWhiteList			= "I'm sorry, but you're not on the white list."; /// PMed to User.
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

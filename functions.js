@@ -70,7 +70,10 @@ global.OnAddDJ = function(pData){
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
     sUser.Update();
-    if(mWhiteList && mWhiteList.indexOf(sUser.userid) == -1 && !sUser.IsBot()) sUser.RemoveDJ();
+    if(mWhiteList && mWhiteList.indexOf(sUser.userid) == -1 && !sUser.IsBot()){
+    	sUser.RemoveDJ();
+    	sUser.PM(mNotOnWhiteList, SpeakingLevel.Misc)
+	}
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     if(!mCurrentDJ) mCurrentDJ = sUser;
@@ -156,7 +159,7 @@ global.OnEndSong = function(pData){
 };
 
 global.OnNoSong = function(pData){
-	Log("There is currently no song.");
+	Log("There is currently no song");
 }
 
 global.Loop = function(){
