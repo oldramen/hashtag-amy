@@ -311,7 +311,7 @@ global.BootUp = function(){
         setInterval(Loop, mLoopTimeout);
         mBooted = true;
         Log("Booted up.  We're set to go");
-        LonelyDJ(mDJs.length);
+        LonelyDJ(mDJs);
     });
 };
 
@@ -348,7 +348,7 @@ global.CheckAFKs = function(){
     }
 };
 
-global.LonelyDJ = function(pCount, pUser){
+global.LonelyDJ = function(pDJs){
     if(!mLonelyDJ){ return; }
     if(pDJs == 1 && (pDJs.indexOf(mUserId) == -1)){
         mBot.addDj();
