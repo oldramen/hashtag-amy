@@ -379,6 +379,7 @@ global.RegisterUsers = function(pUsers){
 	
 	mMongoDB.collection(mRoomShortcut).find({'userid': {'$in': sUserIDs}}, function(err, cursor){
 		Log("Registering Users");
+		if(!cursor) return;
 		cursor.toArray(function(err,array){
 			var toInsert = [];
 			for(var i = 0; i < pUsers.length; ++i){
