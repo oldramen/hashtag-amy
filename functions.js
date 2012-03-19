@@ -70,7 +70,7 @@ global.OnAddDJ = function(pData){
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.push(sUser.userid);
     sUser.Update();
-    if(mWhiteList && mWhiteList.indexOf(sUser.userid) == -1 && !sUser.IsBot()){
+    if(mWhiteListEnabled && !sUser.whiteList && !sUser.IsBot()){
     	sUser.RemoveDJ();
     	sUser.PM(mNotOnWhiteList, SpeakingLevel.Misc)
 	}
@@ -123,6 +123,7 @@ global.OnSpeak = function(pData){
     sUser.Update(); //Update_User(sUser, true);
     console.log(sUser.name+": "+sText);
     if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
+    CheckAutoBan(sUser, sText);
 };
 
 global.OnPmmed = function(pData){
@@ -193,6 +194,12 @@ global.Greet = function(pUsers){
     if(sVIPGreetings.length > 0) Speak(sVIPGreetings, mVIPGreeting, SpeakingLevel.Greeting);
     if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mDefaultGreeting, SpeakingLevel.Greeting);
 };
+
+global.CheckAutoban = function(pUser, pText){
+	if(mAutoBanOnTTLink){
+		if(pUser.joinedTime - Date.now() < 60000 && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser, "Spamming our room ("+pText+")");
+	}
+}
 
 global.RemoveOldMessages = function(){
     var timestamp = (new Date()).getTime() - mNoSpamTimeout * 1000;
@@ -527,7 +534,7 @@ global.Parse = function(pUser, pString, pArgs){
         if(mParsing[sVar] != null)
             pString = pString.replace(sVar, mParsing[sVar]);
     }
-    var sUsernameVariables = pString.match(/\{username\.[^}]*\}/gi);
+    var sUsernameVariables = pString.match(/\{user\.[^}]*\}/gi);
     if(sUsernameVariables)
         for(var i = 0; i < sUsernameVariables.length; ++i){
             var sVar = sUsernameVariables[i];
@@ -670,6 +677,7 @@ BaseUser = function(){return {
 	customGreeting: null,
 	bootAfterSong: false,
 	joinedTime: Date.now(),
+	whiteList: false,
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){
@@ -738,6 +746,8 @@ BaseUser = function(){return {
 		this.isVip = mVIPs.indexOf(this.userid) != -1;
 		this.isSuperUser = this.acl > 0;
 		this.joinedTime = Date.now();
+		this.whiteList = mWhiteList.indexOf(this.userid) != -1;
+		Save();
 	},
 	GetLevel: function(){
 		if(this.isOwner) return 5;
@@ -764,7 +774,7 @@ BaseUser = function(){return {
 				delete this.saveToken;
 				clearInterval(sSaveToken);
 			})
-	},100);
+		},100);
 	}
 };
 };

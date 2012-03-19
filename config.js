@@ -25,7 +25,8 @@ global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot tal
 
 global.mOwners					= ['4e6498184fe7d042db021e95'];				//array of userids for who's an owner of the room.
 global.mVIPs					= [];				//array of userids for who's a VIP.
-global.mWhiteList				= null;				//array of userids for whitelist.
+global.mWhiteList				= [];				//array of userids for whitelist.
+global.mWhiteListEnabled		= false;			//whitelist is on ( true ) or off ( false )
 global.mMaxSongs                = 3;                //default song limit
 global.mWaitSongs               = 1;                //how many songs you must wait after hitting limit to dj again
 global.mLimitOn                 = true;             //if song limits are enabled by default
@@ -44,6 +45,7 @@ global.mMinDJsForQueue          = 4;	            //
 global.mSongLimitUserProportion = null;             //5 songs per 50 people in the room.
 global.mNoSpamTimeout           = 15;               //15 seconds before the bot can say the same thing again.
 global.mLoopTimeout             = 10;               //Does the main loop every 10 seconds.
+global.mTimeForCacheFlush		= 15000;
 
 global.mPMSpeak                 = true;            	//whether the bot will PM users so as to not spam
 global.mModBop                  = true;            	//true, only mods can use the /dance command, false, anyone can.
@@ -52,7 +54,7 @@ global.mLonelyDJ                = true;            	//whether the bot will dj if
 global.mCheckAFKWithLonely		= false;			//Should we check to see if people are afk when they're using Lonely DJ?
 global.mCheckSongCountWithLonely= false;			//Should we check the song count when they're using Lonely DJ?
 global.mAfkBop                	= true;            	//whether bops reset the afk timer or not
-global.mAutoBopForMods			= true;				//If we should automatically bop for mods and above.
+global.mAutoBopForMods			= false;				//If we should automatically bop for mods and above.
 global.mAutoBanOnTTLink			= false;			//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
@@ -66,7 +68,7 @@ global.mRemMod                  = null;
 global.mEndSong                 = "{songtitle}: {up} ↑, {down} ↓.";
 global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} songs to get back up.";
 global.mOverMaxSongsQueueOff    = null;
-global.mHelpMsg                 = "Hey, {username.name}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
+global.mHelpMsg                 = "Hey, {user.name}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
 global.mWarnMsg                 = "Hey, {username}, no falling asleep on deck!";  //the default warning message   
 global.mRemDJMsg                = "Sorry, {username}, you've been afk for too long.  I'm going to have to escort you off the stage.";
 global.mAdvanceQueue            = "Hey @{username}, it's your time to shine!  Please take your spot before 5 minutes has passed.'";
@@ -93,7 +95,10 @@ global.mIsNoLongerVIP			= "{username} is no longer a VIP."
 global.mUnbanned				= "{username} is now unbanned.";
 global.mBanReason				= "You're banned.  Gtfo.";
 global.mBanned					= "{username} is now banned.";
+global.mUserId					= "{username}'s userid is: {user.userid}";
+global.mYourUserId				= "Your userid is: {user.userid}";
 global.mNotOnWhiteList			= "I'm sorry, but you're not on the white list."; /// PMed to User.
+
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
 //Now, we begin the party.

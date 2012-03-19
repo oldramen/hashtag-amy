@@ -347,5 +347,48 @@ global.mCommands = [
         },
         requires: Requires.Owner,
         hint: "Temporarily changes options"
+    },
+    {
+    	command: '/userid',
+    	callback: function(pUser, pText){
+    		if(pText)
+	    		FindByName(pText, function(sUser){
+	    			Speak(sUser, mUserId, SpeakingLevel.Misc);
+	    		});
+    		else pUser.PM(mYourUserId, SpeakingLevel.Misc);
+    	},
+    	requires: Requires.User,
+    	hint: "PMs the caller their userid if no args, otherwise speaks the userid of the name of the person in the args."
+    },
+    {
+    	command: 'addwhitelist',
+    	callback: function(pUser, pText){
+    		if(!pText) return;
+    		if(mUsers[pText.trim()])
+    			mUsers[pText.trim()].whiteList = true;
+			else FindByName(pText, function(sUser){ 
+				sUser.whiteList = true; 
+				sUser.Save(); 
+			});
+    	},
+    	requires: Requires.Moderator,
+    	hint: "Adds a user to the whitelist of DJs temporarily."
+    },
+    {
+    	command: 'removewhitelist',
+    	callback: function(pUser, pText){
+    		if(mUsers[pText.trim()]){
+    			var sUser = mUsers[pText.trim()];
+    			sUser.whiteList = false;
+    			if(sUser.isDJ) sUser.RemoveDJ();
+			}else FindByName(pText, function(sUser){ 
+				sUser.whiteList = false;  
+				if(sUser.isDJ) 
+					sUser.RemoveDJ(); 
+				sUser.Save(); 
+			});
+    	},
+    	requires: Requires.Moderator,
+    	hint: "Removes a user from the whitelist of DJs temporarily."
     }
 ];
