@@ -363,12 +363,10 @@ global.LonelyDJ = function(){
     if(!mLonelyDJ){ return; }
     if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
         mBot.addDj();
-        pDJs.push(mUserId);
         mUsingLonelyDJ = true;
    	}else if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
-         mBot.remDj(); /// We could add ourselves to the just booted, but it wouldn't matter since we can't talk about ourselves.
-         pDJs.splice(mDJs.indexOf(mUserId),1);
-         mUsingLonelyDJ = false;
+		mBot.remDj(); /// We could add ourselves to the just booted, but it wouldn't matter since we can't talk about ourselves.
+		mUsingLonelyDJ = false;
     }
 };
 
