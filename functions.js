@@ -101,8 +101,7 @@ global.OnNewSong = function(pData){
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
     if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
-    console.log(mCurrentDJ.GetLevel(), mAutoBopForMods);
-    if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) mBot.vote("up");
+    if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) setTimeout(function(){ mBot.vote("up"); }, 2500);
     var sUsersWaiting = _.keys(mWaitingSongLimit);
     for(var i = 0; i < sUsersWaiting.length; ++i){
     	var sUserId = sUsersWaiting[i];

@@ -89,7 +89,7 @@ mBot.on("newsong", OnNewSong);
 mBot.on("endsong", OnEndSong);
 mBot.on("snagged", OnSnagged);
 mBot.on("nosong", OnNoSong);
-mBot.on("vote", OnVote);
+mBot.on("update_votes", OnVote);
 Log("Done");
 
 Log("Ready");
