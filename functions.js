@@ -89,7 +89,7 @@ global.OnRemDJ = function(pData){
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     if(!sUser.IsBot())
     	mDJs.splice(mDJs.indexOf(sUser.userid),1);
-    LonelyDJ(mDJs.length);
+    LonelyDJ(mDJs);
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
