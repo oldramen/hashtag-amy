@@ -183,7 +183,7 @@ global.Loop = function(){
 	    	var sKeys = _.keys(mUsers);
 	    	for(var i = 0; i < sKeys.length; ++i){
 	    		var sUser = mUsers[sKeys[i]];
-	    		console.log(sKeys[i], JSON.stringify(mUsers[sKeys[i]]));
+	    		console.log(sKeys[i]));
 	    		//sUser.Save();
 	    	}
 	    	mSaving = false;
