@@ -72,6 +72,7 @@ global.mSpokenMessages          = [];
 global.mPMQueue					= [];
 global.mBootedQueue				= [];
 global.mWaitingSongLimit		= {};
+global.mSaving					= false;
 
 InitMongoDB();
 Log("Done");
