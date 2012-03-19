@@ -139,6 +139,7 @@ global.OnSnagged = function(pData){
 global.OnVote = function(pData){
   mCurrentSong.upVotes = pData.room.metadata.upvotes;
   mCurrentSong.downVotes = pData.room.metadata.downvotes;
+  Log("Up: " + mCurrentSong.upVotes + " Down: " + mCurrentSong.downVotes);
   if (mAfkBop){
     var sVote = pData.room.metadata.votelog;
     var sVoters = [];
@@ -465,15 +466,16 @@ global.IsSongLimitEnabled = function(){
 };
 global.IsAFKLimitEnabled = function(){
 	if(mMinAFKLimitOperator == "&" && mMinUsersForAFKLimit && mMinDJsForAFKLimit)
-        mAFKLimitCurrentlyOn = mLimitOn && mMinUsersForAFKLimit <= mUsers.length && mMinDJsForAFKLimit <= mDJs.length;
+        mAFKLimitCurrentlyOn = mAFK && mMinUsersForAFKLimit <= mUsers.length && mMinDJsForAFKLimit <= mDJs.length;
     else if(mMinUsersForAFKLimit && mMinDJsForAFKLimit)
-        mAFKLimitCurrentlyOn = mLimitOn && (mMinUsersForAFKLimit <= mUsers.length || mMinDJsForAFKLimit <= mDJs.length);
+        mAFKLimitCurrentlyOn = mAFK && (mMinUsersForAFKLimit <= mUsers.length || mMinDJsForAFKLimit <= mDJs.length);
     else if(mMinUsersForAFKLimit)
-        mAFKLimitCurrentlyOn = mLimitOn && mMinUsersForAFKLimit <= mUsers.length;
+        mAFKLimitCurrentlyOn = mAFK && mMinUsersForAFKLimit <= mUsers.length;
     else if(mMinDJsForAFKLimit)
-        mAFKLimitCurrentlyOn = mLimitOn && mMinDJsForAFKLimit <= mDJs.length;
-    else mAFKLimitCurrentlyOn = mLimitOn;
+        mAFKLimitCurrentlyOn = mAFK && mMinDJsForAFKLimit <= mDJs.length;
+    else mAFKLimitCurrentlyOn = !!mAFK;
     mParsing['{afklimitcurrentlyon}'] = mAFKLimitCurrentlyOn ? "on" : "off";
+    Log("AFK Limit currently: " + mAFKLimitCurrentlyOn ? "on" : "off");
 }
 global.CalculateSongLimit = function(){
     if(mSongLimitUserProportion)

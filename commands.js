@@ -252,10 +252,10 @@ global.mCommands = [
         command: 'party',
         message: 'Gimme a shot and clear the dance floor!!',
         callback: function(pUser, pText){
-            if(!mModBop || pUser.isMod) mBot.vote("up");
+            mBot.vote("up");
             Speak(pUser, this.message, SpeakingLevel.Misc);
         },
-        requires: Requires.User,
+        requires: mModBop ? Requires.Moderator : Requires.User,
         hint: "Makes the bot dance.  Can not be done by regular users."
     },
     {
@@ -400,9 +400,11 @@ global.mCommands = [
     {
     	command: ['offgenre','offtheme'],
     	callback: function(pUser, pText){
-    		if(mCurrentSong.downVotes >= mDownVotesForOffGenre){
+    		/*if(mCurrentSong.downVotes >= mDownVotesForOffGenre){
     			mCurrentDJ.RemoveDJ();
-    		}
+    			mCurrentDJ.PM(mOffGenre, )
+    		}*/
+    		/// No.  Redo this in a smarter way.
     	},
     	requires: Requires.User,
     	hint: "Boots the DJ after "+mDownVotesForOffGenre+" amount of down votes for not being the correct song for the theme."

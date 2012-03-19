@@ -103,6 +103,7 @@ global.mYourUserId				= "Your userid is: {user.userid}";
 global.mNotOnWhiteList			= "I'm sorry, but you're not on the whitelist."; /// PMed to User.
 global.mAddedToWhiteList		= "{username} has been added to the whitelist.";
 global.mRemovedFromWhiteList    = "{username} has been removed from the whitelist.";
+global.mOffGenre				= "I'm sorry, but your song seems to be off genre, and we have to remove you from the deck."; // PMed to User.
 
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
