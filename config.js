@@ -18,9 +18,8 @@ global.mMongoUser               = "{mongo_user}";   //user of mongocollection
 global.mMongoPass               = "{mongo_pass}";   //password to mongocollection
 global.mMongoPort               = 27017;
 global.mName                    = "#Amy";           //name of bot
-global.mLaptop                  = "cake";
+global.mLaptop                  = "chrome";
 global.mTheme                   = "EDM";            //default theme/genre for the room
-global.mTimeForCacheFlush		= 15000;
 
 global.mSpeakingLevel           = Speaking.Debug;   //whether or not the bot talks without being prompted (greetings, dj announcements, etc.)
 
@@ -61,7 +60,7 @@ global.mAddDJ                   = null;//"Welcome to the deck, @{username}!  Rem
 global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
-global.mEndSong                 = "{songtitle}: [{up}] Awesomes, [{down}] Lames.";
+global.mEndSong                 = "{songtitle}: {up} ↑, {down} ↓.";
 global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} songs to get back up.";
 global.mOverMaxSongsQueueOff    = null;
 global.mHelpMsg                 = "Hey, {username.name}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
