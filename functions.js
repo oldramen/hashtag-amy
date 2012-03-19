@@ -465,17 +465,21 @@ global.IsSongLimitEnabled = function(){
     mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
 };
 global.IsAFKLimitEnabled = function(){
-	if(mMinAFKLimitOperator == "&" && mMinUsersForAFKLimit && mMinDJsForAFKLimit)
+	if(mMinAFKLimitOperator == "&" && mMinUsersForAFKLimit && mMinDJsForAFKLimit){
+		console.log(mUsers.length, mDJs.length);
         mAFKLimitCurrentlyOn = mAFK && mMinUsersForAFKLimit <= mUsers.length && mMinDJsForAFKLimit <= mDJs.length;
-    else if(mMinUsersForAFKLimit && mMinDJsForAFKLimit)
+   	}else if(mMinUsersForAFKLimit && mMinDJsForAFKLimit){
         mAFKLimitCurrentlyOn = mAFK && (mMinUsersForAFKLimit <= mUsers.length || mMinDJsForAFKLimit <= mDJs.length);
-    else if(mMinUsersForAFKLimit)
+		console.log(mUsers.length, mDJs.length);
+    }else if(mMinUsersForAFKLimit){
         mAFKLimitCurrentlyOn = mAFK && mMinUsersForAFKLimit <= mUsers.length;
-    else if(mMinDJsForAFKLimit)
+		console.log(mUsers.length);
+    }else if(mMinDJsForAFKLimit){
         mAFKLimitCurrentlyOn = mAFK && mMinDJsForAFKLimit <= mDJs.length;
-    else mAFKLimitCurrentlyOn = !!mAFK;
+		console.log(mUsers.length, mDJs.length);
+    }else mAFKLimitCurrentlyOn = !!mAFK;
     mParsing['{afklimitcurrentlyon}'] = mAFKLimitCurrentlyOn ? "on" : "off";
-    Log("AFK Limit currently: " + mAFKLimitCurrentlyOn ? "on" : "off");
+    //Log("AFK Limit currently: " + mAFKLimitCurrentlyOn ? "on" : "off");
 }
 global.CalculateSongLimit = function(){
     if(mSongLimitUserProportion)
