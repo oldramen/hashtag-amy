@@ -353,7 +353,7 @@ global.mCommands = [
     	callback: function(pUser, pText){
     		if(pText)
 	    		FindByName(pText, function(sUser){
-	    			Speak(sUser, mUserId, SpeakingLevel.Misc);
+	    			Speak(sUser, mTheirUserId, SpeakingLevel.Misc);
 	    		});
     		else pUser.PM(mYourUserId, SpeakingLevel.Misc);
     	},
