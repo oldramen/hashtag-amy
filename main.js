@@ -41,7 +41,8 @@ global.mModerators		=	[];
 
 global.mParsing         =   {};
 global.mMongoDB         =   null;
-global.mBot             =   new mTTAPI(global.mAuthId, global.mUserId, global.mRoomId);
+Log("Loading up with the Auth ID: " + mAuthId + " and userid: " + mUserId + " into roomid: " + mRoomId);
+global.mBot             =   new mTTAPI(mAuthId, mUserId, mRoomId);
 global.mBooted          =   false;
 global.mIsModerator     =   false;
 
@@ -91,5 +92,3 @@ mBot.on("snagged", OnSnagged);
 mBot.on("nosong", OnNoSong);
 mBot.on("update_votes", OnVote);
 Log("Done");
-
-Log("Ready");
