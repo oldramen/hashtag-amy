@@ -55,7 +55,7 @@ global.mCheckAFKWithLonely		= false;			//Should we check to see if people are af
 global.mCheckSongCountWithLonely= false;			//Should we check the song count when they're using Lonely DJ?
 global.mAfkBop                	= true;            	//whether bops reset the afk timer or not
 global.mAutoBopForMods			= false;				//If we should automatically bop for mods and above.
-global.mAutoBanOnTTLink			= false;			//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
+global.mAutoBanOnTTLink			= true;			//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
 global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
