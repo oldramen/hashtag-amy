@@ -198,7 +198,7 @@ global.Greet = function(pUsers){
 global.CheckAutoBan = function(pUser, pText){
 	var joinedTimeAgo = Date.now() - pUser.joinedTime;
 	if(mAutoBanOnTTLink){
-		if(joinedTimeAgo < mAutoBanOnTTLinkTime && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser, "Autobanned: spamming our room ("+pText+")");
+		if(joinedTimeAgo < mAutoBanOnTTLinkTime && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser, "Autobanned: spamming our room ("+pText+")", true);
 	}
 }
 
@@ -590,7 +590,11 @@ global.FindByName = function(pName, pCallback){
 		});
  	});
 };
-global.Ban = function(pName, pReason){
+global.Ban = function(pName, pReason, pAuto){
+	if(pAuto && mAutoBanBoots && pName.userid){
+		pName.Boot(pReason);
+		return;
+	}
 	Log("Banning " + pName + " for: " + pReason);
 	if(pName.name){
 		var sUser = pName;
