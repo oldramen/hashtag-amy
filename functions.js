@@ -591,12 +591,10 @@ global.FindByName = function(pName, pCallback){
  	});
 };
 global.Ban = function(pName, pReason){
-	Log("Banning " + pName + " for: " + pReason);
-	FindByName(pName, function(sUser){
-	    if(sUser.length > 0) sUser = sUser[0];
-	    else return;
-	    if(sUser.GetLevel() > 2) return;
-	    
+	if(pName.name){
+		var sUser = pName;
+		if(sUser.GetLevel() > 2) return;
+		    
 	    Log("Banning: " + sUser.name);
 	    
 	    sUser.isBanned = true;
@@ -604,7 +602,22 @@ global.Ban = function(pName, pReason){
 	    Speak(sUser, mBanned, SpeakingLevel.Misc);
 	    sUser.Update();
 	    sUser.Boot(pReason ? pReason : mBanReason);
-   	});
+	}else{
+		Log("Banning " + pName + " for: " + pReason);
+		FindByName(pName, function(sUser){
+		    if(sUser.length > 0) sUser = sUser[0];
+		    else return;
+		    if(sUser.GetLevel() > 2) return;
+		    
+		    Log("Banning: " + sUser.name);
+		    
+		    sUser.isBanned = true;
+		    sUser.banReason = pReason;
+		    Speak(sUser, mBanned, SpeakingLevel.Misc);
+		    sUser.Update();
+		    sUser.Boot(pReason ? pReason : mBanReason);
+	   	});
+   }
 }
 global.Unban = function(pName){
 	FindByName(pName, function(sUser){
