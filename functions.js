@@ -100,6 +100,8 @@ global.OnNewSong = function(pData){
 	    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
 	    if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
    	}
+   	mCurrentSong.upVotes = 0;
+   	mCurrentSong.downVotes = 0;
    	mCurrentSong.songName = pData.room.metadata.current_song.metadata.song;
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
@@ -467,7 +469,7 @@ global.IsSongLimitEnabled = function(){
 global.IsAFKLimitEnabled = function(){
 	if(mMinAFKLimitOperator == "&" && mMinUsersForAFKLimit && mMinDJsForAFKLimit){
 		console.log(mUsers.length, mDJs.length);
-        mAFKLimitCurrentlyOn = mAFK && mMinUsersForAFKLimit <= mUsers.length && mMinDJsForAFKLimit <= mDJs.length;
+        mAFKLimitCurrentlyOn = mAFK && mUsers.length >= mMinUsersForAFKLimit && mDJs.length >= mMinDJsForAFKLimit;
    	}else if(mMinUsersForAFKLimit && mMinDJsForAFKLimit){
         mAFKLimitCurrentlyOn = mAFK && (mMinUsersForAFKLimit <= mUsers.length || mMinDJsForAFKLimit <= mDJs.length);
 		console.log(mUsers.length, mDJs.length);
