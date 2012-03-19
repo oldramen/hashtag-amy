@@ -196,6 +196,8 @@ global.Greet = function(pUsers){
 };
 
 global.CheckAutoban = function(pUser, pText){
+	var joinedTimeAgo = pUser.joinedTime - Date.now();
+	console.log(joinedTimeAgo);
 	if(mAutoBanOnTTLink){
 		if(pUser.joinedTime - Date.now() < 60000 && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser, "Spamming our room ("+pText+")");
 	}
