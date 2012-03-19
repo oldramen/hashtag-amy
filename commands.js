@@ -337,7 +337,7 @@ global.mCommands = [
     	hint: "Makes a user a VIP"
     },
     {
-        command: 'set',
+        command: 'setvar',
         callback: function(pUser, pText){
             var sSplit = pText.split(' ');
             var sVariable = sSplit.shift();
