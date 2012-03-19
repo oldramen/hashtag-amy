@@ -52,6 +52,7 @@ global.mLonelyDJ                = true;            	//whether the bot will dj if
 global.mCheckAFKWithLonely		= false;			//Should we check to see if people are afk when they're using Lonely DJ?
 global.mCheckSongCountWithLonely= false;			//Should we check the song count when they're using Lonely DJ?
 global.mAfkBop                	= true;            	//whether bops reset the afk timer or not
+global.mAutoBopForMods			= true;				//If we should automatically bop for mods and above.
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";

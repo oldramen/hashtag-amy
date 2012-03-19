@@ -101,6 +101,7 @@ global.OnNewSong = function(pData){
     mSongName = pData.room.metadata.current_song.metadata.song;
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
     if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
+    if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) mBot.vote("up");
     var sUsersWaiting = _.keys(mWaitingSongLimit);
     for(var i = 0; i < sUsersWaiting.length; ++i){
     	var sUserId = sUsersWaiting[i];
