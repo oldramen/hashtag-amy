@@ -472,7 +472,7 @@ global.IsAFKLimitEnabled = function(){
         mAFKLimitCurrentlyOn = mAFK && mUsers.length >= mMinUsersForAFKLimit && mDJs.length >= mMinDJsForAFKLimit;
    	}else if(mMinUsersForAFKLimit && mMinDJsForAFKLimit){
         mAFKLimitCurrentlyOn = mAFK && (mMinUsersForAFKLimit <= mUsers.length || mMinDJsForAFKLimit <= mDJs.length);
-		console.log(mUsers.length, mDJs.length);
+		console.log(mUsers.length, mDJs.length, mMinUsersForAFKLimit, mMinDJsForAFKLimit, mAFKLimitCurrentlyOn);
     }else if(mMinUsersForAFKLimit){
         mAFKLimitCurrentlyOn = mAFK && mMinUsersForAFKLimit <= mUsers.length;
 		console.log(mUsers.length);
