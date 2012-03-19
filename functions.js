@@ -181,9 +181,10 @@ global.Loop = function(){
     	mSaving = true;
 		setTimeout(function(){
 	    	var sKeys = _.keys(mUsers);
+	    	Log(mUsers.length);
 	    	for(var i = 0; i < sKeys.length; ++i){
 	    		var sUser = mUsers[sKeys[i]];
-	    		console.log(sKeys[i]));
+	    		console.log(sKeys[i]);
 	    		//sUser.Save();
 	    	}
 	    	mSaving = false;
