@@ -666,6 +666,7 @@ BaseUser = function(){return {
 	totalSongCount: 0,
 	customGreeting: null,
 	bootAfterSong: false,
+	joinedTime: Date.now(),
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){
@@ -687,12 +688,10 @@ BaseUser = function(){return {
 	    if(!pSpeak) return;
 	    if(this.IsBot()) return;
 	    pSpeak = Parse(this, pSpeak, pArgs);
-	    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
-	        if(SpeakingAllowed(pSpeakingLevel)) 
-	            mPMQueue.push([pSpeak, this.userid]);//mBot.pm(pSpeak, this.userid);
-	        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
-	    }
-	    return pSpeak;
+        if(SpeakingAllowed(pSpeakingLevel)) 
+            mPMQueue.push([pSpeak, this.userid]);//mBot.pm(pSpeak, this.userid);
+        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+    	return pSpeak;
 	},
 	IsBot: function(){ return this.userid == mUserId; },
 	RemoveDJ: function(){
@@ -735,6 +734,7 @@ BaseUser = function(){return {
 		this.isOwner = mOwners.indexOf(this.userid) != -1;
 		this.isVip = mVIPs.indexOf(this.userid) != -1;
 		this.isSuperUser = this.acl > 0;
+		this.joinedTime = Date.now();
 	},
 	GetLevel: function(){
 		if(this.isOwner) return 5;

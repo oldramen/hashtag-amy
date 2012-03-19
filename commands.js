@@ -342,6 +342,7 @@ global.mCommands = [
             var sSplit = pText.split(' ');
             var sVariable = sSplit.shift();
             var sValue = sSplit.join(' ');
+            Log("Setting " + sVariable + " to have the value of " + sValue);
             eval(sVariable + ' = ' + sValue);
         },
         requires: Requires.Owner,
