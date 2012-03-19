@@ -78,7 +78,7 @@ global.OnAddDJ = function(pData){
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     if(!mCurrentDJ) mCurrentDJ = sUser;
-	LonelyDJ(mDJs);
+	LonelyDJ();
     Speak(sUser, mAddDJ, SpeakingLevel.DJChange);
 };
 
@@ -89,7 +89,7 @@ global.OnRemDJ = function(pData){
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     if(!sUser.IsBot())
     	mDJs.splice(mDJs.indexOf(sUser.userid),1);
-    LonelyDJ(mDJs);
+    LonelyDJ();
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else
@@ -177,6 +177,17 @@ global.Loop = function(){
     RemoveOldMessages();
     var sPM = mPMQueue.shift();
     if(sPM) mBot.pm(sPM[0], sPM[1]);
+    if(!mSaving){ 
+    	mSaving = true;
+		setTimeout(function(){
+	    	var sKeys = _.keys(mUsers);
+	    	for(var i = 0; i < sKeys.length; ++i){
+	    		var sUser = mUsers[sKeys[i]];
+	    		sUser.Save();
+	    	}
+	    	mSaving = false;
+    	}, 1);
+    }
 };
 
 global.Greet = function(pUsers){
@@ -311,7 +322,7 @@ global.BootUp = function(){
         setInterval(Loop, mLoopTimeout);
         mBooted = true;
         Log("Booted up.  We're set to go");
-        LonelyDJ(mDJs);
+        LonelyDJ();
     });
 };
 
@@ -348,7 +359,7 @@ global.CheckAFKs = function(){
     }
 };
 
-global.LonelyDJ = function(pDJs){
+global.LonelyDJ = function(){
     if(!mLonelyDJ){ return; }
     if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
         mBot.addDj();
