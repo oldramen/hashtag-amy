@@ -68,8 +68,7 @@ global.OnAddDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = mUsers[pData.user[0].userid];
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
-    if(!sUser.IsBot())
-		mDJs.push(sUser.userid);
+	mDJs.push(sUser.userid);
     sUser.Update();
     if(mWhiteListEnabled && !sUser.whiteList && !sUser.IsBot()){
     	sUser.RemoveDJ();
@@ -87,8 +86,7 @@ global.OnRemDJ = function(pData){
     var sUser = mUsers[pData.user[0].userid];
     sUser.bootAfterSong = false;
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
-    if(!sUser.IsBot())
-    	mDJs.splice(mDJs.indexOf(sUser.userid),1);
+    mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
@@ -361,10 +359,10 @@ global.CheckAFKs = function(){
 
 global.LonelyDJ = function(){
     if(!mLonelyDJ){ return; }
-    if(mDJs.length == 1 && (mDJs.indexOf(mUserId) == -1)){
+    if(mDJs.length == 1 && mDJs.indexOf(mUserId) == -1){
         mBot.addDj();
         mUsingLonelyDJ = true;
-   	}else if((mDJs.length > 2 || mDJs.length == 1 ) && (mDJs.indexOf(mUserId) != -1)){
+   	}else if((mDJs.length > 2 || mDJs.length == 1 ) && mDJs.indexOf(mUserId) != -1){
 		mBot.remDj(); /// We could add ourselves to the just booted, but it wouldn't matter since we can't talk about ourselves.
 		mUsingLonelyDJ = false;
     }
