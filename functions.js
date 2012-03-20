@@ -375,22 +375,23 @@ global.RegisterUser = function(pData){
 		mBootedQueue.push(function(){ RegisterUser(pData); });
 		return;
 	}
-	mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
-		if(!cursor){
-			var sUser = mUsers[pData.userid];
-			Log("Inserting: " + sUser.name);
-			Insert(mRoomShortcut, sUser, function(err, records){
-				if(!records || records.length != 1) { Log("Error inserting " + pData.name); return; }
-				var sRecord = records[0]; /// There should only be one.  |:
-				sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
-				sUser.Initialize();
-				sUser._id = sRecord._id;
-			});
-			return;
-		}
-		mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
-		mUsers[pData.userid].Initialize();
-	});
+	if(mMongoDB)
+		mMongoDB.collection(mRoomShortcut).findOne({userid: pData.userid}, function(err,cursor){
+			if(!cursor){
+				var sUser = mUsers[pData.userid];
+				Log("Inserting: " + sUser.name);
+				Insert(mRoomShortcut, sUser, function(err, records){
+					if(!records || records.length != 1) { Log("Error inserting " + pData.name); return; }
+					var sRecord = records[0]; /// There should only be one.  |:
+					sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
+					sUser.Initialize();
+					sUser._id = sRecord._id;
+				});
+				return;
+			}
+			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
+			mUsers[pData.userid].Initialize();
+		});
 };
 
 global.RegisterUsers = function(pUsers){
@@ -402,35 +403,35 @@ global.RegisterUsers = function(pUsers){
 		++mUsers.length;
 		sUserIDs.push(sUser.userid);
 	}
-	
-	mMongoDB.collection(mRoomShortcut).find({'userid': {'$in': sUserIDs}}, function(err, cursor){
-		Log("Registering Users");
-		if(!cursor) return;
-		cursor.toArray(function(err,array){
-			var toInsert = [];
-			for(var i = 0; i < pUsers.length; ++i){
-				var sUser = pUsers[i];
-				var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
-				if(sRegistered && sRegistered.length){
-					mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
-					mUsers[sUser.userid].Initialize();
-				}else{
-					toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
+	if(!mMongoDB) return;
+		mMongoDB.collection(mRoomShortcut).find({'userid': {'$in': sUserIDs}}, function(err, cursor){
+			Log("Registering Users");
+			if(!cursor) return;
+			cursor.toArray(function(err,array){
+				var toInsert = [];
+				for(var i = 0; i < pUsers.length; ++i){
+					var sUser = pUsers[i];
+					var sRegistered = array.filter(function(e){ return e.userid === sUser.userid })
+					if(sRegistered && sRegistered.length){
+						mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
+						mUsers[sUser.userid].Initialize();
+					}else{
+						toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
+					}
 				}
-			}
-			Insert(mRoomShortcut, toInsert, function(err, records){
-				if(!records) return;
-				for(var i = 0; i < records.length; ++i){
-					var sRecord = records[i];
-					mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
-					mUsers[sUser.userid].Initialize();
-					//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
-					mUsers[sUser.userid]._id = sRecord._id;
-					mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
-				}
+				Insert(mRoomShortcut, toInsert, function(err, records){
+					if(!records) return;
+					for(var i = 0; i < records.length; ++i){
+						var sRecord = records[i];
+						mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
+						mUsers[sUser.userid].Initialize();
+						//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
+						mUsers[sUser.userid]._id = sRecord._id;
+						mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+					}
+				});
 			});
 		});
-	})
 };
 
 global.Update_Users = function(pUsers, pSingle){
@@ -585,25 +586,40 @@ global.FindByName = function(pName, pCallback){
 	}
 	pName = pName.replace("@", "^").trimRight() + "$";
 	Log("Finding by name: " + pName);
-	mMongoDB.collection(mRoomShortcut).find({'name': {'$regex': pName}}, function(err, cursor){
-		cursor.toArray(function(err,array){
-			var sResults = {};
-			array.forEach(function(e){
-				sResults[e.userid] = BaseUser().extend(e);
+	if(mMongoDB){
+		mMongoDB.collection(mRoomShortcut).find({'name': {'$regex': pName}}, function(err, cursor){
+			cursor.toArray(function(err,array){
+				var sResults = {};
+				array.forEach(function(e){
+					sResults[e.userid] = BaseUser().extend(e);
+				});
+			    var sUserIDs = _.keys(mUsers);
+			    sUserIDs.splice(0,1);
+			    for(var i = 0; i < sUserIDs.length; ++i){
+			        var sUserID = sUserIDs[i];
+			        if(mUsers[sUserID].name.match(pName)){
+			            //Results.push(mUsers[sUserID]);
+			            if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
+			            else sResults[sUserID] = mUsers[sUserID];
+			        }
+			    }
+			    pCallback(_.values(sResults));
 			});
-		    var sUserIDs = _.keys(mUsers);
-		    sUserIDs.splice(0,1);
-		    for(var i = 0; i < sUserIDs.length; ++i){
-		        var sUserID = sUserIDs[i];
-		        if(mUsers[sUserID].name.match(pName)){
-		            //Results.push(mUsers[sUserID]);
-		            if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
-		            else sResults[sUserID] = mUsers[sUserID];
-		        }
-		    }
-		    pCallback(_.values(sResults));
-		});
- 	});
+	 	});
+	 }else{
+	 	var sResults = {};
+	 	var sUserIDs = _.keys(mUsers);
+	    sUserIDs.splice(0,1);
+	    for(var i = 0; i < sUserIDs.length; ++i){
+	        var sUserID = sUserIDs[i];
+	        if(mUsers[sUserID].name.match(pName)){
+	            //Results.push(mUsers[sUserID]);
+	            if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
+	            else sResults[sUserID] = mUsers[sUserID];
+	        }
+	    }
+	 	pCallback(_.values(sResults));
+	 }
 };
 global.Ban = function(pName, pReason, pAuto){
 	if(pAuto && mAutoBanBoots && pName.userid){
@@ -651,12 +667,17 @@ global.mRandomItem = function (list) {
 };
 
 global.InitMongoDB = function(){
-    var sConnectionString = mMongoUser+':'+mMongoPass+"@"+mMongoHost+":"+mMongoPort+"/"+mMongoDatabase+"?auto_reconnect";
+	
+    var sConnectionString = mMongoHost+":"+mMongoPort+"/"+mMongoDatabase+"?auto_reconnect";
+    if(mMongoUser && mMongoPass) sConnectionString = mMongoUser+':'+mMongoPass+"@"+sConnectionString;
     Log("Connecting to: " + sConnectionString);
-    mMongoDB = mMongo.db(sConnectionString);
+    if(mMongoHost && mMongoDatabase)
+    	mMongoDB = mMongo.db(sConnectionString);
+	else mMongoDB = null;
 };
 
 global.Refresh = function(pFrom, pCallback){
+	if(!mMongoDB) return;
     if(!pFrom) return;
     var sCollection = mMongoDB.collection(pFrom);
     if(!sCollection) return false;
@@ -665,16 +686,19 @@ global.Refresh = function(pFrom, pCallback){
 };
 
 global.Insert = function(pTo, pData, pCallback){
+	if(!mMongoDB) return;
     if(pTo && pData)
     	mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
 };
 
 global.Remove = function(pFrom, pData, pCallback){
+	if(!mMongoDB) return;
 	if(pFrom)
     	mMongoDB.collection(pFrom).remove(pData, pCallback ? {safe: true} : null, pCallback);
 };
 
 global.Save = function(pTo, pData){
+	if(!mMongoDB) return;
 	Remove(pTo, {_id: pData._id}, function(err,cur){
 		Insert(pTo, pData);
 	});
@@ -794,6 +818,7 @@ BaseUser = function(){return {
 		return 0;
 	},
 	Save: function(){
+		if(!mMongoDB) return;
 		if(this._id){
 			Save(mRoomShortcut, this);
 			return;
