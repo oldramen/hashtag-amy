@@ -686,6 +686,7 @@ global.Refresh = function(pFrom, pCallback){
 
 global.Insert = function(pTo, pData, pCallback){
 	if(!mMongoDB) return;
+	Log("Insertting.");
     if(pTo && pData)
     	mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
 };
@@ -698,7 +699,9 @@ global.Remove = function(pFrom, pData, pCallback){
 
 global.Save = function(pTo, pData){
 	if(!mMongoDB) return;
+	Log("Saving");
 	mMongoDB.collection(pTo).removeById(pData._id, {safe: true}, function(err,cur){
+		Log("Removed, insertting now.");
 		Insert(pTo, pData);
 	});
 }
