@@ -421,17 +421,18 @@ global.RegisterUsers = function(pUsers){
 						toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					}
 				}
-				Insert(mRoomShortcut, toInsert, function(err, records){
-					if(!records) return;
-					for(var i = 0; i < records.length; ++i){
-						var sRecord = records[i];
-						mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
-						mUsers[sUser.userid].Initialize();
-						//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
-						mUsers[sUser.userid].Set_ID(sRecord._id); //_id = sRecord._id;
-						mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
-					}
-				});
+				if(toInsert.length)
+					Insert(mRoomShortcut, toInsert, function(err, records){
+						if(!records) return;
+						for(var i = 0; i < records.length; ++i){
+							var sRecord = records[i];
+							mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
+							mUsers[sUser.userid].Initialize();
+							//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
+							mUsers[sUser.userid].Set_ID(sRecord._id); //_id = sRecord._id;
+							mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+						}
+					});
 			});
 		});
 };
@@ -688,8 +689,7 @@ global.Refresh = function(pFrom, pCallback){
 
 global.Insert = function(pTo, pData, pCallback){
 	if(!mMongoDB) return;
-	Log("Insertting" + JSON.stringify(pData));
-    if(pTo && pData)
+	if(pTo && pData)
     	mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
 };
 
