@@ -667,7 +667,6 @@ global.mRandomItem = function (list) {
 };
 
 global.InitMongoDB = function(){
-	
     var sConnectionString = mMongoHost+":"+mMongoPort+"/"+mMongoDatabase+"?auto_reconnect";
     if(mMongoUser && mMongoPass) sConnectionString = mMongoUser+':'+mMongoPass+"@"+sConnectionString;
     Log("Connecting to: " + sConnectionString);
@@ -699,7 +698,7 @@ global.Remove = function(pFrom, pData, pCallback){
 
 global.Save = function(pTo, pData){
 	if(!mMongoDB) return;
-	Remove(pTo, {_id: pData._id}, function(err,cur){
+	mMongoDB.collection(pTo).removeById(pData._id, {safe: true}, function(err,cur){
 		Insert(pTo, pData);
 	});
 }
