@@ -385,12 +385,13 @@ global.RegisterUser = function(pData){
 					var sRecord = records[0]; /// There should only be one.  |:
 					sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
 					sUser.Initialize();
-					sUser._id = sRecord._id;
+					sUser.Set_ID(sRecord._id);
 				});
 				return;
 			}
 			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
 			mUsers[pData.userid].Initialize();
+			mUsers[sUser.userid].Set_ID(cursor._id);
 		});
 };
 
@@ -415,6 +416,7 @@ global.RegisterUsers = function(pUsers){
 					if(sRegistered && sRegistered.length){
 						mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
 						mUsers[sUser.userid].Initialize();
+						mUsers[sUser.userid].Set_ID(sRegistered[i]._id);
 					}else{
 						toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					}
@@ -426,7 +428,7 @@ global.RegisterUsers = function(pUsers){
 						mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
 						mUsers[sUser.userid].Initialize();
 						//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
-						mUsers[sUser.userid]._id = sRecord._id;
+						mUsers[sUser.userid].Set_ID(sRecord._id); //_id = sRecord._id;
 						mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
 					}
 				});
@@ -837,6 +839,10 @@ BaseUser = function(){return {
 				clearInterval(sSaveToken);
 			})
 		},100);
+	},
+	Set_ID: function(pId){
+		Log(this.name " : " + pId);
+		this._id = pId;
 	}
 };
 };
