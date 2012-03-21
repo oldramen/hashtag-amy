@@ -513,7 +513,7 @@ global.HandleCommand = function(pUser, pText, pPM){
     });
     sCommands.forEach(function(pCommand){ 
         if(pCommand.requires.check(pUser))
-            pCommand.callback(pUser, pText); 
+            pCommand.callback(pUser, pText);
     });
 };
 

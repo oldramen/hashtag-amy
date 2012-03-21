@@ -386,12 +386,15 @@ global.mCommands = [
     			sUser.whiteList = false;
     			if(sUser.isDJ) sUser.RemoveDJ();
     			Speak(sUser, mRemovedFromWhiteList, SpeakingLevel.Misc);
-			}else FindByName(pText, function(sUser){ 
-				sUser.whiteList = false;  
-				if(sUser.isDJ) 
-					sUser.RemoveDJ(); 
-				sUser.Save(); 
-				Speak(sUser, mRemovedFromWhiteList, SpeakingLevel.Misc);
+			}else FindByName(pText, function(pUsers){ 
+				for(var i = 0; i < pUsers.length; ++i){
+					var sUser = pUsers[i];
+					sUser.whiteList = false;  
+					if(sUser.isDJ) 
+						sUser.RemoveDJ(); 
+					sUser.Save(); 
+					Speak(sUser, mRemovedFromWhiteList, SpeakingLevel.Misc);
+				}
 			});
     	},
     	requires: Requires.Moderator,
