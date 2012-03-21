@@ -416,7 +416,7 @@ global.RegisterUsers = function(pUsers){
 					if(sRegistered && sRegistered.length){
 						mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
 						mUsers[sUser.userid].Initialize();
-						mUsers[sUser.userid].Set_ID(sRegistered[i]._id);
+						mUsers[sUser.userid].Set_ID(sRegistered[0]._id);
 					}else{
 						toInsert.push(mUsers[sUser.userid]);//Insert(mRoomShortcut, mUsers[sUser.userid]);
 					}
