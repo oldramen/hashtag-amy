@@ -14,9 +14,7 @@ global.OnRegistered = function(pData){
     	var sUser = pData.user[i];
     	var sCached = mUsers[sUser.userid];
     	if(sCached){
-    		Log("found "+sUser.name+" in the memory.");
     		if(mRecentlyLeft[sUser.userid]){
-    			Log("Removing their timeout.");
     			clearTimeout(sUser.userid);
     			delete mRecentlyLeft[sUser.userid];
     		}
@@ -130,7 +128,8 @@ global.OnSpeak = function(pData){
 
 global.OnPmmed = function(pData){
     if (!mUsers[pData.senderid]) return;
-    console.log('got pm');
+    var sUser = mUsers[pData.senderid];
+    console.log("(PM) " + sUser.name + ": " + pData.text);
     HandleCommand(mUsers[pData.senderid], pData.text, true);
 };
 
@@ -791,10 +790,8 @@ BaseUser = function(){return {
 		var sUserId = this.userid;
 		mRecentlyLeft[sUserId] = setTimeout(function(){
 			if(!mRecentlyLeft[sUserId]) return;
-			console.log("Flushing user from cache. ( "+sUserId+" )"); 
 			delete mUsers[sUserId];
 			delete mRecentlyLeft[sUserId];
-			console.log(JSON.stringify(mUsers));
 		}, mTimeForCacheFlush);
 		this.Save();///Save(mRoomShortcut, this);
 	},
