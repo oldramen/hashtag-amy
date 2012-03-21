@@ -67,6 +67,7 @@ global.OnAddDJ = function(pData){
     var sUser = mUsers[pData.user[0].userid];
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
 	mDJs.push(sUser.userid);
+    sUser.isDJ = true;
     sUser.Update();
     if(mWhiteListEnabled && !sUser.whiteList && !sUser.IsBot()){
     	sUser.RemoveDJ();
@@ -83,6 +84,7 @@ global.OnRemDJ = function(pData){
     //mBot.roomInfo(OnGotRoomInfo);
     var sUser = mUsers[pData.user[0].userid];
     sUser.bootAfterSong = false;
+    sUser.isDJ = false;
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
