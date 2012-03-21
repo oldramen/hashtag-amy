@@ -841,7 +841,7 @@ BaseUser = function(){return {
 		},100);
 	},
 	Set_ID: function(pId){
-		Log(this.name " : " + pId);
+		Log(this.name + " : " + pId);
 		this._id = pId;
 	}
 };
