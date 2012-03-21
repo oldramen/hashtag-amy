@@ -403,11 +403,6 @@ global.mCommands = [
     {
     	command: ['offgenre','offtheme'],
     	callback: function(pUser, pText){
-    		/*if(mCurrentSong.downVotes >= mDownVotesForOffGenre){
-    			mCurrentDJ.RemoveDJ();
-    			mCurrentDJ.PM(mOffGenre, )
-    		}*/
-    		/// No.  Redo this in a smarter way.
     	},
     	requires: Requires.User,
     	hint: "Boots the DJ after "+mDownVotesForOffGenre+" amount of down votes for not being the correct song for the theme."
