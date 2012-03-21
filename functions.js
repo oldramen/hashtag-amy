@@ -789,7 +789,8 @@ BaseUser = function(){return {
 	Remove: function(){
 		//delete mUsers[this.userid];
 		var sUserId = this.userid;
-		mRecentlyLeft[this.userid] = setTimeout(function(){
+		mRecentlyLeft[sUserId] = setTimeout(function(){
+			if(!mRecentlyLeft[sUserId]) return;
 			console.log("Flushing user from cache. ( "+sUserId+" )"); 
 			delete mUsers[sUserId];
 			delete mRecentlyLeft[sUserId];
