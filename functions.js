@@ -389,9 +389,9 @@ global.RegisterUser = function(pData){
 				});
 				return;
 			}
-			mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
-			mUsers[pData.userid].Initialize();
-			mUsers[sUser.userid].Set_ID(cursor._id);
+			var sUser = mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
+			sUser.Initialize();
+			sUser.Set_ID(cursor._id);
 		});
 };
 
