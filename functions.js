@@ -788,10 +788,11 @@ BaseUser = function(){return {
 	},
 	Remove: function(){
 		//delete mUsers[this.userid];
+		var sUserId = this.userid;
 		mRecentlyLeft[this.userid] = setTimeout(function(){
-			console.log("Flushing user from cache. ( "+this.userid+" )"); 
-			delete mUsers[this.userid];
-			delete mRecentlyLeft[this.userid];
+			console.log("Flushing user from cache. ( "+sUserId+" )"); 
+			delete mUsers[sUserId];
+			delete mRecentlyLeft[sUserId];
 			console.log(JSON.stringify(mUsers));
 		}, mTimeForCacheFlush);
 		this.Save();///Save(mRoomShortcut, this);
