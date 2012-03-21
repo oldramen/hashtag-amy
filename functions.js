@@ -792,7 +792,7 @@ BaseUser = function(){return {
 			console.log("Flushing user from cache."); 
 			delete mUsers[this.userid]; 
 			delete mRecentlyLeft[this.userid]; 
-			console.log(JSON.stringify(mUsers[this.userid]));
+			console.log(JSON.stringify(mUsers));
 		}, mTimeForCacheFlush);
 		this.Save();///Save(mRoomShortcut, this);
 	},
