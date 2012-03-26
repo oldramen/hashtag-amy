@@ -308,6 +308,7 @@ global.RefreshMetaData = function(pMetaData){
     for(var i = 0, len = pMetaData.djs.length; i < len; ++i){
         mDJs[i] = pMetaData.djs[i];
         mUsers[mDJs[i]].songCount = 0;
+        mUsers[mDJs[i]].isDJ = true;
     }
     mCurrentDJ = mUsers[pMetaData.current_dj];
     mIsModerator = pMetaData.moderator_id.indexOf(mUserId) != -1;
