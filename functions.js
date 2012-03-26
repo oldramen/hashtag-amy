@@ -751,6 +751,7 @@ BaseUser = function(){return {
 	bootAfterSong: false,
 	joinedTime: Date.now(),
 	whiteList: false,
+	allowedToReserveSpot: true,
 	Boot: function(pReason){ mBot.bootUser(this.userid, pReason ? pReason : ""); },
 	IsiOS: function(){ return this.laptop === "iphone"; },
 	CheckAFK : function(){

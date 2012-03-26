@@ -411,10 +411,11 @@ global.mCommands = [
     {
     	command: 'refresh',
     	callback: function(pUser, pText){
-    		if(!pUser.isDJ || !pUser.allowedToReserveSpot){
+    		if(!pUser.isDJ){
     			pUser.PM(mNotDJ, SpeakingLevel.Misc);
     			return;
     		}
+    		if(!pUser.allowedToReserveSpot) return
     		var sTime = Date.now();
     		var sHold = {
     			userid: pUser.userid,
