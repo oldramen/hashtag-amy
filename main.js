@@ -57,6 +57,7 @@ global.mQueueWarned     =   [];
 global.mQueueNotified   =   false;
 
 global.mJustRemovedDJ   =   [];
+global.mReservedSpots	= 	[]; /// [{timestarted, userid}];
 
 global.mQueueCurrentlyOn        = false;
 global.mSongLimitCurrentlyOn    = false;

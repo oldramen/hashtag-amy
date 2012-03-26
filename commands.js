@@ -407,5 +407,27 @@ global.mCommands = [
     	},
     	requires: Requires.User,
     	hint: "Boots the DJ after "+mDownVotesForOffGenre+" amount of down votes for not being the correct song for the theme."
+    },
+    {
+    	command: 'refresh',
+    	callback: function(pUser, pText){
+    		if(!pUser.isDJ || !pUser.allowedToReserveSpot){
+    			pUser.PM(mNotDJ, SpeakingLevel.Misc);
+    			return;
+    		}
+    		var sTime = Date.now();
+    		var sHold = {
+    			userid: pUser.userid,
+    			time: sTime
+    		};
+    		var sIndex = mReservedSpots.push(sHold) - 1;
+    		
+    		setTimeout(function(){
+    			sIndex = mReservedSpots.indexOf(sHold);
+    			if(sIndex != -1) mReservedSpots.splice(sIndex, 1);
+    		}, mHoldSpotForRefreshTime * 60000);
+    	},
+    	requires: Requires.User,
+    	hint: "Lets the user refresh and the bot will hold their spot for "+mHoldSpotForRefreshTime+" minutes."
     }
 ];

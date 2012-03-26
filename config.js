@@ -61,6 +61,7 @@ global.mAutoBanBoots			= false;			//Instead of banning people, we simply boot th
 global.mAutoBanOnTTLink			= true;				//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
 global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
 global.mDownVotesForOffGenre    = 3;
+global.mHoldSpotForRefreshTime	= 2;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";

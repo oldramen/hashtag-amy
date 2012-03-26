@@ -68,6 +68,14 @@ global.OnAddDJ = function(pData){
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
 	mDJs.push(sUser.userid);
     sUser.isDJ = true;
+	if(mReservedSpots.length > 0){
+		var sIsInReserved = false;
+		var sElements = [];
+		mReservedSpots.forEach(function(e,i){ if(e.userid == sUser.userid){ sIsInReserved = true; sElements.push(e); } });
+		sElements.forEach(function(e,i){ mReservedSpots.splice(mReservedSpots.indexOf(e), 1); });
+		sUser.allowedToReserveSpot = false;
+		sUser.RemoveDJ();
+	}else sUser.allowedToReserveSpot = true;
     sUser.Update();
     if(mWhiteListEnabled && !sUser.whiteList && !sUser.IsBot()){
     	sUser.RemoveDJ();
