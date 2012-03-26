@@ -402,13 +402,6 @@ global.mCommands = [
     	hint: "Removes a user from the whitelist of DJs temporarily."
     },
     {
-    	command: ['offgenre','offtheme'],
-    	callback: function(pUser, pText){
-    	},
-    	requires: Requires.User,
-    	hint: "Boots the DJ after "+mDownVotesForOffGenre+" amount of down votes for not being the correct song for the theme."
-    },
-    {
     	command: 'refresh',
     	callback: function(pUser, pText){
     		if(!pUser.isDJ){
