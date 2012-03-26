@@ -335,7 +335,7 @@ global.mCommands = [
     		});
     	},
     	requires: Requires.Moderator,
-    	hint: "Makes a user a VIP"
+    	hint: "Makes a user not a VIP"
     },
     {
         command: 'setvar',
