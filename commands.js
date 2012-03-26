@@ -262,7 +262,7 @@ global.mCommands = [
         command: ['dance','bop'],
         message: 'Bust a move!',
         callback: function(pUser, pText){
-            if(!mModBop || pUser.isMod) mBot.vote("up");
+            mBot.vote("up");
             Speak(pUser, this.message, SpeakingLevel.Misc);
         },
         requires: mModBop ? Requires.Moderator : Requires.User,
