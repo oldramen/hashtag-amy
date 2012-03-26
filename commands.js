@@ -265,7 +265,7 @@ global.mCommands = [
             if(!mModBop || pUser.isMod) mBot.vote("up");
             Speak(pUser, this.message, SpeakingLevel.Misc);
         },
-        requires: Requires.User,
+        requires: mModBop ? Requires.Moderator : Requires.User,
         hint: "Makes the bot dance.  Can not be done by regular users."
     },
     {
