@@ -426,6 +426,8 @@ global.mCommands = [
     			sIndex = mReservedSpots.indexOf(sHold);
     			if(sIndex != -1) mReservedSpots.splice(sIndex, 1);
     		}, mHoldSpotForRefreshTime * 60000);
+    		pUser.PM(mReadyRefresh, SpeakingLevel.Misc);
+    		pUser.RemoveDJ();
     	},
     	requires: Requires.User,
     	hint: "Lets the user refresh and the bot will hold their spot for "+mHoldSpotForRefreshTime+" minutes."
