@@ -440,12 +440,11 @@ global.RegisterUsers = function(pUsers){
 						if(!records) return;
 						for(var i = 0; i < records.length; ++i){
 							var sRecord = records[i];
-							console.log(JSON.stringify(sRecord));
 							mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
-							mUsers[sUser.userid].Initialize();
+							mUsers[sRecord.userid].Initialize();
 							//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
-							mUsers[sUser.userid].Set_ID(sRecord._id); //_id = sRecord._id;
-							mUsers[sUser.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
+							mUsers[sRecord.userid].Set_ID(sRecord._id); //_id = sRecord._id;
+							mUsers[sRecord.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
 						}
 					});
 			});
