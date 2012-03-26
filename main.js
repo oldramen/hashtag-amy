@@ -23,6 +23,7 @@ global.mCurrentSong = {
 	songName: "",
 	upVotes: -1,
 	downVotes: -1,
+	heartCount: -1
 }
 
 /*global.mSongName        =   "";

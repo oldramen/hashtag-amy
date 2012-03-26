@@ -110,6 +110,7 @@ global.OnNewSong = function(pData){
 	    if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
 	    if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
    	}
+   	mParsing['{heartcount}'] = 0;
    	mCurrentSong.upVotes = 0;
    	mCurrentSong.downVotes = 0;
    	mCurrentSong.songName = pData.room.metadata.current_song.metadata.song;
@@ -147,6 +148,8 @@ global.OnPmmed = function(pData){
 
 global.OnSnagged = function(pData){
     //Do Hearts here.
+    ++mCurrentSong.heartCount;
+    mParsing["{heartcount}"] = mCurrentSong.heartCount
 }
 
 global.OnVote = function(pData){
