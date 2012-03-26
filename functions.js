@@ -823,6 +823,7 @@ BaseUser = function(){return {
 		this.isSuperUser = this.acl > 0;
 		this.joinedTime = Date.now();
 		this.whiteList = mWhiteList.indexOf(this.userid) != -1;
+		this.UpdateToLatest();
 		this.Save();
 	},
 	GetLevel: function(){
@@ -856,6 +857,13 @@ BaseUser = function(){return {
 	Set_ID: function(pId){
 		//Log(this.name + " : " + pId);
 		this._id = pId;
+	},
+	UpdateToLatest: function(){
+		var sLatest = BaseUser;
+		for(var sVariable in sLatest){
+			if(!this.hasOwnProperty(sVariable))
+				this[sVariable] = sLatest[sVariable];
+		}
 	}
 };
 };
