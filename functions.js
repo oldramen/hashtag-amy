@@ -440,6 +440,7 @@ global.RegisterUsers = function(pUsers){
 						if(!records) return;
 						for(var i = 0; i < records.length; ++i){
 							var sRecord = records[i];
+							console.log(JSON.stringify(sRecord));
 							mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
 							mUsers[sUser.userid].Initialize();
 							//Log("Inserted: " + sUser.name + "("+sRecord.name+")");
