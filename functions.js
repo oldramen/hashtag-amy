@@ -355,6 +355,7 @@ global.LoadParsing = function(){
     mParsing['{waiter}']                       	= mWaiter ? "on" : "off";
     mParsing['{modbop}']                        = mModBop ? "on" : "off";
     mParsing['{queueamount}']                   = 0;
+    mParsing['{heartcount}']					= 0;
     Log("Updated Parsing Library");
 };
 
