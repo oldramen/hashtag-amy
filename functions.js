@@ -707,7 +707,7 @@ global.Refresh = function(pFrom, pCallback){
 global.Insert = function(pTo, pData, pCallback){
 	if(!mMongoDB) return;
 	if(pTo && pData)
-    	mMongoDB.collection(pTo).insert(pData, {safe:true}, pCallback);
+    	mMongoDB.collection(pTo).insert(pData, pCallback? {safe:true} : {safe:false}, pCallback);
 };
 
 global.Remove = function(pFrom, pData, pCallback){
