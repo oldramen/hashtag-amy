@@ -350,11 +350,12 @@ global.mCommands = [
         hint: "Temporarily changes options"
     },
     {
-    	command: '/userid',
+    	command: 'userid',
     	callback: function(pUser, pText){
     		if(pText)
 	    		FindByName(pText, function(sUser){
-	    			Speak(sUser, mTheirUserId, SpeakingLevel.Misc);
+	    			if(sUser && sUser.length)
+	    				Speak(sUser[0], mTheirUserId, SpeakingLevel.Misc);
 	    		});
     		else pUser.PM(mYourUserId, SpeakingLevel.Misc);
     	},
