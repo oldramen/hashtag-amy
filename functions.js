@@ -321,7 +321,7 @@ global.RefreshMetaData = function(pMetaData){
     }
     mCurrentDJ = mUsers[pMetaData.current_dj];
     mIsModerator = pMetaData.moderator_id.indexOf(mUserId) != -1;
-    //mModerators = mModerators.concat(pMetaData.moderator_id);
+    mModerators = mModerators.concat(pMetaData.moderator_id);
     for(var i = 0, len = pMetaData.moderator_id; i < len; ++i)
     	if(mModerators.indexOf(pMetaData.moderator_id[i]) == -1) mModerators.push(pMetaData.moderator_id[i]);
     mMaxDJs = pMetaData.max_djs;
