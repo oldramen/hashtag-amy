@@ -194,7 +194,7 @@ global.mCommands = [
     {
         command: 'disable',
         callback: function(pUser, pText){
-            exec(pText + " = null");
+            eval(pText + " = null");
         },
         requires: Requires.Owner,
         hint: "Used to disable variables.  Handle with care."
