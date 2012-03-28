@@ -162,6 +162,7 @@ global.mCommands = [
         message: '/me slaps {username}',
         callback: function(pUser, pText){
             FindByName(pText, function(sUser){
+            	console.log(JSON.stringify(sUser));
                 if(sUser.length > 0){
                 	sUser = sUser[0];
                     Speak(sUser, this.message, SpeakingLevel.Misc);
