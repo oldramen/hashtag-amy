@@ -159,14 +159,12 @@ global.mCommands = [
     },
     {
         command: 'slap',
-        message: '/me slaps {username}',
         callback: function(pUser, pText){
             FindByName(pText, function(sUser){
             	console.log(JSON.stringify(sUser));
                 if(sUser.length > 0){
                 	sUser = sUser[0];
-                	console.log(this.message)
-                    Speak(sUser, this.message, SpeakingLevel.Misc);
+                    Speak(sUser, '/me slaps {username}', SpeakingLevel.Misc);
                }
             });
         },
