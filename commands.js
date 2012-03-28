@@ -158,6 +158,19 @@ global.mCommands = [
         hint: "Remove a DJ"
     },
     {
+        command: 'slap',
+        message: '/me slaps {username}',
+        callback: function(pUser, pText){
+            FindByName(pText, function(sUser){
+                if(sUser.length > 0) sUser = sUser[0];
+                    Speak(sUser, this.message, SpeakingLevel.Misc);
+            });
+        },
+        requires: Requires.Moderator,
+        hint: "Slap a ho",
+        pm: true
+    },
+    {
         command: 'stagedive',
         message: ["{username} is surfing the crowd!", "Oops! {username} lost a shoe sufing the crowd.", "Wooo! {username}'s surfin' the crowd! Now to figure out where the wheelchair came from...", "Well, {username} is surfing the crowd, but where did they get a raft...", "{username} dived off the stage...too bad no one in the audience caught them.", "{username} tried to jump off the stage, but kicked their laptop. Ouch.", "{username} said they were going to do a stagedive, but they just walked off.", "And {username} is surfing the crowd! But why are they shirtless?", "{username} just traumatized us all by squashing that poor kid up front."],
         callback: function(pUser, pText){
