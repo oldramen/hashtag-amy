@@ -59,7 +59,7 @@ global.Speaking = {
 global.Requires = {
     User:       { val: 0, status: "User", check: function(pUser){ return true; } },
     VIP:        { val: 1, status: "VIP", check: function(pUser){ return pUser.GetLevel() > 1; }},
-    Moderator:  { val: 2, status: "Moderator", check: function(pUser){ console.log(pUser.name, pUser.GetLevel() > 2 ? "is" : "isn't", "a moderator") return pUser.GetLevel() > 2; } },
+    Moderator:  { val: 2, status: "Moderator", check: function(pUser){ console.log(pUser.name, pUser.GetLevel() > 2 ? "is" : "isn't", "a moderator"); return pUser.GetLevel() > 2; } },
     SuperUser:  { val: 3, status: "SuperUser", check: function(pUser){ return pUser.GetLevel() > 3; } },
     Owner:      { val: 4, status: "Owner", check: function(pUser){ return pUser.isOwner; } }
 }
