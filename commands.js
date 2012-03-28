@@ -162,8 +162,10 @@ global.mCommands = [
         message: '/me slaps {username}',
         callback: function(pUser, pText){
             FindByName(pText, function(sUser){
-                if(sUser.length > 0) sUser = sUser[0];
+                if(sUser.length > 0){
+                	sUser = sUser[0];
                     Speak(sUser, this.message, SpeakingLevel.Misc);
+               }
             });
         },
         requires: Requires.Moderator,
@@ -332,6 +334,8 @@ global.mCommands = [
     	command: 'vip',
     	callback: function(pUser, pText){
     		FindByName(pText, function(sUser){
+    			if(sUser.length != 1) return;
+    			sUser = sUser[0]
 	    		sUser.isVip = true;
 	    		Speak(sUser, mIsNowVIP, SpeakingLevel.Misc);
     		});
