@@ -280,7 +280,7 @@ global.mCommands = [
             Speak(pUser, this.message, SpeakingLevel.Misc);
         },
         requires: mModBop ? Requires.Moderator : Requires.User,
-        hint: "Makes the bot dance.  Can not be done by regular users."
+        hint: "Makes the bot dance." + (mModBop ? "  Can not be done by regular users." : "")
     },
     {
         command: 'hulk',

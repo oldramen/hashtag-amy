@@ -64,7 +64,7 @@ global.mDownVotesForOffGenre    = 3;
 global.mHoldSpotForRefreshTime	= 2;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 global.mMaxElapsedTimeForDJSpot	= 120000;
 
-global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
+global.mDefaultGreeting         = "/me hugs @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
 global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{usernames}!";
 global.mModeratorGreeting       = "We've got a moderator in the room!  Welcome @{usernames}!";
