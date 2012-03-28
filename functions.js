@@ -272,7 +272,6 @@ global.GuaranteeQueue = function(pUser){
 
 global.QueuePush = function(pUser){
     mQueue.push(pUser);
-    Log(mQueue.length);
     ParsingForQueue();
 };
 
