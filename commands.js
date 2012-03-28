@@ -161,8 +161,7 @@ global.mCommands = [
         command: 'slap',
         callback: function(pUser, pText){
             FindByName(pText, function(sUser){
-            	console.log(JSON.stringify(sUser));
-                if(sUser.length > 0){
+            	if(sUser.length > 0){
                 	sUser = sUser[0];
                     Speak(sUser, '/me slaps {username}', SpeakingLevel.Misc);
                }
@@ -443,5 +442,23 @@ global.mCommands = [
     	},
     	requires: Requires.User,
     	hint: "Lets the user refresh and the bot will hold their spot for "+mHoldSpotForRefreshTime+" minutes."
+    },
+    {
+    	command: 'on',
+    	callback: function(pUser, pText){
+    		mQueueOn = true;
+    		CalculateProperties();
+    	},
+    	requires: Requires.Moderator,
+    	hint: "Turns on the queue."
+    },
+    {
+    	command: 'off',
+    	callback: function(pUser, pText){
+    		mQueueOn = false;
+    		CalculateProperties();
+    	},
+    	requires: Requires.Moderator,
+    	hint: "Turns off the queue."
     }
 ];
