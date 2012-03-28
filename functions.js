@@ -68,6 +68,9 @@ global.OnAddDJ = function(pData){
     //sUser.Update(); ///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
 	mDJs.push(sUser.userid);
     sUser.isDJ = true;
+    var sElapsedTimeMS = Date.now() - mDJDropTime;
+    if(sElapsedTimeMS < mMaxElapsedTimeForDJSpot)
+    	Speak(sUser, mSpotOpenFor, SpeakingLevel.Misc, [['{opentime}', sElapsedTimeMS / 1000]]);
 	if(mReservedSpots.length > 0){
 		var sIsInReserved = false;
 		var sElements = [];
@@ -95,6 +98,7 @@ global.OnRemDJ = function(pData){
     var sUser = mUsers[pData.user[0].userid];
     sUser.bootAfterSong = false;
     sUser.isDJ = false;
+	mDJDropTime	= Date.now();
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();

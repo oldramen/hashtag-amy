@@ -62,6 +62,7 @@ global.mAutoBanOnTTLink			= true;				//Autobans someone from the room if they gi
 global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
 global.mDownVotesForOffGenre    = 3;
 global.mHoldSpotForRefreshTime	= 2;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
+global.mMaxElapsedTimeForDJSpot	= 120000;
 
 global.mDefaultGreeting         = "Ohai, @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
@@ -109,6 +110,7 @@ global.mRemovedFromWhiteList    = "{username} has been removed from the whitelis
 global.mOffGenre				= "I'm sorry, but your song seems to be off genre, and we have to remove you from the deck."; // PMed to User.
 global.mPMWillBootOffDeck		= "Alright, I'll boot you off the deck at the end of your song.";
 global.mReadyRefresh			= "Okay, you can go ahead and refresh and I'll make sure you get your spot back.";
+global.mSpotOpenFor				= "The DJ Spot was open for {opentime} seconds. ";
 
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
