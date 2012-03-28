@@ -19,10 +19,11 @@ global.OnRegistered = function(pData){
     			delete mRecentlyLeft[sUser.userid];
     		}
     		mUsers[sUser.userid] = sCached; /// Just incase there's that slim chance that they got removed.
-    	}else if(!sUser.isBanned)
+    	}else{
 	    	RegisterUser(pData.user[i]);
-    	else if(sUser.isBanned) 
-    		sUser.Boot(sUser.banReason ? sUser.banReason : mBanReason);
+	    	mPushingOutGreeting.push(mUsers[pData.user[i].userid]); 
+    	}
+    	if(sUser.isBanned) sUser.Boot(sUser.banReason ? sUser.banReason : mBanReason);
 	}
 	if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
     CalculateProperties();
@@ -186,8 +187,8 @@ global.OnNoSong = function(pData){
 global.Loop = function(){
     CheckAFKs();
     CalculateProperties();
-    console.log(JSON.stringify(mPushingOutGreeting));
-    Greet(mPushingOutGreeting);
+    if(mPushingOutGreeting.length)
+    	Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
     RemoveOldMessages();
     var sPM = mPMQueue.shift();
@@ -390,7 +391,6 @@ global.LonelyDJ = function(){
 };
 
 global.RegisterUser = function(pData){
-	mPushingOutGreeting.push(pData.userid); 
 	mUsers[pData.userid] = BaseUser().extend(pData);
 	++mUsers.length;
 	if(!mBooted){

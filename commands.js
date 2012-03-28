@@ -165,7 +165,7 @@ global.mCommands = [
             	console.log(JSON.stringify(sUser));
                 if(sUser.length > 0){
                 	sUser = sUser[0];
-                	console.log(this.message);
+                	console.log(this.message)
                     Speak(sUser, this.message, SpeakingLevel.Misc);
                }
             });
