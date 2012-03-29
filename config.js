@@ -50,7 +50,7 @@ global.mSaveTimeout				= 30;				//Saves everyone after 30 seconds.
 global.mTimeForCacheFlush		= 15000;			//Time that the user stays in the cache after they leave.
 
 global.mPMSpeak                 = true;            	//whether the bot will PM users so as to not spam
-global.mModBop                  = true;            	//true, only mods can use the /dance command, false, anyone can.
+global.mModBop                  = false;            	//true, only mods can use the /dance command, false, anyone can.
 global.mWaiter                 	= true;            	//whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;            	//whether the bot will dj if only one dj in room
 global.mCheckAFKWithLonely		= false;			//Should we check to see if people are afk when they're using Lonely DJ?
