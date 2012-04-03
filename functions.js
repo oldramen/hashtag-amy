@@ -269,7 +269,7 @@ global.GuaranteeQueue = function(pUser){
         clearTimeout(mQueueTimeout);
         return true;
     }else{
-        RemoveDJ(pUser);
+        pUser.RemoveDJ();
         if(mQueueWarned.indexOf(pUser.userid) == -1){
             Speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
             mQueueWarned.push(pUser);
