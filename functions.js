@@ -304,7 +304,7 @@ global.SpeakingAllowed = function(pSpeakingLevel){
 
 global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs, pPM){
     if(!pSpeak) return;
-    if(pUser.IsBot && pUser.IsBot()) return;
+    if(pUser && pUser.IsBot && pUser.IsBot()) return;
     var sIsSelf = false;
     if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
     if(sIsSelf) return;
