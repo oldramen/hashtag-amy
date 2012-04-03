@@ -192,7 +192,7 @@ global.Loop = function(){
     if(mPushingOutGreeting.length)
     	Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
-    RemoveOldMessages();
+    if(mNoSpamTimeout) RemoveOldMessages();
     var sPM = mPMQueue.shift();
     if(sPM) mBot.pm(sPM[0], sPM[1]);
     if(!mSaving){ 
@@ -309,11 +309,11 @@ global.Speak = function(pUser, pSpeak, pSpeakingLevel, pArgs, pPM){
     if(pUser && pUser.length) pUser.forEach(function(e){ sIsSelf = sIsSelf || (e.IsBot && e.IsBot()); });
     if(sIsSelf) return;
     pSpeak = Parse(pUser, pSpeak, pArgs);
-    if(!mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
+    if(!mNoSpamTimeout || !mSpokenMessages.filter(function(e){ return e.message == pSpeak }).length){
         if(SpeakingAllowed(pSpeakingLevel)) 
             if (pPM && CanPM(pUser)) mBot.pm(pSpeak, pUser.userid);
             else mBot.speak(pSpeak);
-        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+        if(mNoSpamTimeout) mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
     }
 };
 
@@ -794,7 +794,7 @@ BaseUser = function(){return {
 	    pSpeak = Parse(this, pSpeak, pArgs);
         if(SpeakingAllowed(pSpeakingLevel)) 
             mPMQueue.push([pSpeak, this.userid]);//mBot.pm(pSpeak, this.userid);
-        mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
+        if(mNoSpamTimeout) mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
     	return pSpeak;
 	},
 	IsBot: function(){ return this.userid == mUserId; },
