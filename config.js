@@ -43,25 +43,25 @@ global.mMinDJsForSongLimit      = 3;   	          	//
 global.mMinQueueOperator        = "&&";	            //
 global.mMinUsersForQueue        = null;	            //
 global.mMinDJsForQueue          = 4;	            //
-global.mSongLimitUserProportion = 250;             //5 songs per 50 people in the room.
-global.mNoSpamTimeout           = 3;               //15 seconds before the bot can say the same thing again.
-global.mLoopTimeout             = 5;               //Does the main loop every 10 seconds.
+global.mSongLimitUserProportion = 250;             	//5 songs per 50 people in the room.
+global.mNoSpamTimeout           = 3;               	//3 seconds before the bot can say the same thing again.
+global.mLoopTimeout             = 5;               	//Does the main loop every 5 seconds.
 global.mSaveTimeout				= 30;				//Saves everyone after 30 seconds.
 global.mTimeForCacheFlush		= 15000;			//Time that the user stays in the cache after they leave.
 
 global.mPMSpeak                 = true;            	//whether the bot will PM users so as to not spam
-global.mModBop                  = false;            	//true, only mods can use the /dance command, false, anyone can.
+global.mModBop                  = false;            //true, only mods can use the /dance command, false, anyone can.
 global.mWaiter                 	= true;            	//whether bartender (if we add that function) is enabled by default
 global.mLonelyDJ                = true;            	//whether the bot will dj if only one dj in room
 global.mCheckAFKWithLonely		= false;			//Should we check to see if people are afk when they're using Lonely DJ?
 global.mCheckSongCountWithLonely= false;			//Should we check the song count when they're using Lonely DJ?
 global.mAfkBop                	= true;            	//whether bops reset the afk timer or not
-global.mAutoBopForMods			= true;			//If we should automatically bop for mods and above.
+global.mAutoBopForMods			= true;				//If we should automatically bop for mods and above.
 global.mAutoBanBoots			= false;			//Instead of banning people, we simply boot them from the room.
 global.mAutoBanOnTTLink			= true;				//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
 global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
 global.mDownVotesForOffGenre    = 3;
-global.mHoldSpotForRefreshTime	= 2;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
+global.mHoldSpotForRefreshTime	= 120;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 global.mMaxElapsedTimeForDJSpot	= 30000;
 global.mQueueGrabSpotTimeout	= 5;				//How many minutes we should hold a spot for someone when they are next in the queue and there is an open spot.
 

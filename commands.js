@@ -436,7 +436,7 @@ global.mCommands = [
     		setTimeout(function(){
     			sIndex = mReservedSpots.indexOf(sHold);
     			if(sIndex != -1) mReservedSpots.splice(sIndex, 1);
-    		}, mHoldSpotForRefreshTime * 60000);
+    		}, mHoldSpotForRefreshTime * 1000);
     		pUser.PM(mReadyRefresh, SpeakingLevel.Misc);
     		pUser.RemoveDJ();
     	},
