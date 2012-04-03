@@ -705,7 +705,7 @@ global.InitMongoDB = function(){
     if(mMongoUser && mMongoPass) sConnectionString = mMongoUser+':'+mMongoPass+"@"+sConnectionString;
     Log("Connecting to: " + sConnectionString);
     if(mMongoHost && mMongoDatabase)
-    	(mMongoDB = mMongo.db(sConnectionString)).open(function(err,db){ mMongoDB = db; Log(db ? "Connected to Mongo" : "Not connected to Mongo D:"); });
+    	mMongoDB = mMongo.db(sConnectionString);
 	else mMongoDB = null;
 };
 
