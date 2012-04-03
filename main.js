@@ -77,7 +77,6 @@ global.mBootedQueue				= [];
 global.mWaitingSongLimit		= {};
 global.mSaving					= false;
 
-InitMongoDB();
 Log("Done");
 
 Log("Hooking events");
