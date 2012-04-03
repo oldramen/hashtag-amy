@@ -705,9 +705,8 @@ global.InitMongoDB = function(){
     if(mMongoUser && mMongoPass) sConnectionString = mMongoUser+':'+mMongoPass+"@"+sConnectionString;
     Log("Connecting to: " + sConnectionString);
     if(mMongoHost && mMongoDatabase)
-    	mMongoDB = mMongo.db(sConnectionString);
+    	mMongo.db(sConnectionString).open(function(err,db){ mMongoDB = db; });
 	else mMongoDB = null;
-	console.log(JSON.stringify(mMongoDB));
 };
 
 global.Refresh = function(pFrom, pCallback){
