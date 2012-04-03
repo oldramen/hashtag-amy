@@ -707,6 +707,7 @@ global.InitMongoDB = function(){
     if(mMongoHost && mMongoDatabase)
     	mMongoDB = mMongo.db(sConnectionString);
 	else mMongoDB = null;
+	console.log(JSON.stringify(mMongoDB));
 };
 
 global.Refresh = function(pFrom, pCallback){
