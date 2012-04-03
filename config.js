@@ -63,6 +63,7 @@ global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turn
 global.mDownVotesForOffGenre    = 3;
 global.mHoldSpotForRefreshTime	= 2;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 global.mMaxElapsedTimeForDJSpot	= 30000;
+global.mQueueGrabSpotTimeout	= 5;				//How many minutes we should hold a spot for someone when they are next in the queue and there is an open spot.
 
 global.mDefaultGreeting         = "/me hugs @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
@@ -78,7 +79,7 @@ global.mOverMaxSongsQueueOff    = null;
 global.mHelpMsg                 = "Hey, {user.name}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
 global.mWarnMsg                 = "Hey, @{username}, no falling asleep on deck!";  //the default warning message   
 global.mRemDJMsg                = "/tableflip {username}, you've been afk for too long.";
-global.mAdvanceQueue            = "Hey @{username}, it's your time to shine!  Please take your spot before 5 minutes has passed.'";
+global.mAdvanceQueue            = "Hey @{username}, it's your time to shine!  Please take your spot before "+mQueueGrabSpotTimeout+" minutes has passed.'";
 global.mWarnDJNotNextInQueue    = "Sorry, {username}, you have to wait your turn.  It's currently {nextinqueue}'s turn to get on deck.";
 global.mOpenSpotNoQueueing      = "Sorry, {username}, there's already an open spot.  Feel free to just hop up.";
 global.mQueueOff                = "I'm sorry but the queue is currently off.";

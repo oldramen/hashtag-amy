@@ -247,8 +247,15 @@ global.QueueAdvance = function(){
         mQueueNextUp = mQueue.shift();
     if(mQueueNextUp){
         mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
-        if(!mQueueNotified)
+        if(!mQueueNotified){
+        	mQueueTimeout = setTimeout(function(){
+		        mQueueWarned = [];
+		        mQueueNotified = false;
+		        mQueueNextUp = null;
+		        QueueAdvance();
+        	}, mQueueGrabSpotTimeout * 60000)
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
+        }
         mQueueNotified = true;
     }
     ParsingForQueue();
@@ -259,6 +266,7 @@ global.GuaranteeQueue = function(pUser){
         mQueueWarned = [];
         mQueueNotified = false;
         mQueueNextUp = null;
+        clearTimeout(mQueueTimeout);
         return true;
     }else{
         RemoveDJ(pUser);

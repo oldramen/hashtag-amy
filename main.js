@@ -57,6 +57,7 @@ global.mQueue           =   [];
 global.mQueueNextUp     =   null;
 global.mQueueWarned     =   [];
 global.mQueueNotified   =   false;
+global.mQueueTimeout	= 	null;
 
 global.mJustRemovedDJ   =   [];
 global.mReservedSpots	= 	[]; /// [{timestarted, userid}];
