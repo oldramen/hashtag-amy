@@ -794,8 +794,7 @@ BaseUser = function(){return {
 	    pSpeak = Parse(this, pSpeak, pArgs);
         if(SpeakingAllowed(pSpeakingLevel)) 
             mPMQueue.push([pSpeak, this.userid]);//mBot.pm(pSpeak, this.userid);
-        if(mNoSpamTimeout) mSpokenMessages.push({message: pSpeak, timestamp: (new Date()).getTime()});
-    	return pSpeak;
+        return pSpeak;
 	},
 	IsBot: function(){ return this.userid == mUserId; },
 	RemoveDJ: function(){
