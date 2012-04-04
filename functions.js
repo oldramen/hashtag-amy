@@ -30,9 +30,13 @@ global.OnRegistered = function(pData){
 };
 
 global.OnDeregistered = function(pData){
-    for(var i = 0, len = pData.user.length; i < len; ++i) 
-    	if(mUsers[pData.user[i].userid])
-    		mUsers[pData.user[i].userid].Remove();   //not quite done yet. 
+    for(var i = 0, len = pData.user.length; i < len; ++i)          
+    	if(mUsers[pData.user[i].userid]) {
+            var sUser = mUsers[pData.user[i].userid];
+            if(mQueue.indexOf(sUser.userid) !== -1) mQueue.splice(mQueue.indexOf(sUser.userid), 1);
+    		sUser.Remove();   //not quite done yet. 
+            
+            }
     // pData.user[i].RecentlyLeft = Date.now();
     CalculateProperties();
 };
