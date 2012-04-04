@@ -356,6 +356,7 @@ global.mCommands = [
     {
         command: 'setvar',
         callback: function(pUser, pText){
+            if (!pText) return;
             var sSplit = pText.split(' ');
             var sVariable = sSplit.shift();
             var sValue = sSplit.join(' ');
