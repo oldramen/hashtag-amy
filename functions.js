@@ -253,7 +253,7 @@ global.QueueAdvance = function(){
 		        mQueueNotified = false;
 		        mQueueNextUp = null;
 		        QueueAdvance();
-        	}, mQueueGrabSpotTimeout * 60000)
+        	}, mQueueGrabSpotTimeout * 1000)
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
         }
         mQueueNotified = true;
