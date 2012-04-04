@@ -105,22 +105,23 @@ global.mCommands = [
                   Speak(sUser, mModRemoveFromQueue, SpeakingLevel.Misc);//mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, mUsers[mQueue[0]].name));
                   mQueue.shift();
                 }else {
-                  pText = pText.replace("@", "^").trimRight() + "$";
-                  FindByName(pText, function(sUsers){
-	                  if(sUsers.length > 0)
-	                  for(var i = 0; i < sUsers.length; ++i){
-	                  	  sUser = sUser[i];
-		                  if(mQueue.indexOf(sUser.userid) === -1) return;
-		                  mQueue.splice(mQueue.indexOf(sUser.userid), 1)
-		                  Speak(sUser, mModRemoveFromQueue, SpeakingLevel.Misc)//mBot.speak(mModRemoveFromQueue.replace(/\{user\}/g, sUser.name));
-	                  }
-                  });
-                }
+                  FindByName(pText,function(sUser){
+                    for(var i = 0; i < sUser.length; ++i) {
+                       if(mQueue.indexOf(sUser[i].userid) === -1) return;
+                        if (sUser[i] == mUsers[mQueue[0]]) {
+                            mQueue.shift();
+                            return Speak(sUser[i], mModRemoveFromQueue, SpeakingLevel.Misc);
+                        } else {
+                            mQueue.splice(mQueue.indexOf(sUser[i].userid), 1);
+                            return Speak(sUser[i], mModRemoveFromQueue, SpeakingLevel.Misc);
+                        }
+                       }
+                    });
+                };
             };
         }, 
         requires: Requires.Moderator, 
-        hint: "Tells what the current status of the queue is.",
-        bare: true
+        hint: "Removes users from the queue"
     },
     {
         command: 'qstatus',
