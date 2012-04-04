@@ -194,6 +194,7 @@ global.OnNoSong = function(pData){
 global.Loop = function(){
     CheckAFKs();
     CalculateProperties();
+    mBot.updatePresence();
     if(mPushingOutGreeting.length)
     	Greet(mPushingOutGreeting);
     mPushingOutGreeting = [];
