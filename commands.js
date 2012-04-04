@@ -445,21 +445,16 @@ global.mCommands = [
     	hint: "Lets the user refresh and the bot will hold their spot for "+mHoldSpotForRefreshTime+" minutes."
     },
     {
-    	command: 'on',
+    	command: 'clap',
     	callback: function(pUser, pText){
-    		mQueueOn = true;
+            if (pText == 'on') mQueueOn = true;
+            if (pText == 'off') mQueueOn = false;
     		CalculateProperties();
+            if (!mQueueOn) return Speak(pUser, 'Queue is off', SpeakingLevel.Misc);
+            Speak(pUser, 'Queue is on', SpeakingLevel.Misc);
+
     	},
     	requires: Requires.Moderator,
     	hint: "Turns on the queue."
-    },
-    {
-    	command: 'off',
-    	callback: function(pUser, pText){
-    		mQueueOn = false;
-    		CalculateProperties();
-    	},
-    	requires: Requires.Moderator,
-    	hint: "Turns off the queue."
     }
 ];
