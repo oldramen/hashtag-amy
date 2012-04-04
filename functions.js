@@ -108,11 +108,12 @@ global.OnRemDJ = function(pData){
     sUser.Update();///Update_User(sUser, true);         /// Refreshing the information of the DJ that was added.
     mDJs.splice(mDJs.indexOf(sUser.userid),1);
     LonelyDJ();
-    if(mJustRemovedDJ.indexOf(sUser.userid) != -1)
+    if(mJustRemovedDJ.indexOf(sUser.userid) != -1) {
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
-    else
+    } else {
         Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
-    if(mQueueCurrentlyOn) QueueAdvance();        /// Advance the queue to the next person in line.
+        if(mQueueCurrentlyOn) QueueAdvance();    
+        }    /// Advance the queue to the next person in line.
 };
 
 global.OnNewSong = function(pData){
@@ -257,7 +258,7 @@ global.QueueAdvance = function(){
 		        mQueueNotified = false;
 		        mQueueNextUp = null;
 		        QueueAdvance();
-        	}, mQueueGrabSpotTimeout * 1000)
+        	}, mQueueGrabSpotTimeout * 1000);
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
         }
         mQueueNotified = true;
