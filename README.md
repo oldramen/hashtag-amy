@@ -1,5 +1,3 @@
-#THIS BOT DOES NOT WORK YET :D DON'T TRY AND INSTALL PLEASE :D
-
 # A Bot Named Amy
 
 This bot runs on [node.js](http://nodejs.org/), usings Alain Gilbert's [ttapi library](https://github.com/alaingilbert/Turntable-API).  
