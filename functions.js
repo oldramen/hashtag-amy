@@ -112,8 +112,11 @@ global.OnRemDJ = function(pData){
         mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid),1); /// Don't treat them like a normal DJ if we just forced them to step down.
     } else {
         Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
-        if(mQueueCurrentlyOn) QueueAdvance();    
         }    /// Advance the queue to the next person in line.
+    if(mQueueWarned.indexOf(sUser.userid) != -1) return console.log('was warned');
+    console.log('should be processing the queue')
+    if(mQueueCurrentlyOn) QueueAdvance();    
+
 };
 
 global.OnNewSong = function(pData){
@@ -275,7 +278,7 @@ global.GuaranteeQueue = function(pUser){
         clearTimeout(mQueueTimeout);
         return true;
     }else{
-        pUser.RemoveDJ();
+        if(!pUser.isBot()) mBot.remDj(pUser.userid);
         if(mQueueWarned.indexOf(pUser.userid) == -1){
             Speak(pUser, mWarnDJNotNextInQueue, SpeakingLevel.Misc);
             mQueueWarned.push(pUser);
