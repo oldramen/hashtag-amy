@@ -249,13 +249,14 @@ global.RemoveOldMessages = function(){
 global.QueueAdvance = function(){
     if(!mQueueNextUp)
         mQueueNextUp = mQueue.shift();
-    if(mQueueNextUp){
+    if(mQueueNextUp && !mQueueTimeout){
         mParsing['{nextinqueue}'] = mUsers[mQueueNextUp].name;
         if(!mQueueNotified){
             mQueueTimeout = setTimeout(function(){
                 mQueueWarned = [];
                 mQueueNotified = false;
                 mQueueNextUp = null;
+                mQueueTimeout = null;
                 QueueAdvance();
             }, mQueueGrabSpotTimeout * 1000)
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
@@ -270,6 +271,7 @@ global.GuaranteeQueue = function(pUser){
         mQueueWarned = [];
         mQueueNotified = false;
         mQueueNextUp = null;
+        mQueueTimeout = null;
         clearTimeout(mQueueTimeout);
         return true;
     }else{
