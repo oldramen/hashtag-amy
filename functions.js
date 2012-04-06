@@ -257,9 +257,10 @@ global.QueueAdvance = function(){
                 mQueueNotified = false;
                 mQueueNextUp = null;
                 mQueueTimeout = null;
-                QueueAdvance();
                 console.log("Missed chance, advancing queue.");
+                QueueAdvance();
             }, mQueueGrabSpotTimeout * 1000)
+            console.log("Timeout in ",mQueueGrabSpotTimeout * 1000);
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
         }
         mQueueNotified = true;
