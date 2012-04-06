@@ -63,7 +63,7 @@ global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turn
 global.mDownVotesForOffGenre    = 3;
 global.mHoldSpotForRefreshTime	= 120;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 global.mMaxElapsedTimeForDJSpot	= 30000;
-global.mQueueGrabSpotTimeout	= 5;				//How many minutes we should hold a spot for someone when they are next in the queue and there is an open spot.
+global.mQueueGrabSpotTimeout	= 30;				//How many seconds we should hold a spot for someone when they are next in the queue and there is an open spot.
 
 global.mDefaultGreeting         = "/me hugs @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
@@ -112,6 +112,7 @@ global.mOffGenre				= "I'm sorry, but your song seems to be off genre, and we ha
 global.mPMWillBootOffDeck		= "Alright, I'll boot you off the deck at the end of your song.";
 global.mReadyRefresh			= "Okay, you can go ahead and refresh and I'll make sure you get your spot back.";
 global.mSpotOpenFor				= "The DJ Spot was open for {opentime} seconds. ";
+global.mMissedSpot				= "Sorry, {username}, you missed your chance to get on deck.";
 
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 

@@ -258,6 +258,7 @@ global.QueueAdvance = function(){
                 mQueueNextUp = null;
                 mQueueTimeout = null;
                 QueueAdvance();
+                console.log("Missed chance, advancing queue.");
             }, mQueueGrabSpotTimeout * 1000)
             Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
         }
