@@ -174,8 +174,9 @@ global.OnVote = function(pData){
         var sUserId = sVotes[0];
         var sUser = mUsers[sUserId];
         if (sUser && !sUser.IsBot()){
-             sVoters.push(sUser.userid);
+             sVoters.push(sUser);
              ///Variable to update user on vote if configured?
+             Update_Users(sVoters, true);
         }
     }
       return sVoters;
