@@ -91,7 +91,3 @@ mBot.on("snagged", OnSnagged);
 mBot.on("nosong", OnNoSong);
 mBot.on("update_votes", OnVote);
 Log("Done");
-
-setInterval(function(){
-	console.log("Testing! :D");
-}, 1000);
