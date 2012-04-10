@@ -238,7 +238,7 @@ global.Greet = function(pUsers){
 global.CheckAutoBan = function(pUser, pText){
     var joinedTimeAgo = Date.now() - pUser.joinedTime;
     if(mAutoBanOnTTLink){
-        if(joinedTimeAgo < mAutoBanOnTTLinkTime && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser, "Autobanned: spamming our room ("+pText+")", true);
+        if(joinedTimeAgo < mAutoBanOnTTLinkTime && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser.name, "Autobanned: spamming our room ("+pText+")", true);
     }
 }
 
