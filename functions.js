@@ -210,6 +210,7 @@ global.Loop = function(){
             mSaving = false;
         }, mSaveTimeout * 1000);
     }
+    Log("Looping.")
 };
 
 global.Greet = function(pUsers){
