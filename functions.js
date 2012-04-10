@@ -191,6 +191,7 @@ global.OnNoSong = function(pData){
 }
 
 global.Loop = function(){
+    Log("Looping.");
     CheckAFKs();
     CalculateProperties();
     if(mPushingOutGreeting.length)
@@ -210,7 +211,6 @@ global.Loop = function(){
             mSaving = false;
         }, mSaveTimeout * 1000);
     }
-    Log("Looping.")
 };
 
 global.Greet = function(pUsers){
