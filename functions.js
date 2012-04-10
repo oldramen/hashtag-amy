@@ -355,11 +355,11 @@ global.BootUp = function(){
     Log("Joined the room.  Booting up");
     SetMyName(mName);
     SetLaptop();
+    setInterval(function(){
+    	setTimeout(Loop, 1);
+    }, mLoopTimeout * 1000);
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
-        setInterval(function(){
-        	setTimeout(Loop, 1);
-        }, mLoopTimeout * 1000);
         mBooted = true;
         Log("Booted up.  We're set to go");
         LonelyDJ();
