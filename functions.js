@@ -192,7 +192,6 @@ global.OnNoSong = function(pData){
 }
 
 global.Loop = function(){
-    Log("Looping.");
     CheckAFKs();
     CalculateProperties();
     if(mPushingOutGreeting.length)
@@ -356,10 +355,8 @@ global.BootUp = function(){
     SetMyName(mName);
     SetLaptop();
     mLoopInterval = setInterval(function(){
-		Log("Is this not called?  o_o");
     	Loop();
     }, mLoopTimeout * 1000);
-    Log("o_o..." + mLoopTimeout + " - " + mLoopInterval);
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
         mBooted = true;
