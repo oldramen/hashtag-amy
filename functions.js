@@ -356,8 +356,10 @@ global.BootUp = function(){
     SetMyName(mName);
     SetLaptop();
     setInterval(function(){
+		Log("Is this not called?  o_o");
     	setTimeout(Loop, 1);
     }, mLoopTimeout * 1000);
+    Log("o_o...");
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
         mBooted = true;
