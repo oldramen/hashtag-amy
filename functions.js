@@ -356,7 +356,7 @@ global.BootUp = function(){
     SetLaptop();
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
-        setInterval(Loop, mLoopTimeout);
+        setInterval(Loop, mLoopTimeout * 1000);
         mBooted = true;
         Log("Booted up.  We're set to go");
         LonelyDJ();
