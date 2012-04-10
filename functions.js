@@ -355,11 +355,11 @@ global.BootUp = function(){
     Log("Joined the room.  Booting up");
     SetMyName(mName);
     SetLaptop();
-    var sIntervalID = setInterval(function(){
+    mLoopInterval = setInterval(function(){
 		Log("Is this not called?  o_o");
     	Loop();
     }, mLoopTimeout * 1000);
-    Log("o_o..." + mLoopTimeout + " - " + sIntervalID);
+    Log("o_o..." + mLoopTimeout + " - " + mLoopInterval);
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
         mBooted = true;

@@ -17,7 +17,6 @@ if (mWaiter) require("./menu.js");
 
 Log("Initializing");
 //Let's set some constant variables.
-global.mUsers           =   {length: 0};
 
 global.mCurrentSong = {
 	songName: "",
@@ -26,11 +25,7 @@ global.mCurrentSong = {
 	heartCount: -1
 }
 
-/*global.mSongName        =   "";
-global.mUpVotes         =   0;
-global.mDownVotes       =   0;
-global.mSongCount       =   {};*/
-
+global.mUsers           =   {length: 0};
 global.mDJs             =   [];
 global.mCurrentDJ       =   null; /// Will be a user ( type )
 global.mRecentlyLeft	=	{};
@@ -40,6 +35,7 @@ global.mRoomShortcut	= 	"";
 global.mMaxDJs          =   5;
 global.mDJDropTime		= 	Date.now();
 
+global.mLoopInterval	= 	null;
 global.mParsing         =   {};
 global.mMongoDB         =   null;
 Log("Loading up with the Auth ID: " + mAuthId + " and userid: " + mUserId + " into roomid: " + mRoomId);
