@@ -193,27 +193,25 @@ global.OnNoSong = function(pData){
 
 global.Loop = function(){
     Log("Looping.");
-    setTimeout(function(){
-	    CheckAFKs();
-	    CalculateProperties();
-	    if(mPushingOutGreeting.length)
-	        Greet(mPushingOutGreeting);
-	    mPushingOutGreeting = [];
-	    if(mNoSpamTimeout) RemoveOldMessages();
-	    var sPM = mPMQueue.shift();
-	    if(sPM) mBot.pm(sPM[0], sPM[1]);
-	    if(!mSaving){ 
-	        mSaving = true;
-	        setTimeout(function(){
-	            var sKeys = _.keys(mUsers);
-	            for(var i = 0; i < sKeys.length; ++i){
-	                var sUser = mUsers[sKeys[i]];
-	                if(sUser.Save) sUser.Save();
-	            }
-	            mSaving = false;
-	        }, mSaveTimeout * 1000);
-	    }
-    }, 1);
+    CheckAFKs();
+    CalculateProperties();
+    if(mPushingOutGreeting.length)
+        Greet(mPushingOutGreeting);
+    mPushingOutGreeting = [];
+    if(mNoSpamTimeout) RemoveOldMessages();
+    var sPM = mPMQueue.shift();
+    if(sPM) mBot.pm(sPM[0], sPM[1]);
+    if(!mSaving){ 
+        mSaving = true;
+        setTimeout(function(){
+            var sKeys = _.keys(mUsers);
+            for(var i = 0; i < sKeys.length; ++i){
+                var sUser = mUsers[sKeys[i]];
+                if(sUser.Save) sUser.Save();
+            }
+            mSaving = false;
+        }, mSaveTimeout * 1000);
+    }
 };
 
 global.Greet = function(pUsers){
@@ -359,7 +357,9 @@ global.BootUp = function(){
     SetLaptop();
     mBot.roomInfo(function(pData){
         OnGotRoomInfo(pData);
-        setInterval(Loop, mLoopTimeout * 1000);
+        setInterval(function(){
+        	setTimeout(Loop, 1);
+        }, mLoopTimeout * 1000);
         mBooted = true;
         Log("Booted up.  We're set to go");
         LonelyDJ();
