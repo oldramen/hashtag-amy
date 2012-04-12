@@ -624,48 +624,46 @@ global.Parse = function(pUser, pString, pArgs){
     return pString;
 };
 
+global.EscapeString = function(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 global.FindByName = function(pName, pCallback){
-    if(!pCallback){ 
-        Log("Was going to find by name, but no callback, so returning");
-        return;
-    }
-    pName = pName.replace("@", "^").trimRight() + "$";
+    pName = EscapeString(pName).replace("@", "^").trimRight() + "$";
     Log("Finding by name: " + pName);
-    if(mMongoDB){
+    if(mMongoDB && pCallback){
         mMongoDB.collection(mRoomShortcut).find({'name': {'$regex': pName}}, function(err, cursor){
             cursor.toArray(function(err,array){
                 var sResults = {};
                 array.forEach(function(e){
                     sResults[e.userid] = BaseUser().extend(e);
                 });
-                var sUserIDs = _.keys(mUsers);
-                sUserIDs.splice(0,1);
-                for(var i = 0; i < sUserIDs.length; ++i){
-                    var sUserID = sUserIDs[i];
-                    if(mUsers[sUserID].name.match(pName)){
-                        //Results.push(mUsers[sUserID]);
-                        if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
-                        else sResults[sUserID] = mUsers[sUserID];
-                    }
-                }
+                sResults = FindByNameLocal(pName, sResults);
                 pCallback(_.values(sResults));
             });
         });
      }else{
-        var sResults = {};
-        var sUserIDs = _.keys(mUsers);
-        sUserIDs.splice(0,1);
-        for(var i = 0; i < sUserIDs.length; ++i){
-            var sUserID = sUserIDs[i];
-            if(mUsers[sUserID].name.match(pName)){
-                //Results.push(mUsers[sUserID]);
-                if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
-                else sResults[sUserID] = mUsers[sUserID];
-            }
-        }
-        pCallback(_.values(sResults));
+        var sResults = FindByNameLocal(pName);
+        if(pCallback) pCallback(_.values(sResults));
+        return sResults;
      }
 };
+
+global.FindByNameLocal = function(pName, pResults){
+	var sResults = pResults ? pResults : {},
+		sUserIDs = _.keys(mUsers);
+    sUserIDs.splice(0,1);
+    for(var i = 0; i < sUserIDs.length; ++i){
+        var sUserID = sUserIDs[i];
+        if(mUsers[sUserID].name.match(pName)){
+            //Results.push(mUsers[sUserID]);
+            if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
+            else sResults[sUserID] = mUsers[sUserID];
+        }
+    }
+    return sResults;
+}
+
 global.Ban = function(pName, pReason, pAuto){
     if(pAuto && mAutoBanBoots && pName.userid){
         pName.Boot(pReason);
