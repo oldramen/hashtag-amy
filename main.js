@@ -70,7 +70,6 @@ global.mPushingOutGreeting      = [];
 global.mSpokenMessages          = [];
 global.mPMQueue					= [];
 global.mBootedQueue				= [];
-global.mWaitingSongLimit		= {};
 global.mSaving					= false;
 
 Log("Done");

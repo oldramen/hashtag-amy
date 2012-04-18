@@ -92,6 +92,10 @@ global.OnAddDJ = function(pData){
         sUser.RemoveDJ();
         sUser.PM(mNotOnWhiteList, SpeakingLevel.Misc)
     }
+    if(sUser.mWaitingSongLimit){
+    	sUser.RemoveDJ();
+        sUser.PM(mHaveToWait, SpeakingLevel.Misc);
+    }
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
     if(!mCurrentDJ) mCurrentDJ = sUser;
@@ -128,13 +132,12 @@ global.OnNewSong = function(pData){
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
     if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
     if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) setTimeout(function(){ mBot.vote("up"); }, 5000);
-    var sUsersWaiting = _.keys(mWaitingSongLimit);
-    for(var i = 0; i < sUsersWaiting.length; ++i){
-        var sUserId = sUsersWaiting[i];
-        --mWaitingSongLimit[sUserId];
-        if(!mWaitingSongLimit[sUserId]){
-            delete mWaitingSongLimit[sUserId];
-            mUsers[sUserId].songCount = 0;
+    for(var sUserId in mUsers){
+        var sUser = mUsers[sUserId];
+        --sUser.mWaitingSongLimit;
+        if(sUser.mWaitingSongLimit <= 0){
+        	sUser.mWaitingSongLimit = 0;
+        	sUser.songCount = 0;
         }
     }
 };
@@ -814,7 +817,7 @@ BaseUser = function(){return {
     OverMaxSongs : function(){
         this.RemoveDJ();
         Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
-        mWaitingSongLimit[this.userid] = mWaitSongs;
+        this.mWaitingSongLimit = mWaitSongs;
     },
     Increment_SongCount : function(){
       ++this.songCount;
