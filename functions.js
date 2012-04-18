@@ -783,6 +783,7 @@ BaseUser = function(){return {
     afkWarned: false,
     afkTime: Date.now(),
     songCount: 0,
+    mWaitingSongLimit: 0,
     totalSongCount: 0,
     customGreeting: null,
     bootAfterSong: false,
