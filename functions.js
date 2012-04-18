@@ -88,10 +88,13 @@ global.OnAddDJ = function(pData){
         }
     }else sUser.allowedToReserveSpot = true;
     console.log(sUser.name, sUser.mWaitingSongLimit)
-    if(sUser.mWaitingSongLimit){
+    if(sUser.mWaitingSongLimit && sElapsedTimeMS < mMaxElapsedTimeForDJSpot){
     	sUser.RemoveDJ();
         sUser.PM(mHaveToWait, SpeakingLevel.Misc);
         return;
+    }else if (sElapsedTimeMS > mMaxElapsedTimeForDJSpot && mIgnoreSongCountOpenSpot){
+    	sUser.songCount = 0;
+    	sUser.mWaitingSongLimit = 0;
     }
     sUser.Update();
     if(mWhiteListEnabled && !sUser.whiteList && !sUser.IsBot()){
