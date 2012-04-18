@@ -92,7 +92,7 @@ global.OnAddDJ = function(pData){
     	sUser.RemoveDJ();
         sUser.PM(mHaveToWait, SpeakingLevel.Misc);
         return;
-    }else if (sElapsedTimeMS > mMaxElapsedTimeForDJSpot && mIgnoreSongCountOpenSpot){
+    }else if ((sElapsedTimeMS > mMaxElapsedTimeForDJSpot && mIgnoreSongCountOpenSpot) || (mIgnoreSongCountOnLonely && mUsingLonelyDJ)){
     	sUser.songCount = 0;
     	sUser.mWaitingSongLimit = 0;
     }
