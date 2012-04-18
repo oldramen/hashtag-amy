@@ -86,15 +86,16 @@ global.OnAddDJ = function(pData){
             sUser.allowedToReserveSpot = false;
             sUser.RemoveDJ();
         }
-    }else sUser.allowedToReserveSpot = true;
+    }else sUser.allowedToReserveSpot = true;if(sUser.mWaitingSongLimit){
+    	sUser.RemoveDJ();
+        sUser.PM(mHaveToWait, SpeakingLevel.Misc);
+        return;
+    }
     sUser.Update();
     if(mWhiteListEnabled && !sUser.whiteList && !sUser.IsBot()){
         sUser.RemoveDJ();
-        sUser.PM(mNotOnWhiteList, SpeakingLevel.Misc)
-    }
-    if(sUser.mWaitingSongLimit){
-    	sUser.RemoveDJ();
-        sUser.PM(mHaveToWait, SpeakingLevel.Misc);
+        sUser.PM(mNotOnWhiteList, SpeakingLevel.Misc);
+        return;
     }
     if(mQueueCurrentlyOn) 
         if(!GuaranteeQueue(sUser)) return;      /// Guarantee that the next user in the queue is getting up.
