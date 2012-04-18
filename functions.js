@@ -86,7 +86,9 @@ global.OnAddDJ = function(pData){
             sUser.allowedToReserveSpot = false;
             sUser.RemoveDJ();
         }
-    }else sUser.allowedToReserveSpot = true;if(sUser.mWaitingSongLimit){
+    }else sUser.allowedToReserveSpot = true;
+    console.log(sUser.name, sUser.mWaitingSongLimit)
+    if(sUser.mWaitingSongLimit){
     	sUser.RemoveDJ();
         sUser.PM(mHaveToWait, SpeakingLevel.Misc);
         return;

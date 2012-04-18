@@ -74,7 +74,7 @@ global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
 global.mEndSong                 = "{songtitle}: {up} ↑, {down} ↓, {heartcount} <3.";
-global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} songs to get back up.";
+global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} song(s) to get back up.";
 global.mOverMaxSongsQueueOff    = null;
 global.mHelpMsg                 = "Hey, {user.name}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
 global.mWarnMsg                 = "Hey, @{username}, no falling asleep on deck!";  //the default warning message   
@@ -112,6 +112,7 @@ global.mOffGenre				= "I'm sorry, but your song seems to be off genre, and we ha
 global.mPMWillBootOffDeck		= "Alright, I'll boot you off the deck at the end of your song.";
 global.mReadyRefresh			= "Okay, you can go ahead and refresh and I'll make sure you get your spot back.";
 global.mSpotOpenFor				= "The DJ Spot was open for {opentime} seconds. ";
+global.mHaveToWait				= "I'm sorry but you have to wait {user.mWaitingSongLimit} song(s) to get back up.";
 
 ///global.mCanAdds                 = false;            //whether or not mods can add songs to bot's queue ///TODO: Why is this needed?
 
