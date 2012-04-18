@@ -63,6 +63,7 @@ global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turn
 global.mDownVotesForOffGenre    = 3;
 global.mHoldSpotForRefreshTime	= 120;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 global.mMaxElapsedTimeForDJSpot	= 30000;
+global.mIgnoreSongCountOpenSpot = true;				//If the time that the spot was open for is longer than mMaxElapsedTimeForDJSpot, that person will be allowed up if this is true.
 global.mQueueGrabSpotTimeout	= 30;				//How many seconds we should hold a spot for someone when they are next in the queue and there is an open spot.
 
 global.mDefaultGreeting         = "/me hugs @{usernames}, welcome to {room}!"; //the default greeting message "Hey, {username}, welcome to {room}!"
