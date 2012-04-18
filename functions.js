@@ -123,6 +123,14 @@ global.OnRemDJ = function(pData){
 };
 
 global.OnNewSong = function(pData){
+    for(var sUserId in mUsers){
+        var sUser = mUsers[sUserId];
+        --sUser.mWaitingSongLimit;
+        if(sUser.mWaitingSongLimit <= 0){
+        	sUser.mWaitingSongLimit = 0;
+        	sUser.songCount = 0;
+        }
+    }
     if(mCurrentDJ){
         if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
         if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
@@ -135,14 +143,6 @@ global.OnNewSong = function(pData){
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
     if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
     if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) setTimeout(function(){ mBot.vote("up"); }, 5000);
-    for(var sUserId in mUsers){
-        var sUser = mUsers[sUserId];
-        --sUser.mWaitingSongLimit;
-        if(sUser.mWaitingSongLimit <= 0){
-        	sUser.mWaitingSongLimit = 0;
-        	sUser.songCount = 0;
-        }
-    }
 };
 
 global.OnSpeak = function(pData){
