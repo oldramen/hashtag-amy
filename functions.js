@@ -129,13 +129,13 @@ global.OnNewSong = function(pData){
     for(var sUserId in mUsers){
         var sUser = mUsers[sUserId];
         --sUser.mWaitingSongLimit;
-        if(sUser.mWaitingSongLimit <= 0){
+        if(sUser.mWaitingSongLimit <= 0 || (mUsingLonelyDJ && !mCheckSongCountWithLonely)){
         	sUser.mWaitingSongLimit = 0;
         	sUser.songCount = 0;
         }
     }
     if(mCurrentDJ){
-        if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit) mCurrentDJ.OverMaxSongs(mCurrentDJ);
+        if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit && !(mUsingLonelyDJ && !mCheckSongCountWithLonely)) mCurrentDJ.OverMaxSongs(mCurrentDJ);
         if(mCurrentDJ.bootAfterSong){ mCurrentDJ.RemoveDJ(); }
     }
     mParsing['{heartcount}'] = 0;
