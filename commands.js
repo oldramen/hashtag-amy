@@ -24,7 +24,7 @@ global.mCommands = [
     },
     { 
         command: 'crash',
-        callback: TheBotWillCrash=IfWeTryTo.exec(AVarThatDoesntExist);
+        callback: function () { TheBotWillCrash=IfWeTryTo.exec(AVarThatDoesntExist) },
         requires: Requires.Owner,
         hint: "Crashes the bot. Don't do unless necessary."
     },
@@ -46,7 +46,7 @@ global.mCommands = [
             	Unban(pText);
         },
         requires: Requires.Moderator, 
-        hint: "Add a user to the ban list and kicks them from the room."
+        hint: "Removes a user from the ban list."
     },
     {
         command: 'say',        
@@ -162,7 +162,7 @@ global.mCommands = [
             });
         },
         requires: Requires.Moderator,
-        hint: "Remove a DJ"
+        hint: "Boot a User"
     },
     {
         command: 'slap',
@@ -267,7 +267,7 @@ global.mCommands = [
             Speak(pUser, this.message, SpeakingLevel.Misc);
         },
         requires: mModBop ? Requires.Moderator : Requires.User,
-        hint: "Makes the bot dance.  Can not be done by regular users."
+        hint: "Makes the bot dance." + (mModBop ? "  Can not be done by regular users." : "")
     },
     {
         command: ['dance','bop'],
@@ -374,34 +374,31 @@ global.mCommands = [
     {
         command: 'toggle',
         callback: function(pUser, pText){
-            var sVal;
+            var sVal = true;
+            var sVar
             if (pText == 'q' || pText == 'queue'){
-                pText == 'global.mQueueOn';
+                sVar == 'global.mQueueOn';
                 if (global.mQueueOn) sVal = false;
-                else sVal = true;
-            };
-            if (pText == 'afk' || pText == 'afklimit'){
-                pText == 'global.mAFK';
-                if (global.mAFK) sVal = false;
-                else sVal = true;
             };
             if (pText == 'limit' || pText == 'songlimit'){
-                pText == 'global.mLimitOn';
+                sVar == 'global.mLimitOn';
                 if (global.mLimitOn) sVal = false;
-                else sVal = true;
             };
             if (pText == 'lonely' || pText == 'lonelydj'){
-                pText == 'global.mLonelyDJ';
+                sVar == 'global.mLonelyDJ';
                 if (global.mLonelyDJ) sVal = false;
-                else sVal = true;
             };
             if (pText == 'whitelist'){
-                pText == 'global.mWhiteListEnabled';
+                sVar == 'global.mWhiteListEnabled';
                 if (global.mWhiteListEnabled) sVal = false;
-                else sVal = true;
             };
-            Speak(pUser, "Setting " + pText + " to " + sVal, SpeakingLevel.Misc, null, true);
-            eval(pText + " = " + sVal);
+            if (pText == 'warn'){
+                sVar == 'global.mWarn';
+                if (global.mWarn) sVal = false;
+            };
+            Speak(pUser, "Setting " + sVar + " to " + sVal, SpeakingLevel.Misc, null, true);
+            eval(sVar + " = " + sVal);
+            CalculateProperties();
         },
         requires: Requires.Owner,
         hint: "Used to toggle variables.  q, afk, limit, lonelydj, whitelist"
@@ -416,14 +413,9 @@ global.mCommands = [
             if (sVariable == 'greet' || sVariable == 'greeting') sVariable = 'global.mDefaultGreeting';
             if (sVariable == 'theme') sVariable == 'global.mTheme';
             if (sVariable == 'help') sVariable == 'global.mHelpMsg';
-            if (sVariable == 'limit' || sVariable == 'songlimit' && sValue != 'off' || sValue != 'on') sVariable = 'global.mMaxSongs';
-            if (sVariable == 'limit' || sVariable == 'songlimit' && sValue == 'off' || sValue == 'on') sVariable = 'global.mLimitOn';
+            if (sVariable == 'limit' || sVariable == 'songlimit') sVariable = 'global.mMaxSongs';
             if (sVariable == 'wait' || sVariable == 'songwait') sVariable = 'global.mWaitSongs';
-            if (sVariable == 'queue' || sVariable == 'q') sVariable = 'global.mQueueOn';
-            if (sVariable == 'afk') sVariable = 'global.mAFK';
-            if (sVariable == 'warn') sVariable = 'global.mWarn';
-            if (sValue == 'on') sValue = true;
-            if (sValue == 'off') sValue = false;
+            if (sVariable == 'afk' || sVariable == 'afklimit') sVariable = 'global.mAFK';
             Log("Setting " + sVariable + " to have the value of " + sValue);
             Speak(pUser, "Setting " + sVariable + " to have the value of " + sValue, SpeakingLevel.Misc, null, true);
             eval(sVariable + ' = ' + sValue);

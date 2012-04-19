@@ -573,8 +573,10 @@ global.HandleCommand = function(pUser, pText, pPM){
         return (pCommand.command && pCommand.command == sCommand) || (typeof(pCommand.command) == "object" && pCommand.command.length && pCommand.command.indexOf(sCommand) != -1);
     });
     sCommands.forEach(function(pCommand){ 
-        if(pCommand.requires.check(pUser))
+        if(pCommand.requires.check(pUser)) {
+            if (pText == 'hint' || pText == 'help') return Speak(pUser, pCommand.hint, SpeakingLevel.Misc, null, true);
             pCommand.callback(pUser, pText);
+        }
     });
 };
 
