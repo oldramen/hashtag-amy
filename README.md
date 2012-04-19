@@ -12,5 +12,10 @@ It is currently in Development.
 -Bans(needs work?)  
 -Universal and bare command parseing  
 
+# Note
+
+While it makes sense to run ```node main.js```
+we aren't normal, so you'll ahve to run ```node config.js```
+
 ## Too Much?
 Contact me - I offer Dedicated Bot Hosting And Management for $5/Month.
