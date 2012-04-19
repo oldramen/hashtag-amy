@@ -207,16 +207,6 @@ global.mCommands = [
         hint: "Used to disable variables.  Handle with care."
     },
     {
-        command: 'settheme',
-        callback: function(pUser, pText){
-            mTheme = pText;
-            mParsing['{theme}'] = mTheme;
-            Speak(pUser, mThemeIs, SpeakingLevel.Misc);
-        },
-        requires: Requires.Moderator,
-        hint: "Set/change the theme."
-    },
-    {
         command: 'djs',
         callback: function(pUser, pText){
             var sDJSongCount = [];
@@ -372,6 +362,74 @@ global.mCommands = [
         },
         requires: Requires.Owner,
         hint: "Temporarily changes options"
+    },
+    {
+        command: 'disable',
+        callback: function(pUser, pText){
+            eval(pText + " = null");
+        },
+        requires: Requires.Owner,
+        hint: "Used to disable variables.  Handle with care."
+    },
+    {
+        command: 'toggle',
+        callback: function(pUser, pText){
+            var sVal;
+            if (pText == 'q' || pText == 'queue'){
+                pText == 'global.mQueueOn';
+                if (global.mQueueOn) sVal = false;
+                else sVal = true;
+            };
+            if (pText == 'afk' || pText == 'afklimit'){
+                pText == 'global.mAFK';
+                if (global.mAFK) sVal = false;
+                else sVal = true;
+            };
+            if (pText == 'limit' || pText == 'songlimit'){
+                pText == 'global.mLimitOn';
+                if (global.mLimitOn) sVal = false;
+                else sVal = true;
+            };
+            if (pText == 'lonely' || pText == 'lonelydj'){
+                pText == 'global.mLonelyDJ';
+                if (global.mLonelyDJ) sVal = false;
+                else sVal = true;
+            };
+            if (pText == 'whitelist'){
+                pText == 'global.mWhiteListEnabled';
+                if (global.mWhiteListEnabled) sVal = false;
+                else sVal = true;
+            };
+            Speak(pUser, "Setting " + pText + " to " + sVal, SpeakingLevel.Misc, null, true);
+            eval(pText + " = " + sVal);
+        },
+        requires: Requires.Owner,
+        hint: "Used to toggle variables.  q, afk, limit, lonelydj, whitelist"
+    },
+    {
+        command: 'set',
+        callback: function(pUser, pText){
+            if (!pText) return;
+            var sSplit = pText.split(' ');
+            var sVariable = sSplit.shift();
+            var sValue = sSplit.join(' ');
+            if (sVariable == 'greet' || sVariable == 'greeting') sVariable = 'global.mDefaultGreeting';
+            if (sVariable == 'theme') sVariable == 'global.mTheme';
+            if (sVariable == 'help') sVariable == 'global.mHelpMsg';
+            if (sVariable == 'limit' || sVariable == 'songlimit' && sValue != 'off' || sValue != 'on') sVariable = 'global.mMaxSongs';
+            if (sVariable == 'limit' || sVariable == 'songlimit' && sValue == 'off' || sValue == 'on') sVariable = 'global.mLimitOn';
+            if (sVariable == 'wait' || sVariable == 'songwait') sVariable = 'global.mWaitSongs';
+            if (sVariable == 'queue' || sVariable == 'q') sVariable = 'global.mQueueOn';
+            if (sVariable == 'afk') sVariable = 'global.mAFK';
+            if (sVariable == 'warn') sVariable = 'global.mWarn';
+            if (sValue == 'on') sValue = true;
+            if (sValue == 'off') sValue = false;
+            Log("Setting " + sVariable + " to have the value of " + sValue);
+            Speak(pUser, "Setting " + sVariable + " to have the value of " + sValue, SpeakingLevel.Misc, null, true);
+            eval(sVariable + ' = ' + sValue);
+        },
+        requires: Requires.Owner,
+        hint: "Temporarily changes options: greet, theme, help, limit, wait, queue, afk, warn"
     },
     {
     	command: 'userid',
