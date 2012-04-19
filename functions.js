@@ -33,6 +33,13 @@ global.OnDeregistered = function(pData){
     for(var i = 0, len = pData.user.length; i < len; ++i)          
         if(mUsers[pData.user[i].userid]) {
             var sUser = mUsers[pData.user[i].userid];
+            if (sUser.IsBot()) {
+                Log("Was removed from the room");
+                setTimeout(function(){
+                    Log("Attempting to rejoin");
+                    mBot.roomRegister(mRoomId);
+                }, 5000);
+            };
             if(mQueue.indexOf(sUser.userid) !== -1) mQueue.splice(mQueue.indexOf(sUser.userid), 1);
             sUser.Remove();   //not quite done yet. 
             
