@@ -22,6 +22,12 @@ global.mCommands = [
         bare: true,
         pm: true
     },
+    { 
+        command: 'crash',
+        callback: TheBotWillCrash=IfWeTryTo.exec(AVarThatDoesntExist);
+        requires: Requires.Owner,
+        hint: "Crashes the bot. Don't do unless necessary."
+    },
     {
         command: 'ban',
         callback: function(pUser, pText){
