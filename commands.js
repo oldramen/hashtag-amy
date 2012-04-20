@@ -375,33 +375,34 @@ global.mCommands = [
         command: 'toggle',
         callback: function(pUser, pText){
             var sVal = true;
-            var sVar
+            var sOn = 'on';
+            var sVar;
             if (pText == 'q' || pText == 'queue'){
-                sVar == 'global.mQueueOn';
+                sVar = 'global.mQueueOn';
                 if (global.mQueueOn) sVal = false;
             };
             if (pText == 'limit' || pText == 'songlimit'){
-                sVar == 'global.mLimitOn';
+                sVar = 'global.mLimitOn';
                 if (global.mLimitOn) sVal = false;
             };
             if (pText == 'lonely' || pText == 'lonelydj'){
-                sVar == 'global.mLonelyDJ';
+                sVar = 'global.mLonelyDJ';
                 if (global.mLonelyDJ) sVal = false;
             };
             if (pText == 'whitelist'){
-                sVar == 'global.mWhiteListEnabled';
+                sVar = 'global.mWhiteListEnabled';
                 if (global.mWhiteListEnabled) sVal = false;
             };
             if (pText == 'warn'){
-                sVar == 'global.mWarn';
+                sVar = 'global.mWarn';
                 if (global.mWarn) sVal = false;
             };
-            Speak(pUser, "Setting " + sVar + " to " + sVal, SpeakingLevel.Misc, null, true);
+            if (!sVal) sOn = 'off';
+            Speak(pUser, "Turning " + pText + " " + sOn, SpeakingLevel.Misc, null, true);
             eval(sVar + " = " + sVal);
-            CalculateProperties();
         },
         requires: Requires.Owner,
-        hint: "Used to toggle variables.  q, afk, limit, lonelydj, whitelist"
+        hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn"
     },
     {
         command: 'set',
@@ -421,7 +422,7 @@ global.mCommands = [
             eval(sVariable + ' = ' + sValue);
         },
         requires: Requires.Owner,
-        hint: "Temporarily changes options: greet, theme, help, limit, wait, queue, afk, warn"
+        hint: "Temporarily changes options: greet, theme, help, limit, wait, afk"
     },
     {
     	command: 'userid',
