@@ -400,6 +400,9 @@ global.mCommands = [
             if (!sVal) sOn = 'off';
             Speak(pUser, "Turning " + pText + " " + sOn, SpeakingLevel.Misc, null, true);
             eval(sVar + " = " + sVal);
+            mParsing['{queue}'] = mQueueOn ? "on" : "off";
+            mParsing['{queuecurrentlyon}'] = mQueueCurrentlyOn ? "on" : "off";
+            mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
         },
         requires: Requires.Owner,
         hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn"
@@ -412,17 +415,23 @@ global.mCommands = [
             var sVariable = sSplit.shift();
             var sValue = sSplit.join(' ');
             if (sVariable == 'greet' || sVariable == 'greeting') sVariable = 'global.mDefaultGreeting';
-            if (sVariable == 'theme') sVariable == 'global.mTheme';
-            if (sVariable == 'help') sVariable == 'global.mHelpMsg';
+            if (sVariable == 'theme') sVariable = 'global.mTheme';
+            if (sVariable == 'help') sVariable = 'global.mHelpMsg';
             if (sVariable == 'limit' || sVariable == 'songlimit') sVariable = 'global.mMaxSongs';
             if (sVariable == 'wait' || sVariable == 'songwait') sVariable = 'global.mWaitSongs';
             if (sVariable == 'afk' || sVariable == 'afklimit') sVariable = 'global.mAFK';
             Log("Setting " + sVariable + " to have the value of " + sValue);
-            Speak(pUser, "Setting " + sVariable + " to have the value of " + sValue, SpeakingLevel.Misc, null, true);
-            eval(sVariable + ' = ' + sValue);
+            Speak(pUser, "Setting " + sVariable + " to " + sValue, SpeakingLevel.Misc, null, true);
+            if (isNaN(sValue)) { eval(sVariable + ' = "' + sValue + '"'); }
+            else { eval(sVariable + ' = ' + sValue); }
+            mParsing['{theme}'] = mTheme;
+            mParsing['{songlimit}'] = mCurrentSongLimit;
+            mParsing['{afklimit}'] = mParsing['{afk}']  = mAFK;
+            mParsing['{songwait}'] = mWaitSongs;
         },
         requires: Requires.Owner,
-        hint: "Temporarily changes options: greet, theme, help, limit, wait, afk"
+        hint: "Temporarily changes options: greet, theme, help, limit, wait, afk",
+        pm: true
     },
     {
     	command: 'userid',
