@@ -512,16 +512,12 @@ global.mCommands = [
     	hint: "Lets the user refresh and the bot will hold their spot for "+mHoldSpotForRefreshTime+" minutes."
     },
     {
-    	command: 'clap',
+    	command: 'status',
     	callback: function(pUser, pText){
-            if (pText == 'on') mQueueOn = true;
-            if (pText == 'off') mQueueOn = false;
-    		CalculateProperties();
-            if (!mQueueOn) return Speak(pUser, 'Queue is off', SpeakingLevel.Misc);
-            Speak(pUser, 'Queue is on', SpeakingLevel.Misc);
-
+            Speak(pUser, 'Theme: '+global.mTheme+', AFK Limit: '+global.mAFK+', Song Limit: '+global.mMaxSongs+', Song Wait: '+global.mWaitSongs+', Queue: '+global.mQueueOn+', LonelyDJ: '+global.mLonelyDJ+'.', SpeakingLevel.Misc, null, true);
     	},
-    	requires: Requires.Moderator,
-    	hint: "Turns on the queue."
+    	requires: Requires.User,
+    	hint: "Shows the bot status.",
+        pm: true
     }
 ];
