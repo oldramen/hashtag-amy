@@ -487,6 +487,42 @@ global.mCommands = [
     	hint: "Removes a user from the whitelist of DJs temporarily."
     },
     {
+        command: 'go',
+        callback: function(pUser, pText) {
+            //go to room?
+        },
+        requires: Requires.Owner,
+        hint: "Moves the bot from room to room"
+    },
+    {
+        command: '/hop',
+        callback: function(pUser, pText) {
+            if (mLonelyDJ) return Speak(pUser, "Sorry, I can't DJ with LonelyDJ enabled D:", SpeakingLevel.Misc, null, true);
+            if (!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
+            if (pText == 'up' && mDJs.indexOf(mUserId) != -1) mBot.addDj();
+            if (pText == 'down' && mDJs.indexOf(mUserId) == -1) mBot.remDj(mUserId);
+        },
+        requires: Requires.Moderator,
+        hint: "Makes the bot DJ"
+    },
+    {
+        command: 'skip',
+        callback: function(pUser, pText) {
+            if(mCurrentDJ.userid == mUserId) mBot.stopSong(); //I don't think I did that right.
+        },
+        requires: Requires.Moderator,
+        hint: "Makes the bot skip a song"
+    },
+    {
+        command: 'addsong',
+        callback: function(pUser, pText) {
+            if (!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
+            mBot.playlistAdd(mCurrentSong.songId);
+        },
+        requires: Requires.Moderator,
+        hint: "Adds currently playing song to bot's queue"
+    },
+    {
     	command: 'refresh',
     	callback: function(pUser, pText){
     		if(!pUser.isDJ){

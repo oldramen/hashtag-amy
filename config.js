@@ -52,6 +52,7 @@ global.mTimeForCacheFlush		= 15000;			//Time that the user stays in the cache af
 global.mPMSpeak                 = true;            	//whether the bot will PM users so as to not spam
 global.mModBop                  = false;            //true, only mods can use the /dance command, false, anyone can.
 global.mWaiter                 	= true;            	//whether bartender (if we add that function) is enabled by default
+global.mBotDJ               	= false;           	//whether the bot can dj on command
 global.mLonelyDJ                = true;            	//whether the bot will dj if only one dj in room
 global.mCheckAFKWithLonely		= false;			//Should we check to see if people are afk when they're using Lonely DJ?
 global.mCheckSongCountWithLonely= false;			//Should we check the song count when they're using Lonely DJ?
