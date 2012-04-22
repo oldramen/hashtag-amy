@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>The Premiere Turntable Bot: hashtag-amy by yayramen</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/yayramen/hashtag-amy">Fork Me on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>The Premiere Turntable Bot: hashtag-amy</h1>
+            <h2>A simple management tool for Turntable.fm</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/yayramen/hashtag-amy/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/yayramen/hashtag-amy/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+      <span class="banner-fix"></span>
+
+      <section id="main_content">
+        <h1>A Bot Named Amy</h1>
+
+<p>This bot runs on <a href="http://nodejs.org/">node.js</a>, usings Alain Gilbert's <a href="https://github.com/alaingilbert/Turntable-API">ttapi library</a>.<br>
+It is currently in Development.</p>
+
+<h3>Everything Is Done, but Queue is buggy.</h3>
+
+<h3>Note if you know what you're doing :D</h3>
+
+<p>While it makes sense to run <code>node main.js</code>
+we aren't normal, so you'll ahve to run <code>node config.js</code></p>
+
+<h1>Setup Instructions</h1>
+
+<p>First things first: This is a guide, not a promise. I will not be able to help you set it up on your respective machine. With this guide, and 
+the help of google, you should be able to manage it yourself. I do aplogize if this is an inconvenience for anyone.</p>
+
+<h2>Step 1: Getting Dependencies</h2>
+
+<p>This bot uses Node.JS. You're going to need that in order to be able to do anything. Got to the <a href="http://www.nodejs.org/">node website</a> and download
+the latest version.</p>
+
+<p>This bot also uses mongodb. This is a lightweight method of storing information. We have tried to make it toggleable as much as possible, but for the moment, a key feature still relies on it, so you'll need that too. You get it from <a href="http://www.mongodb.org/downloads">the mongodb site</a>.</p>
+
+<h2>Step 2: Download ze bot</h2>
+
+<p>Next, you'll need a copy of the bot. <a href="https://github.com/yayramen/hashtag-amy/zipball/master">Download the zip</a> and unzip it. Put the files someplace significant. For me, I put them in my home directory. </p>
+
+<h2>Step 3: Installing More Dependencies!</h2>
+
+<p>hashtag-amy requires node modules to work properly. So you'll need to grab a copy of npm. Google is your friend :D</p>
+
+<p>Now the bot pretty much requires a terminal window. In OSX, it's Terminal.app. In Windows, go to Start -&gt; Run -&gt; and enter 'cmd'. In Linux, if you don't know, then you shouldn't be using linux, but you can just do Ctr-Alt-T.</p>
+
+<p>Now cd into your directory. For me it's cd ~/hashtag-amy and run these commands:</p>
+
+<pre><code>npm install ttapi
+npm install underscore
+npm install mongoskin
+</code></pre>
+
+<p>And hopefully I haven't forgotten one. If, later on, when you try to run the bot, you get an error saying 'can't find module blahblah'
+just type in npm install blahblah</p>
+
+<h2>Step 4: MongoDB</h2>
+
+<p>If you want the bot to work, you'll need mongodb. Google how to install it. Once you install it, I can give you a bit of help where linux is concerned.
+In terminal/bash/cmd whatever, type "mongo databasename" - where databasename is the name you want your database to be.
+Then type db.addUser("username", "password"). 
+If you come up with an error, google it. If not, you're good to go.
+In the config.js, fill out the information like this:</p>
+
+<pre><code>global.mMongoHost               = "localhost"; // or 127.0.0.1
+global.mMongoDatabase           = "databasename";
+global.mMongoUser               = "username";   
+global.mMongoPass               = "password"
+</code></pre>
+
+<h2>Step 5: The Config File</h2>
+
+<p>Now it's type fill everyting out. Open config.js using your preferred file editor [I use Sublime Text 2 on Ubuntu, but I code a lot].</p>
+
+<p>The config is written in javascript,so remember that you can break things by deleting things so don't :D.
+Note: If it's not true/false/null or a number, it requires quotes "". </p>
+
+<p>You can view what most of them do <a href="http://billing.yayramen.com/index.php/kb/documentation/turntable-fm-bot-config-documentation">here</a></p>
+
+<h2>Step 6: Running it.</h2>
+
+<p>Open up a terminal/command prompt, cd to where you put the files and type</p>
+
+<pre><code>node config.js
+</code></pre>
+
+<p>If you did it right, you'll see #Amy load up. Once it says "Joined the room, booted up!" the bot should be in your room!</p>
+
+<h2>Too Much?</h2>
+
+<p>Contact me - I offer Dedicated Bot Hosting And Management for $5/Month.</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/yayramen">yayramen</a> can be found on <a href="https://github.com/yayramen/hashtag-amy">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
