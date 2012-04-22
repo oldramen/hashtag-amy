@@ -495,7 +495,7 @@ global.mCommands = [
         hint: "Moves the bot from room to room"
     },
     {
-        command: '/hop',
+        command: 'hop',
         callback: function(pUser, pText) {
             if (mLonelyDJ) return Speak(pUser, "Sorry, I can't DJ with LonelyDJ enabled D:", SpeakingLevel.Misc, null, true);
             if (!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
