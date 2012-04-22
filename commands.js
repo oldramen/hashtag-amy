@@ -380,23 +380,23 @@ global.mCommands = [
             if (pText == 'q' || pText == 'queue'){
                 sVar = 'global.mQueueOn';
                 if (global.mQueueOn) sVal = false;
-            };
-            if (pText == 'limit' || pText == 'songlimit'){
+            }
+            else if (pText == 'limit' || pText == 'songlimit'){
                 sVar = 'global.mLimitOn';
                 if (global.mLimitOn) sVal = false;
-            };
-            if (pText == 'lonely' || pText == 'lonelydj'){
+            }
+            else if (pText == 'lonely' || pText == 'lonelydj'){
                 sVar = 'global.mLonelyDJ';
                 if (global.mLonelyDJ) sVal = false;
-            };
-            if (pText == 'whitelist'){
+            }
+            else if (pText == 'whitelist'){
                 sVar = 'global.mWhiteListEnabled';
                 if (global.mWhiteListEnabled) sVal = false;
-            };
-            if (pText == 'warn'){
+            }
+            else if (pText == 'warn'){
                 sVar = 'global.mWarn';
                 if (global.mWarn) sVal = false;
-            };
+            }else { return; };
             if (!sVal) sOn = 'off';
             Speak(pUser, "Turning " + pText + " " + sOn, SpeakingLevel.Misc, null, true);
             eval(sVar + " = " + sVal);
@@ -415,16 +415,17 @@ global.mCommands = [
             var sSplit = pText.split(' ');
             var sVariable = sSplit.shift();
             var sValue = sSplit.join(' ');
-            if (sVariable == 'greet' || sVariable == 'greeting') sVariable = 'global.mDefaultGreeting';
-            if (sVariable == 'theme') sVariable = 'global.mTheme';
-            if (sVariable == 'help') sVariable = 'global.mHelpMsg';
-            if (sVariable == 'limit' || sVariable == 'songlimit') sVariable = 'global.mMaxSongs';
-            if (sVariable == 'wait' || sVariable == 'songwait') sVariable = 'global.mWaitSongs';
-            if (sVariable == 'afk' || sVariable == 'afklimit') sVariable = 'global.mAFK';
-            Log("Setting " + sVariable + " to have the value of " + sValue);
+            var sVar;
+            if (sVariable == 'greet' || sVariable == 'greeting') sVar = 'global.mDefaultGreeting';
+            if (sVariable == 'theme') sVar = 'global.mTheme';
+            if (sVariable == 'help') sVar = 'global.mHelpMsg';
+            if (sVariable == 'limit' || sVariable == 'songlimit') sVar = 'global.mMaxSongs';
+            if (sVariable == 'wait' || sVariable == 'songwait') sVar = 'global.mWaitSongs';
+            if (sVariable == 'afk' || sVariable == 'afklimit') sVar = 'global.mAFK';
+            Log("Setting " + sVar + " to have the value of " + sValue);
             Speak(pUser, "Setting " + sVariable + " to " + sValue, SpeakingLevel.Misc, null, true);
-            if (isNaN(sValue)) { eval(sVariable + ' = "' + sValue + '"'); }
-            else { eval(sVariable + ' = ' + sValue); }
+            if (isNaN(sValue)) { eval(sVar + ' = "' + sValue + '"'); }
+            else { eval(sVar + ' = ' + sValue); }
             mParsing['{theme}'] = mTheme;
             mParsing['{songlimit}'] = mCurrentSongLimit;
             mParsing['{afklimit}'] = mParsing['{afk}']  = mAFK;
