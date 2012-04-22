@@ -27,7 +27,7 @@ global.OnRegistered = function(pData){
     }
     if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
     if(mUsers[pData.user[0].userid].IsBot() && mNoGo) {
-        Log('Successfully Registerd In Room.');
+        Log('Successfully registered in room');
         clearTimeout(mNoGo);
         mNoGo = null;
     }
