@@ -736,6 +736,11 @@ global.mRandomItem = function (list) {
     return list[Math.floor(Math.random() * list.length)];
 };
 
+global.mRound = function(num, dec) {
+    var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+    return result;
+},
+
 global.mGoHome = function () {
     return mBot.roomRegister(mRoomId);
 };

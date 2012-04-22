@@ -580,9 +580,10 @@ global.mCommands = [
         pm: true
     },
     {
-        command: 'me',
+        command: 'i',
         callback: function(pUser, pText){
-            Speak(pUser, "{username}'s hearts: {heart_count}, hearts given: {given_count}, total songs: {total_songs}", SpeakingLevel.Misc, [['heart_count', pUser.totalHeartCount], ['given_count', pUser.totalHeartsGiven], ['total_songs', pUser.totalSongCount]])
+            if (pUser.totalSongCount < 1) return Speak(pUser, "I don't know you yet, {username}. Stay a while, play some songs.", SpeakingLevel.Misc)
+            Speak(pUser, "{username}'s hearts: {heart_count}, hearts given: {given_count}, total songs: {total_songs}, Heart Percentage: {heart_percentage}%", SpeakingLevel.Misc, [['{heart_count}', pUser.totalHeartCount], ['{given_count}', pUser.totalHeartsGiven], ['{total_songs}', pUser.totalSongCount], ['{heart_percentage}', mRound(pUser.totalHeartCount / pUser.totalSongCount,2)]])
         },
         requires: Requires.User,
         hint: "All bout you"
