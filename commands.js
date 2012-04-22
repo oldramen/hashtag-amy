@@ -580,10 +580,9 @@ global.mCommands = [
     {
         command: 'me',
         callback: function(pUser, pText){
-            //give total songs, hearts, hearts given, and tab (?)
+            Speak(pUser, "{username}'s hearts: {heart_count}, hearts given: {given_count}, total songs: {total_songs}", SpeakingLevel.Misc, [['heart_count', pUser.totalHeartCount], ['given_count', pUser.totalHeartsGiven], ['total_songs', pUser.totalSongCount]])
         },
         requires: Requires.User,
-        hint: "All bout you",
-        pm: true
+        hint: "All bout you"
     }
 ];
