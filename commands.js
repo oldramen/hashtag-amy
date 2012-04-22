@@ -521,7 +521,7 @@ global.mCommands = [
             if (!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
             if (pText == 'add') {
                 mBot.playlistAdd(mCurrentSong.songId);
-                return Speak(pUser, "Added to queue!", SpeakingLevel.Misc);
+                return Speak(pUser, "Added" + mCurrentSong.songName +" to queue!", SpeakingLevel.Misc);
             };
             if (pText == 'remove') {
                 //if(mCurrentDJ.userid != mUserId) return Speak(pUser, "You can only remove a song when I'm playing a song.", SpeakingLevel.Misc, null, true);
@@ -536,7 +536,13 @@ global.mCommands = [
             if (pText == 'next') {
                 mBot.playlistAll(function(pData){
                     if (pData.list.length == 0) return;
-                    return Speak(pUser, pData.list[0].metadata.song, SpeakingLevel.Misc, null, true)
+                    return Speak(pUser, 'Next song: ' + pData.list[0].metadata.song, SpeakingLevel.Misc, null, true)
+                })
+            };            
+            if (pText == 'total') {
+                mBot.playlistAll(function(pData){
+                    if (pData.list.length == 0) return;
+                    return Speak(pUser, 'Total Songs In Queue: ' + pData.list.length, SpeakingLevel.Misc, null, true)
                 })
             }
 
