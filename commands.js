@@ -526,6 +526,7 @@ global.mCommands = [
             if (pText == 'remove') {
                 //if(mCurrentDJ.userid != mUserId) return Speak(pUser, "You can only remove a song when I'm playing a song.", SpeakingLevel.Misc, null, true);
                 mBot.playlistAll(function(pData){
+                    if (pData.list.length == 0) return;
                     var i = pData.list.length - 1;
                     mBot.stopSong();
                     Speak(pUser, 'Removing '+pData.list[i].metadata.song, SpeakingLevel.Misc, null, true);
@@ -534,6 +535,7 @@ global.mCommands = [
             };
             if (pText == 'next') {
                 mBot.playlistAll(function(pData){
+                    if (pData.list.length == 0) return;
                     return Speak(pUser, pData.list[0].metadata.song, SpeakingLevel.Misc, null, true)
                 })
             }
