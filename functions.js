@@ -181,7 +181,10 @@ global.OnPmmed = function(pData){
 global.OnSnagged = function(pData){
     //Do Hearts here.
     ++mCurrentSong.heartCount;
-    mParsing["{heartcount}"] = mCurrentSong.heartCount
+    mParsing["{heartcount}"] = mCurrentSong.heartCount;
+    if(mCurrentDJ) mCurrentDJ.Increment_HeartCount(mCurrentDJ);
+    var sUser = mUsers[pData.userid];
+    if (sUser) sUser.Increment_HeartsGiven(sUser);
 }
 
 global.OnVote = function(pData){
@@ -804,6 +807,8 @@ BaseUser = function(){return {
     songCount: 0,
     mWaitingSongLimit: 0,
     totalSongCount: 0,
+    totalHeartCount: 0,
+    totalHeartsGiven: 0,
     customGreeting: null,
     bootAfterSong: false,
     joinedTime: Date.now(),
@@ -849,6 +854,14 @@ BaseUser = function(){return {
       ++this.songCount;
       ++this.totalSongCount;
       Log(this.name + "'s song count: " + this.songCount + " total of: " + this.totalSongCount);
+    },
+    Increment_HeartCount : function(){
+      ++this.totalHeartCount;
+      Log(this.name + "'s heart count: " + this.totalHeartCount);
+    },
+    Increment_HeartsGiven : function(){
+      ++this.totalHeartsGiven;
+      Log(this.name + "'s hearts given count: " + this.totalHeartsGiven);
     },
     Update : function(){
         this.afkTime = Date.now();
