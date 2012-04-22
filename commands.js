@@ -576,5 +576,14 @@ global.mCommands = [
     	requires: Requires.User,
     	hint: "Shows the bot status.",
         pm: true
+    },
+    {
+        command: 'me',
+        callback: function(pUser, pText){
+            //give total songs, hearts, hearts given, and tab (?)
+        },
+        requires: Requires.User,
+        hint: "All bout you",
+        pm: true
     }
 ];
