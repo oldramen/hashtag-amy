@@ -3,9 +3,9 @@
 This bot runs on [node.js](http://nodejs.org/), usings Alain Gilbert's [ttapi library](https://github.com/alaingilbert/Turntable-API).  
 It is currently in Development.
 
-# Everything Is Done, but Queue is buggy. 
+### Everything Is Done, but Queue is buggy. 
 
-# Note if you know what you're doing :D
+### Note if you know what you're doing :D
 
 While it makes sense to run ```node main.js```
 we aren't normal, so you'll ahve to run ```node config.js```
