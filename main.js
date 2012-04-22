@@ -63,6 +63,7 @@ global.mSongLimitCurrentlyOn    = false;
 global.mAFKLimitCurrentlyOn		= false;
 global.mCurrentSongLimit        = mMaxSongs;
 global.mUsingLonelyDJ			= false;
+global.mNoGo					= null;
 
 global.mAFKWarn = mAFK * (0.693148);
 

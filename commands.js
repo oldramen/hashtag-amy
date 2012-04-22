@@ -489,7 +489,11 @@ global.mCommands = [
     {
         command: 'go',
         callback: function(pUser, pText) {
-            //go to room?
+            if (!pText) return Speak(pUser, 'You must provide a room id.', SpeakingLevel.Misc, null, true);
+            if (pText == 'home') return mBot.roomRegister(mRoomId);
+            mNoGo = setTimeout(mGoHome, 15000);
+            Log('Registering in room '+ pText);
+            return mBot.roomRegister(pText);
         },
         requires: Requires.Owner,
         hint: "Moves the bot from room to room"
@@ -499,8 +503,8 @@ global.mCommands = [
         callback: function(pUser, pText) {
             if (mLonelyDJ) return Speak(pUser, "Sorry, I can't DJ with LonelyDJ enabled D:", SpeakingLevel.Misc, null, true);
             if (!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
-            if (pText == 'up' && mDJs.indexOf(mUserId) != -1) mBot.addDj();
-            if (pText == 'down' && mDJs.indexOf(mUserId) == -1) mBot.remDj(mUserId);
+            if (pText == 'up' && mDJs.indexOf(mUserId) == -1) mBot.addDj();
+            if (pText == 'down' && mDJs.indexOf(mUserId) != -1) mBot.remDj(mUserId);
         },
         requires: Requires.Moderator,
         hint: "Makes the bot DJ"

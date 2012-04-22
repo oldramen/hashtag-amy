@@ -26,6 +26,11 @@ global.OnRegistered = function(pData){
         if(sUser.isBanned) sUser.Boot(sUser.banReason ? sUser.banReason : mBanReason);
     }
     if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
+    if(mUsers[pData.user[0].userid].IsBot() && mNoGo) {
+        Log('Successfully Registerd In Room.');
+        clearTimeout(mNoGo);
+        mNoGo = null;
+    }
     CalculateProperties();
 };
 
@@ -725,7 +730,11 @@ global.Unban = function(pName){
     });
 }
 global.mRandomItem = function (list) {
-      return list[Math.floor(Math.random() * list.length)];
+    return list[Math.floor(Math.random() * list.length)];
+};
+
+global.mGoHome = function () {
+    return mBot.roomRegister(mRoomId);
 };
 
 global.InitMongoDB = function(){
