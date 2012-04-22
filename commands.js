@@ -455,10 +455,13 @@ global.mCommands = [
     			sUser.whiteList = true;
     			Speak(sUser, mAddedToWhiteList, SpeakingLevel.Misc);
     			sUser.Save();
-			}else FindByName(pText, function(sUser){ 
-				sUser.whiteList = true; 
-				sUser.Save(); 
-				Speak(sUser, mAddedToWhiteList, SpeakingLevel.Misc);
+			}else FindByName(pText, function(sUsers){ 
+                for(var i = 0; i < sUsers.length; ++i){
+                    var sUser = sUsers[i];
+				    sUser.whiteList = true; 
+				    sUser.Save(); 
+				    Speak(sUser, mAddedToWhiteList, SpeakingLevel.Misc);
+                }
 			});
     	},
     	requires: Requires.Moderator,
