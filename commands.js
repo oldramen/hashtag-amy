@@ -405,7 +405,8 @@ global.mCommands = [
             mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
         },
         requires: Requires.Owner,
-        hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn"
+        hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn",
+        pm: true
     },
     {
         command: 'set',
@@ -513,21 +514,34 @@ global.mCommands = [
         hint: "Makes the bot DJ"
     },
     {
-        command: 'skip',
+        command: 'song',
         callback: function(pUser, pText) {
-            if(mCurrentDJ.userid == mUserId) mBot.stopSong(); //I don't think I did that right.
-        },
-        requires: Requires.Moderator,
-        hint: "Makes the bot skip a song"
-    },
-    {
-        command: 'addsong',
-        callback: function(pUser, pText) {
+            if (!pText) return;
+            if (pText == 'skip' && mCurrentDJ.userid == mUserId) return mBot.stopSong();
             if (!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
-            mBot.playlistAdd(mCurrentSong.songId);
+            if (pText == 'add') {
+                mBot.playlistAdd(mCurrentSong.songId);
+                return Speak(pUser, "Added to queue!", SpeakingLevel.Misc);
+            };
+            if (pText == 'remove') {
+                //if(mCurrentDJ.userid != mUserId) return Speak(pUser, "You can only remove a song when I'm playing a song.", SpeakingLevel.Misc, null, true);
+                mBot.playlistAll(function(pData){
+                    var i = pData.list.length - 1;
+                    mBot.stopSong();
+                    Speak(pUser, 'Removing '+pData.list[i].metadata.song, SpeakingLevel.Misc, null, true);
+                    return mBot.playlistRemove(i);
+                })
+            };
+            if (pText == 'next') {
+                mBot.playlistAll(function(pData){
+                    return Speak(pUser, pData.list[0].metadata.song, SpeakingLevel.Misc, null, true)
+                })
+            }
+
         },
         requires: Requires.Moderator,
-        hint: "Adds currently playing song to bot's queue"
+        hint: "song skip (skips song), song add (adds current song to queue), song remove (removes last played song from queue), song next (lists next song), song total (total songs in queue).",
+        pm: true
     },
     {
     	command: 'refresh',
