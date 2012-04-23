@@ -551,12 +551,24 @@ global.mCommands = [
                 mBot.playlistReorder(i, 0);
                 return Speak(pUser, "Moved "+ pData.list[i].metadata.song + ". to the top of the queue.", SpeakingLevel.Misc, null, true)
             });
-        }
+        };
+        if(pText == 'shuffle') {
+            var sTotal = [];
+            mBot.playlistAll(function (pData){
+                for(var i = 0; i < pData.list.length; ++i) {
+                    sTotal[i] = i;
+                }
+                var sRand = mShuffle(sTotal);
+                for(var i = 0; i < pData.list.length; ++i) {
+                    mBot.playlistReorder(i, sRand[i]);
+                }
+            });
+        };
         if(pText == 'add') {
             mBot.playlistAll(function (pData) {
                 mBot.playlistAdd(mCurrentSong.songId, pData.list.length);
                 return Speak(pUser, "Added" + mCurrentSong.songName + " to queue!", SpeakingLevel.Misc);
-            }) 
+            }); 
         };
         if(pText == 'remove') {
             if(mCurrentDJ.userid != mUserId) return Speak(pUser, "You can only remove a song when I'm playing a song.", SpeakingLevel.Misc, null, true);
@@ -566,19 +578,19 @@ global.mCommands = [
                 mBot.stopSong();
                 Speak(pUser, 'Removing ' + pData.list[i].metadata.song, SpeakingLevel.Misc, null, true);
                 return mBot.playlistRemove(i);
-            })
+            });
         };
         if(pText == 'next') {
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
                 return Speak(pUser, 'Next song: ' + pData.list[0].metadata.song, SpeakingLevel.Misc, null, true)
-            })
+            });
         };
         if(pText == 'total') {
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
                 return Speak(pUser, 'Total Songs In My Queue: ' + pData.list.length, SpeakingLevel.Misc)
-            })
+            });
         }
 
     },

@@ -754,6 +754,11 @@ global.mRandomItem = function (list) {
     return list[Math.floor(Math.random() * list.length)];
 };
 
+global.mShuffle = function(v){
+    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+    return v;
+};
+
 global.mRound = function (num, dec) {
     var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
     return result;
