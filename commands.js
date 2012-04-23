@@ -527,7 +527,8 @@ global.mCommands = [
         if(pText == 'down' && mDJs.indexOf(mUserId) != -1) mBot.remDj(mUserId);
     },
     requires: Requires.Moderator,
-    hint: "Makes the bot DJ"
+    hint: "Makes the bot DJ",
+    pm: true
 }, 
 {
     command: 'song',
