@@ -354,16 +354,16 @@ global.mCommands = [
                 sUser.isVip = true;
                 Speak(sUser, mIsNowVIP, SpeakingLevel.Misc);
             });
-        };
-        if (sVar == 'remove'){
+        }
+        else if (sVar == 'remove'){
             FindByName(sVal, function (sUser) {
                 sUser.isVip = false;
                 Speak(sUser, mIsNoLongerVIP, SpeakingLevel.Misc);
             });
-        }
+        } else Speak(pUser, 'Useage: /vip add [user], /vip remove [user]', SpeakingLevel.Misc, null, true)
     },
     requires: Requires.Moderator,
-    hint: "Makes a user a VIP"
+    hint: "Useage: /vip add [user], /vip remove [user]"
 },  
 {
     command: 'setvar',
@@ -467,7 +467,7 @@ global.mCommands = [
 {
     command: 'whitelist',
     callback: function (pUser, pText) {
-        if(!pText) return;
+        if(!pText) return Speak(pUser, 'Useage: /whitelist add [user], /whitelist remove [user]', SpeakingLevel.Misc, null, true);
         var sSplit = pText.split(' ');
         var sArg = sSplit.shift();
         var sVal = sSplit.join(' ');
@@ -532,7 +532,7 @@ global.mCommands = [
 {
     command: 'song',
     callback: function (pUser, pText) {
-        if(!pText) return;
+        if(!pText) return Speak(pUser, 'Useage: /song add, /song remove, /song skip, /song next, /song total', SpeakingLevel.Misc, null, true);
         if(pText == 'skip' && mCurrentDJ.userid == mUserId) return mBot.stopSong();
         if(!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
         if(pText == 'add') {
@@ -558,7 +558,7 @@ global.mCommands = [
         if(pText == 'total') {
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
-                return Speak(pUser, 'Total Songs In Queue: ' + pData.list.length, SpeakingLevel.Misc, null, true)
+                return Speak(pUser, 'Total Songs In My Queue: ' + pData.list.length, SpeakingLevel.Misc)
             })
         }
 
