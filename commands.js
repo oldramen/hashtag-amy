@@ -536,6 +536,22 @@ global.mCommands = [
         if(!pText) return Speak(pUser, 'Useage: /song add, /song remove, /song skip, /song next, /song total', SpeakingLevel.Misc, null, true);
         if(pText == 'skip' && mCurrentDJ.userid == mUserId) return mBot.stopSong();
         if(!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
+        if(pText == 'skip' && mCurrentDJ.userid != mUserId) {
+            mBot.playlistAll(function (pData) {
+                if (pData.list.length == 0) return;
+                var i = pData.list.length - 1;
+                mBot.playlistReorder(0, i);
+                return Speak(pUser, "Skipped '"+ pData.list[i].metadata.song + "'. Next Song: '" + pData.list[i].metadata.song + "' Type /song requeue to undo.", SpeakingLevel.Misc, null, true)
+            });
+        };
+        if(pText =='requeue'){
+            mBot.playlistAll(function (pData) {
+                if (pData.list.length == 0) return;
+                var i = pData.list.length - 1;
+                mBot.playlistReorder(i, 0);
+                return Speak(pUser, "Moved "+ pData.list[i].metadata.song + ". to the top of the queue.", SpeakingLevel.Misc, null, true)
+            });
+        }
         if(pText == 'add') {
             mBot.playlistAll(function (pData) {
                 mBot.playlistAdd(mCurrentSong.songId, pData.list.length);
@@ -543,7 +559,7 @@ global.mCommands = [
             }) 
         };
         if(pText == 'remove') {
-            //if(mCurrentDJ.userid != mUserId) return Speak(pUser, "You can only remove a song when I'm playing a song.", SpeakingLevel.Misc, null, true);
+            if(mCurrentDJ.userid != mUserId) return Speak(pUser, "You can only remove a song when I'm playing a song.", SpeakingLevel.Misc, null, true);
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
                 var i = pData.list.length - 1;
