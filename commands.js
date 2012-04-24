@@ -396,7 +396,13 @@ global.mCommands = [
         var sVar;
         if(pText == 'q' || pText == 'queue') {
             sVar = 'mQueueOn';
-            if(mQueueOn) sVal = false;
+            if(mQueueOn) {
+                mQueueCurrentlyOn = false;
+                sVal = false;
+            }
+            else {
+                mQueueCurrentlyOn = true;
+            }
         } else if(pText == 'limit' || pText == 'songlimit') {
             sVar = 'mLimitOn';
             if(mLimitOn) sVal = false;
