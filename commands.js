@@ -129,6 +129,11 @@ global.mCommands = [
                 };
             };
         };
+        if(sArg == 'clear' && (pUser.isMod)){
+            mQueue = [];
+            mQueueNextUp = null;
+            return Speak (pUser, 'Queue Cleared', SpeakingLevel.Misc);
+        };
         if(sArg == 'status'){
             if(!mQueueCurrentlyOn) return Speak(pUser, mQueueOff, SpeakingLevel.Misc);
             else if(mQueue.length > 0) return Speak(pUser, mQueueStatus, SpeakingLevel.Misc);
@@ -147,7 +152,8 @@ global.mCommands = [
 
     },
     requires: Requires.User,
-    hint: "q add, q remove, q status"
+    hint: "q add, q remove, q status",
+    bare: true
 }, 
 {
     command: 'maul',
@@ -389,37 +395,31 @@ global.mCommands = [
     hidden:true
 }, 
 {
-    command: 'toggle',
+    command: 'turn',
     callback: function (pUser, pText) {
+        if(!pText) return;
+        var sSplit = pText.split(' ');
+        var sTxt = sSplit.shift();
+        var sArg = sSplit.join(' ');
         var sVal = true;
-        var sOn = 'on';
         var sVar;
-        if(pText == 'q' || pText == 'queue') {
+        if(sTxt == 'q' || sTxt == 'queue') {
             sVar = 'mQueueOn';
-            if(mQueueOn) {
-                mQueueCurrentlyOn = false;
-                sVal = false;
-            }
-            else {
-                mQueueCurrentlyOn = true;
-            }
-        } else if(pText == 'limit' || pText == 'songlimit') {
+            mQueueCurrentlyOn = false;
+            if(sArg == 'on') mQueueCurrentlyOn = true;
+        } else if(sTxt == 'limit' || sTxt == 'songlimit') {
             sVar = 'mLimitOn';
-            if(mLimitOn) sVal = false;
-        } else if(pText == 'lonely' || pText == 'lonelydj') {
+        } else if(sTxt == 'lonely' || sTxt == 'lonelydj') {
             sVar = 'mLonelyDJ';
-            if(mLonelyDJ) sVal = false;
-        } else if(pText == 'whitelist') {
+        } else if(sTxt == 'whitelist') {
             sVar = 'mWhiteListEnabled';
-            if(mWhiteListEnabled) sVal = false;
-        } else if(pText == 'warn') {
+        } else if(sTxt == 'warn') {
             sVar = 'mWarn';
-            if(mWarn) sVal = false;
         } else {
             return;
         };
-        if(!sVal) sOn = 'off';
-        Speak(pUser, "Turning " + pText + " " + sOn, SpeakingLevel.Misc, null, true);
+        if (sArg == 'off') sVal = false;
+        Speak(pUser, "Turning " + sTxt + " " + sArg, SpeakingLevel.Misc, null, true);
         eval(sVar + " = " + sVal);
         mParsing['{queue}'] = mQueueOn ? "on" : "off";
         mParsing['{queuecurrentlyon}'] = mQueueCurrentlyOn ? "on" : "off";
