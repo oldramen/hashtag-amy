@@ -197,6 +197,7 @@ global.OnSnagged = function (pData) {
     if(mCurrentDJ) mCurrentDJ.Increment_HeartCount(mCurrentDJ);
     var sUser = mUsers[pData.userid];
     if(sUser) sUser.Increment_HeartsGiven(sUser);
+    Speak(sUser, mSnagMSg, SpeakingLevel.Misc);
 }
 
 global.OnVote = function (pData) {

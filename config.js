@@ -76,6 +76,7 @@ global.mAddDJ                   = null;//"Welcome to the deck, @{username}!  Rem
 global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
+global.mSnagMSg                 = null;
 global.mEndSong                 = "{songtitle}: {up} ↑, {down} ↓, {heartcount} <3.";
 global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} song(s) to get back up.";
 global.mOverMaxSongsQueueOff    = null;
