@@ -562,12 +562,13 @@ global.mCommands = [
                 for(var i = 0; i < pData.list.length; ++i) {
                     mBot.playlistReorder(i, sRand[i]);
                 }
+                return Speak(pUser, "Shuffled Queue.", SpeakingLevel.Misc, null, true);
             });
         };
         if(pText == 'add') {
             mBot.playlistAll(function (pData) {
                 mBot.playlistAdd(mCurrentSong.songId, pData.list.length);
-                return Speak(pUser, "Added" + mCurrentSong.songName + " to queue!", SpeakingLevel.Misc);
+                return Speak(pUser, "Added " + mCurrentSong.songName + " to queue!", SpeakingLevel.Misc);
             }); 
         };
         if(pText == 'remove') {
@@ -583,7 +584,7 @@ global.mCommands = [
         if(pText == 'next') {
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
-                return Speak(pUser, 'Next song: ' + pData.list[0].metadata.song, SpeakingLevel.Misc, null, true)
+                return Speak(pUser, 'Next song: ' + pData.list[0].metadata.song + ' by ' + pData.list[0].metadata.artist, SpeakingLevel.Misc, null, true)
             });
         };
         if(pText == 'total') {
