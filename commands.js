@@ -22,8 +22,8 @@ global.mCommands = [
 }, 
 {
     command: 'crash',
-    callback: function () {
-        TheBotWillCrash = IfWeTryTo.exec(AVarThatDoesntExist)
+    callback: function (pUser, pText) {
+        throw new Error('Crashing the bot.');
     },
     requires: Requires.Owner,
     hint: "Crashes the bot. Don't do unless necessary."
@@ -395,20 +395,20 @@ global.mCommands = [
         var sOn = 'on';
         var sVar;
         if(pText == 'q' || pText == 'queue') {
-            sVar = 'global.mQueueOn';
-            if(global.mQueueOn) sVal = false;
+            sVar = 'mQueueOn';
+            if(mQueueOn) sVal = false;
         } else if(pText == 'limit' || pText == 'songlimit') {
-            sVar = 'global.mLimitOn';
-            if(global.mLimitOn) sVal = false;
+            sVar = 'mLimitOn';
+            if(mLimitOn) sVal = false;
         } else if(pText == 'lonely' || pText == 'lonelydj') {
-            sVar = 'global.mLonelyDJ';
-            if(global.mLonelyDJ) sVal = false;
+            sVar = 'mLonelyDJ';
+            if(mLonelyDJ) sVal = false;
         } else if(pText == 'whitelist') {
-            sVar = 'global.mWhiteListEnabled';
-            if(global.mWhiteListEnabled) sVal = false;
+            sVar = 'mWhiteListEnabled';
+            if(mWhiteListEnabled) sVal = false;
         } else if(pText == 'warn') {
-            sVar = 'global.mWarn';
-            if(global.mWarn) sVal = false;
+            sVar = 'mWarn';
+            if(mWarn) sVal = false;
         } else {
             return;
         };
@@ -626,7 +626,9 @@ global.mCommands = [
 {
     command: 'status',
     callback: function (pUser, pText) {
-        Speak(pUser, 'Theme: ' + global.mTheme + ', AFK Limit: ' + global.mAFK + ', Song Limit: ' + global.mMaxSongs + ', Song Wait: ' + global.mWaitSongs + ', Queue: ' + global.mQueueOn + ', LonelyDJ: ' + global.mLonelyDJ + '.', SpeakingLevel.Misc, null, true);
+        var sLimit = mLimitOn;
+        if (mLimitOn) sLimit = mMaxSongs;
+        Speak(pUser, 'Theme: ' + mTheme + ', AFK Limit: ' + mAFK + ', Song Limit: ' + sLimit + ', Song Wait: ' + mWaitSongs + ', Queue: ' + mQueueOn + ', LonelyDJ: ' + mLonelyDJ + '.', SpeakingLevel.Misc, null, true);
     },
     requires: Requires.User,
     hint: "Shows the bot status.",
