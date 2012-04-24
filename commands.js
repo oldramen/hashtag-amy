@@ -59,6 +59,7 @@ global.mCommands = [
 {
     command: 'q+',
     callback: function (pUser, pText) {
+        if(!mQueueCurrentlyOn) return Speak(pUser, mQueueOff, SpeakingLevel.Misc);
         if(mDJs.indexOf(pUser.userid) != -1) {
             Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
         } else if(mQueue.indexOf(pUser.userid) != -1) {
@@ -140,6 +141,7 @@ global.mCommands = [
             else return Speak(pUser, mQueueEmpty, SpeakingLevel.Misc)
         };
         if(sArg == 'add'){
+            if(!mQueueCurrentlyOn) return Speak(pUser, mQueueOff, SpeakingLevel.Misc);
             if(mDJs.indexOf(pUser.userid) != -1) {
                 return Speak(pUser, mQueueAlreadyDJ, SpeakingLevel.Misc);
             } else if(mQueue.indexOf(pUser.userid) != -1) {
