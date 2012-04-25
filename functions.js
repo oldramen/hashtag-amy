@@ -8,10 +8,6 @@ global.Log = function (pOutput) {
     console.log(mName, ">>>", pOutput + ".");
 };
 
-global.OnException = function (err) {
-    throw new Error('Exception: ' + err);
-};
-
 global.OnRegistered = function (pData) {
     if(pData.user.length == 0) return;
     for(var i = 0; i < pData.user.length; ++i) {
@@ -191,7 +187,7 @@ global.OnPmmed = function (pData) {
 };
 
 global.OnSnagged = function (pData) {
-    //Do Hearts here.
+    mBot.bop();
     ++mCurrentSong.heartCount;
     mParsing["{heartcount}"] = mCurrentSong.heartCount;
     if(mCurrentDJ) mCurrentDJ.Increment_HeartCount(mCurrentDJ);

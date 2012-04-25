@@ -548,8 +548,8 @@ global.mCommands = [
             mBot.playlistAll(function (pData) {
                 if (pData.list.length == 0) return;
                 var i = pData.list.length - 1;
-                mBot.playlistReorder(0, i);
-                return Speak(pUser, "Skipped '"+ pData.list[i].metadata.song + "'. Next Song: '" + pData.list[i].metadata.song + "' Type /song requeue to undo.", SpeakingLevel.Misc, null, true)
+                Speak(pUser, "Skipped '"+ pData.list[0].metadata.song + "'. Next Song: '" + pData.list[1].metadata.song + "' Type /song requeue to undo.", SpeakingLevel.Misc, null, true)
+                return mBot.playlistReorder(0, i);
             });
         };
         if(pText =='requeue'){

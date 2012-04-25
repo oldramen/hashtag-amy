@@ -90,5 +90,4 @@ mBot.on("endsong", OnEndSong);
 mBot.on("snagged", OnSnagged);
 mBot.on("nosong", OnNoSong);
 mBot.on("update_votes", OnVote);
-process.on("uncaughtException", OnException);
 Log("Done");
