@@ -330,6 +330,15 @@ global.mCommands = [
     hidden: true
 }, 
 {
+    command: 'album',
+    callback: function (pUser, pText) {
+        Speak(pUser, "{title} is on {album}", SpeakingLevel.Misc, [['{title}', mCurrentSong.songName], ['{album}', mCurrentSong.songAlbum]])
+    },
+    requires: Requires.User,
+    hint: "Get the album",
+    hidden: true
+}, 
+{
     command: 'order',
     callback: function (pUser, pText) {
         HandleMenu(pUser, pText);
