@@ -144,8 +144,8 @@ global.OnRemDJ = function (pData) {
 global.OnNewSong = function (pData) {
     for(var sUserId in mUsers) {
         var sUser = mUsers[sUserId];
-        --sUser.mWaitingSongLimit;
-        if(sUser.mWaitingSongLimit <= 0 || (mUsingLonelyDJ && !mCheckSongCountWithLonely)) {
+        if(sUser.mWaitingSongLimit > 0) --sUser.mWaitingSongLimit;
+        if(sUser.isDJ != true && sUser.mWaitingSongLimit <= 0 || (mUsingLonelyDJ && !mCheckSongCountWithLonely)) {
             sUser.mWaitingSongLimit = 0;
             sUser.songCount = 0;
         }
@@ -156,7 +156,7 @@ global.OnNewSong = function (pData) {
             mCurrentDJ.RemoveDJ();
         }
     }
-    mParsing['{heartcount}'] = 0;
+    mCurrentSong.heartCount = mParsing['{heartcount}'] = 0;
     mCurrentSong.upVotes = 0;
     mCurrentSong.downVotes = 0;
     mCurrentSong.songName = pData.room.metadata.current_song.metadata.song;
