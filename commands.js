@@ -365,6 +365,8 @@ global.mCommands = [
         }
         else if (sVar == 'remove'){
             FindByName(sVal, function (sUser) {
+                if(sUser.length != 1) return;
+                sUser = sUser[0]
                 sUser.isVip = false;
                 Speak(sUser, mIsNoLongerVIP, SpeakingLevel.Misc);
             });
@@ -439,12 +441,13 @@ global.mCommands = [
         var sVariable = sSplit.shift();
         var sValue = sSplit.join(' ');
         var sVar;
-        if(sVariable == 'greet' || sVariable == 'greeting') sVar = 'mDefaultGreeting';
-        if(sVariable == 'theme') sVar = 'mTheme';
-        if(sVariable == 'help') sVar = 'mHelpMsg';
-        if(sVariable == 'limit' || sVariable == 'songlimit') sVar = 'mMaxSongs';
-        if(sVariable == 'wait' || sVariable == 'songwait') sVar = 'mWaitSongs';
-        if(sVariable == 'afk' || sVariable == 'afklimit') sVar = 'mAFK';
+        if(sVariable == 'greet' || sVariable == 'greeting'){ sVar = 'mDefaultGreeting'; }
+        else if(sVariable == 'theme'){ sVar = 'mTheme'; }
+        else if(sVariable == 'help'){ sVar = 'mHelpMsg'; }
+        else if(sVariable == 'limit' || sVariable == 'songlimit'){ sVar = 'mMaxSongs'; }
+        else if(sVariable == 'wait' || sVariable == 'songwait'){ sVar = 'mWaitSongs'; }
+        else if(sVariable == 'afk' || sVariable == 'afklimit'){ sVar = 'mAFK'; }
+        else { return; }
         Log("Setting " + sVar + " to have the value of " + sValue);
         Speak(pUser, "Setting " + sVariable + " to " + sValue, SpeakingLevel.Misc, null, true);
         if(isNaN(sValue)) {
@@ -641,6 +644,31 @@ global.mCommands = [
     },
     requires: Requires.User,
     hint: "Shows the bot status.",
+    pm: true
+}, 
+{
+    command: 'greet',
+    callback: function (pUser, pText) {
+        if(!pText) return;
+        var sSplit = pText.split(' ');
+        var sVar = sSplit.shift();
+        var sVal = sSplit.join(' ');
+        if(mUsers[sVar.trim()]) {
+            var sUser = mUsers[sVar.trim()];
+            sUser.customGreeting = sVal;
+            Speak(sUser, "{username}'s greeting set to: " + sVal, SpeakingLevel.Misc);
+            sUser.Save();
+        } else FindByName(sVar, function (sUsers) {
+            for(var i = 0; i < sUsers.length; ++i) {
+                var sUser = sUsers[i];
+                sUser.customGreeting = sVal;
+                sUser.Save();
+                Speak(sUser, "{username}'s greeting set to: " + sVal, SpeakingLevel.Misc);
+            }
+        });
+    }, 
+    requires: Requires.Moderator,
+    hint: "Set a custom greeting for a user",
     pm: true
 }, 
 {
