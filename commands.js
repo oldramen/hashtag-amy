@@ -370,10 +370,20 @@ global.mCommands = [
                 sUser.isVip = false;
                 Speak(sUser, mIsNoLongerVIP, SpeakingLevel.Misc);
             });
-        } else Speak(pUser, 'Useage: /vip add [user], /vip remove [user]', SpeakingLevel.Misc, null, true)
+        }
+        else if (sVar == 'list'){
+            mMongoDB.collection(mRoomShortcut).find({'isVip': true}).toArray(function(err, sArray){
+                if(!sArray || !sArray.length) return;
+                var sNames = sArray.map(function(pObj){
+                    return pObj.name;
+                });
+                Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', sNames.join(', ')]], true);
+            });
+        }else if (!sVar){ Speak(pUser, 'Useage: /vip add @[user], /vip remove @[user], /vip list', SpeakingLevel.Misc, null, true); }
     },
     requires: Requires.Moderator,
-    hint: "Useage: /vip add [user], /vip remove [user]"
+    hint: "Useage: /vip add @[user], /vip remove @[user], /vip list",
+    pm: true
 },  
 {
     command: 'setvar',
