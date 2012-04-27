@@ -23,7 +23,7 @@ global.OnRegistered = function (pData) {
             RegisterUser(pData.user[i]);
             mPushingOutGreeting.push(mUsers[pData.user[i].userid]);
         }
-        if(sUser.isBanned) sUser.Boot(sUser.banReason ? sUser.banReason : mBanReason);
+        if(mUsers[sUser.userid].isBanned) mUsers[sUser.userid].Boot(mUsers[sUser.userid].banReason ? mUsers[sUser.userid].banReason : mBanReason);
     }
     if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
     if(mUsers[pData.user[0].userid].IsBot() && mNoGo) {

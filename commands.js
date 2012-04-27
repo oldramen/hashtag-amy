@@ -224,17 +224,37 @@ global.mCommands = [
 {
     command: 'djs',
     callback: function (pUser, pText) {
-        var sDJSongCount = [];
-        for(var sDJ in mDJs) {
-            var sUser = mUsers[mDJs[sDJ]];
-            sDJSongCount.push(sUser.name + ": " + sUser.songCount);
-        }
-        Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc, [
-            ['{djsandsongcount}', sDJSongCount.join(', ')]
-        ]);
+        if (!pText) {
+            var sDJSongCount = [];
+            for(var sDJ in mDJs) {
+                var sUser = mUsers[mDJs[sDJ]];
+                sDJSongCount.push(sUser.name + ": " + sUser.songCount);
+            }
+            Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc, [
+                ['{djsandsongcount}', sDJSongCount.join(', ')]
+            ]);
+        };
+        var sSplit = pText.split(' ');
+        var sVar = sSplit.shift();
+        var sVal = sSplit.join(' ');
+        if (sVar == 'reset' && (pUser.isMod)) {
+            if (sVal == 'all') {
+                for(i in mDJs) {
+                    var sUser = mUsers[mDJs[i]];
+                    sUser.songCount = 0;
+                    Speak(pUser, 'All DJ song counts have been reset.', SpeakingLevel.Misc, null, true);
+                }   
+            } else FindByName(sVal, function (sUsers) {
+                for(var i = 0; i < sUsers.length; ++i) {
+                    var sUser = sUsers[i];
+                    if (sUser.isDJ) sUser.songCount = 0;
+                }
+            Speak(sUser, "{username}'s song count has been reset.", SpeakingLevel.Misc, null, true);
+            });    
+        };
     },
     requires: Requires.User,
-    hint: "Tells the current song count for the DJs."
+    hint: "Song count for the DJs. /djs, /djs reset all, /djs reset @username"
 }, 
 {
     command: 'afks',
@@ -448,7 +468,7 @@ global.mCommands = [
         mParsing['{queuecurrentlyon}'] = mQueueCurrentlyOn ? "on" : "off";
         mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
     },
-    requires: Requires.Owner,
+    requires: Requires.Moderator,
     hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn",
     pm: true
 }, 
@@ -479,7 +499,7 @@ global.mCommands = [
         mParsing['{afklimit}'] = mParsing['{afk}'] = mAFK;
         mParsing['{songwait}'] = mWaitSongs;
     },
-    requires: Requires.Owner,
+    requires: Requires.Moderator,
     hint: "Temporarily changes options: greet, theme, help, limit, wait, afk",
     pm: true
 }, 
