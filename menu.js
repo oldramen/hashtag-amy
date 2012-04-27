@@ -43,7 +43,7 @@ global.mMenu = [,
       callback: function (pUser, pText) {
         mBot.speak(mRandomItem(this.message));
       }
-    }
+    },
     {
       item: 'beer',
       instock: ['Fat Tire', 'Sam Adams', 'Upland Wheat', 'Stella Artois', 'Arrogant Bastard', 'Keystone Light', 'Anchor Steam Porter', 'Dirty Helen', 'Tommyknocker'],
