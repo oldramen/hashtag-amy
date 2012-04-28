@@ -894,9 +894,12 @@ BaseUser = function () {
             mBot.remDj(this.userid);
         },
         OverMaxSongs: function () {
-            this.RemoveDJ();
             Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
-            this.mWaitingSongLimit = mWaitSongs;
+            setTimeout(function(){
+                this.RemoveDJ();
+                Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
+                this.mWaitingSongLimit = mWaitSongs;
+            }, 30000);
         },
         Increment_SongCount: function () {
             ++this.songCount;
