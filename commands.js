@@ -160,6 +160,7 @@ global.mCommands = [
 {
     command: 'maul',
     callback: function (pUser, pText) {
+        if (!pText) return;
         FindByName(pText, function (sUser) {
             for(var i = 0; i < sUser.length; ++i)
             mBot.remDj(sUser[i].userid);
@@ -230,28 +231,40 @@ global.mCommands = [
                 var sUser = mUsers[mDJs[sDJ]];
                 sDJSongCount.push(sUser.name + ": " + sUser.songCount);
             }
-            Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc, [
+            return Speak(pUser, mCurrentDJSongCount, SpeakingLevel.Misc, [
                 ['{djsandsongcount}', sDJSongCount.join(', ')]
             ]);
         };
         var sSplit = pText.split(' ');
         var sVar = sSplit.shift();
         var sVal = sSplit.join(' ');
-        if (sVar == 'reset' && (pUser.isMod)) {
-            if (sVal == 'all') {
-                for(i in mDJs) {
-                    var sUser = mUsers[mDJs[i]];
-                    sUser.songCount = 0;
-                    Speak(pUser, 'All DJ song counts have been reset.', SpeakingLevel.Misc, null, true);
-                }   
-            } else FindByName(sVal, function (sUsers) {
-                for(var i = 0; i < sUsers.length; ++i) {
-                    var sUser = sUsers[i];
-                    if (sUser.isDJ) sUser.songCount = 0;
-                }
-            Speak(sUser, "{username}'s song count has been reset.", SpeakingLevel.Misc, null, true);
-            });    
-        };
+        if (pUser.isMod) {
+            if (sVar == 'reset') {
+                if (sVal == 'all') {
+                    for(i in mDJs) {
+                        var sUser = mUsers[mDJs[i]];
+                        sUser.songCount = 0;
+                    }   
+                Speak(pUser, 'All DJ song counts have been reset.', SpeakingLevel.Misc);
+                } else FindByName(sVal, function (sUsers) {
+                    for(var i = 0; i < sUsers.length; ++i) {
+                        var sUser = sUsers[i];
+                        if (sUser.isDJ) {
+                            sUser.songCount = 0;
+                            Speak(sUser, "{username}'s song count has been reset.", SpeakingLevel.Misc);
+                        };
+                    }
+                });    
+            } else FindByName(sVar, function (sUsers) {
+                    for(var i = 0; i < sUsers.length; ++i) {
+                        var sUser = sUsers[i];
+                        if (sUser.isDJ) {
+                            sUser.songCount = sVal;
+                            Speak(sUser, "{username}'s song count has been set to "+sVal, SpeakingLevel.Misc);
+                        };
+                    }
+            });
+        }
     },
     requires: Requires.User,
     hint: "Song count for the DJs. /djs, /djs reset all, /djs reset @username"
