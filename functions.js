@@ -889,7 +889,8 @@ BaseUser = function () {
             return this.userid == mUserId;
         },
         RemoveDJ: function () {
-            if(!mIsModerator || !this.isDJ || this.IsBot()) return;
+            if (!mIsModerator) return Speak(this, "I'm not a mod, so I can't boot anyone.", SpeakingLevel.Misc);
+            if(!this.isDJ || this.IsBot()) return;
             mJustRemovedDJ.push(this.userid);
             mBot.remDj(this.userid);
         },
