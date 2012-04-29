@@ -150,7 +150,7 @@ global.OnNewSong = function (pData) {
             sUser.songCount = 0;
         }
     }
-    if(mCurrentDJ) {
+    if(mCurrentDJ && !mCurrentDJ.isVip) {
         if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit && !(mUsingLonelyDJ && !mCheckSongCountWithLonely)) mCurrentDJ.OverMaxSongs(mCurrentDJ);
         if(mCurrentDJ.bootAfterSong) {
             mCurrentDJ.RemoveDJ();
@@ -894,9 +894,13 @@ BaseUser = function () {
             mBot.remDj(this.userid);
         },
         OverMaxSongs: function () {
-            this.RemoveDJ();
-            Speak(this, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
-            this.mWaitingSongLimit = mWaitSongs;
+            var that = this;
+            Speak(this, mOverMaxSongsWarn, SpeakingLevel.Misc);
+            setTimeout(function (){
+                that.RemoveDJ();
+                Speak(that, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
+                that.mWaitingSongLimit = mWaitSongs;
+            }, 30000);            
         },
         Increment_SongCount: function () {
             ++this.songCount;
