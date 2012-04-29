@@ -294,6 +294,7 @@ global.mCommands = [
         mCommands.forEach(function (pCommand) {
             if(pCommand.requires.check(pUser) && !(pCommand.hidden)) sCommands.push(pCommand.command);
         });
+        if (mBotDJ) sCommands.push('hop, /song');
         Speak(pUser, mCommandsList, SpeakingLevel.Misc, [
             ['{commands}', sCommands.join(', /')]
         ], true);
@@ -400,16 +401,18 @@ global.mCommands = [
         if (sVar == 'add') {
             FindByName(sVal, function (sUser) {
                 if(sUser.length != 1) return;
-                sUser = sUser[0]
+                sUser = sUser[0];
                 sUser.isVip = true;
+                sUser.Save();
                 Speak(sUser, mIsNowVIP, SpeakingLevel.Misc);
             });
         }
         else if (sVar == 'remove'){
             FindByName(sVal, function (sUser) {
                 if(sUser.length != 1) return;
-                sUser = sUser[0]
+                sUser = sUser[0];
                 sUser.isVip = false;
+                sUser.Save();
                 Speak(sUser, mIsNoLongerVIP, SpeakingLevel.Misc);
             });
         }
@@ -465,6 +468,8 @@ global.mCommands = [
             if(sArg == 'on') mQueueCurrentlyOn = true;
         } else if(sTxt == 'limit' || sTxt == 'songlimit') {
             sVar = 'mLimitOn';
+        } else if(sTxt == 'dj') {
+            sVar = 'mBotDJ';
         } else if(sTxt == 'lonely' || sTxt == 'lonelydj') {
             sVar = 'mLonelyDJ';
         } else if(sTxt == 'whitelist') {
@@ -591,7 +596,8 @@ global.mCommands = [
     },
     requires: Requires.Moderator,
     hint: "Makes the bot DJ",
-    pm: true
+    pm: true,
+    hidden: true
 }, 
 {
     command: 'song',
@@ -660,7 +666,8 @@ global.mCommands = [
     },
     requires: Requires.Moderator,
     hint: "song skip (skips song), song add (adds current song to queue), song remove (removes last played song from queue), song next (lists next song), song total (total songs in queue).",
-    pm: true
+    pm: true,
+    hidden: true
 }, 
 {
     command: 'refresh',
