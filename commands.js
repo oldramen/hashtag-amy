@@ -238,6 +238,16 @@ global.mCommands = [
         var sSplit = pText.split(' ');
         var sVar = sSplit.shift();
         var sVal = sSplit.join(' ');
+        if (sVar == 'wait') {
+            var sDJWaitCount = [];
+            for(var x in mUsers) {
+                var sUser = mUsers[x];
+                if (sUser.mWaitingSongLimit > 0) sDJWaitCount.push(sUser.name + ": " + sUser.mWaitingSongLimit);
+            }
+            return Speak(pUser, "Wait Counts: {djwaticount}", SpeakingLevel.Misc, [
+                ['{djwaticount}', sDJWaitCount.join(', ')]
+            ]);
+        };
         if (pUser.isMod) {
             if (sVar == 'reset') {
                 if (sVal == 'all') {
@@ -417,13 +427,22 @@ global.mCommands = [
             });
         }
         else if (sVar == 'list'){
-            mMongoDB.collection(mRoomShortcut).find({'isVip': true}).toArray(function(err, sArray){
+            var sVips = [];
+            for(var x in mUsers) {
+                var sUser = mUsers[x];
+                if (sUser.isVip) sVips.push(sUser.name);
+            }
+            return Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [
+                ['{vip_list}', sVips.join(', ')]
+            ]);
+
+            /*mMongoDB.collection(mRoomShortcut).find({'isVip': true}).toArray(function(err, sArray){
                 if(!sArray || !sArray.length) return;
                 var sNames = sArray.map(function(pObj){
                     return pObj.name;
                 });
                 Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', sNames.join(', ')]], true);
-            });
+            });*/
         }else if (!sVar){ Speak(pUser, 'Useage: /vip add @[user], /vip remove @[user], /vip list', SpeakingLevel.Misc, null, true); }
     },
     requires: Requires.Moderator,
@@ -487,7 +506,7 @@ global.mCommands = [
         mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
     },
     requires: Requires.Moderator,
-    hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn",
+    hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn, dj",
     pm: true
 }, 
 {
@@ -569,6 +588,16 @@ global.mCommands = [
                     Speak(sUser, mRemovedFromWhiteList, SpeakingLevel.Misc);
                 }
             });
+        };
+        if(sArg == 'list') {
+            var sListed = [];
+            for(var x in mUsers) {
+                var sUser = mUsers[x];
+                if (sUser.whiteList) sListed.push(sUser.name);
+            }
+            return Speak(pUser, "Whitelisted: {whitelisted}", SpeakingLevel.Misc, [
+                ['{whitelisted}', sListed.join(', ')]
+            ]);
         }
     },
     requires: Requires.Moderator,

@@ -900,7 +900,7 @@ BaseUser = function () {
             setTimeout(function (){
                 that.RemoveDJ();
                 Speak(that, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
-                that.mWaitingSongLimit = mWaitSongs;
+                that.mWaitingSongLimit = mWaitSongs + 1;
             }, 30000);            
         },
         Increment_SongCount: function () {
