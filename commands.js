@@ -439,6 +439,7 @@ global.mCommands = [
 		               for(var i = 0; i < sArray.length; ++i){
 		               		if(!sVips[sArray[i].userid]) sVips[sArray[i].userid] = sArray[i].name;
 		               }
+	               console.log(sVips);
 	               Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
 	            });
            }else Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
