@@ -708,7 +708,7 @@ global.FindByNameLocal = function (pName, pResults) {
         var sUserID = sUserIDs[i];
         if(mUsers[sUserID].name.match(pName)) {
             //Results.push(mUsers[sUserID]);
-            if(sResults[sUserID]) sResults[sUserID] = sResults[sUserID].extend(mUsers[sUserID]);
+            if(sResults[sUserID]) sResults[sUserID] = mUsers[sUserID];
             else sResults[sUserID] = mUsers[sUserID];
         }
     }
