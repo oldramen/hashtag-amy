@@ -413,7 +413,6 @@ global.mCommands = [
                 if(sUser.length != 1) return;
                 sUser = sUser[0];
                 sUser.isVip = true;
-                console.log("SAVING", sUser);
                 sUser.Save();
                 Speak(sUser, mIsNowVIP, SpeakingLevel.Misc);
             });

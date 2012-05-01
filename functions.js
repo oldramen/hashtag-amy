@@ -106,7 +106,6 @@ global.OnAddDJ = function (pData) {
             sUser.RemoveDJ();
         }
     } else sUser.allowedToReserveSpot = true;
-    console.log(sUser.name, sUser.mWaitingSongLimit)
     if(sUser.mWaitingSongLimit && sElapsedTimeMS < mMaxElapsedTimeForDJSpot) {
         sUser.RemoveDJ();
         sUser.PM(mHaveToWait, SpeakingLevel.Misc);
@@ -812,12 +811,10 @@ global.Remove = function (pFrom, pData, pCallback) {
 
 global.Save = function (pTo, pData) {
     if(!mMongoDB){ return; }
-    console.log("Saving...");
     mMongoDB.collection(pTo).removeById(pData._id, {
         safe: true
     }, function (err, cur) {
-    	console.log("Reinserting", pData);
-        Insert(pTo, pData);
+    	Insert(pTo, pData);
     });
 }
 
