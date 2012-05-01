@@ -430,19 +430,18 @@ global.mCommands = [
             var sVips = [];
             for(var x in mUsers) {
                 var sUser = mUsers[x];
-                if (sUser.isVip) sVips.push(sUser.name);
+                if (sUser.isVip) sVips[sUser.userid] = sUser.name;
             }
-            return Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [
-                ['{vip_list}', sVips.join(', ')]
-            ]);
 
-            /*mMongoDB.collection(mRoomShortcut).find({'isVip': true}).toArray(function(err, sArray){
-                if(!sArray || !sArray.length) return;
-                var sNames = sArray.map(function(pObj){
-                    return pObj.name;
-                });
-                Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', sNames.join(', ')]], true);
-            });*/
+			if(mMongoDB){
+	            mMongoDB.collection(mRoomShortcut).find({'isVip': true}).toArray(function(err, sArray){
+	               if(sArray && sArray.length)
+		               for(var i = 0; i < sArray.length; ++i){
+		               		if(!sVips[sArray[i].userid]) sVips[sArray[i].userid] = sArray[i].name;
+		               }
+	               Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
+	            });
+           }else Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
         }else if (!sVar){ Speak(pUser, 'Useage: /vip add @[user], /vip remove @[user], /vip list', SpeakingLevel.Misc, null, true); }
     },
     requires: Requires.Moderator,
