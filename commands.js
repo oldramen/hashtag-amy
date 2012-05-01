@@ -528,6 +528,7 @@ global.mCommands = [
         mParsing['{queue}'] = mQueueOn ? "on" : "off";
         mParsing['{queuecurrentlyon}'] = mQueueCurrentlyOn ? "on" : "off";
         mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
+        SetDefaults();
     },
     requires: Requires.Moderator,
     hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn, dj",
@@ -559,6 +560,7 @@ global.mCommands = [
         mParsing['{songlimit}'] = mCurrentSongLimit;
         mParsing['{afklimit}'] = mParsing['{afk}'] = mAFK;
         mParsing['{songwait}'] = mWaitSongs;
+        SetDefaults();
     },
     requires: Requires.Moderator,
     hint: "Temporarily changes options: greet, theme, help, limit, wait, afk",
