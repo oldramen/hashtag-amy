@@ -811,11 +811,11 @@ global.Remove = function (pFrom, pData, pCallback) {
 };
 
 global.Save = function (pTo, pData) {
-    if(!mMongoDB){ console.log("Fuck."); return; }
+    if(!mMongoDB){ return; }
     mMongoDB.collection(pTo).removeById(pData._id, {
         safe: true
     }, function (err, cur) {
-    	console.log("Reinserting");
+    	console.log("Reinserting", pData);
         Insert(pTo, pData);
     });
 }
