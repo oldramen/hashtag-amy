@@ -812,6 +812,7 @@ global.Remove = function (pFrom, pData, pCallback) {
 
 global.Save = function (pTo, pData) {
     if(!mMongoDB){ return; }
+    console.log("Saving...");
     mMongoDB.collection(pTo).removeById(pData._id, {
         safe: true
     }, function (err, cur) {
