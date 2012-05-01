@@ -909,6 +909,18 @@ BaseUser = function () {
         joinedTime: Date.now(),
         whiteList: false,
         allowedToReserveSpot: true,
+        dGreeting: null,
+        dTheme: null,
+        dHelp: null,
+        dMaxSongs: null,
+        dWaitSongs: null,
+        dAFK: null,
+        dQueueOn: null,
+        dLimitOn: null,
+        dBotDJ: null,
+        dLonelyDJ: null,
+        dWhiteListEnabled: null,
+        dWarn: null,
         Boot: function (pReason) {
             mBot.bootUser(this.userid, pReason ? pReason : "");
         },
