@@ -401,7 +401,7 @@ global.BootUp = function () {
     Log("Joined the room.  Booting up");
     SetMyName(mName);
     SetLaptop();
-    GetDefaults();
+    SetDefaults();
     mLoopInterval = setInterval(function () {
         Loop();
     }, mLoopTimeout * 1000);
@@ -430,57 +430,6 @@ global.LoadParsing = function () {
     mParsing['{heartcount}'] = 0;
     Log("Updated Parsing Library");
 };
-
-global.GetDefaults = function () {
-    var sBot = mUsers[mUserId];
-    if (!sBot.dGreeting) sBot.dGreeting = mDefaultGreeting;
-    if (!sBot.dTheme) sBot.dTheme = mTheme;
-    if (!sBot.dHelp) sBot.dHelp = mHelpMsg;
-    if (!sBot.dMaxSongs) sBot.dMaxSongs = mMaxSongs;
-    if (!sBot.dWaitSongs) sBot.dWaitSongs = mWaitSongs;
-    if (!sBot.dAFK) sBot.dAFK = mAFK;
-    if (!sBot.dQueueOn) sBot.dQueueOn = mQueueOn;
-    if (!sBot.dLimitOn) sBot.dLimitOn = mLimitOn;
-    if (!sBot.dBotDJ) sBot.dBotDJ = mBotDJ;
-    if (!sBot.dLonelyDJ) sBot.dLonelyDJ = mLonelyDJ;
-    if (!sBot.dWhiteListEnabled) sBot.dWhiteListEnabled = mWhiteListEnabled;
-    if (!sBot.dWarn) sBot.dWarn = mWarn;
-
-    mDefaultGreeting = sBot.dGreeting;
-    mTheme = sBot.dTheme;
-    mHelpMsg = sBot.dHelp;
-    mMaxSongs = sBot.dMaxSongs
-    mWaitSongs = sBot.dWaitSongs;
-    mAFK = sBot.dAFK;
-    mQueueOn = sBot.dQueueOn;
-    mLimitOn = sBot.dLimitOn;
-    mBotDJ = sBot.dBotDJ;
-    mLonelyDJ = sBot.dLonelyDJ;
-    mWhiteListEnabled = sBot.dWhiteListEnabled;
-    mWarn = sBot.dWarn;
-
-    sBot.Save();
-    Log("Loaded Defaults");
-};
-
-global.SetDefaults = function () {
-    var sBot = mUsers[mUserId];
-    sBot.dGreeting = mDefaultGreeting;
-    sBot.dTheme = mTheme;
-    sBot.dHelp = mHelpMsg;
-    sBot.dMaxSongs = mMaxSongs;
-    sBot.dWaitSongs = mWaitSongs;
-    sBot.dAFK = mAFK;
-    sBot.dQueueOn = mQueueOn;
-    sBot.dLimitOn = mLimitOn;
-    sBot.dBotDJ = mBotDJ;
-    sBot.dLonelyDJ = mLonelyDJ;
-    sBot.dWhiteListEnabled = mWhiteListEnabled;
-    sBot.dWarn = mWarn;
-
-    sBot.Save();
-    Log("Set Defaults")
-}
 
 global.SetMyName = function (pName) {
     mBot.modifyProfile({
@@ -909,18 +858,6 @@ BaseUser = function () {
         joinedTime: Date.now(),
         whiteList: false,
         allowedToReserveSpot: true,
-        dGreeting: null,
-        dTheme: null,
-        dHelp: null,
-        dMaxSongs: null,
-        dWaitSongs: null,
-        dAFK: null,
-        dQueueOn: null,
-        dLimitOn: null,
-        dBotDJ: null,
-        dLonelyDJ: null,
-        dWhiteListEnabled: null,
-        dWarn: null,
         Boot: function (pReason) {
             mBot.bootUser(this.userid, pReason ? pReason : "");
         },
