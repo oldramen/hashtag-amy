@@ -897,6 +897,7 @@ BaseUser = function () {
             var that = this;
             Speak(this, mOverMaxSongsWarn, SpeakingLevel.Misc);
             setTimeout(function (){
+                if(!that.isDJ) return;
                 that.RemoveDJ();
                 Speak(that, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
                 that.mWaitingSongLimit = mWaitSongs + 1;
