@@ -427,7 +427,7 @@ global.mCommands = [
             });
         }
         else if (sVar == 'list'){
-            var sVips = [];
+            var sVips = {};
             for(var x in mUsers) {
                 var sUser = mUsers[x];
                 if (sUser.isVip) sVips[sUser.userid] = sUser.name;
