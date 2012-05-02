@@ -46,7 +46,7 @@ global.mMenu = [,
     },
     {
       item: 'beer',
-      instock: ['Fat Tire', 'Sam Adams', 'Upland Wheat', 'Stella Artois', 'Arrogant Bastard', 'Keystone Light', 'Anchor Steam Porter', 'Dirty Helen', 'Tommyknocker'],
+      instock: ['Fat Tire', 'Sam Adams', 'Upland Wheat', 'Stella Artois', 'Arrogant Bastard', 'Keystone Light', 'Anchor Steam Porter', 'Dirty Helen', 'Tommyknocker', 'Guinness', 'Heineken', 'Dark Lord', 'Newcastle', 'Killian\'s', 'Breckenridge Vanilla Porter', 'Breckenridge Oatmeal Stout', 'Honey Brown' ],
       message: 'Have yourself a nice cold ',
       callback: function (pUser, pText) {
         mBot.speak(this.message + mRandomItem(this.instock) + '.');
