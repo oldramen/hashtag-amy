@@ -401,7 +401,6 @@ global.BootUp = function () {
     Log("Joined the room.  Booting up");
     SetMyName(mName);
     SetLaptop();
-    SetDefaults();
     mLoopInterval = setInterval(function () {
         Loop();
     }, mLoopTimeout * 1000);
