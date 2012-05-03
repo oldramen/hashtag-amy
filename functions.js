@@ -66,7 +66,7 @@ global.OnNewModerator = function (pData) {
     var sUser = mUsers[pData.userid];
     if(sUser.IsBot()) mIsModerator = true;
     else sUser.isMod = true; ///mModerators[pData.userid] = true;
-    if(sUser) Speak(mUsers[sUser], mAddMod, SpeakingLevel.MODChange);
+    if(sUser) Speak(sUser, mAddMod, SpeakingLevel.MODChange);
     Log(sUser.name + " is now a moderator");
 };
 
