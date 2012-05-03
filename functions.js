@@ -876,6 +876,7 @@ BaseUser = function () {
         },
         BootAFK: function () {
             Speak(this, mRemDJMsg, SpeakingLevel.Misc);
+            if (this == mCurrentDJ) return this.bootAfterSong = true;
             this.RemoveDJ();
         },
         PM: function (pSpeak, pSpeakingLevel, pArgs) {
