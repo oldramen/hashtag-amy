@@ -82,6 +82,12 @@ global.mSongRemoveNotDJ         = "You can only remove a song when I'm playing a
 global.mSongNext                = "Next song: {next} by {artist}";
 global.mSongTotal               = "Total Songs In My Queue: {songtotal}";
 
+//Twitter
+global.mDefaultTweet            = "{currentdj} is playing {song} right now!";
+global.mConfirmTweet            = "Tweet sent!"
+global.mTweetLimit              = "Your tweet is {charlimit} characters over the limit!";
+global.mTweetSpam               = "Don't spam! You can only tweet once every "+mTwitTimeout+" minutes! Wait for a bit :P"
+
 //General
 global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
 global.mCommandsList            = "The list of commands are as follows: /{commands}";

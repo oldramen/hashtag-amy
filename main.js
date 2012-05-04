@@ -101,5 +101,6 @@ if (mTwitKey) {
 	  , access_token:         mTwitToken
 	  , access_token_secret:  mTwitTokenSecret
 	});
+	global.mLastTweeted = null;
 	Log("Done");
 }

@@ -703,7 +703,7 @@ global.mCommands = [
         if(pText == 'add') {
             mBot.playlistAll(function (pData) {
                 mBot.playlistAdd(mCurrentSong.songId, pData.list.length);
-                return Speak(pUser, , SpeakingLevel.Misc, [['{currentsong}', ]mCurrentSong.songName]);
+                return Speak(pUser, , SpeakingLevel.Misc, [['{currentsong}', mCurrentSong.songName]]);
             }); 
         };
         if(pText == 'remove') {
@@ -795,7 +795,39 @@ global.mCommands = [
     requires: Requires.Moderator,
     hint: "Set a custom greeting for a user",
     pm: true
-}, 
+},
+{
+    command: 'tweet',
+    callback: function (pUser, pText) {
+        if (!mTwitOn) return;
+        var sAge = Date.now() - mLastTweeted;
+        var sAge_Minutes = sAge / 60000; 
+        if(sAge_Minutes < mTwitTimeout) return Speak(pUser, mTweetSpam, SpeakingLevel.Misc, null, true);
+        if (!pText) {
+            var sTweet = mDefaultTweet.replace(/\{currentdj\}/gi, mCurrentDJ.name).replace(/\{song\}/gi, mCurrentSong.songName);
+            mTwitter.post('statuses/update', {
+             status: sTweet 
+            });
+            mLastTweeted = Date.now();
+            return Speak(pUser, mConfirmTweet, SpeakingLevel.Misc);
+        }
+        else {
+            var sLen = pText.length;
+            if (sLen > 140) {
+                return Speak(pUser, mTweetLimit, SpeakingLevel.Misc,[['{charlimit}', 140 - sLen]], true);
+            }
+            mTwitter.post('statuses/update', {
+             status: pText 
+            });
+            mLastTweeted = Date.now();
+            return Speak(pUser, mConfirmTweet, SpeakingLevel.Misc);
+        }
+    }
+    requires: mModTwit ? Requires.Moderator : Requires.Owner,
+    hint: "'/tweet' tweets now playing, and '/tweet msg' will tweet 'msg'",
+    pm: true,
+    hidden: true
+},
 {
     command: 'i',
     callback: function (pUser, pText) {

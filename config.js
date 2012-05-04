@@ -79,6 +79,7 @@ global.mQueueGrabSpotTimeout	= 30;		//How many seconds we should hold a spot for
 //Twitter
 global.mTwitOn					= false;	//Whether or not twitter functions are enabled
 global.mModTwit					= false;	//If true, mods can tweet, if false, only owners can tweet
+global.mTwitTimeout				= 20;		//How often [in minutes] the bot can tweet
 global.mTwitKey					= "";		//Consumer Key for Twitter
 global.mTwitSecret				= "";		//Consumer Secret for Twitter
 global.mTwitToken				= "";		//Access Token for Twitter
