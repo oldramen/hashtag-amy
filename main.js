@@ -12,9 +12,9 @@ global._            =   require("underscore");
 global.mMongo       =   require("mongoskin");
 global.mReadLine    =   require("readline");
 global.mUtil        =   require("util");
-global.mTwit		=	require("twit");
 global.mCommandsMod =   require("./commands.js");
 if (mWaiter) require("./menu.js");
+if (mTwitOn) global.mTwit = require("twit");
 
 Log("Initializing");
 //Let's set some constant variables.
