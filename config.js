@@ -65,13 +65,7 @@ global.mWhiteListEnabled		= false;	//Whitelist is on ( true ) or off ( false )
 global.mPMSpeak                 = true;     //Whether the bot will PM users so as to not spam
 global.mModBop                  = false;    //True, only mods can use the /bop command, false, anyone can.
 global.mWaiter                 	= true;     //Whether waiter (/order) is enabled by default
-global.mBotDJ               	= false;    //Whether the bot can dj on command
-
-
-
-
-
-global.mAutoBopForMods			= true;				//If we should automatically bop for mods and above.
+global.mBotDJ               	= false;    //Whether the bot can dj on commandglobal.mAutoBopForMods			= true;				//If we should automatically bop for mods and above.
 global.mAutoBanBoots			= false;			//Instead of banning people, we simply boot them from the room.
 global.mAutoBanOnTTLink			= true;				//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
 global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)

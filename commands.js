@@ -133,7 +133,7 @@ global.mCommands = [
         if(sArg == 'clear' && (pUser.isMod)){
             mQueue = [];
             mQueueNextUp = null;
-            return Speak (pUser, 'Queue Cleared', SpeakingLevel.Misc);
+            return Speak (pUser, mClearQueue, SpeakingLevel.Misc);
         };
         if(sArg == 'status'){
             if(!mQueueCurrentlyOn) return Speak(pUser, mQueueOff, SpeakingLevel.Misc);
@@ -154,7 +154,7 @@ global.mCommands = [
 
     },
     requires: Requires.User,
-    hint: "q add, q remove, q status",
+    hint: "/q add, /q remove, /q status, /q clear",
     bare: true
 }, 
 {
@@ -196,7 +196,17 @@ global.mCommands = [
 }, 
 {
     command: 'stagedive',
-    message: ["{username} is surfing the crowd!", "Oops! {username} lost a shoe sufing the crowd.", "Wooo! {username}'s surfin' the crowd! Now to figure out where the wheelchair came from...", "Well, {username} is surfing the crowd, but where did they get a raft...", "{username} dived off the stage...too bad no one in the audience caught them.", "{username} tried to jump off the stage, but kicked their laptop. Ouch.", "{username} said they were going to do a stagedive, but they just walked off.", "And {username} is surfing the crowd! But why are they shirtless?", "{username} just traumatized us all by squashing that poor kid up front."],
+    message: [
+        "{username} is surfing the crowd!", 
+        "Oops! {username} lost a shoe sufing the crowd.", 
+        "Wooo! {username}'s surfin' the crowd! Now to figure out where the wheelchair came from...", 
+        "Well, {username} is surfing the crowd, but where did they get a raft...", 
+        "{username} dived off the stage...too bad no one in the audience caught them.", 
+        "{username} tried to jump off the stage, but kicked their laptop. Ouch.", 
+        "{username} said they were going to do a stagedive, but they just walked off.", 
+        "And {username} is surfing the crowd! But why are they shirtless?", 
+        "{username} just traumatized us all by squashing that poor kid up front."
+    ],
     callback: function (pUser, pText) {
         if(mDJs.indexOf(pUser.userid) == -1) return;
         var sMessage = mRandomItem(this.message);
@@ -346,7 +356,10 @@ global.mCommands = [
 }, 
 {
     command: 'hulk',
-    message: ['This is my favorite dubstep.', 'I just want to hump the speaker.'],
+    message: [
+        'This is my favorite dubstep.', 
+        'I just want to hump the speaker.'
+    ],
     callback: function (pUser, pText) {
         mBot.vote("up");
         mBot.speak(mRandomItem(this.message));
@@ -376,7 +389,7 @@ global.mCommands = [
 {
     command: 'album',
     callback: function (pUser, pText) {
-        Speak(pUser, "{title} is on {album}", SpeakingLevel.Misc, [['{title}', mCurrentSong.songName], ['{album}', mCurrentSong.songAlbum]])
+        Speak(pUser, mAlbum, SpeakingLevel.Misc, [['{title}', mCurrentSong.songName], ['{album}', mCurrentSong.songAlbum]])
     },
     requires: Requires.User,
     hint: "Get the album",
@@ -440,9 +453,9 @@ global.mCommands = [
 		               		if(!sVips[sArray[i].userid]) sVips[sArray[i].userid] = sArray[i].name;
 		               }
 	               console.log(sVips);
-	               Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
+	               Speak(pUser, mVIPList, SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
 	            });
-           }else Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
+           }else Speak(pUser, mVIPList, SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]], true);
         }else if (!sVar){ Speak(pUser, 'Useage: /vip add @[user], /vip remove @[user], /vip list', SpeakingLevel.Misc, null, true); }
     },
     requires: Requires.Moderator,
@@ -465,9 +478,9 @@ global.mCommands = [
                             if(!sVips[sArray[i].userid]) sVips[sArray[i].userid] = sArray[i].name;
                        }
                    console.log(sVips);
-                   Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]]);
+                   Speak(pUser, mVIPList, SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]]);
                 });
-           }else Speak(pUser, "VIPs: {vip_list}", SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]]);
+           }else Speak(pUser, mVIPList, SpeakingLevel.Misc, [['{vip_list}', _.values(sVips).join(', ')]]);
     },
     requires: Requires.User,
     hint: 'spits out a list of vips',
@@ -523,7 +536,7 @@ global.mCommands = [
             return;
         };
         if (sArg == 'off') sVal = false;
-        Speak(pUser, "Turning " + sTxt + " " + sArg, SpeakingLevel.Misc, null, true);
+        Speak(pUser, "Turning " + sTxt + ": " + sArg, SpeakingLevel.Misc, null, true);
         eval(sVar + " = " + sVal);
         mParsing['{queue}'] = mQueueOn ? "on" : "off";
         mParsing['{queuecurrentlyon}'] = mQueueCurrentlyOn ? "on" : "off";
@@ -619,7 +632,7 @@ global.mCommands = [
                 var sUser = mUsers[x];
                 if (sUser.whiteList) sListed.push(sUser.name);
             }
-            return Speak(pUser, "Whitelisted: {whitelisted}", SpeakingLevel.Misc, [
+            return Speak(pUser, mWhiteListed, SpeakingLevel.Misc, [
                 ['{whitelisted}', sListed.join(', ')]
             ]);
         }
@@ -642,8 +655,8 @@ global.mCommands = [
 {
     command: 'hop',
     callback: function (pUser, pText) {
-        if(mLonelyDJ) return Speak(pUser, "Sorry, I can't DJ with LonelyDJ enabled D:", SpeakingLevel.Misc, null, true);
-        if(!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
+        if(mLonelyDJ) return Speak(pUser, mLonelyStillOn, SpeakingLevel.Misc, null, true);
+        if(!mBotDJ) return Speak(pUser, mBotDJTurnedOff, SpeakingLevel.Misc, null, true);
         if(pText == 'up' && mDJs.indexOf(mUserId) == -1) mBot.addDj();
         if(pText == 'down' && mDJs.indexOf(mUserId) != -1) mBot.remDj(mUserId);
     },
@@ -655,14 +668,14 @@ global.mCommands = [
 {
     command: 'song',
     callback: function (pUser, pText) {
-        if(!pText) return Speak(pUser, 'Useage: /song add, /song remove, /song skip, /song next, /song total', SpeakingLevel.Misc, null, true);
+        if(!pText) return Speak(pUser, this.hint, SpeakingLevel.Misc, null, true);
         if(pText == 'skip' && mCurrentDJ.userid == mUserId) return mBot.stopSong();
-        if(!mBotDJ) return Speak(pUser, "Sorry, I don't know how to DJ.", SpeakingLevel.Misc, null, true);
+        if(!mBotDJ) return Speak(pUser, mBotDJTurnedOff, SpeakingLevel.Misc, null, true);
         if(pText == 'skip' && mCurrentDJ.userid != mUserId) {
             mBot.playlistAll(function (pData) {
                 if (pData.list.length == 0) return;
                 var i = pData.list.length - 1;
-                Speak(pUser, "Skipped '"+ pData.list[0].metadata.song + "'. Next Song: '" + pData.list[1].metadata.song + "' Type /song requeue to undo.", SpeakingLevel.Misc, null, true)
+                Speak(pUser, , SpeakingLevel.Misc, [['skippedsong', pData.list[0].metadata.song], ['{nextsong}', pData.list[1].metadata.song]], true)
                 return mBot.playlistReorder(0, i);
             });
         };
@@ -671,7 +684,7 @@ global.mCommands = [
                 if (pData.list.length == 0) return;
                 var i = pData.list.length - 1;
                 mBot.playlistReorder(i, 0);
-                return Speak(pUser, "Moved "+ pData.list[i].metadata.song + ". to the top of the queue.", SpeakingLevel.Misc, null, true)
+                return Speak(pUser, mSongRequeue, SpeakingLevel.Misc, [['{bottomsong}', pData.list[i].metadata.song]], true)
             });
         };
         if(pText == 'shuffle') {
@@ -684,35 +697,35 @@ global.mCommands = [
                 for(var i = 0; i < pData.list.length; ++i) {
                     mBot.playlistReorder(i, sRand[i]);
                 }
-                return Speak(pUser, "Shuffled Queue.", SpeakingLevel.Misc, null, true);
+                return Speak(pUser, mSongSuffle, SpeakingLevel.Misc, null, true);
             });
         };
         if(pText == 'add') {
             mBot.playlistAll(function (pData) {
                 mBot.playlistAdd(mCurrentSong.songId, pData.list.length);
-                return Speak(pUser, "Added " + mCurrentSong.songName + " to queue!", SpeakingLevel.Misc);
+                return Speak(pUser, , SpeakingLevel.Misc, [['{currentsong}', ]mCurrentSong.songName]);
             }); 
         };
         if(pText == 'remove') {
-            if(mCurrentDJ.userid != mUserId) return Speak(pUser, "You can only remove a song when I'm playing a song.", SpeakingLevel.Misc, null, true);
+            if(mCurrentDJ.userid != mUserId) return Speak(pUser, mSongRemoveNotDJ, SpeakingLevel.Misc, null, true);
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
                 var i = pData.list.length - 1;
                 mBot.stopSong();
-                Speak(pUser, 'Removing ' + pData.list[i].metadata.song, SpeakingLevel.Misc, null, true);
+                Speak(pUser, mSongRemove, SpeakingLevel.Misc, [['{lastsong}', pData.list[i].metadata.song]], true);
                 return mBot.playlistRemove(i);
             });
         };
         if(pText == 'next') {
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
-                return Speak(pUser, 'Next song: ' + pData.list[0].metadata.song + ' by ' + pData.list[0].metadata.artist, SpeakingLevel.Misc, null, true)
+                return Speak(pUser, mSongNext, SpeakingLevel.Misc, [['{next}', pData.list[0].metadata.song], ['{artist}', pData.list[0].metadata.artist]], true)
             });
         };
         if(pText == 'total') {
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
-                return Speak(pUser, 'Total Songs In My Queue: ' + pData.list.length, SpeakingLevel.Misc)
+                return Speak(pUser, mSongTotal, SpeakingLevel.Misc, [['{songtotal}', pData.list.length]])
             });
         }
 
@@ -768,14 +781,14 @@ global.mCommands = [
         if(mUsers[sVar.trim()]) {
             var sUser = mUsers[sVar.trim()];
             sUser.customGreeting = sVal;
-            Speak(sUser, "{username}'s greeting set to: " + sVal, SpeakingLevel.Misc);
+            Speak(sUser, mGreetChange, SpeakingLevel.Misc, [['{greeting}', sVal]]);
             sUser.Save();
         } else FindByName(sVar, function (sUsers) {
             for(var i = 0; i < sUsers.length; ++i) {
                 var sUser = sUsers[i];
                 sUser.customGreeting = sVal;
                 sUser.Save();
-                Speak(sUser, "{username}'s greeting set to: " + sVal, SpeakingLevel.Misc);
+                Speak(sUser, mGreetChange, SpeakingLevel.Misc, [['{greeting}', sVal]]);
             }
         });
     }, 
@@ -787,7 +800,7 @@ global.mCommands = [
     command: 'i',
     callback: function (pUser, pText) {
         if(pUser.totalSongCount < 1) return Speak(pUser, "I don't know you yet, {username}. Stay a while, play some songs.", SpeakingLevel.Misc)
-        Speak(pUser, "{username}'s hearts: {heart_count}, hearts given: {given_count}, total songs: {total_songs}, Heart Percentage: {heart_percentage}%", SpeakingLevel.Misc, [
+        Speak(pUser, mUserInfo, SpeakingLevel.Misc, [
             ['{heart_count}', pUser.totalHeartCount],
             ['{given_count}', pUser.totalHeartsGiven],
             ['{total_songs}', pUser.totalSongCount],

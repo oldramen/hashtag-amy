@@ -52,10 +52,12 @@ global.mAlreadyInQueue          = "Sorry, {username}, but you're already in the 
 global.mRemoveFromQueue         = "You've been removed from the queue.";
 global.mNotInQueue              = "You're not in the queue.";
 global.mModRemoveFromQueue      = "Removed {username} from the queue.";
+global.mClearQueue              = "Queue Cleared";
 
 //VIP
 global.mIsNowVIP                = "{username} is now a VIP.";
 global.mIsNoLongerVIP           = "{username} is no longer a VIP."
+global.mVIPList                 = "VIPs: {vip_list}";
 
 //Bans
 global.mUnbanned                = "{username} is now unbanned.";
@@ -66,6 +68,19 @@ global.mBanned                  = "{username} is now banned.";
 global.mNotOnWhiteList          = "I'm sorry, but you're not on the whitelist."; /// PMed to User.
 global.mAddedToWhiteList        = "{username} has been added to the whitelist.";
 global.mRemovedFromWhiteList    = "{username} has been removed from the whitelist.";
+global.mWhiteListed             = "Whitelisted: {whitelisted}";
+
+//Song
+global.mLonelyStillOn           = "Sorry, I can't DJ with LonelyDJ enabled D:";
+global.mBotDJTurnedOff          = "Sorry, I don't know how to DJ";
+global.mSongSkip                = "Skipped '{skippedsong}'. Next Song: '{nextsong}' Type /song requeue to undo.";
+global.mSongRequeue             = "Moved {bottomsong} to the top of the queue.";
+global.mSongSuffle              = "Shuffled Queue.";
+global.mSongAdd                 = "Added {currentsong} to queue!";
+global.mSongRemove              = "Removing {lastsong}";
+global.mSongRemoveNotDJ         = "You can only remove a song when I'm playing a song.";
+global.mSongNext                = "Next song: {next} by {artist}";
+global.mSongTotal               = "Total Songs In My Queue: {songtotal}";
 
 //General
 global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
@@ -80,6 +95,10 @@ global.mOffGenre                = "I'm sorry, but your song seems to be off genr
 global.mPMWillBootOffDeck       = "Alright, I'll boot you off the deck at the end of your song.";
 global.mReadyRefresh            = "Okay, you can go ahead and refresh and I'll make sure you get your spot back.";
 global.mSpotOpenFor             = "The DJ Spot was open for {opentime} seconds. ";
+global.mNotMod                  = "I'm not a mod, so I can't boot anyone.";
+global.mAlbum                   = "{title} is on {album}";
+global.mGreetChange             = "{username}'s greeting set to: {greeting}";
+global.mUserInfo                = "{username}'s hearts: {heart_count}, hearts given: {given_count}, total songs: {total_songs}, Heart Percentage: {heart_percentage}%";
 
 
 //Speaking Values [advanced use only]
