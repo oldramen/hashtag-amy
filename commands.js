@@ -675,7 +675,7 @@ global.mCommands = [
             mBot.playlistAll(function (pData) {
                 if (pData.list.length == 0) return;
                 var i = pData.list.length - 1;
-                Speak(pUser, , SpeakingLevel.Misc, [['skippedsong', pData.list[0].metadata.song], ['{nextsong}', pData.list[1].metadata.song]], true)
+                Speak(pUser, mSongSkip, SpeakingLevel.Misc, [['skippedsong', pData.list[0].metadata.song], ['{nextsong}', pData.list[1].metadata.song]], true)
                 return mBot.playlistReorder(0, i);
             });
         };
@@ -703,7 +703,7 @@ global.mCommands = [
         if(pText == 'add') {
             mBot.playlistAll(function (pData) {
                 mBot.playlistAdd(mCurrentSong.songId, pData.list.length);
-                return Speak(pUser, , SpeakingLevel.Misc, [['{currentsong}', mCurrentSong.songName]]);
+                return Speak(pUser, mSongAdd, SpeakingLevel.Misc, [['{currentsong}', mCurrentSong.songName]]);
             }); 
         };
         if(pText == 'remove') {
@@ -822,7 +822,7 @@ global.mCommands = [
             mLastTweeted = Date.now();
             return Speak(pUser, mConfirmTweet, SpeakingLevel.Misc);
         }
-    }
+    },
     requires: mModTwit ? Requires.Moderator : Requires.Owner,
     hint: "'/tweet' tweets now playing, and '/tweet msg' will tweet 'msg'",
     pm: true,
