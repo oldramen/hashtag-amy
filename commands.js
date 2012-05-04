@@ -802,7 +802,7 @@ global.mCommands = [
         if (!mTwitOn) return;
         var sAge = Date.now() - mLastTweeted;
         var sAge_Minutes = sAge / 60000; 
-        if(sAge_Minutes < mTwitTimeout) return Speak(pUser, mTweetSpam, SpeakingLevel.Misc, null, true);
+        if(sAge_Minutes < mTwitTimeout) return Speak(pUser, mTweetSpam, SpeakingLevel.Misc, [['{twitime}', mTwitTimeout]], true);
         if (!pText) {
             var sTweet = mDefaultTweet.replace(/\{currentdj\}/gi, mCurrentDJ.name).replace(/\{song\}/gi, mCurrentSong.songName);
             mTwitter.post('statuses/update', {

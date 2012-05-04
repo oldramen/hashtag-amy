@@ -39,7 +39,7 @@ global.mWarnMsg                 = "Hey, @{username}, no falling asleep on deck!"
 global.mRemDJMsg                = "/tableflip {username}, you've been afk for too long.";
 
 //Queue
-global.mAdvanceQueue            = "Hey @{username}, it's your time to shine!  Please take your spot before "+mQueueGrabSpotTimeout+" seconds has passed.'";
+global.mAdvanceQueue            = "Hey @{username}, it's your time to shine!  Please take your spot before {queuetimeout} seconds has passed.'";
 global.mWarnDJNotNextInQueue    = "Sorry, {username}, you have to wait your turn.  It's currently {nextinqueue}'s turn to get on deck.";
 global.mOpenSpotNoQueueing      = "Sorry, {username}, there's already an open spot.  Feel free to just hop up.";
 global.mQueueOff                = "I'm sorry but the queue is currently off.";
@@ -86,7 +86,7 @@ global.mSongTotal               = "Total Songs In My Queue: {songtotal}";
 global.mDefaultTweet            = "{currentdj} is playing {song} right now!";
 global.mConfirmTweet            = "Tweet sent!"
 global.mTweetLimit              = "Your tweet is {charlimit} characters over the limit!";
-global.mTweetSpam               = "Don't spam! You can only tweet once every "+mTwitTimeout+" minutes! Wait for a bit :P"
+global.mTweetSpam               = "Don't spam! You can only tweet once every {twitime} minutes! Wait for a bit :P"
 
 //General
 global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
