@@ -93,7 +93,7 @@ mBot.on("nosong", OnNoSong);
 mBot.on("update_votes", OnVote);
 Log("Done");
 
-if (mTwitKey) {
+if (mTwitOn && mTwitKey) {
 	Log("Connecting to Twitter");
 	global.mTwitter = new mTwit({
 	    consumer_key:         mTwitKey

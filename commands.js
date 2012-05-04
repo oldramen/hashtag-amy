@@ -807,7 +807,7 @@ global.mCommands = [
             if (!mCurrentDJ) return;
             var sTweet = mDefaultTweet.replace(/\{currentdj\}/gi, mCurrentDJ.name).replace(/\{song\}/gi, mCurrentSong.songName);
             mTwitter.post('statuses/update', {
-             status: 'Hello World' 
+             status: sTweet 
             }, function(err, reply) {});
             mLastTweeted = Date.now();
             return Speak(pUser, mConfirmTweet, SpeakingLevel.Misc);
