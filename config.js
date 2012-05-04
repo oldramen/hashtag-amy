@@ -66,16 +66,23 @@ global.mPMSpeak                 = true;     //Whether the bot will PM users so a
 global.mModBop                  = false;    //True, only mods can use the /bop command, false, anyone can.
 global.mWaiter                 	= true;     //Whether waiter (/order) is enabled by default
 global.mBotDJ               	= false;    //Whether the bot can dj on commandglobal.mAutoBopForMods			= true;				//If we should automatically bop for mods and above.
-global.mAutoBanBoots			= false;			//Instead of banning people, we simply boot them from the room.
-global.mAutoBanOnTTLink			= true;				//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
-global.mAutoBanOnTTLinkTime		= 60000;			// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
+global.mAutoBanBoots			= false;	//Instead of banning people, we simply boot them from the room.
+global.mAutoBanOnTTLink			= true;		//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
+global.mAutoBanOnTTLinkTime		= 60000;	// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
 global.mDownVotesForOffGenre    = 3;
-global.mHoldSpotForRefreshTime	= 120;				//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
+global.mHoldSpotForRefreshTime	= 120;		//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 global.mMaxElapsedTimeForDJSpot	= 30000;
-global.mIgnoreSongCountOpenSpot = true;				//If the time that the spot was open for is longer than mMaxElapsedTimeForDJSpot, that person will be allowed up if this is true.
-global.mIgnoreSongCountOnLonely = true;				//If LonelyDJ is currently being used, the person will be able to get up if this is true.
-global.mQueueGrabSpotTimeout	= 30;				//How many seconds we should hold a spot for someone when they are next in the queue and there is an open spot.
+global.mIgnoreSongCountOpenSpot = true;		//If the time that the spot was open for is longer than mMaxElapsedTimeForDJSpot, that person will be allowed up if this is true.
+global.mIgnoreSongCountOnLonely = true;		//If LonelyDJ is currently being used, the person will be able to get up if this is true.
+global.mQueueGrabSpotTimeout	= 30;		//How many seconds we should hold a spot for someone when they are next in the queue and there is an open spot.
 
+//Twitter
+global.mTwitOn					= false;	//Whether or not twitter functions are enabled
+global.mModTwit					= false;	//If true, mods can tweet, if false, only owners can tweet
+global.mTwitKey					= "";		//Consumer Key for Twitter
+global.mTwitSecret				= "";		//Consumer Secret for Twitter
+global.mTwitToken				= "";		//Access Token for Twitter
+global.mTwitTokenSecret			= "";		//Access Secret for Twitter
 
 
 //Advanced

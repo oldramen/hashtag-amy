@@ -67,5 +67,17 @@ Open up a terminal/command prompt, cd to where you put the files and type
 
 If you did it right, you'll see #Amy load up. Once it says "Joined the room, booted up!" the bot should be in your room!
 
+## Optional Step: Twitter Auth
+I've included some twitter functionality.  
+What it does is this: /tweet will tweet what song is playing and /tweet msg will tweet msg.  
+First things first: install twit
+
+```
+npm install twit
+```
+I cannot reccomend enough that you use a brand new twitter account, as this has the potential for spam.  
+After you have an account, go here: https://dev.twitter.com/apps/new and create a new app.  
+Go to config.js to the 'twitter' section, and fill out the required fields.  
+
 ## Too Much?
 Contact me - I offer Dedicated Bot Hosting And Management for $5/Month.

@@ -12,6 +12,7 @@ global._            =   require("underscore");
 global.mMongo       =   require("mongoskin");
 global.mReadLine    =   require("readline");
 global.mUtil        =   require("util");
+global.mTwit		=	require("twit");
 global.mCommandsMod =   require("./commands.js");
 if (mWaiter) require("./menu.js");
 
@@ -91,3 +92,14 @@ mBot.on("snagged", OnSnagged);
 mBot.on("nosong", OnNoSong);
 mBot.on("update_votes", OnVote);
 Log("Done");
+
+if (mTwitKey) {
+	Log("Connecting to Twitter");
+	global.mTwitter = new mTwit({
+	    consumer_key:         mTwitKey
+	  , consumer_secret:      mTwitSecret
+	  , access_token:         mTwitToken
+	  , access_token_secret:  mTwitTokenSecret
+	});
+	Log("Done");
+}
