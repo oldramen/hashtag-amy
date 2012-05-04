@@ -300,7 +300,7 @@ global.QueueAdvance = function () {
                 QueueAdvance();
             }, mQueueGrabSpotTimeout * 1000)
             console.log("Timeout in ", mQueueGrabSpotTimeout * 1000);
-            Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc);
+            Speak(mUsers[mQueueNextUp], mAdvanceQueue, SpeakingLevel.Misc, [['{queuetimeout}', mQueueGrabSpotTimeout]]);
         }
         mQueueNotified = true;
     }

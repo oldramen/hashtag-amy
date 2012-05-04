@@ -804,10 +804,11 @@ global.mCommands = [
         var sAge_Minutes = sAge / 60000; 
         if(sAge_Minutes < mTwitTimeout) return Speak(pUser, mTweetSpam, SpeakingLevel.Misc, [['{twitime}', mTwitTimeout]], true);
         if (!pText) {
+            if (!mCurrentDJ) return;
             var sTweet = mDefaultTweet.replace(/\{currentdj\}/gi, mCurrentDJ.name).replace(/\{song\}/gi, mCurrentSong.songName);
             mTwitter.post('statuses/update', {
-             status: sTweet 
-            });
+             status: 'Hello World' 
+            }, function(err, reply) {});
             mLastTweeted = Date.now();
             return Speak(pUser, mConfirmTweet, SpeakingLevel.Misc);
         }
@@ -818,7 +819,7 @@ global.mCommands = [
             }
             mTwitter.post('statuses/update', {
              status: pText 
-            });
+            }, function(err, reply) {});
             mLastTweeted = Date.now();
             return Speak(pUser, mConfirmTweet, SpeakingLevel.Misc);
         }
