@@ -79,5 +79,16 @@ I cannot reccomend enough that you use a brand new twitter account, as this has 
 After you have an account, go here: https://dev.twitter.com/apps/new and create a new app.  
 Go to config.js to the 'twitter' section, and fill out the required fields.  
 
+## Optional Step: Last FM
+I've included some lastfm functionality as well, that allows you to get info about a current song in depth.  
+You'll need to get an api and a secret from lastfm to do this, and you'll need to apply for an api account.  
+You can do that [here](http://www.last.fm/api/account).  
+Once you have an api and a secret, change mUseLastfm in config.js to 'true', and add your creds.  
+This gives you access to /lookup [artist/genre/etc]  
+You'll also need to:
+```
+npm install lastfm
+```
+
 ## Too Much?
 Contact me - I offer Dedicated Bot Hosting And Management for $5/Month.

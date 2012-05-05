@@ -86,6 +86,10 @@ global.mTwitSecret				= "";		//Consumer Secret for Twitter
 global.mTwitToken				= "";		//Access Token for Twitter
 global.mTwitTokenSecret			= "";		//Access Secret for Twitter
 
+//Lastfm
+global.mUseLastfm				= false;	//Whether or not we connect to lastfm
+global.mLastfmKey				= "";		//Api Key for Lastfm
+global.mLastfmSecret			= "";		//Secret for Lastfm
 
 //Advanced
 global.mSpeakingLevel           = Speaking.Debug;	//whether or not the bot talks without being prompted (greetings, dj announcements, etc.)

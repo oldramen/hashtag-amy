@@ -159,6 +159,7 @@ global.OnNewSong = function (pData) {
     mCurrentSong.upVotes = 0;
     mCurrentSong.downVotes = 0;
     mCurrentSong.songName = pData.room.metadata.current_song.metadata.song;
+    mCurrentSong.songArtist = pData.room.metadata.current_song.metadata.artist;
     mCurrentSong.songAlbum = pData.room.metadata.current_song.metadata.album;
     mCurrentSong.songId = pData.room.metadata.current_song._id;
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
@@ -373,6 +374,7 @@ global.Speak = function (pUser, pSpeak, pSpeakingLevel, pArgs, pPM) {
 global.RefreshMetaData = function (pMetaData) {
     if(pMetaData.current_song) {
         mCurrentSong.songName = pMetaData.current_song.metadata.song;
+        mCurrentSong.songArtist = pMetaData.current_song.metadata.artist;
         mCurrentSong.songAlbum = pMetaData.current_song.metadata.album;
         mCurrentSong.songId = pMetaData.current_song._id;
     }

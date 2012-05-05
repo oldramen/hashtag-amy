@@ -84,9 +84,15 @@ global.mSongTotal               = "Total Songs In My Queue: {songtotal}";
 
 //Twitter
 global.mDefaultTweet            = "{currentdj} is playing {song} right now!";
-global.mConfirmTweet            = "Tweet sent!"
+global.mConfirmTweet            = "Tweet sent!";
 global.mTweetLimit              = "Your tweet is {charlimit} characters over the limit!";
-global.mTweetSpam               = "Don't spam! You can only tweet once every {twitime} minutes! Wait for a bit :P"
+global.mTweetSpam               = "Don't spam! You can only tweet once every {twitime} minutes! Wait for a bit :P";
+
+//Last.fm
+global.mNoLastfm                = "You need to enable lastfm to use this feature!";
+global.mNoInfoLastfm            = "This stuff is too underground for me to find any information!";
+global.mLastfmNoArgs            = "Sorry, what am I looking up? Genre or Artist?";
+global.mLastfmGenre             = "This song is {lastfmgenre}.";
 
 //General
 global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      

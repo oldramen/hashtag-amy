@@ -15,6 +15,7 @@ global.mUtil        =   require("util");
 global.mCommandsMod =   require("./commands.js");
 if (mWaiter) require("./menu.js");
 if (mTwitOn) global.mTwit = require("twit");
+if (mUseLastfm) global.mLastfmNode = require("lastfm").LastFmNode;
 
 Log("Initializing");
 //Let's set some constant variables.
@@ -102,5 +103,14 @@ if (mTwitOn && mTwitKey) {
 	  , access_token_secret:  mTwitTokenSecret
 	});
 	global.mLastTweeted = null;
+	Log("Done");
+};
+
+if (mUseLastfm) {
+	Log("Connecting to Lastfm");
+	global.mLastfm = new mLastfmNode({
+		api_key: mLastfmKey, 
+		secret: mLastfmSecret
+	});
 	Log("Done");
 }

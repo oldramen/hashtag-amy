@@ -830,6 +830,47 @@ global.mCommands = [
     hidden: true
 },
 {
+    command: 'lookup',
+    callback: function(pUser, pText) {
+        if (!mUseLastfm) return Speak(pUser, mNoLastfm, SpeakingLevel.Misc, null, true);
+        if (!pText) return Speak(pUser, mLastfmNoArgs, SpeakingLevel.Misc, null, true);
+        if (pText == 'genre') {
+            mLastfm.request("track.getInfo", {
+                track: mCurrentSong.songName,
+                artist: mCurrentSong.songArtist,
+                handlers: {
+                    success: function(pData) {
+                        return Speak(pUser, mLastfmGenre, SpeakingLevel.Misc, [['{lastfmgenre}', pData.track.toptags.tag[0].name]], true);
+                    },
+                    error: function(pErr) {
+                        Log("Lookup Failed: "+ pErr.message);
+                        return Speak(pUser, mNoInfoLastfm, SpeakingLevel.Misc, null, true);
+                    }
+                }
+            });
+        };
+        if (pText == 'artist') {
+            mLastfm.request("artist.getInfo", {
+                artist: mCurrentSong.songArtist,
+                handlers: {
+                    success: function(pData) {
+                        var sBio = pData.artist.bio.summary;
+                        Speak(pUser, sBio, SpeakingLevel.Misc, null, true);
+                    },
+                    error: function(pErr) {
+                        Log("Lookup Failed: "+ pErr.message);
+                        return Speak(pUser, mNoInfoLastfm, SpeakingLevel.Misc, null, true);
+                    }
+                }
+            });
+        };
+    },
+    requires: Requires.User,
+    hint: "Gathers info from lastfm",
+    hidden: true,
+    pm: true
+},
+{
     command: 'i',
     callback: function (pUser, pText) {
         if(pUser.totalSongCount < 1) return Speak(pUser, "I don't know you yet, {username}. Stay a while, play some songs.", SpeakingLevel.Misc)
