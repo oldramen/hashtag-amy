@@ -854,7 +854,7 @@ global.mCommands = [
                 artist: mCurrentSong.songArtist,
                 handlers: {
                     success: function(pData) {
-                        var sBio = pData.artist.bio.summary;
+                        var sBio = mStripTags(pData.artist.bio.summary);
                         Speak(pUser, sBio, SpeakingLevel.Misc, null, true);
                     },
                     error: function(pErr) {
