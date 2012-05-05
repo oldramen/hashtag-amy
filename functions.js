@@ -889,6 +889,7 @@ BaseUser = function () {
             return false;
         },
         BootAFK: function () {
+            if (this.bootAfterSong) return;
             Speak(this, mRemDJMsg, SpeakingLevel.Misc);
             if (this == mCurrentDJ) return this.bootAfterSong = true;
             this.RemoveDJ();
