@@ -75,6 +75,7 @@ global.mMaxElapsedTimeForDJSpot	= 30000;
 global.mIgnoreSongCountOpenSpot = true;		//If the time that the spot was open for is longer than mMaxElapsedTimeForDJSpot, that person will be allowed up if this is true.
 global.mIgnoreSongCountOnLonely = true;		//If LonelyDJ is currently being used, the person will be able to get up if this is true.
 global.mQueueGrabSpotTimeout	= 30;		//How many seconds we should hold a spot for someone when they are next in the queue and there is an open spot.
+global.mAutoBopForMods			= true;		//If we should automatically bop for mods and above.
 
 //Twitter
 global.mTwitOn					= false;	//Whether or not twitter functions are enabled
