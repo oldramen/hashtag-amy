@@ -3,13 +3,13 @@
 This bot runs on [node.js](http://nodejs.org/), usings Alain Gilbert's [ttapi library](https://github.com/alaingilbert/Turntable-API).  
 It is currently in Development.
 
-#### Room Management
-#### Song Limits
-#### Queue
-#### DJ Whitelist
-#### Bans
-#### Twitter functions
-#### Lastfm functions
+ - Room Management
+ - Song Limits
+ - Queue
+ - DJ Whitelist
+ - Bans
+ - Twitter functions
+ - Lastfm functions
 
 ### Everything Is Done, but Queue is buggy. 
 
