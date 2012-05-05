@@ -161,6 +161,7 @@ global.OnNewSong = function (pData) {
     mCurrentSong.songName = pData.room.metadata.current_song.metadata.song;
     mCurrentSong.songArtist = pData.room.metadata.current_song.metadata.artist;
     mCurrentSong.songAlbum = pData.room.metadata.current_song.metadata.album;
+    mCurrentSong.songGenre = pData.room.metadata.current_song.metadata.genre;
     mCurrentSong.songId = pData.room.metadata.current_song._id;
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
@@ -375,6 +376,7 @@ global.RefreshMetaData = function (pMetaData) {
     if(pMetaData.current_song) {
         mCurrentSong.songName = pMetaData.current_song.metadata.song;
         mCurrentSong.songArtist = pMetaData.current_song.metadata.artist;
+        mCurrentSong.songGenre = pMetaData.current_song.metadata.genre;
         mCurrentSong.songAlbum = pMetaData.current_song.metadata.album;
         mCurrentSong.songId = pMetaData.current_song._id;
     }

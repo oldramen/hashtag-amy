@@ -844,6 +844,7 @@ global.mCommands = [
                     },
                     error: function(pErr) {
                         Log("Lookup Failed: "+ pErr.message);
+                        if (mCurrentSong.songGenre) return Speak(pUser, mLastfmGenre, SpeakingLevel.Misc, [['{lastfmgenre}', mCurrentSong.songGenre]], true);
                         return Speak(pUser, mNoInfoLastfm, SpeakingLevel.Misc, null, true);
                     }
                 }
