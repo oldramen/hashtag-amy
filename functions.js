@@ -106,7 +106,7 @@ global.OnAddDJ = function (pData) {
             sUser.RemoveDJ();
         }
     } else sUser.allowedToReserveSpot = true;
-    if(sUser.mWaitingSongLimit && sElapsedTimeMS < mMaxElapsedTimeForDJSpot) {
+    if(sUser.mWaitingSongLimit > 0 && sElapsedTimeMS < mMaxElapsedTimeForDJSpot) {
         sUser.RemoveDJ();
         sUser.PM(mHaveToWait, SpeakingLevel.Misc);
         return;
@@ -363,8 +363,9 @@ global.Speak = function (pUser, pSpeak, pSpeakingLevel, pArgs, pPM) {
     if(!mNoSpamTimeout || !mSpokenMessages.filter(function (e) {
         return e.message == pSpeak
     }).length) {
-        if(SpeakingAllowed(pSpeakingLevel)) if(pPM && CanPM(pUser)) mBot.pm(pSpeak, pUser.userid);
+        if(SpeakingAllowed(pSpeakingLevel)) if(pPM && mPmOverride == false && CanPM(pUser)) mBot.pm(pSpeak, pUser.userid);
         else mBot.speak(pSpeak);
+        if (mPmOverride) mPmOverride = false;
         if(mNoSpamTimeout) mSpokenMessages.push({
             message: pSpeak,
             timestamp: (new Date()).getTime()
@@ -602,8 +603,11 @@ global.HandleCommand = function (pUser, pText, pPM) {
     if(pPM && !mPMSpeak) return;
     var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
+    if (pText.indexOf(" -c") !== -1) {
+        mPmOverride = true;
+    }
     var sSplit = pText.split(' ');
-    var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").toLowerCase();
+    var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").replace(" -c", "").toLowerCase();   
     if(pPM && mPMCommands.indexOf(sCommand) === -1) return;
     pText = sSplit.join(' ');
     var sCommands = mCommands.filter(function (pCommand) {
@@ -917,7 +921,7 @@ BaseUser = function () {
                 if(!that.isDJ) return;
                 that.RemoveDJ();
                 Speak(that, mOverMaxSongsQueueOn, SpeakingLevel.Misc);
-                that.mWaitingSongLimit = mWaitSongs + 1;
+                that.mWaitingSongLimit = mWaitSongs;
             }, 30000);            
         },
         Increment_SongCount: function () {
