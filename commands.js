@@ -753,6 +753,7 @@ global.mCommands = [
         setTimeout(function () {
             sIndex = mReservedSpots.indexOf(sHold);
             if(sIndex != -1) mReservedSpots.splice(sIndex, 1);
+            if(mQueueCurrentlyOn && mReservedSpots.length < 1) QueueAdvance();
         }, mHoldSpotForRefreshTime * 1000);
         pUser.PM(mReadyRefresh, SpeakingLevel.Misc);
         pUser.RemoveDJ();
