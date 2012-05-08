@@ -742,7 +742,7 @@ global.mCommands = [
             pUser.PM(mNotDJ, SpeakingLevel.Misc);
             return;
         }
-        if(!pUser.allowedToReserveSpot) return
+        if(!pUser.allowedToReserveSpot) return;
         var sTime = Date.now();
         var sHold = {
             userid: pUser.userid,

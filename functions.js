@@ -603,9 +603,7 @@ global.HandleCommand = function (pUser, pText, pPM) {
     if(pPM && !mPMSpeak) return;
     var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
-    if (pText.indexOf(" -c") !== -1) {
-        mPmOverride = true;
-    }
+    if (pText.indexOf(" -c") !== -1) mPmOverride = true;
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").replace(" -c", "").toLowerCase();   
     if(pPM && mPMCommands.indexOf(sCommand) === -1) return;
