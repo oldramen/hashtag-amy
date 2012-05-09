@@ -89,6 +89,7 @@ global.OnAddDJ = function (pData) {
     if(sElapsedTimeMS < mMaxElapsedTimeForDJSpot) Speak(sUser, mSpotOpenFor, SpeakingLevel.Misc, [
         ['{opentime}', sElapsedTimeMS / 1000]
     ]);
+    if(mTimeForSpin) return sUser.RemoveDJ();
     if(mReservedSpots.length > 0) {
         var sIsInReserved = false;
         var sElements = [];
