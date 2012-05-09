@@ -640,7 +640,7 @@ global.HandleCommand = function (pUser, pText, pPM) {
     var sSplit = pText.split(' ');
     var sCommand = sSplit.shift().replace(/^[!\*\/]/, "").replace(" -c", "").toLowerCase();   
     if(pPM && mPMCommands.indexOf(sCommand) === -1) return;
-    pText = sSplit.join(' ');
+    pText = sSplit.join(' ').replace(" -c", "");
     var sCommands = mCommands.filter(function (pCommand) {
         return(pCommand.command && pCommand.command == sCommand) || (typeof (pCommand.command) == "object" && pCommand.command.length && pCommand.command.indexOf(sCommand) != -1);
     });
