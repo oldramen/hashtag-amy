@@ -297,6 +297,7 @@ global.RunLotto = function (pUser) {
     mTimeForSpin = true;
     setTimeout(function () {
         mTimeForSpin = false;
+        if (mLottoHolders.length < 1) return Speak(pUser, mNobodySpin, SpeakingLevel.Misc);
         var sWinner = mRandomItem(mLottoHolders);
         var sUser = mUsers[sWinner];
         Speak(sUser, mLottoWinner, SpeakingLevel.Misc, [['{holdtimeleft}', mLottoHoldTime]]);
