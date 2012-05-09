@@ -140,7 +140,7 @@ global.OnRemDJ = function (pData) {
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1) mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid), 1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
     if(mQueueCurrentlyOn && mReservedSpots.length < 1) QueueAdvance(); /// Advance the queue to the next person in line.
-    if(mLottoOn) RunLotto(sUser);
+    if(mLottoOn && !mTimeForSpin) RunLotto(sUser);
 };
 
 global.OnNewSong = function (pData) {
