@@ -301,7 +301,7 @@ global.RunLotto = function (pUser) {
         Speak(sUser, mLottoWinner, SpeakingLevel.Misc, [['{holdtimeleft}', mLottoHoldTime]]);
         var sTime = Date.now();
         var sHold = {
-            userid: pUser.userid,
+            userid: sUser.userid,
             time: sTime
         };
         var sIndex = mReservedSpots.push(sHold) - 1;
