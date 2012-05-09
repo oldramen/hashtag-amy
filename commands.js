@@ -568,6 +568,7 @@ global.mCommands = [
         } else {
             eval(sVar + ' = ' + sValue);
         }
+        mCurrentSongLimit = mMaxSongs;
         mParsing['{theme}'] = mTheme;
         mParsing['{songlimit}'] = mCurrentSongLimit;
         mParsing['{afklimit}'] = mParsing['{afk}'] = mAFK;
