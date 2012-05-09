@@ -312,9 +312,10 @@ global.mCommands = [
     callback: function (pUser, pText) {
         var sCommands = [];
         mCommands.forEach(function (pCommand) {
+            if(pCommand.command == 'spin' && mLottoOn) sCommands.push(pCommand.command);
+            if(pCommand.command == 'song' && mBotDJ) sCommands.push(pCommand.command);
             if(pCommand.requires.check(pUser) && !(pCommand.hidden)) sCommands.push(pCommand.command);
         });
-        if (mBotDJ) sCommands.push('hop, /song');
         Speak(pUser, mCommandsList, SpeakingLevel.Misc, [
             ['{commands}', sCommands.join(', /')]
         ], true);
@@ -521,20 +522,17 @@ global.mCommands = [
         if(sTxt == 'q' || sTxt == 'queue') {
             sVar = 'mQueueOn';
             mQueueCurrentlyOn = false;
-            if(sArg == 'on') mQueueCurrentlyOn = true;
-        } else if(sTxt == 'limit' || sTxt == 'songlimit') {
-            sVar = 'mLimitOn';
-        } else if(sTxt == 'dj') {
-            sVar = 'mBotDJ';
-        } else if(sTxt == 'lonely' || sTxt == 'lonelydj') {
-            sVar = 'mLonelyDJ';
-        } else if(sTxt == 'whitelist') {
-            sVar = 'mWhiteListEnabled';
-        } else if(sTxt == 'warn') {
-            sVar = 'mWarn';
-        } else {
-            return;
-        };
+            if(sArg == 'on') mQueueCurrentlyOn = true; } 
+        else if(sTxt == 'limit' || sTxt == 'songlimit') { sVar = 'mLimitOn'; }
+        else if(sTxt == 'dj') { sVar = 'mBotDJ'; }
+        else if(sTxt == 'lonely' || sTxt == 'lonelydj') { sVar = 'mLonelyDJ'; }
+        else if(sTxt == 'whitelist') { sVar = 'mWhiteListEnabled'; }
+        else if(sTxt == 'warn') { sVar = 'mWarn'; }
+        else if(sTxt == 'lotto') {
+            if (mQueueCurrentlyOn) return Speak(pUser, mNoLottoWithQueue, SpeakingLevel.Misc, null, true);
+            sVar = 'mLottoOn';
+        }
+        else { return; };
         if (sArg == 'off') sVal = false;
         Speak(pUser, "Turning " + sTxt + ": " + sArg, SpeakingLevel.Misc, null, true);
         eval(sVar + " = " + sVal);
@@ -577,6 +575,19 @@ global.mCommands = [
     requires: Requires.Moderator,
     hint: "Temporarily changes options: greet, theme, help, limit, wait, afk",
     pm: true
+},
+{
+    command: 'spin',
+    callback: function (pUser, pText) {
+        if (!mLottoOn) return Speak(pUser, mNoLotto, SpeakingLevel.Misc, null, true);
+        if (!mTimeForSpin) return Speak(pUser, mNotLottoTime, SpeakingLevel.Misc, null, true);
+        if (mLottoHolders.indexOf(pUser.userid) != -1) return Speak(pUser, mCantLottoTwice, SpeakingLevel.Misc, null, true);
+        mLottoHolders.push(pUser.userid);
+        return Speak(pUser, mLottoThanks, SpeakingLevel.Misc, null, true);
+    },
+    requires: Requires.User,
+    hint: 'spin for a chance to DJ next!',
+    hidden: true
 }, 
 {
     command: 'userid',

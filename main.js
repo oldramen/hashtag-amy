@@ -57,8 +57,12 @@ global.mQueueWarned     =   [];
 global.mQueueNotified   =   false;
 global.mQueueTimeout	= 	null;
 
+global.mTimeForSpin		=	false;
+global.mLottoClaimed	=	null;
+
 global.mJustRemovedDJ   =   [];
 global.mReservedSpots	= 	[]; /// [{timestarted, userid}];
+global.mLottoHolders	=	[];
 
 global.mQueueCurrentlyOn        = false;
 global.mSongLimitCurrentlyOn    = false;

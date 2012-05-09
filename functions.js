@@ -100,6 +100,7 @@ global.OnAddDJ = function (pData) {
         });
         sElements.forEach(function (e, i) {
             mReservedSpots.splice(mReservedSpots.indexOf(e), 1);
+            if (mLottoOn && mLottoClaimed) clearTimeout(mLottoClaimed);
         });
         if(!sIsInReserved) {
             sUser.allowedToReserveSpot = false;
@@ -138,6 +139,7 @@ global.OnRemDJ = function (pData) {
     if(mJustRemovedDJ.indexOf(sUser.userid) != -1) mJustRemovedDJ.splice(mJustRemovedDJ.indexOf(sUser.userid), 1); /// Don't treat them like a normal DJ if we just forced them to step down.
     else Speak(sUser, mRemDJ, SpeakingLevel.DJChange);
     if(mQueueCurrentlyOn && mReservedSpots.length < 1) QueueAdvance(); /// Advance the queue to the next person in line.
+    if(mLottoOn) RunLotto(sUser);
 };
 
 global.OnNewSong = function (pData) {
@@ -288,6 +290,31 @@ global.RemoveOldMessages = function () {
     for(var i = 0; i < sOldMessages.length; ++i)
     mSpokenMessages.splice(mSpokenMessages.indexOf(sOldMessages[i]), 1);
 }
+
+global.RunLotto = function (pUser) {
+    Speak(pUser, mTimeToLotto, SpeakingLevel.Misc, [['{spintimeleft}', mLottoTime]]);
+    mTimeForSpin = true;
+    setTimeout(function () {
+        mTimeForSpin = false;
+        var sWinner = mRandomItem(mLottoHolders);
+        var sUser = mUsers[sWinner];
+        Speak(sUser, mLottoWinner, SpeakingLevel.Misc, [['{holdtimeleft}', mLottoHoldTime]]);
+        var sTime = Date.now();
+        var sHold = {
+            userid: pUser.userid,
+            time: sTime
+        };
+        var sIndex = mReservedSpots.push(sHold) - 1;
+        setTimeout(function () {
+            sIndex = mReservedSpots.indexOf(sHold);
+            if(sIndex != -1) mReservedSpots.splice(sIndex, 1);
+            mLottoClaimed = setTimeout(function() {
+                return RunLotto();
+            }, 1000);
+        }, mLottoHoldTime * 1000);
+    }, mLottoTime * 1000);
+};
+
 global.QueueAdvance = function () {
     if(!mQueueNextUp) mQueueNextUp = mQueue.shift();
     if(mQueueNextUp && !mQueueTimeout) {
@@ -406,6 +433,10 @@ global.BootUp = function () {
     Log("Joined the room.  Booting up");
     SetMyName(mName);
     SetLaptop();
+    if (mLottoOn && mQueueOn) {
+        Log('Queue & Lotto both enabled, disabling Queue');
+        mQueueOn = mQueueCurrentlyOn = false;
+    };
     mLoopInterval = setInterval(function () {
         Loop();
     }, mLoopTimeout * 1000);

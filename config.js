@@ -41,11 +41,17 @@ global.mMinUsersForSongLimit    = null;     //How many users have to be in the r
 global.mMinDJsForSongLimit      = null;   	//How many DJs have to be on deck to auto turn on song limits
 global.mSongLimitUserProportion = 250;      //5 songs per 50 people in the room.
 
+//Lotto System
+global.mLottoOn					= false;	//Whether or not the next DJ is selected via a lottery
+global.mLottoTime				= 15;		//How long (in seconds) that users can /spin after a DJ drops
+global.mLottoHoldTime			= 15;		//How long (in seconds) the bot will hold the dj spot for the lotto winner
+
 //Room Queue
 global.mQueueOn                 = true;     //If room queue is on by default
 global.mMinQueueOperator        = null;	    //Whether queue is turned on dynamically
 global.mMinUsersForQueue        = null;	    //How many users must be in the room to auto turn on the queue
 global.mMinDJsForQueue          = null;	    //How many DJs must be on deck to turn on queue automatically
+global.mQueueGrabSpotTimeout	= 30;		//How many seconds we should hold a spot for someone when they are next in the queue and there is an open spot.
 
 //AFK Settings
 global.mAFK                     = 15;       //How many minutes of AFK before you get booted
@@ -74,7 +80,6 @@ global.mHoldSpotForRefreshTime	= 120;		//The bot will hold a spot for 2 minutes 
 global.mMaxElapsedTimeForDJSpot	= 30000;
 global.mIgnoreSongCountOpenSpot = true;		//If the time that the spot was open for is longer than mMaxElapsedTimeForDJSpot, that person will be allowed up if this is true.
 global.mIgnoreSongCountOnLonely = true;		//If LonelyDJ is currently being used, the person will be able to get up if this is true.
-global.mQueueGrabSpotTimeout	= 30;		//How many seconds we should hold a spot for someone when they are next in the queue and there is an open spot.
 global.mAutoBopForMods			= true;		//If we should automatically bop for mods and above.
 
 //Twitter

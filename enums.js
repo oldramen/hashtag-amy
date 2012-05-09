@@ -34,6 +34,15 @@ global.mOverMaxSongsQueueOff    = null;
 global.mOverMaxSongsWarn        = "Hey, @{username}, you've played your limit. Let someone else have a go.";
 global.mHaveToWait              = "I'm sorry but you have to wait {user.mWaitingSongLimit} song(s) to get back up.";
 
+//Lotto
+global.mNoLotto                 = "Sorry, Lotto is currently disabled.";
+global.mNoLottoWithQueue        = "I can't turn Lotto on if the queue is on!";
+global.mNotLottoTime            = "Sorry, you can't spin yet.";
+global.mTimeToLotto             = "Okay, it's time to type /spin if you want to DJ! You got {spintimeleft} seconds to spin!";
+global.mCantLottoTwice          = "Sorry, {username}, you've already spun!";
+global.mLottoThanks             = "Thanks for spinning, {username}!";
+global.mLottoWinner             = "@{username} won the spin! Hop on deck, you got {holdtimeleft} seconds to claim your spot!";
+
 //AFK
 global.mWarnMsg                 = "Hey, @{username}, no falling asleep on deck!";  //the default warning message   
 global.mRemDJMsg                = "/tableflip {username}, you've been afk for too long.";
