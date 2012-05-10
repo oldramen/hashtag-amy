@@ -91,6 +91,9 @@ global.mSongRemove              = "Removing {lastsong}";
 global.mSongRemoveNotDJ         = "You can only remove a song when I'm playing a song.";
 global.mSongNext                = "Next song: {next} by {artist}";
 global.mSongTotal               = "Total Songs In My Queue: {songtotal}";
+global.mSongSearchEmpty         = "No results found for {query}";
+global.mSongSearchResults       = "{songloc}: {title} by {artist}.";
+global.mSongSearchLong          = "Returned {numsongs} results, displaying first 5.";
 
 //Twitter
 global.mDefaultTweet            = "{currentdj} is playing {song} right now!";

@@ -687,7 +687,7 @@ global.mCommands = [
             mBot.playlistAll(function (pData) {
                 if (pData.list.length == 0) return;
                 var i = pData.list.length - 1;
-                Speak(pUser, mSongSkip, SpeakingLevel.Misc, [['skippedsong', pData.list[0].metadata.song], ['{nextsong}', pData.list[1].metadata.song]], true)
+                Speak(pUser, mSongSkip, SpeakingLevel.Misc, [['{skippedsong}', pData.list[0].metadata.song], ['{nextsong}', pData.list[1].metadata.song]], true)
                 return mBot.playlistReorder(0, i);
             });
         };
@@ -737,7 +737,33 @@ global.mCommands = [
         if(pText == 'total') {
             mBot.playlistAll(function (pData) {
                 if(pData.list.length == 0) return;
-                return Speak(pUser, mSongTotal, SpeakingLevel.Misc, [['{songtotal}', pData.list.length]])
+                return Speak(pUser, mSongTotal, SpeakingLevel.Misc, [['{songtotal}', pData.list.length]], true);
+            });
+        };
+        var sSplit = pText.split(' ');
+        var sVar = sSplit.shift();
+        var sVal = sSplit.join(' ');
+        if(sVar == 'search') {
+            if(!sVal) return;
+            mBot.searchSong(sVal, function(pData){
+                if (pData.docs.length < 1) return Speak(pUser, mSongSearchEmpty, SpeakingLevel.Misc, [['{query}', sVal]], true);
+                if (pData.docs.length > 5) Speak(pUser, mSongSearchLong, SpeakingLevel.Misc, [['{numsongs}', pData.docs.length]], true);
+                Log('Searching for ' + pData.query + ', got ' + pData.docs.length + 'results');
+                for(var i = 0; i < 4; ++i) {
+                    var sSong = pData.docs[i].metadata.song;
+                    var sArtist = pData.docs[i].metadata.artist;
+                    var sId = pData.docs[i]._id;
+                    mBot.playlistAll(function (pData) {
+                        for(var x = 0; x < pData.list.length; ++x) {
+                            var sId2 = pData.list[x]._id;
+                            if (sId == sId2) {
+                                console.log(sArtist);
+                                Speak(pUser, mSongSearchResults, SpeakingLevel.Misc, null, true);
+                                //[['{songloc}', x],['{title}', sSong],['{artist}', sArtist]]
+                            }
+                        }
+                    });
+                };
             });
         }
 
