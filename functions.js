@@ -311,6 +311,7 @@ global.RunLotto = function (pUser) {
             sIndex = mReservedSpots.indexOf(sHold);
             if(sIndex != -1) mReservedSpots.splice(sIndex, 1);
             mLottoClaimed = setTimeout(function() {
+                mLottoHolders = [];
                 return RunLotto();
             }, 1000);
         }, mLottoHoldTime * 1000);

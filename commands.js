@@ -520,6 +520,7 @@ global.mCommands = [
         var sVal = true;
         var sVar;
         if(sTxt == 'q' || sTxt == 'queue') {
+            if (mLottoOn) return Speak(pUser, mNoQueueWithLotto, SpeakingLevel.Misc, null, true);
             sVar = 'mQueueOn';
             mQueueCurrentlyOn = false;
             if(sArg == 'on') mQueueCurrentlyOn = true; } 

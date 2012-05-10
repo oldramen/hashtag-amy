@@ -43,6 +43,7 @@ global.mCantLottoTwice          = "Sorry, {username}, you've already spun!";
 global.mLottoThanks             = "Thanks for spinning, {username}!";
 global.mLottoWinner             = "@{username} won the spin! Hop on deck, you got {holdtimeleft} seconds to claim your spot!";
 global.mNobodySpin              = "Nobody spun for the DJ spot! This one's FFA!";
+global.mNoQueueWithLotto        = "I can't turn the queue on if lotto is on!";
 
 //AFK
 global.mWarnMsg                 = "Hey, @{username}, no falling asleep on deck!";  //the default warning message   
