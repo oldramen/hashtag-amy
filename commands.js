@@ -741,6 +741,27 @@ global.mCommands = [
                 return Speak(pUser, mSongTotal, SpeakingLevel.Misc, [['{songtotal}', pData.list.length]], true);
             });
         };
+        var sSplit = pText.split(' ');
+        var sVar = sSplit.shift();
+        var sVal = sSplit.join(' ');
+        if(sVar == 'search') {
+            if(!sVal) return;
+            var sResults = [];
+            mBot.playlistAll(function (pData) {
+                for(var i = 0; i < pData.list.length; ++i){
+                    var sSearch = sVal.toLowerCase();
+                    var sSong = pData.list[i].metadata.song.toLowerCase();
+                    var sArtist = pData.list[i].metadata.artist.toLowerCase();
+                    if ((sSong.indexOf(sSearch) != -1) || (sArtist.indexOf(sSearch) != -1)) sResults.push(i + ": " + sSong + " by " + sArtist);
+                }
+            });
+            if(sResults.length < 1) return Speak(pUser, mSongSearchEmpty, SpeakingLevel.Misc, [['{query}', sVal]], true);
+            if(sResults.length > 5) Speak(pUser, mSongSearchLong, SpeakingLevel.Misc, [['{numsongs}', sResults.length]], true);
+            for(var i = 0; i < 4; ++i){
+                Speak(pUser, sResults[i], SpeakingLevel.Misc, null, true);
+            };
+        }
+
     },
     requires: Requires.Moderator,
     hint: "song skip (skips song), song add (adds current song to queue), song remove (removes last played song from queue), song next (lists next song), song total (total songs in queue).",
