@@ -24,6 +24,7 @@ global.OnRegistered = function (pData) {
             mPushingOutGreeting.push(mUsers[pData.user[i].userid]);
         }
         if(mUsers[sUser.userid].isBanned) mUsers[sUser.userid].Boot(mUsers[sUser.userid].banReason ? mUsers[sUser.userid].banReason : mBanReason);
+        if(sUser.name.indexOf("ttstats") != -1) mUsers[sUser.userid].Boot("No ttstats bots, thanks.")
     }
     if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
     if(mUsers[pData.user[0].userid].IsBot() && mNoGo) {
