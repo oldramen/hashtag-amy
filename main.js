@@ -13,6 +13,7 @@ global.mMongo       =   require("mongoskin");
 global.mReadLine    =   require("readline");
 global.mUtil        =   require("util");
 global.mCommandsMod =   require("./commands.js");
+global.ObjectID 	=	require('bson').ObjectID;
 if (mWaiter) require("./menu.js");
 if (mTwitOn) global.mTwit = require("twit");
 if (mUseLastfm) global.mLastfmNode = require("lastfm").LastFmNode;

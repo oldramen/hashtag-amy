@@ -517,16 +517,16 @@ global.RegisterUser = function (pData) {
         if(!cursor) {
             var sUser = mUsers[pData.userid];
             Log("Inserting: " + sUser.name);
-            Insert(mRoomShortcut, sUser, function (err, records) {
+            /*Insert(mRoomShortcut, sUser, function (err, records) {
                 if(!records || records.length != 1) {
                     Log("Error inserting " + pData.name);
                     return;
                 }
-                var sRecord = records[0]; /// There should only be one.  |:
+                //var sRecord = records[0]; /// There should only be one.  |: //Unused.
                 sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
                 sUser.Initialize();
                 sUser.Set_ID(sRecord._id);
-            });
+            });*/
             return;
         }
         var sUser = mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
@@ -864,13 +864,25 @@ global.Remove = function (pFrom, pData, pCallback) {
     } : null, pCallback);
 };
 
-global.Save = function (pTo, pData) {
+global.Save = function (pTo, pData, pCallback) {
     if(!mMongoDB){ return; }
-    mMongoDB.collection(pTo).removeById(pData._id, {
+    /*mMongoDB.collection(pTo).removeById(pData._id, {
         safe: true
     }, function (err, cur) {
     	Insert(pTo, pData);
-    });
+    });*/
+   if(pData._id){
+   		mMongoDB.collection(pTo).updateById(ObjectID.createFromHexString(pData._id), pData, pCallback ? {safe: true} : {safe: false},pCallback);
+   }else{
+   		Insert(pTo, pData, function (err, records) {
+                var sRecord = records[0]; /// There should only be one.  |:
+                //sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
+                //sUser.Initialize();
+                pData.Set_ID(sRecord._id);
+                pCallback(err, records);
+       });
+   		//mMongoDB.collection(pTo).insert(pData);
+   }
 }
 
 Object.defineProperty(Object.prototype, "extend", {
@@ -1012,10 +1024,10 @@ BaseUser = function () {
             if(this.isBanned) return -1;
             return 0;
         },
-        Save: function () {
+        Save: function (pCallback) {
             if(!mMongoDB) return;
             if(this._id) {
-                Save(mRoomShortcut, this);
+                Save(mRoomShortcut, this, pCallback);
                 return;
             }
             if(this.saveToken) return;
@@ -1024,7 +1036,7 @@ BaseUser = function () {
                 value: setInterval(function () {
                     if(!this._id) return;
                     Log("Delayed saving of " + this.name);
-                    Save(mRoomShortcut, this);
+                    Save(mRoomShortcut, this, pCallback);
                     var sSaveToken = this.saveToken;
                     delete this.saveToken;
                     clearInterval(sSaveToken);
