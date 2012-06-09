@@ -153,8 +153,7 @@ global.OnNewSong = function (pData) {
             sUser.songCount = 0;
         }
     }
-    console.log(mCurrentDJ);
-    if(mCurrentDJ && mCurrentDJ != undefined && !mCurrentDJ.isVip && !mCurrentDj.isOwner) {
+    if(!!mCurrentDJ && mCurrentDJ != undefined && !mCurrentDJ.isVip && !mCurrentDj.isOwner) {
         if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit && !(mUsingLonelyDJ && !mCheckSongCountWithLonely)) mCurrentDJ.OverMaxSongs(mCurrentDJ);
         if(mCurrentDJ.bootAfterSong) {
             mCurrentDJ.RemoveDJ();
