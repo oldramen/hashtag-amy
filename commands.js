@@ -31,9 +31,7 @@ global.mCommands = [
 {
     command: 'ban',
     callback: function (pUser, pText) {
-        var sSplit = pText.split(' ');
-        if(sSplit.length == 1) Ban(sSplit[0]);
-        else Ban(sSplit.shift(), sSplit.join(' '));
+        Ban(pText, "Banned by: " + pUser.name);
     },
     requires: Requires.Moderator,
     hint: "Add a user to the ban list and kicks them from the room."

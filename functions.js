@@ -773,18 +773,19 @@ global.Ban = function (pName, pReason, pAuto) {
         sUser.Update();
         sUser.Boot(pReason ? pReason : mBanReason);
     } else {
-        FindByName(pName, function (sUser) {
-            if(sUser.length > 0) sUser = sUser[0];
-            else return;
-            if(sUser.GetLevel() > 2) return;
+        FindByName(pName, function (sUsers) {
+            if(sUsers.length < 1) return;
+            for(var i = 0; i < sUsers.length; ++i){
+	            var sUser = sUsers[i];
+	            if(sUser.GetLevel() > 2) continue;
+	            Log("Banning: " + sUser.name);
 
-            Log("Banning: " + sUser.name);
-
-            sUser.isBanned = true;
-            sUser.banReason = pReason;
-            Speak(sUser, mBanned, SpeakingLevel.Misc);
-            sUser.Update();
-            sUser.Boot(pReason ? pReason : mBanReason);
+	            sUser.isBanned = true;
+	            sUser.banReason = pReason;
+	            Speak(sUser, mBanned, SpeakingLevel.Misc);
+	            sUser.Update();
+	            sUser.Boot(pReason ? pReason : mBanReason);
+			}
         });
     }
 }
