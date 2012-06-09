@@ -872,7 +872,7 @@ global.Save = function (pTo, pData, pCallback) {
     	Insert(pTo, pData);
     });*/
    if(pData._id){
-   		console.log(pData._id);
+   		console.log(pData._id, typeof(pData._id));
    		mMongoDB.collection(pTo).updateById(ObjectID.createFromHexString(pData._id), pData, pCallback ? {safe: true} : {safe: false},pCallback);
    }else{
    		Insert(pTo, pData, function (err, records) {
