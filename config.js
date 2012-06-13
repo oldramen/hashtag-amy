@@ -26,7 +26,7 @@ global.mLaptop                  = "chrome";//Laptop the bot will use if the bot 
 global.mTheme                   = "EDM";//default theme/genre for the room
 
 //User Arrays [ignore mModerators]
-global.mOwners					= ['4e6498184fe7d042db021e95', '4f93ac70eb35c17529000585'];//array of userids for who's an owner of the room.
+global.mOwners					= ['4e6498184fe7d042db021e95'];//array of userids for who's an owner of the room.
 global.mVIPs					= [];//array of userids for who's a VIP.
 global.mWhiteList				= [];//array of userids for whitelist.
 global.mModerators				= [];//array of userids identified as moderators [dynamically generated, leave blank]
