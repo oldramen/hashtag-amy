@@ -1037,6 +1037,7 @@ BaseUser = function () {
                 Save(mRoomShortcut, this, pCallback);
                 return;
             }
+            Log("No ID, creating saveToken.");
             if(this.saveToken) return;
             Object.defineProperty(this, "saveToken", {
                 enumerable: false,
