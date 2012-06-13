@@ -1034,7 +1034,7 @@ BaseUser = function () {
             return 0;
         },
         Save: function (pCallback) {
-            if(!mMongoDB) return;
+            if(!mMongoDB || this.IsBot()) return;
             if(this._id) {
                 Save(mRoomShortcut, this, pCallback);
                 return;
