@@ -722,7 +722,7 @@ global.EscapeString = function (text) {
 
 global.FindByName = function (pName, pCallback) {
     pName = EscapeString(pName).replace("@", "^@?").trimRight() + "$";
-    Log("Finding by name: " + pName);
+    //Log("Finding by name: " + pName);
     if(mMongoDB && pCallback) {
         mMongoDB.collection(mRoomShortcut).find({
             'name': {
@@ -730,7 +730,7 @@ global.FindByName = function (pName, pCallback) {
             }
         }, function (err, cursor) {
             cursor.toArray(function (err, array) {
-            	Log("DB Count: " + array.length);
+            	//Log("DB Count: " + array.length);
                 var sResults = {};
                 array.forEach(function (e) {
                     sResults[e.userid] = BaseUser().extend(e);
@@ -755,7 +755,7 @@ global.FindByNameLocal = function (pName, pResults) {
         if(mUsers[sUserID].name.match(pName)) {
             //Results.push(mUsers[sUserID]);
             sResults[sUserID] = mUsers[sUserID];
-            Log("Found: " + mUsers[sUserID].name);
+            //Log("Found: " + mUsers[sUserID].name);
             /*if(sResults[sUserID]) sResults[sUserID] = mUsers[sUserID];
             else sResults[sUserID] = mUsers[sUserID];*/
         }
@@ -780,11 +780,11 @@ global.Ban = function (pName, pReason, pAuto) {
         sUser.Boot(pReason ? pReason : mBanReason);
     } else {
         FindByName(pName, function (sUsers) {
-        	Log("Found bannables: " + sUsers.length);
+        	//Log("Found bannables: " + sUsers.length);
             if(sUsers.length < 1) return;
             for(var i = 0; i < sUsers.length; ++i){
 	            var sUser = sUsers[i];
-	            Log(sUser.name + "'s level: " + sUser.GetLevel());
+	            //Log(sUser.name + "'s level: " + sUser.GetLevel());
 	            if(sUser.GetLevel() > 2) continue;
 	            Log("Banning: " + sUser.name);
 
