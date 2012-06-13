@@ -801,6 +801,7 @@ global.Unban = function (pName) {
     FindByName(pName, function (sUsers) {
         for(var i = 0; i < sUsers.length; ++i){
         	var sUser = sUsers[i];
+        	Log("UnBanning: " + JSON.stringify(sUser));
 	        sUser.isBanned = false;
 	        delete sUser.banReason;
 	        Speak(sUser, mUnbanned, SpeakingLevel.Misc);
