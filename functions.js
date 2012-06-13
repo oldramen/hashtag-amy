@@ -1039,7 +1039,7 @@ BaseUser = function () {
                 Save(mRoomShortcut, this, pCallback);
                 return;
             }
-            Log("No ID, creating saveToken.");
+            Log("No ID, creating saveToken. - " + this.name);
             if(this.saveToken) return;
             var that = this;
             console.trace("Save...");
