@@ -31,7 +31,6 @@ global.mVIPs					= [];//array of userids for who's a VIP.
 global.mWhiteList				= [];//array of userids for whitelist.
 global.mModerators				= [];//array of userids identified as moderators [dynamically generated, leave blank]
 
-
 //Song Limits
 global.mLimitOn                 = true;		//If songs limits are on by default
 global.mMaxSongs                = 5;		//How many songs you can play
@@ -81,6 +80,7 @@ global.mMaxElapsedTimeForDJSpot	= 30000;
 global.mIgnoreSongCountOpenSpot = true;		//If the time that the spot was open for is longer than mMaxElapsedTimeForDJSpot, that person will be allowed up if this is true.
 global.mIgnoreSongCountOnLonely = true;		//If LonelyDJ is currently being used, the person will be able to get up if this is true.
 global.mAutoBopForMods			= true;		//If we should automatically bop for mods and above.
+global.bootTTStats				= false;
 
 //Twitter
 global.mTwitOn					= false;	//Whether or not twitter functions are enabled
