@@ -752,7 +752,7 @@ global.FindByNameLocal = function (pName, pResults) {
         if(mUsers[sUserID].name.match(pName)) {
             //Results.push(mUsers[sUserID]);
             sResults[sUserID] = mUsers[sUserID];
-            Log("Found: " mUsers[sUserID].name);
+            Log("Found: " + mUsers[sUserID].name);
             /*if(sResults[sUserID]) sResults[sUserID] = mUsers[sUserID];
             else sResults[sUserID] = mUsers[sUserID];*/
         }
