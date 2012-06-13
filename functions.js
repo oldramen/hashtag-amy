@@ -530,8 +530,8 @@ global.RegisterUser = function (pData) {
             return;
         }
         var sUser = mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
-        sUser.Initialize();
         sUser.Set_ID(cursor._id);
+        sUser.Initialize();
     });
 };
 
@@ -561,8 +561,8 @@ global.RegisterUsers = function (pUsers) {
                 })
                 if(sRegistered && sRegistered.length) {
                     var userObject = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
-                    userObject.Initialize();
                     userObject.Set_ID(sRegistered[0]._id);
+                    userObject.Initialize();
                     mUsers[sUser.userid] = userObject;
                     Log(sUser.name + " is an already registered user.");
                 } else {
@@ -575,9 +575,9 @@ global.RegisterUsers = function (pUsers) {
                 for(var i = 0; i < records.length; ++i) {
                     var sRecord = records[i];
                     mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
+                    mUsers[sRecord.userid].Set_ID(sRecord._id); //_id = sRecord._id;
                     mUsers[sRecord.userid].Initialize();
                     //Log("Inserted: " + sUser.name + "("+sRecord.name+")");
-                    mUsers[sRecord.userid].Set_ID(sRecord._id); //_id = sRecord._id;
                     mUsers[sRecord.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
                 }
             });
