@@ -517,16 +517,16 @@ global.RegisterUser = function (pData) {
         if(!cursor) {
             var sUser = mUsers[pData.userid];
             Log("Inserting: " + sUser.name);
-            /*Insert(mRoomShortcut, sUser, function (err, records) {
+            Insert(mRoomShortcut, sUser, function (err, records) {
                 if(!records || records.length != 1) {
                     Log("Error inserting " + pData.name);
                     return;
                 }
-                //var sRecord = records[0]; /// There should only be one.  |: //Unused.
+                var sRecord = records[0]; /// There should only be one.  |: 
                 sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
-                sUser.Initialize();
                 sUser.Set_ID(sRecord._id);
-            });*/
+                sUser.Initialize();
+            });
             return;
         }
         var sUser = mUsers[pData.userid] = mUsers[pData.userid].extend(cursor.extend(pData));
@@ -880,7 +880,7 @@ global.Save = function (pTo, pData, pCallback) {
     	return;
     	
     if(pData._id){
-    	Log("Updating to:" + JSON.stringify(pData));
+    	//Log("Updating to:" + JSON.stringify(pData));
    		mMongoDB.collection(pTo).updateById(pData._id, pData, pCallback ? {safe: true} : {safe: false}, pCallback);
     }else{
     	Log("Inserting..");
@@ -1039,10 +1039,10 @@ BaseUser = function () {
                 Save(mRoomShortcut, this, pCallback);
                 return;
             }
-            Log("No ID, creating saveToken. - " + this.name);
+            //Log("No ID, creating saveToken. - " + this.name);
             if(this.saveToken) return;
             var that = this;
-            console.trace("Save...");
+            //console.trace("Save...");
             Object.defineProperty(this, "saveToken", {
                 enumerable: false,
                 value: setInterval(function () {
