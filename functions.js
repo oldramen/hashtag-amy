@@ -1041,14 +1041,15 @@ BaseUser = function () {
             }
             Log("No ID, creating saveToken.");
             if(this.saveToken) return;
+            var that = this;
             Object.defineProperty(this, "saveToken", {
                 enumerable: false,
                 value: setInterval(function () {
-                    if(this._id) return;
-                    Log("Delayed saving of " + this.name);
-                    Save(mRoomShortcut, this, pCallback);
-                    var sSaveToken = this.saveToken;
-                    delete this.saveToken;
+                    if(that._id) return;
+                    Log("Delayed saving of " + that.name);
+                    Save(mRoomShortcut, that, pCallback);
+                    var sSaveToken = that.saveToken;
+                    delete that.saveToken;
                     clearInterval(sSaveToken);
                 })
             }, 100);
