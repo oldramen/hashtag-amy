@@ -727,6 +727,7 @@ global.FindByName = function (pName, pCallback) {
             }
         }, function (err, cursor) {
             cursor.toArray(function (err, array) {
+            	Log("DB Count: " + array.length);
                 var sResults = {};
                 array.forEach(function (e) {
                     sResults[e.userid] = BaseUser().extend(e);
@@ -750,8 +751,10 @@ global.FindByNameLocal = function (pName, pResults) {
         var sUserID = sUserIDs[i];
         if(mUsers[sUserID].name.match(pName)) {
             //Results.push(mUsers[sUserID]);
-            if(sResults[sUserID]) sResults[sUserID] = mUsers[sUserID];
-            else sResults[sUserID] = mUsers[sUserID];
+            sResults[sUserID] = mUsers[sUserID];
+            Log("Found: " mUsers[sUserID].name);
+            /*if(sResults[sUserID]) sResults[sUserID] = mUsers[sUserID];
+            else sResults[sUserID] = mUsers[sUserID];*/
         }
     }
     return sResults;
