@@ -902,10 +902,8 @@ Object.defineProperty(Object.prototype, "extend", {
         var props = Object.getOwnPropertyNames(from);
         var dest = this;
         props.forEach(function (name) {
-            if(name in dest) {
-                var destination = Object.getOwnPropertyDescriptor(from, name);
-                Object.defineProperty(dest, name, destination);
-            }
+            var destination = Object.getOwnPropertyDescriptor(from, name);
+            Object.defineProperty(dest, name, destination);
         });
         return this;
     }
