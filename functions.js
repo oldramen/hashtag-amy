@@ -795,13 +795,14 @@ global.Ban = function (pName, pReason, pAuto) {
     }
 }
 global.Unban = function (pName) {
-    FindByName(pName, function (sUser) {
-        if(sUser.length > 0) sUser = sUser[0];
-        else return;
-        sUser.isBanned = false;
-        delete sUser.banReason;
-        Speak(sUser, mUnbanned, SpeakingLevel.Misc);
-        sUser.Update();
+    FindByName(pName, function (sUsers) {
+        for(var i = 0; i < sUsers.length; ++i){
+        	var sUser = sUsers[i];
+	        sUser.isBanned = false;
+	        delete sUser.banReason;
+	        Speak(sUser, mUnbanned, SpeakingLevel.Misc);
+	        sUser.Save();
+        }
     });
 }
 
@@ -871,24 +872,20 @@ global.Remove = function (pFrom, pData, pCallback) {
 };
 
 global.Save = function (pTo, pData, pCallback) {
-    if(!mMongoDB){ return; }
-    /*mMongoDB.collection(pTo).removeById(pData._id, {
-        safe: true
-    }, function (err, cur) {
-    	Insert(pTo, pData);
-    });*/
-   if(pData._id){
-   		mMongoDB.collection(pTo).updateById(pData._id, pData, pCallback ? {safe: true} : {safe: false},pCallback);
-   }else{
+    if(!mMongoDB)
+    	return;
+    	
+    if(pData._id)
+   		mMongoDB.collection(pTo).updateById(pData._id, pData, pCallback ? {safe: true} : {safe: false}, pCallback);
+    else
    		Insert(pTo, pData, function (err, records) {
                 var sRecord = records[0]; /// There should only be one.  |:
                 //sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
                 //sUser.Initialize();
                 pData.Set_ID(sRecord._id);
                 pCallback(err, records);
-       });
+        });
    		//mMongoDB.collection(pTo).insert(pData);
-   }
 }
 
 Object.defineProperty(Object.prototype, "extend", {
