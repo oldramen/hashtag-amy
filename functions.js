@@ -564,10 +564,8 @@ global.RegisterUsers = function (pUsers) {
                     userObject.Set_ID(sRegistered[0]._id);
                     userObject.Initialize();
                     mUsers[sUser.userid] = userObject;
-                    Log(sUser.name + " is an already registered user.");
                 } else {
                     toInsert.push(mUsers[sUser.userid]); //Insert(mRoomShortcut, mUsers[sUser.userid]);
-                	Log(sUser.name + " is not registered.");
                 }
             }
             if(toInsert.length) Insert(mRoomShortcut, toInsert, function (err, records) {
