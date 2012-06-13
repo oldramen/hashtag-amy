@@ -875,17 +875,21 @@ global.Save = function (pTo, pData, pCallback) {
     if(!mMongoDB)
     	return;
     	
-    if(pData._id)
+    if(pData._id){
+    	Log("Updating to:" + JSON.stringify(pData));
    		mMongoDB.collection(pTo).updateById(pData._id, pData, pCallback ? {safe: true} : {safe: false}, pCallback);
-    else
+    }else{
+    	Log("Inserting...");
    		Insert(pTo, pData, function (err, records) {
                 var sRecord = records[0]; /// There should only be one.  |:
                 //sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
                 //sUser.Initialize();
+                Log("Inserted.  Setting ID.");
                 pData.Set_ID(sRecord._id);
                 pCallback(err, records);
         });
    		//mMongoDB.collection(pTo).insert(pData);
+	}
 }
 
 Object.defineProperty(Object.prototype, "extend", {
