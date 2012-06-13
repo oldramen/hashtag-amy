@@ -718,7 +718,7 @@ global.EscapeString = function (text) {
 }
 
 global.FindByName = function (pName, pCallback) {
-    pName = EscapeString(pName).replace("@", "^").trimRight() + "$";
+    pName = EscapeString(pName).replace("@", "^@?").trimRight() + "$";
     Log("Finding by name: " + pName);
     if(mMongoDB && pCallback) {
         mMongoDB.collection(mRoomShortcut).find({
