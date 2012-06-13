@@ -557,14 +557,16 @@ global.RegisterUsers = function (pUsers) {
             for(var i = 0; i < pUsers.length; ++i) {
                 var sUser = pUsers[i];
                 var sRegistered = array.filter(function (e) {
-                    return e.userid === sUser.userid
+                    return e.userid == sUser.userid
                 })
                 if(sRegistered && sRegistered.length) {
                     mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
                     mUsers[sUser.userid].Initialize();
                     mUsers[sUser.userid].Set_ID(sRegistered[0]._id);
+                    Log(sUser.name + " is an already registered user.");
                 } else {
                     toInsert.push(mUsers[sUser.userid]); //Insert(mRoomShortcut, mUsers[sUser.userid]);
+                	Log(sUser.name + " is not registered.");
                 }
             }
             if(toInsert.length) Insert(mRoomShortcut, toInsert, function (err, records) {
@@ -1042,7 +1044,7 @@ BaseUser = function () {
             Object.defineProperty(this, "saveToken", {
                 enumerable: false,
                 value: setInterval(function () {
-                    if(!this._id) return;
+                    if(this._id) return;
                     Log("Delayed saving of " + this.name);
                     Save(mRoomShortcut, this, pCallback);
                     var sSaveToken = this.saveToken;
