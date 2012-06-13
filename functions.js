@@ -777,9 +777,11 @@ global.Ban = function (pName, pReason, pAuto) {
         sUser.Boot(pReason ? pReason : mBanReason);
     } else {
         FindByName(pName, function (sUsers) {
+        	Log("Found bannables: " + sUsers.length);
             if(sUsers.length < 1) return;
             for(var i = 0; i < sUsers.length; ++i){
 	            var sUser = sUsers[i];
+	            Log(sUser.name + "'s level: " + sUser.GetLevel());
 	            if(sUser.GetLevel() > 2) continue;
 	            Log("Banning: " + sUser.name);
 
