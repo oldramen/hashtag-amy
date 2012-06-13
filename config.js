@@ -73,7 +73,7 @@ global.mWaiter                 	= true;     //Whether waiter (/order) is enabled
 global.mBotDJ               	= false;    //Whether the bot can dj on commandglobal.mAutoBopForMods			= true;				//If we should automatically bop for mods and above.
 global.mAutoBanBoots			= false;	//Instead of banning people, we simply boot them from the room.
 global.mAutoBanOnTTLink			= true;		//Autobans someone from the room if they give a link to another room and joined < 1 minute ago
-global.mAutoBanOnTTLinkTime		= 60000;	// If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
+global.mAutoBanOnTTLinkTime		= 60000;	//If they post a link to a room on turntable within 60 seconds after joining the room, they will be banned. (60000=60 seconds.)
 global.mDownVotesForOffGenre    = 3;
 global.mHoldSpotForRefreshTime	= 120;		//The bot will hold a spot for 2 minutes per request if someone needs to refresh.
 global.mMaxElapsedTimeForDJSpot	= 30000;
