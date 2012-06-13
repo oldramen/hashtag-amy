@@ -560,9 +560,10 @@ global.RegisterUsers = function (pUsers) {
                     return e.userid == sUser.userid
                 })
                 if(sRegistered && sRegistered.length) {
-                    mUsers[sUser.userid] = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
-                    mUsers[sUser.userid].Initialize();
-                    mUsers[sUser.userid].Set_ID(sRegistered[0]._id);
+                    var userObject = mUsers[sUser.userid].extend(sRegistered[0].extend(sUser));
+                    userObject.Initialize();
+                    userObject.Set_ID(sRegistered[0]._id);
+                    mUsers[sUser.userid] = userObject;
                     Log(sUser.name + " is an already registered user.");
                 } else {
                     toInsert.push(mUsers[sUser.userid]); //Insert(mRoomShortcut, mUsers[sUser.userid]);
@@ -881,7 +882,7 @@ global.Save = function (pTo, pData, pCallback) {
     	Log("Updating to:" + JSON.stringify(pData));
    		mMongoDB.collection(pTo).updateById(pData._id, pData, pCallback ? {safe: true} : {safe: false}, pCallback);
     }else{
-    	Log("Inserting...");
+    	Log("Inserting..");
    		Insert(pTo, pData, function (err, records) {
                 var sRecord = records[0]; /// There should only be one.  |:
                 //sUser.PM(mInfoOnRoom, SpeakingLevel.Greeting);
@@ -1042,17 +1043,18 @@ BaseUser = function () {
             Log("No ID, creating saveToken.");
             if(this.saveToken) return;
             var that = this;
+            console.trace("Save...");
             Object.defineProperty(this, "saveToken", {
                 enumerable: false,
                 value: setInterval(function () {
-                    if(that._id) return;
+                    if(!that._id) return;
                     Log("Delayed saving of " + that.name);
                     Save(mRoomShortcut, that, pCallback);
                     var sSaveToken = that.saveToken;
                     delete that.saveToken;
                     clearInterval(sSaveToken);
-                })
-            }, 100);
+                }, 100)
+            });
         },
         Set_ID: function (pId) {
             //Log(this.name + " : " + pId);
