@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/yayramen/hashtag-amy.png)](http://travis-ci.org/yayramen/hashtag-amy)
 # A Bot Named Amy
 
 This bot runs on [node.js](http://nodejs.org/), usings Alain Gilbert's [ttapi library](https://github.com/alaingilbert/Turntable-API).  
