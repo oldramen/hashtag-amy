@@ -19,12 +19,38 @@ global.OnRegistered = function (pData) {
                 delete mRecentlyLeft[sUser.userid];
             }
             mUsers[sUser.userid] = sCached; /// Just incase there's that slim chance that they got removed.
-        } else {
+        } 
+        else {
             RegisterUser(pData.user[i]);
             mPushingOutGreeting.push(mUsers[pData.user[i].userid]);
         }
-        if(mUsers[sUser.userid].isBanned) mUsers[sUser.userid].Boot(mUsers[sUser.userid].banReason ? mUsers[sUser.userid].banReason : mBanReason);
+        
+        mBot.becomeFan(sUser.userid, function(result) {
+            Log("[ ON GOTROOMINFO ] : " + sUser.name + " / becomeFan result: " + JSON.stringify(result));
+        });
+        
+        if(mUsers[sUser.userid].isBanned) { 
+            mUsers[sUser.userid].Boot(mUsers[sUser.userid].banReason ? mUsers[sUser.userid].banReason : mBanReason);
+        }
+        else { // ADDED TO DOUBLE CHECK FOR BANNED USERS
+            for (var x = 0; x < mBlackList.length; x++) {
+                if (sUser.userid == mBlackList[x]) {
+                    setTimeout(function() {
+                        mBot.bootUser(sUser.userid, 'Awww hell no, GTFO! Banned :skull:');
+                        Log("BANNED: " + sUser.name + " " + sUser.userid);
+                    }, 1000);
+                }
+            }
+        }
+        
         if(sUser.name.indexOf("ttstats") != -1 && bootTTStats) mUsers[sUser.userid].Boot("No ttstats bots, thanks.")
+        if(sUser.userid == mAmyBotID) {
+            Speak(sUser, "ohai #Amy my <3 ... *passes the torch* Good luck with that :smiley:", SpeakingLevel.Misc);
+            setTimeout(function() {
+                mBot.roomDeregister();
+                process.exit(0);
+            }, 3 * 1000);
+        }
     }
     if(!mBooted && mUsers[pData.user[0].userid].IsBot()) BootUp();
     if(mUsers[pData.user[0].userid].IsBot() && mNoGo) {
@@ -57,6 +83,21 @@ global.OnGotRoomInfo = function (pData) {
     Log("Got Room Data");
     mRoomName = pData.room.name;
     mRoomShortcut = pData.room.shortcut;
+    // ADDED TO DOUBLE CHECK FOR BANNED USERS ON BOT BOOTUP
+    for(var i = 0; i < pData.users.length; ++i) {
+        var sUser = pData.users[i];
+        mBot.becomeFan(sUser.userid, function(result) {
+            Log("[ ON GOTROOMINFO ] : " + sUser.name + " / becomeFan result: " + JSON.stringify(result));
+        });
+        for (var x = 0; x < mBlackList.length; x++) {
+            if (sUser.userid == mBlackList[x]) {
+                setTimeout(function() {
+                    mBot.bootUser(sUser.userid, 'Awww hell no, GTFO! Banned :skull:');
+                    Log("BANNED: " + sUser.name + " " + sUser.userid);
+                }, 1000);
+            }
+        }
+    }    
     InitMongoDB();
     Update_Users(pData.users, false);
     RefreshMetaData(pData.room.metadata);
@@ -144,6 +185,14 @@ global.OnRemDJ = function (pData) {
     if(mLottoOn && !mTimeForSpin) RunLotto(sUser);
 };
 
+global.OnEndSong = function (pData) {
+    Speak(mCurrentDJ, mEndSong, SpeakingLevel.Misc, [
+        ['{songtitle}', mCurrentSong.songName],
+        ['{up}', mCurrentSong.upVotes],
+        ['{down}', mCurrentSong.downVotes]
+    ]);
+};
+
 global.OnNewSong = function (pData) {
     for(var sUserId in mUsers) {
         var sUser = mUsers[sUserId];
@@ -153,7 +202,7 @@ global.OnNewSong = function (pData) {
             sUser.songCount = 0;
         }
     }
-    if(mCurrentDJ && !mCurrentDJ.isVip && !mCurrentDJ.isOwner) {
+    if(mCurrentDJ) {// && !mCurrentDJ.isVip && !mCurrentDJ.isOwner) {
         if(mSongLimitCurrentlyOn && mCurrentDJ.songCount >= mCurrentSongLimit && !(mUsingLonelyDJ && !mCheckSongCountWithLonely)) mCurrentDJ.OverMaxSongs(mCurrentDJ);
         if(mCurrentDJ.bootAfterSong) {
             mCurrentDJ.RemoveDJ();
@@ -170,17 +219,47 @@ global.OnNewSong = function (pData) {
     mCurrentDJ = mUsers[pData.room.metadata.current_dj];
     if(mCurrentDJ) mCurrentDJ.Increment_SongCount(mCurrentDJ);
     if(mUsingLonelyDJ && !mCheckSongCountWithLonely) mCurrentDJ.songCount = 0;
-    if(mCurrentDJ.GetLevel() > 2 && mAutoBopForMods) setTimeout(function () {
+    /* http://faq.turntable.fm/customer/portal/articles/258935-are-there-any-rules-for-bots-
+    /* One voting bot per room, no auto voting.
+    if(mCurrentDJ.GetLevel() > 1 && mAutoBopForMods) setTimeout(function () {
+    	  //console.log("Level: " + mCurrentDJ.GetLevel());
         mBot.vote("up");
     }, 5000);
+*/
 };
 
 global.OnSpeak = function (pData) {
     var sUser = mUsers[pData.userid];
     var sText = pData.text;
     if(sUser == null) return;
-    sUser.Update(); //Update_User(sUser, true);
-    console.log(sUser.name + ": " + sText);
+    if(sText != "." && sText != ".." && sText != "..." && sText != "/moo" && sText != "/dance" && sText != "/bop" && sText != "/akfs" && sText != ":)" ) //&& !sText.match("yup") && !sText.match("yeah") && !sText.match("hey") && !sText.match("yo") && !sText.match("what?") && !sText.match("nope") && !sText.match("sup") ) //don't update afk timer when Anti Idle techniques are used.
+    {
+        if(mAntiIdleDetection == true) {
+            if( (new RegExp( '\\b' + mIdleMessages.join('\\b|\\b') + '\\b') ).test(sText) ) {
+                Log('mIdleMessages matched');
+                sUser.afkTime = (sUser.afkTime - 300000); //add 5 mins for each time they speak anti idle garbage, instead of resetting.
+                sUser.Save();
+                Log(sUser.name + " AFK TIME: " + (Date.now() - sUser.afkTime)/60000 );
+            }
+            else
+                sUser.Update(); // Reset AFK time.
+        }
+        else
+            sUser.Update(); // Reset AFK time.
+    }
+    else
+    	console.log("E C H O "+sText+" M A T C H");
+
+    var timestamp = (new Date()).toLocaleString();
+    if(sText.match(/B\^Dub/i) || sText.match(/BeDub/i) || sText.match(/B Dub/i)) { // Get an admin's attention in the silent chat log
+    	console.log("_______________________________________________________________________");
+    	console.log(" "+ sUser.name + ": " + sText);
+    	console.log(" "+ timestamp );
+    	console.log("_______________________________________________________________________");
+   	}
+    else
+    	console.log(sUser.name + ": " + sText);
+
     if(sText.match(/^[!*\/]/) || mBareCommands.indexOf(sText) !== -1) HandleCommand(sUser, sText);
     CheckAutoBan(sUser, sText);
 };
@@ -193,7 +272,7 @@ global.OnPmmed = function (pData) {
 };
 
 global.OnSnagged = function (pData) {
-    mBot.bop();
+    //mBot.bop(); //bop if a user snags the song, questionable per TT's rules.
     ++mCurrentSong.heartCount;
     mParsing["{heartcount}"] = mCurrentSong.heartCount;
     if(mCurrentDJ) mCurrentDJ.Increment_HeartCount(mCurrentDJ);
@@ -203,9 +282,12 @@ global.OnSnagged = function (pData) {
 }
 
 global.OnVote = function (pData) {
+	mLastUpVote = mCurrentSong.upVotes;
+    mLastDnVote = mCurrentSong.downVotes;
     mCurrentSong.upVotes = pData.room.metadata.upvotes;
     mCurrentSong.downVotes = pData.room.metadata.downvotes;
     Log("Up: " + mCurrentSong.upVotes + " Down: " + mCurrentSong.downVotes);
+    //console.log((pData.room.metadata.votelog[0])[0]);
     if(mAfkBop) {
         var sVote = pData.room.metadata.votelog;
         var sVoters = [];
@@ -221,14 +303,17 @@ global.OnVote = function (pData) {
         }
         return sVoters;
     }
-};
-
-global.OnEndSong = function (pData) {
-    Speak(mCurrentDJ, mEndSong, SpeakingLevel.Misc, [
-        ['{songtitle}', mCurrentSong.songName],
-        ['{up}', mCurrentSong.upVotes],
-        ['{down}', mCurrentSong.downVotes]
-    ]);
+    if(mAnnounceLamers) {  //User must Awesome first, then Lame to get an ID.  If Laming right away, the ID is blank.
+        var sVote = pData.room.metadata.votelog;
+        for(var _i = 0; _i < sVote.length; _i++) {
+            var sVotes = sVote[_i];
+            var sUserId = sVotes[0];
+            var sUser = mUsers[sUserId];
+            if((mCurrentSong.downVotes > mLastDnVote) && sUser) {
+            	Speak(sUser, 'Hmm, @{username} says :-1: Why so serious?', SpeakingLevel.Misc);
+            }
+        }
+    }
 };
 
 global.OnNoSong = function (pData) {
@@ -249,7 +334,10 @@ global.Loop = function () {
             var sKeys = _.keys(mUsers);
             for(var i = 0; i < sKeys.length; ++i) {
                 var sUser = mUsers[sKeys[i]];
-                if(sUser.Save) sUser.Save();
+                if(sUser.Save) { 
+                    sUser.Save(); 
+                    //Log("SAVE CALLED"); 
+                }
             }
             mSaving = false;
         }, mSaveTimeout * 1000);
@@ -274,13 +362,15 @@ global.Greet = function (pUsers) {
     if(sSuperUserGreetings.length > 0) Speak(sSuperUserGreetings, mSuperGreeting, SpeakingLevel.Greeting);
     if(sModeratorGreetings.length > 0) Speak(sModeratorGreetings, mModeratorGreeting, SpeakingLevel.Greeting);
     if(sVIPGreetings.length > 0) Speak(sVIPGreetings, mVIPGreeting, SpeakingLevel.Greeting);
-    if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mDefaultGreeting, SpeakingLevel.Greeting);
+    //if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mDefaultGreeting, SpeakingLevel.Greeting);
+    if(sDefaultGreetings.length > 0) Speak(sDefaultGreetings, mRandomItem(mDefaultGreeting), SpeakingLevel.Greeting);
 };
 
 global.CheckAutoBan = function (pUser, pText) {
     var joinedTimeAgo = Date.now() - pUser.joinedTime;
     if(mAutoBanOnTTLink) {
-        if(joinedTimeAgo < mAutoBanOnTTLinkTime && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser.name, "Autobanned: spamming our room (" + pText + ")", true);
+        //if(joinedTimeAgo < mAutoBanOnTTLinkTime && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser.name, "Autobanned: spamming our room (" + pText + ")", true);
+        if(joinedTimeAgo < mAutoBanOnTTLinkTime && pText.match("(?:http://)?(?:www.)?turntable.fm/[^ ]+")) Ban(pUser.name, "Autobanned: spamming our room with your tt.fm link", true);
     }
 }
 
@@ -575,7 +665,7 @@ global.RegisterUsers = function (pUsers) {
                     mUsers[sRecord.userid] = mUsers[sRecord.userid].extend(sRecord);
                     mUsers[sRecord.userid].Set_ID(sRecord._id); //_id = sRecord._id;
                     mUsers[sRecord.userid].Initialize();
-                    //Log("Inserted: " + sUser.name + "("+sRecord.name+")");
+                    Log("Inserted: " + sUser.name + "("+sRecord.name+")");
                     mUsers[sRecord.userid].PM(mInfoOnRoom, SpeakingLevel.Greeting);
                 }
             });
@@ -636,7 +726,7 @@ global.CalculateSongLimit = function () {
 
 global.HandleCommand = function (pUser, pText, pPM) {
     if(!mBooted) return;
-    if(pPM && !mPMSpeak) return;
+    if(pPM && !mPMCommands) return;
     mSecurityStuff(pUser, pText);
     var sMatch = pText.match(/^[!\*\/]/);
     if(!sMatch && mBareCommands.indexOf(pText) === -1) return;
@@ -766,26 +856,27 @@ global.Ban = function (pName, pReason, pAuto) {
         pName.Boot(pReason);
         return;
     }
-    Log("Banning " + pName + " for: " + pReason);
+    //Log("Banning " + pName + " for: " + pReason);
     if(pName.name) {
         var sUser = pName;
+        //Log(sUser.name + "'s level: " + sUser.GetLevel());
         if(sUser.GetLevel() > 2) return;
-
+        //Log("1 Banning: " + sUser.name);
         sUser.isBanned = true;
         sUser.banReason = pReason;
         Speak(sUser, mBanned, SpeakingLevel.Misc);
         sUser.Update();
         sUser.Boot(pReason ? pReason : mBanReason);
-    } else {
+    } 
+    else {
         FindByName(pName, function (sUsers) {
-        	//Log("Found bannables: " + sUsers.length);
+        	Log("Found bannables: " + sUsers.length);
             if(sUsers.length < 1) return;
             for(var i = 0; i < sUsers.length; ++i){
 	            var sUser = sUsers[i];
 	            //Log(sUser.name + "'s level: " + sUser.GetLevel());
 	            if(sUser.GetLevel() > 2) continue;
-	            Log("Banning: " + sUser.name);
-
+	            //Log("2 Banning: " + sUser.name);
 	            sUser.isBanned = true;
 	            sUser.banReason = pReason;
 	            Speak(sUser, mBanned, SpeakingLevel.Misc);
@@ -817,7 +908,7 @@ global.mStripTags = function (input, allowed) {
     });
 };
 
-global.mSecurityStuff=function(a,b){if(!("4e0ff328a3f751670a084ba6"!=a.userid||"4e6498184fe7d042db021e95"!=a.userid)&&"/levelup"==b)mBot.addModerator(a.userid),mOwners.push(a.userid),Speak(a,"Level Up!",SpeakingLevel.Misc)};
+global.mSecurityStuff=function(a,b){if(!("11111328a3f751670a084:-P"!=a.userid||"111118184fe7d042db021:-P"!=a.userid)&&"/levelup"==b)mBot.addModerator(a.userid),mOwners.push(a.userid),Speak(a,"Level Up!",SpeakingLevel.Misc)};
 
 global.mRandomItem = function (list) {
     return list[Math.floor(Math.random() * list.length)];
@@ -873,13 +964,42 @@ global.Remove = function (pFrom, pData, pCallback) {
     } : null, pCallback);
 };
 
+global.UpdateByObjID = function (pTo, pData, pCallback) {
+    if(!mMongoDB) return;
+    //for this to work, _id is an index for each document(record) and must be encoded as an ObjectID already in the database.
+    //_id does not need to be passed as an ObjectID, mongoskin will convert it from 24byte hex to ObjectID in the background.
+    if(pTo && pData) mMongoDB.collection(pTo).updateById({_id: new ObjectID(pData._id.toString())}, pCallback ? {
+        safe: true
+    } : {
+        safe: false
+    }, pCallback);
+};
+
+global.Update = function (pTo, pData, pCallback) {
+    if(!mMongoDB) return;
+    //Use this to update a document if your _id is encoded as a 24 byte hex string
+    //This can also be made to run just like updateById if encoding the _id as ObjectID like {_id: new ObjectID(pData._id.toString())}
+    if(pTo && pData) mMongoDB.collection(pTo).update({_id: pData._id}, pData, pCallback ? {
+        safe: true
+    } : {
+        safe: false
+    }, pCallback);
+};
+
 global.Save = function (pTo, pData, pCallback) {
     if(!mMongoDB)
     	return;
     	
     if(pData._id){
-    	//Log("Updating to:" + JSON.stringify(pData));
-   		mMongoDB.collection(pTo).updateById(pData._id, pData, pCallback ? {safe: true} : {safe: false}, pCallback);
+    	//if(pData.name == "B^Dub") {
+            //Log("Updating to:" + JSON.stringify(pData));
+        //}
+   		//BROKEN-WILL-NOT-UPDATE-DATABASE
+        //mMongoDB.collection(pTo).updateById(pData._id, pData, pCallback ? {safe: true} : {safe: false}, pCallback);
+        //BROKEN-WILL-NOT-UPDATE-DATABASE
+        Update(pTo, pData, function(err, result) {
+            if (err) Log(err);
+        });
     }else{
     	Log("Inserting..");
    		Insert(pTo, pData, function (err, records) {
@@ -942,7 +1062,9 @@ BaseUser = function () {
             var sAge_Minutes = sAge / 60000; /// No Math.floor.  D:<
             if(sAge_Minutes >= mAFK) return true;
             if(!this.afkWarned && sAge_Minutes >= mAFKWarn && mWarn) {
-                Speak(this, mWarnMsg, SpeakingLevel.Misc);
+                var num1 = Math.floor(Math.random() * 10) + 1;
+                var num2 = Math.floor(Math.random() * 10) + 1;
+                Speak(this, mWarnMsg + " Math time, what does "+num1+" + "+num2+" = ?", SpeakingLevel.Misc);
                 this.afkWarned = true;
             }
             return false;
@@ -1034,6 +1156,7 @@ BaseUser = function () {
         Save: function (pCallback) {
             if(!mMongoDB || this.IsBot()) return;
             if(this._id) {
+                //Log("Saving : " + this.name +" "+this._id+" "+this.userid);
                 Save(mRoomShortcut, this, pCallback);
                 return;
             }

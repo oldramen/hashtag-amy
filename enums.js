@@ -13,10 +13,17 @@
 //Response Values
 
 //Greetings
-global.mDefaultGreeting         = "/me hugs @{usernames}, welcome to {room}!"; 
+//global.mDefaultGreeting         = "/me pats down @{usernames}, you packin' son? You wit da {room} now!"; 
+global.mDefaultGreeting			= [	"/me pats down @{usernames}, you packin' son? You wit da {room} now!", 
+								"/me hugs @{usernames} mmm.. you smell good. Welcome to {room}!",
+								"/me hugs @{usernames}. Welcome to {room}!",
+								"Hello @{usernames}. How are you? Welcome to {room}!",
+								"@{usernames} is here at {room} now. Shhh, stop talking 'bout them!",
+								"Welcome to {room} @{usernames}! Hey, could you please scratch my back... oh yeah that's the spot!",
+								"I LOVE the way you HURT me @{usernames}! Welcome to {room}."]
 global.mVIPGreeting             = "Welcome @{usernames}, we have a VIP in the room!";
 global.mSuperGreeting           = "Hold the music! There's a SU in the house! Welcome, @{usernames}!";
-global.mModeratorGreeting       = "We've got a moderator in the room!  Welcome @{usernames}!";
+global.mModeratorGreeting       = ":guardsman: Moderator @{usernames} has arrived :guardsman:";
 global.mInfoOnRoom              = "Hi {username}! Welcome to {roomname}! The theme is {theme}, the song limit is {songlimit}, and if you're on deck you can only be afk for {afk} minutes.";
 //The mInfoOnRoom variable is the PM sent to first time visitors
 
@@ -26,7 +33,9 @@ global.mRemDJ                   = null;
 global.mAddMod                  = null;
 global.mRemMod                  = null;
 global.mSnagMSg                 = null;
-global.mEndSong                 = "{songtitle}: {up} ↑, {down} ↓, {heartcount} <3.";
+//global.mEndSong                 = "{songtitle}: {up} :point_up_2:, {down} :point_down:, {heartcount} :blue_heart:.";
+//global.mEndSong                 = "{songtitle}: ( {up} :+1:  {down} :-1:  {heartcount} :blue_heart: )";
+global.mEndSong                 = "{songtitle}: ( {up} :+1:  {heartcount} :blue_heart: )";
 
 //Song Limit
 global.mOverMaxSongsQueueOn     = "Hey, @{username}, you're over your max songs!  You've got to wait {songwait} song(s) to get back up.";
@@ -74,6 +83,7 @@ global.mVIPList                 = "VIPs: {vip_list}";
 global.mUnbanned                = "{username} is now unbanned.";
 global.mBanReason               = "You're banned.  Gtfo.";
 global.mBanned                  = "{username} is now banned.";
+global.mBANList                 = "BANNED USERs: {ban_list}";
 
 //Whitelist
 global.mNotOnWhiteList          = "I'm sorry, but you're not on the whitelist."; /// PMed to User.
@@ -108,11 +118,11 @@ global.mLastfmNoArgs            = "Sorry, what am I looking up? Genre or Artist?
 global.mLastfmGenre             = "This song is {lastfmgenre}.";
 
 //General
-global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, the song limit is {songlimit}, The queue is currently {queuecurrentlyon}, and {afk} minutes for afk.";  //the default help message.      
+global.mHelpMsg                 = "Hey, {username}, the theme is {theme}, there is no song limit. No queue, FFA (Free For All), and {afk} minutes for afk.";  //the default help message.      
 global.mCommandsList            = "The list of commands are as follows: /{commands}";
-global.mThemeIs                 = "The current theme is {theme}.";
+global.mThemeIs                 = "Theme: {theme}.";
 global.mCurrentDJSongCount      = "The current song count is: {djsandsongcount}";
-global.mCurrentDJAfkCount       = "The current afk timer is: {djsandafkcount}";
+global.mCurrentDJAfkCount       = "Minutes since last chat: {djsandafkcount}";
 global.mNotDJ                   = "I'm sorry {username}, but you're not a dj.";
 global.mTheirUserId             = "{username}'s userid is: {user.userid}";
 global.mYourUserId              = "Your userid is: {user.userid}";
@@ -120,11 +130,46 @@ global.mOffGenre                = "I'm sorry, but your song seems to be off genr
 global.mPMWillBootOffDeck       = "Alright, I'll boot you off the deck at the end of your song.";
 global.mReadyRefresh            = "Okay, you can go ahead and refresh and I'll make sure you get your spot back.";
 global.mSpotOpenFor             = null;
-global.mNotMod                  = "I'm not a mod, so I can't boot anyone.";
+global.mNotMod                  = "I'm not a mod, but I can annoy the hell out of you!";
 global.mAlbum                   = "{title} is on {album}";
 global.mGreetChange             = "{username}'s greeting set to: {greeting}";
 global.mUserInfo                = "{username}'s hearts: {heart_count}, hearts given: {given_count}, total songs: {total_songs}, Heart Percentage: {heart_percentage}%";
 
+global.mBandFirstNames          = ["RANCID", "INSANE", "BLACK", "IRON", "HOLY", "RABID", "BLOODY", "SATAN'S", "BASTARD", "FORESAKEN", "HELL'S", "FORBIDDEN", "DARK", "FRANTIC", "DEVIL'S", "EVIL", "INNER", "BLEEDING", "GUILTY", "WITCH'S", "HEAVY", "ILLEGAL", "FALLEN", "SINISTER", "CRAZY", "TROUBLED"] 
+global.mBandLastNames           = ["EMPIRE", "FURY", "RAGE", "ZOMBIES", "SIN", "WARRIORS", "ANGELS", "DEATH", "ANARCHY", "HENCHMEN", "KILL", "VENGANCE", "TENDENCIES", "MAGIC", "SOLDIER", "GODS", "GOBLIN", "SPAWN", "TEMPLE", "REALM", "HATE", "SLAVES", "THORN", "ABYSS", "FIRE", "SECRETS"]
+
+//most of these are from TT Squared
+global.mIdleMessages            = [
+"ugh I've got so much work to do",
+"busy day over here",
+"wish i wasn't so busy",
+"liking this",
+"good track",
+"nice mix",
+"wish i didn't have to send messages to prevent idle...",
+"love tt.fm",
+"back to work..",
+"im so tired",
+"can't wait till 5",
+"i should be working",
+"moar coffee",
+"check check",
+"still here",
+"checking in",
+"right here",
+"not idle",
+"i'm here",
+"whatup",
+"mos def",
+"not here",
+"sup",
+"definitely not here",
+"yes.. right here",
+"yepp",
+", right here",
+", still here",
+"wink wink"
+]
 
 //Speaking Values [advanced use only]
 global.SpeakingLevel = {
