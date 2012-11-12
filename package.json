@@ -1,13 +1,13 @@
 {
-  "author": "yayramen <me@yayramen.com> (http://yayramen.com/) && Inumedia <inumedia@inumedia.net> (http://inumedia.net/)",
-  "homepage": "http://yayramen.github.com/hashtag-amy",
-  "name": "hashtag-amy",
+  "author": "yayramen <me@yayramen.com> (http://yayramen.com/) && Inumedia <inumedia@inumedia.net> (http://inumedia.net/) && B^Dub <dubbytt@gmail.com> (http://turntable.fm/bdubs/)",
+  "homepage": "https://github.com/DubbyTT/hashtag-amy/",
+  "name": "DubbyTT",
   "description": "A turntable.fm bot",
   "keywords": ["turntable.fm", "turntable", "bot"],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
-    "url": "git://github.com/yayramen/hashtag-amy.git"
+    "url": "git://github.com/dubbytt/hashtag-amy.git"
   },
   "engines": {
     "node": ">= v0.4.0"

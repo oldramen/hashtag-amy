@@ -26,27 +26,33 @@ global.mCommands = [
         throw new Error('Crashing the bot.');
     },
     requires: Requires.Owner,
-    hint: "Crashes the bot. Don't do unless necessary."
+    hint: "Crashes the bot. Don't do unless necessary.",
+    hidden: true
 }, 
 {
     command: 'ban',
     callback: function (pUser, pText) {
+    	    if(!pText) return;
         Ban(pText, "Banned by: " + pUser.name);
     },
     requires: Requires.Moderator,
-    hint: "Add a user to the ban list and kicks them from the room."
+    hint: "Add a user to the ban list and kicks them from the room.",
+	pm: true
 }, 
 {
     command: 'unban',
     callback: function (pUser, pText) {
+    		if(!pText) return;
         if(pText) Unban(pText);
     },
     requires: Requires.Moderator,
-    hint: "Removes a user from the ban list."
+    hint: "Removes a user from the ban list.",
+	pm: true
 }, 
 {
     command: 'say',
     callback: function (pUser, pText) {
+    		if(!pText) return;
         mBot.speak(pText);
     },
     requires: Requires.Owner,
@@ -54,6 +60,7 @@ global.mCommands = [
     pm: true,
     bare: true
 }, 
+/*
 {
     command: 'q+',
     callback: function (pUser, pText) {
@@ -155,17 +162,73 @@ global.mCommands = [
     hint: "/q add, /q remove, /q status, /q clear",
     bare: true
 }, 
+*/
 {
     command: 'maul',
     callback: function (pUser, pText) {
         if (!pText) return;
-        FindByName(pText, function (sUser) {
-            for(var i = 0; i < sUser.length; ++i)
-            mBot.remDj(sUser[i].userid);
+        if(pText.search("//") > 0) {
+        	var sSplit = pText.split("//");
+        	var sVar = sSplit.shift();
+        	var sVal = sSplit.join(' ');
+      	}
+      	else {
+      		var sSplit = pText.split(' ');
+      		var sVar = sSplit.shift();
+        	var sVal = sSplit.join(' ');
+ 				}
+        FindByName(sVar, function (sUser) {
+            for(var i = 0; i < sUser.length; ++i) {
+            	mBot.remDj(sUser[i].userid);
+           	}
+            if(sUser.length > 0) { 
+            	sUser = sUser[0];
+            	Speak(sUser, sVal, SpeakingLevel.Misc);
+            }
         });
     },
     requires: Requires.Moderator,
-    hint: "Remove a DJ"
+    hint: "Remove a DJ",
+    pm: true
+},
+{
+    command: 'goodbye',
+    callback: function (pUser, pText) {
+        if (!pText) return;
+        if(pText.search("//") > 0) {
+        	var sSplit = pText.split("//");
+        	var sVar = sSplit.shift();
+        	var sVal = sSplit.join(' ');
+      	}
+      	else {
+      		var sSplit = pText.split(' ');
+      		var sVar = sSplit.shift();
+        	var sVal = sSplit.join(' ');
+ 				}
+ 				FindByName(sVar, function (sUser) {
+            if(sUser.length > 0) { 
+            	sUser = sUser[0];
+            	mBot.bootUser(sUser.userid, sVal);
+            	Speak(sUser, sVal, SpeakingLevel.Misc);
+            } 
+        });
+    },
+    requires: Requires.Moderator,
+    hint: "Remove a DJ",
+    hidden: true,
+    pm: true
+},
+{
+    command: 'hook',
+    callback: function (pUser, pText) {
+        if (!pText) return;
+        FindByName(pText, function (sUser) {
+            for(var i = 0; i < sUser.length; ++i)
+            	mBot.remDj(sUser[i].userid);
+        });           	
+    },
+    requires: Requires.Moderator,
+    hint: "Give a DJ the hook"
 }, 
 {
     command: 'gtfo',
@@ -184,12 +247,26 @@ global.mCommands = [
         FindByName(pText, function (sUser) {
             if(sUser.length > 0) {
                 sUser = sUser[0];
-                Speak(sUser, '/me slaps {username}', SpeakingLevel.Misc);
+                Speak(sUser, '/me slaps {username}, on the ass.', SpeakingLevel.Misc);
             }
         });
     },
     requires: Requires.Moderator,
     hint: "Slap a ho",
+    pm: true
+}, 
+{
+    command: 'smack',
+    callback: function (pUser, pText) {
+        FindByName(pText, function (sUser) {
+            if(sUser.length > 0) {
+                sUser = sUser[0];
+                Speak(sUser, '/me smacks {username}, in the FACE!', SpeakingLevel.Misc);
+            }
+        });
+    },
+    requires: Requires.Moderator,
+    hint: "Smack a ho",
     pm: true
 }, 
 {
@@ -215,20 +292,100 @@ global.mCommands = [
     hint: "Removes if DJ"
 }, 
 {
+    command: ['likeaboss','boss'],
+    message: [
+        "Talk to corporate, Like a boss!",
+				"Approve memos, Like a boss!",
+				"Read a workshop, Like a boss!",
+				"Remember birthdays, Like a boss!",
+				"Direct work-flow, Like a boss!",
+				"My own bathroom, Like a boss!",
+				"Micro-manage, Like a boss!",
+				"Promote synergy, Like a boss!",
+				"Hit on Deborah, Like a boss!",
+				"Get rejected, Like a boss!",
+				"Swallow sadness, Like a boss!",
+				"Send some faxes, Like a boss!",
+				"Call a sex line, Like a boss!",
+				"Cry deeply, Like a boss!",
+				"Demand a refund, Like a boss!",
+				"Eat a bagel, Like a boss!",
+				"Harassment Lawsuit, Like a boss!",
+				"No Promotion, Like a boss!",
+				"5th of vodka, Like a boss!",
+				"Shit on Deborah's desk, Like a boss!",
+				"Buy a gun, Like a boss!",
+				"In my mouth, Like a boss!",
+				"Oh fuck man, I can't fucking do it, shit!",
+				"Pussy out, Like a boss!",
+				"Puke on Deborah's desk, Like a boss!",
+				"Jump out the windows, Like a boss!",
+				"Suck a dude's dick, Like a boss!",
+				"Score some coke, Like a boss!",
+				"Crash my car, Like a boss!",
+				"Suck my own dick, Like a boss!",
+				"Eat some chicken strips, Like a boss!",
+				"Chop my balls off, Like a boss!",
+				"Black out in the sewer, Like a boss!",
+				"Meet a giant fish, Like a boss!",
+				"Fuck his brains out, Like a boss!",
+				"Turn into a jet, Like a boss!",
+				"Bomb the Russians, Like a boss!",
+				"Crash into the Sun, Like a boss!",
+				"Now I'm dead, Like a boss!"
+    ],
+    callback: function (pUser, pText) {
+        var sMessage = mRandomItem(this.message);
+        Speak(pUser, sMessage, SpeakingLevel.Misc);
+    },
+    requires: Requires.User,
+    hint: "Quotes from Like a Boss"
+}, 
+{
+    command: ['mybandname','bandname'],
+    callback: function (pUser, pText) {
+        var sMessage = mRandomItem(mBandFirstNames);
+        var sMessage = sMessage +" "+mRandomItem(mBandLastNames);
+        Speak(pUser, pUser.name +"'s Band Name is: :imp: " + sMessage + " :imp:", SpeakingLevel.Misc);
+    },
+    requires: Requires.User,
+    hint: "Band name generator"
+},
+{
     command: 'ragequit',
     callback: function (pUser, pText) {
-        mBot.bootUser(pUser.userid, "Lol they mad.");
+        mBot.bootUser(pUser.userid, "LOL, they mad.");
     },
     requires: Requires.User,
     hint: "Remove self from room"
+},
+{
+    command: 'tantrum',
+    callback: function (pUser, pText) {
+        mBot.bootUser(pUser.userid, "Awww, baby wants a baba.");
+    },
+    requires: Requires.User,
+    hint: "Remove self from room",
+    hidden: true
 }, 
+{
+    command: 'rickroll',
+    callback: function (pUser, pText) {
+        mBot.bootUser(pUser.userid, "Never gunna give you up, never gunna let you down!");
+    },
+    requires: Requires.User,
+    hint: "Remove self from room",
+    hidden: true
+},
 {
     command: 'disable',
     callback: function (pUser, pText) {
+    		if(!pText) return;
         eval(pText + " = null");
     },
     requires: Requires.Owner,
-    hint: "Used to disable variables.  Handle with care."
+    hint: "Used to disable variables.  Handle with care.",
+    hidden: true
 }, 
 {
     command: 'djs',
@@ -296,14 +453,71 @@ global.mCommands = [
             var sAfkTime = sUser.afkTime;
             var sAge = Date.now() - sAfkTime;
             var sAge_Minutes = Math.floor(sAge / 1000 / 60);
-            sDJAfkCount.push(sUser.name + ": " + sAge_Minutes + 'm');
+            if(sAge_Minutes > 10) {
+            	var num1 = Math.floor(Math.random() * 10) + 1;
+                var num2 = Math.floor(Math.random() * 10) + 1;
+                sDJAfkCount.push("[ @" + sUser.name + ": " + sAge_Minutes + ": Math time, what does "+num1+" + "+num2+" = ? ]");
+            }
+            else {
+            	sDJAfkCount.push("[ "+sUser.name + ": " + sAge_Minutes + " ]");
+          	}
         }
         Speak(pUser, mCurrentDJAfkCount, SpeakingLevel.Misc, [
-            ['{djsandafkcount}', sDJAfkCount.join(', ')]
+            ['{djsandafkcount}', sDJAfkCount.join(' - ')]
         ]);
     },
     requires: Requires.User,
-    hint: "Tells the current afk timer for the DJs."
+    hint: "Tells the current afk timer for the DJs.",
+    pm: true
+}, 
+{
+    command: ['saydjs','holla','shout'],
+    callback: function (pUser, pText) {
+        var sDJmsg = [];
+		for(var sDJ in mDJs) {
+            var sUser = mUsers[mDJs[sDJ]];
+            sDJmsg.push("@" + sUser.name);
+        }
+		var sDJlast;
+		if(sDJ > 0) { 
+			sDJlast = sDJmsg.pop(); // pop off last DJ in list so we can stick "and" in there
+			console.log("MESSAGE: " + sDJmsg.join(', ') + ' and ' + sDJlast + ': ' + pText);
+			Speak(pUser, sDJmsg.join(', ') + ' and ' + sDJlast + ' - ' + pUser.name + ' says: ' + pText, SpeakingLevel.Misc);
+		}
+		else {
+			console.log("MESSAGE: " + sDJmsg.join(', ') + ': ' + pText);
+			Speak(pUser, sDJmsg.join(', ') + ' - ' + pUser.name + ' says: ' + pText, SpeakingLevel.Misc);
+		}
+    },
+    requires: Requires.Moderator,
+    hint: "Sends an @ message to all DJs on deck",
+    pm: true,
+	hidden: true
+}, 
+{
+    command: 'nuke',
+    callback: function (pUser, pText) {
+        for(var sDJ in mDJs) {
+            mBot.bootUser(mDJs[sDJ], "The deck just got nuked... ")
+        }
+    },
+    requires: Requires.Moderator,
+    hint: "Nukes the deck",
+    pm: true,
+	hidden: true
+}, 
+{
+    command: 'musicalchairs',
+    callback: function (pUser, pText) {
+        Speak(pUser, ":musical_note: MUSICAL CHAIRS TIME! QUICK, SCRAMBLE TO GET ON DECK! :musical_note:", SpeakingLevel.Misc);
+        for(var sDJ in mDJs) {
+            mBot.remDj(mDJs[sDJ]);
+        }
+    },
+    requires: Requires.Owner,
+    hint: "Musical Chairs Game :)",
+    pm: true,
+    hidden: true
 }, 
 {
     command: 'commands',
@@ -334,7 +548,7 @@ global.mCommands = [
 }, 
 {
     command: 'party',
-    message: 'Gimme a shot and clear the dance floor!!',
+    message: 'Gimme two shots and clear the dance floor!!',
     callback: function (pUser, pText) {
         mBot.vote("up");
         Speak(pUser, this.message, SpeakingLevel.Misc);
@@ -344,20 +558,216 @@ global.mCommands = [
     hidden: true
 }, 
 {
-    command: ['dance', 'bop'],
-    message: 'Bust a move!',
+    command: 'slam',
+    message: '*SLAMS* :beer: on ground in MOSH PIT... slip and bleed from the anus :rage3:!!!',
+    callback: function (pUser, pText) {
+        mBot.vote("up");
+        Speak(pUser, this.message, SpeakingLevel.Misc);
+    },
+    requires: Requires.Moderator,
+    hint: "Makes the bot slam dance. Can not be done by regular users.",
+    hidden: true
+},
+{
+    command: 'explode',
+    message: ':speaker: Speakers EXPLODE sending shrapnel into the crowd! :skull: BOOOM!!! EAT IT! :speaker:',
+    callback: function (pUser, pText) {
+        mBot.vote("up");
+        Speak(pUser, this.message, SpeakingLevel.Misc);
+    },
+    requires: Requires.Moderator,
+    hint: "Makes the speakers explode. Can not be done by regular users.",
+    hidden: true
+},
+{
+    command: 'awexome',
+    callback: function (pUser, pText) {
+        mBot.vote("up");
+    },
+    requires: Requires.User,
+    hint: "Makes the bot awexome remotely from Chatty.",
+    hidden: true,
+    pm: true
+},
+{
+    command: ['lame','naw','srsly'],
+    callback: function (pUser, pText) {
+        mBot.vote("down");
+    },
+    requires: Requires.Moderator,
+    //hint: "Fuck Skrillex, usage: /fs @username",
+    hint: "make the bot lame a song",
+    hidden: true
+},
+{
+    command: ['dance', 'bop', 'wub', 'bass', 'rock', 'bounce'],
+    message: [
+        'Knock your brain around!',
+        'Get up and dance mothers to be!',
+        'Move to the beat, dance with your feet!', 
+        'Get your head movin\' to the beat!',
+        'Dis beat is sick man, I\'m throwing up here inside!'
+    ],
+    callback: function (pUser, pText) {
+        mBot.vote("up");
+        mBot.speak(mRandomItem(this.message));
+    },
+    requires: mModBop ? Requires.Moderator : Requires.User,
+    hint: "Makes the bot dance." + (mModBop ? "  Can not be done by regular users." : "")
+},
+{
+    command: ['hard', 'boom', 'jump'],
+    message: [
+        'This beat is kicking the shit right out of me!',
+        'I feel like punching babies.. IN THE FACE!!!',
+        'BOOM.. BOOM.. BOOM.. BOOM.. BOOM.. BOOM..', 
+        'POGO!!!!! JUMP JUMP JUMP JUMP!!!!'
+    ],
+    callback: function (pUser, pText) {
+        mBot.vote("up");
+        mBot.speak(mRandomItem(this.message));
+    },
+    requires: mModBop ? Requires.Moderator : Requires.User,
+    hint: "Makes the bot dance." + (mModBop ? "  Can not be done by regular users." : ""),
+    hidden: true
+},
+{
+    command: ['derp','herp'],
+    callback: function (pUser, pText) {
+        mBot.speak(":white_square::black_square::black_square::white_square::white_square::white_square::white_square::black_square::black_square:");
+        setTimeout(function () { 
+        	mBot.speak(":black_square::white_square::white_square::black_square::white_square::white_square::black_square::white_square::black_square::black_square:");
+        }, 150);
+        setTimeout(function () { 
+        	mBot.speak(":black_square::black_square::white_square::black_square::white_square::white_square::black_square::white_square::black_square::black_square:");
+        }, 300);
+        setTimeout(function () { 
+        	mBot.speak(":black_square::black_square::white_square::black_square::white_square::white_square::black_square::white_square::white_square::black_square:");
+        }, 450);
+        setTimeout(function () { 
+        	mBot.speak(":white_square::black_square::black_square::white_square::white_square::white_square::white_square::black_square::black_square:");
+        }, 600);	
+    },
+    requires: Requires.Owner,
+    hint: "Makes the bot DERP",
+    hidden: true
+},
+
+{
+    command: ['stripper'],
+    callback: function (pUser, pText) {
+        if(!pText) {
+        	mBot.speak("Hmm... What kind of stripper do you want? /stripper ____?");
+        	return;
+        }
+        var sSplit = pText.split(' ');
+        var sTxt = sSplit.shift();
+        var sArg = sSplit.shift(); //For now, store this... maybe use later
+        if(sTxt == 'm' || sTxt == 'male' || sTxt == 'guy' || sTxt == 'man') {
+            mBot.speak("* A police officer :cop: knocks on the door * ");
+        		setTimeout(function () { 
+        			mBot.speak(":musical_note: It's Raining Men :musical_note: starts to play out of no where!");
+        		}, 4000);
+		        setTimeout(function () { 
+    		    	mBot.speak("* Stripping off layer :person_with_blond_hair: by layer :necktie: he's slapping you in the face with his :eggplant: now *");
+        		}, 8000);
+        		setTimeout(function () { 
+        			mBot.speak(":heart_eyes: Lucky you :blue_heart:");
+        		}, 12000);
+        }
+    	else if(sTxt == 'f' || sTxt == 'female' || sTxt == 'girl' || sTxt == 'woman') {
+           	mBot.speak("* A nurse :woman: with a :syringe: knocks on the door * ");
+        		setTimeout(function () { 
+        			mBot.speak(":musical_note: Apple bottom jeans, Boots with the fur :musical_note: starts to play out of no where!");
+        		}, 4000);
+		        setTimeout(function () { 
+    		    	mBot.speak("* Stipping off layer :bikini: by layer :high_heel: she's :kiss: you all over now *");
+        	  }, 8000);
+        	  setTimeout(function () { 
+        			mBot.speak(":heart_eyes: Lucky you :heartpulse:");
+        		}, 12000);    
+        }
+        
+    },
+    requires: Requires.Owner,
+    hint: "Makes the bot dance",
+    hidden: true
+},
+{
+    command: ['slut','s3rl'],
+    message: [
+        '/me I\'m a hard bass slut!',
+        'I <3 s3rl'
+    ],
+    callback: function (pUser, pText) {
+        mBot.vote("up");
+        mBot.speak(mRandomItem(this.message));
+    },
+    requires: mModBop ? Requires.Moderator : Requires.User,
+    hint: "Makes the bot dance." + (mModBop ? "  Can not be done by regular users." : ""),
+    hidden: true
+},
+{
+    command: ['wallet'],
+    callback: function (pUser, pText) {
+        FindByName(pText, function (sUser) {
+            if(sUser.length > 0) {
+                sUser = sUser[0];
+                Speak(pUser, '@{username}, you currently have $'+ (Math.floor(Math.random() * 950000) + 50000) + ' in your wallet.', SpeakingLevel.Misc);
+            }
+        });
+    },
+    requires: Requires.User,
+    hint: "Spits out what's in YOUR wallet."
+},
+{
+    command: ['schlong'],
+    callback: function (pUser, pText) {
+        FindByName(pText, function (sUser) {
+            if(sUser.length > 0) {
+                sUser = sUser[0];
+                var sDSize = Math.floor(Math.random() * 30) + 1;
+                var sDInches = (sDSize / 2.5) + 1;
+                sDInches = sDInches.toFixed(1);
+                var sShaft = "=";
+                while(sDSize) {
+                	sShaft += '=';
+                	sDSize--;
+                }
+                Speak(pUser, '@{username}\'s schlong is 8' + sShaft + 'D ' + sDInches + " Inches!", SpeakingLevel.Misc);
+            }
+        });
+    },
+    requires: Requires.User,
+    hint: "Spits out the size of your Schlong."
+},
+{
+    command: ['smooth', 'sleepy'],
+    message: 'smooth groove is puttin\' me to sleep :zzz:',
     callback: function (pUser, pText) {
         mBot.vote("up");
         Speak(pUser, this.message, SpeakingLevel.Misc);
     },
     requires: mModBop ? Requires.Moderator : Requires.User,
     hint: "Makes the bot dance." + (mModBop ? "  Can not be done by regular users." : "")
+},
+{
+    command: ['mainstream', 'overplayed'],
+    message: 'Good grief Charlie Brown how many times a day are we going to hear this:question:',
+    callback: function (pUser, pText) {
+        mBot.vote("up");
+        Speak(pUser, this.message, SpeakingLevel.Misc);
+    },
+    requires: Requires.Moderator,
+    hint: "Makes the bot complain. Can not be done by regular users."
 }, 
 {
     command: 'hulk',
     message: [
-        'This is my favorite dubstep.', 
-        'I just want to hump the speaker.'
+        'This is my favorite dubstep.',
+        'I\'m so in <3 with this song right now!',
+        'If this song and I could only make babies...', 
+        'I just want to dry hump the speaker.'
     ],
     callback: function (pUser, pText) {
         mBot.vote("up");
@@ -377,7 +787,7 @@ global.mCommands = [
     hidden: true
 }, 
 {
-    command: 'pats',
+    command: ['pats','pets'],
     callback: function (pUser, pText) {
         Speak(pUser, "/me purrrrrrrrrrrrs", SpeakingLevel.Misc);
     },
@@ -397,13 +807,14 @@ global.mCommands = [
 {
     command: 'order',
     callback: function (pUser, pText) {
+    		if(!pText) return;
         HandleMenu(pUser, pText);
     },
     requires: Requires.User,
     hint: "Order something off the menu."
 }, 
 {
-    command: 'bootaftersong',
+    command: ['bootaftersong','pressplaywalkaway'],
     callback: function (pUser, pText) {
         if(pUser.isDJ) {
             pUser.bootAfterSong = true;
@@ -459,8 +870,9 @@ global.mCommands = [
     },
     requires: Requires.Moderator,
     hint: "Useage: /vip add @[user], /vip remove @[user], /vip list",
-    pm: true
-}, 
+    pm: true,
+    hidden: true
+},
 {
     command: 'vips',
     callback: function (pUser, pText) {
@@ -484,6 +896,68 @@ global.mCommands = [
     requires: Requires.User,
     hint: 'spits out a list of vips',
     hidden: true
+},
+{
+    command: 'banlist',
+    callback: function (pUser, pText) {
+        var sBans = {};
+            for(var x in mUsers) {
+                var sUser = mUsers[x];
+                if (sUser.isBanned) sBans[sUser.userid] = sUser.name;
+            }
+
+            if(mMongoDB){
+                mMongoDB.collection(mRoomShortcut).find({'isBanned': true}).toArray(function(err, sArray){
+                   if(sArray && sArray.length)
+                       for(var i = 0; i < sArray.length; ++i){
+                            if(!sBans[sArray[i].userid]) sBans[sArray[i].userid] = sArray[i].name;
+                       }
+                   console.log(sBans);
+                   pUser.PM(mBANList, SpeakingLevel.Misc, [['{ban_list}', _.values(sBans).join(', ')]]);
+                });
+           }else pUser.PM(mBANList, SpeakingLevel.Misc, [['{ban_list}', _.values(sBans).join(', ')]]);
+    },
+    requires: Requires.Moderator,
+    hint: 'spits out a list of banned users',
+    hidden: true,
+    pm: true
+}, 
+{
+    command: 'search',
+    callback: function (pUser, pText) {
+        var sBans = {};
+        var regExName = new RegExp(pText, "i");
+        //console.log(regExName);
+            for(var x in mUsers) {
+                var sUser = mUsers[x];
+                //console.log("sUser: "+sUser);
+                var sTemp = sUser.name;
+                //console.log("sTemp: "+sTemp);
+                if (sTemp) {
+                    //console.log(sUser.name + " " + sTemp.search(regExName));
+                    if(sTemp.search(regExName) >= 0) {
+                        sBans[sUser.userid] = sTemp;
+                        //console.log(sUser.name + " === " + sTemp.search(regExName));
+                    }
+                }                    
+            }
+
+            if(mMongoDB){
+                mMongoDB.collection(mRoomShortcut).find({'name': pText}).toArray(function(err, sArray){
+                    if(sArray && sArray.length) {
+                        for(var i = 0; i < sArray.length; ++i){
+                            if(!sBans[sArray[i].userid]) sBans[sArray[i].userid] = sArray[i].name + 
+                                " \""+sArray[i].userid+"\" " + (sArray[i].isBanned ? "is Banned":"is not Banned");
+                        }
+                    }
+                    pUser.PM(mBANList, SpeakingLevel.Misc, [['{ban_list}', _.values(sBans).join(', ')]]);
+                });
+           }else pUser.PM(mBANList, SpeakingLevel.Misc, [['{ban_list}', _.values(sBans).join(', ')]]);
+    },
+    requires: Requires.Moderator,
+    hint: 'user search',
+    hidden: true,
+    pm: true
 }, 
 {
     command: 'setvar',
@@ -502,6 +976,7 @@ global.mCommands = [
 {
     command: 'disable',
     callback: function (pUser, pText) {
+    		if(!pText) return;
         eval(pText + " = null");
     },
     requires: Requires.Owner,
@@ -511,17 +986,26 @@ global.mCommands = [
 {
     command: 'turn',
     callback: function (pUser, pText) {
-        if(!pText) return;
+        if(!pText) return; // Kick out if no parameters
         var sSplit = pText.split(' ');
         var sTxt = sSplit.shift();
         var sArg = sSplit.join(' ');
+        if(!sArg) return; // Kick out if arg is missing
         var sVal = true;
         var sVar;
         if(sTxt == 'q' || sTxt == 'queue') {
-            if (mLottoOn) return Speak(pUser, mNoQueueWithLotto, SpeakingLevel.Misc, null, true);
-            sVar = 'mQueueOn';
-            mQueueCurrentlyOn = false;
-            if(sArg == 'on') mQueueCurrentlyOn = true; } 
+        		sVar = 'mQueueOn';
+          	if(sArg == 'on') { mQueueCurrentlyOn = true; sVal = true;} 
+            else if(sArg == 'off') { mQueueCurrentlyOn = false; sVal = false;}
+           	else return; // Be more explicit, we are looking for 'off' or 'on' only
+            if (mLottoOn) return Speak(pUser, mNoQueueWithLotto, SpeakingLevel.Misc, null, true);          
+        }
+        else if(sTxt == 'billyidle' || sTxt == 'AntiIdleDetection'){
+            sVar = 'mAntiIdleDetection';
+            if(sArg == 'on') { mAntiIdleDetection = true; sVal = true;} 
+            else if(sArg == 'off') { mAntiIdleDetection = false; sVal = false;}
+            else return; // Be more explicit, we are looking for 'off' or 'on' only
+        }
         else if(sTxt == 'limit' || sTxt == 'songlimit') { sVar = 'mLimitOn'; }
         else if(sTxt == 'dj') { sVar = 'mBotDJ'; }
         else if(sTxt == 'lonely' || sTxt == 'lonelydj') { sVar = 'mLonelyDJ'; }
@@ -539,17 +1023,19 @@ global.mCommands = [
         mParsing['{queuecurrentlyon}'] = mQueueCurrentlyOn ? "on" : "off";
         mParsing['{songlimitcurrentlyon}'] = mSongLimitCurrentlyOn ? "on" : "off";
     },
-    requires: Requires.Moderator,
+    requires: Requires.Owner,
     hint: "Used to toggle variables. q, limit, lonelydj, whitelist, warn, dj",
-    pm: true
+    pm: true,
+    hidden: true
 }, 
 {
     command: 'set',
     callback: function (pUser, pText) {
-        if(!pText) return;
+        if(!pText) return;  // Kick out if no parameters
         var sSplit = pText.split(' ');
         var sVariable = sSplit.shift();
         var sValue = sSplit.join(' ');
+        if(!sValue) return;  // Kick out if arg is missing
         var sVar;
         if(sVariable == 'greet' || sVariable == 'greeting'){ sVar = 'mDefaultGreeting'; }
         else if(sVariable == 'theme'){ sVar = 'mTheme'; }
@@ -571,9 +1057,10 @@ global.mCommands = [
         mParsing['{afklimit}'] = mParsing['{afk}'] = mAFK;
         mParsing['{songwait}'] = mWaitSongs;
     },
-    requires: Requires.Moderator,
-    hint: "Temporarily changes options: greet, theme, help, limit, wait, afk",
-    pm: true
+    requires: Requires.Owner,
+    hint: "Temporarily changes options: greet, theme, help, limit, wait, afk, AntiIdleDetection",
+    pm: true,
+    hidden: true
 },
 {
     command: 'spin',
@@ -597,7 +1084,8 @@ global.mCommands = [
         else pUser.PM(mYourUserId, SpeakingLevel.Misc);
     },
     requires: Requires.User,
-    hint: "PMs the caller their userid if no args, otherwise speaks the userid of the name of the person in the args."
+    hint: "PMs the caller their userid if no args, otherwise speaks the userid of the name of the person in the args.",
+    hidden: true
 }, 
 {
     command: 'whitelist',
@@ -649,7 +1137,8 @@ global.mCommands = [
         }
     },
     requires: Requires.Moderator,
-    hint: "Add/remove a user to the whitelist of DJs temporarily."
+    hint: "Add/remove a user to the whitelist of DJs temporarily.",
+    hidden: true
 }, 
 {
     command: 'go',
@@ -807,17 +1296,26 @@ global.mCommands = [
     command: 'greet',
     callback: function (pUser, pText) {
         if(!pText) return;
-        var sSplit = pText.split(' ');
-        var sVar = sSplit.shift();
-        var sVal = sSplit.join(' ');
-        if(mUsers[sVar.trim()]) {
+        if(pText.search("//") > 0) {
+        	var sSplit = pText.split("//");
+        	var sVar = sSplit.shift();
+        	var sVal = sSplit.join(' ');
+      	}
+      	else {
+      		var sSplit = pText.split(' ');
+      		var sVar = sSplit.shift();
+        	var sVal = sSplit.join(' ');
+ 		}
+ 		if(mUsers[sVar.trim()]) {
             var sUser = mUsers[sVar.trim()];
+            console.log("GREET: "+sUser.customGreeting);
             sUser.customGreeting = sVal;
             Speak(sUser, mGreetChange, SpeakingLevel.Misc, [['{greeting}', sVal]]);
             sUser.Save();
         } else FindByName(sVar, function (sUsers) {
             for(var i = 0; i < sUsers.length; ++i) {
                 var sUser = sUsers[i];
+                console.log("GREET: "+sUser.customGreeting);
                 sUser.customGreeting = sVal;
                 sUser.Save();
                 Speak(sUser, mGreetChange, SpeakingLevel.Misc, [['{greeting}', sVal]]);

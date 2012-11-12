@@ -1,4 +1,4 @@
-# A Bot Named Amy
+# A Bot Named DubbyTT
 
 This bot runs on [node.js](http://nodejs.org/), usings Alain Gilbert's [ttapi library](https://github.com/alaingilbert/Turntable-API).  
 It is currently in Development.
@@ -16,7 +16,7 @@ It is currently in Development.
 ### Note if you know what you're doing :D
 
 While it makes sense to run ```node main.js```
-we aren't normal, so you'll ahve to run ```node config.js```
+we aren't normal, so you'll have to run ```node config.js```
 
 # Setup Instructions
 
@@ -30,18 +30,19 @@ the latest version.
 This bot also uses mongodb. This is a lightweight method of storing information. We have tried to make it toggleable as much as possible, but for the moment, a key feature still relies on it, so you'll need that too. You get it from [the mongodb site](http://www.mongodb.org/downloads).
 
 ## Step 2: Download ze bot
-Next, you'll need a copy of the bot. [Download the zip](https://github.com/yayramen/hashtag-amy/zipball/master) and unzip it. Put the files someplace significant. For me, I put them in my home directory. 
+Next, you'll need a copy of the bot. [Download the zip](https://github.com/dubbytt/hashtag-amy/zipball/master) and unzip it. Put the files someplace significant. For me, I put them in my home directory. 
 
 ## Step 3: Installing More Dependencies!
-hashtag-amy requires node modules to work properly. So you'll need to grab a copy of npm. Google is your friend :D
+DubbyTT requires node modules to work properly. So you'll need to grab a copy of npm. Google is your friend :D
 
 Now the bot pretty much requires a terminal window. In OSX, it's Terminal.app. In Windows, go to Start -> Run -> and enter 'cmd'. In Linux, if you don't know, then you shouldn't be using linux, but you can just do Ctr-Alt-T.
 
-Now cd into your directory. For me it's cd ~/hashtag-amy and run these commands:
+Now cd into your directory. For me it's cd ~/dubbytt and run these commands:
 
     npm install ttapi
     npm install underscore
     npm install mongoskin
+    npm install bson
 
 And hopefully I haven't forgotten one. If, later on, when you try to run the bot, you get an error saying 'can't find module blahblah'
 just type in npm install blahblah
@@ -73,7 +74,7 @@ Open up a terminal/command prompt, cd to where you put the files and type
 
     node config.js
 
-If you did it right, you'll see #Amy load up. Once it says "Joined the room, booted up!" the bot should be in your room!
+If you did it right, you'll see DubbyTT load up. Once it says "Joined the room, booted up!" the bot should be in your room!
 
 ## Optional Step: Twitter Auth
 I've included some twitter functionality.  
@@ -97,6 +98,3 @@ You'll also need to:
 ```
 npm install lastfm
 ```
-
-## Too Much?
-Contact me - I offer Dedicated Bot Hosting And Management for $5/Month.
