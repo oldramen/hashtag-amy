@@ -33,11 +33,11 @@ This bot also uses mongodb. This is a lightweight method of storing information.
 Next, you'll need a copy of the bot. [Download the zip](https://github.com/dubbytt/hashtag-amy/zipball/master) and unzip it. Put the files someplace significant. For me, I put them in my home directory. 
 
 ## Step 3: Installing More Dependencies!
-hashtag-amy requires node modules to work properly. So you'll need to grab a copy of npm. Google is your friend :D
+DubbyTT requires node modules to work properly. So you'll need to grab a copy of npm. Google is your friend :D
 
 Now the bot pretty much requires a terminal window. In OSX, it's Terminal.app. In Windows, go to Start -> Run -> and enter 'cmd'. In Linux, if you don't know, then you shouldn't be using linux, but you can just do Ctr-Alt-T.
 
-Now cd into your directory. For me it's cd ~/hashtag-amy and run these commands:
+Now cd into your directory. For me it's cd ~/dubbytt and run these commands:
 
     npm install ttapi
     npm install underscore
