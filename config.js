@@ -9,15 +9,15 @@ require("./enums.js"); //ignore this
 
 
 //Main Authorization Information
-global.mAuthId                  = "";//authid of bot
-global.mUserId                  = "";//userid of bot
-global.mRoomId                  = "";//roomid of room to be hosted in
+global.mAuthId                  = "{auth_id}";//authid of bot
+global.mUserId                  = "{user_id}";//userid of bot
+global.mRoomId                  = "{room_id}";//roomid of room to be hosted in
 
 //Database Information
-global.mMongoHost               = "localhost";//host of mongodb, usually localhost or 127.0.0.1
-global.mMongoDatabase           = "";//mongocollection for bot.
-global.mMongoUser               = "";//user of mongocollection
-global.mMongoPass               = "";//password to mongocollection
+global.mMongoHost               = "{mongo_host}";//host of mongodb, usually localhost or 127.0.0.1
+global.mMongoDatabase           = "{mongo_database}";//mongocollection for bot.
+global.mMongoUser               = "{mongo_user}";//user of mongocollection
+global.mMongoPass               = "{mongo_pass}";//password to mongocollection
 global.mMongoPort               = 27017;//Port, this is default
 
 //General Information
